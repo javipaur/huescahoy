@@ -13,6 +13,7 @@ import { parseAinsa } from "./ainsa";
 import { parseFraga } from "./fraga";
 import { inferCategory } from "./category";
 import { normalizeCategory } from "./util";
+import { captureServerError } from "../posthog";
 import {
   getCategoriesAdmin,
   getSources,
@@ -215,12 +216,19 @@ export async function runSource(source: Source): Promise<SourceResult> {
 
     return { status: "ok", found: parsed.length, created, updated };
   } catch (err) {
+    const error = err instanceof Error ? err.message : String(err);
+    await captureServerError("scraper_error", {
+      source_name: source.name,
+      source_url: source.url,
+      source_kind: source.kind,
+      error,
+    });
     return {
       status: "error",
       found: 0,
       created: 0,
       updated: 0,
-      error: err instanceof Error ? err.message : String(err),
+      error,
     };
   }
 }
