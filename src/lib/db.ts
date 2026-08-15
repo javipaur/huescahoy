@@ -1,4 +1,4 @@
-import { DatabaseSync } from "node:sqlite";
+import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -24,8 +24,9 @@ const dataDir = path.join(process.cwd(), "data");
 fs.mkdirSync(dataDir, { recursive: true });
 const dbPath = path.join(dataDir, "huescahoy.db");
 
-function createDb(): DatabaseSync {
-  const db = new DatabaseSync(dbPath, { enableForeignKeyConstraints: true });
+function createDb(): Database.Database {
+  const db = new Database(dbPath);
+  db.pragma("foreign_keys = ON");
   db.exec("PRAGMA journal_mode = WAL");
   db.exec("PRAGMA busy_timeout = 5000");
   db.exec("PRAGMA synchronous = NORMAL");
@@ -147,7 +148,7 @@ function createDb(): DatabaseSync {
 }
 
 declare global {
-  var __huescahoyDb: DatabaseSync | undefined;
+  var __huescahoyDb: Database.Database | undefined;
 }
 
 const db = global.__huescahoyDb ?? (global.__huescahoyDb = createDb());
