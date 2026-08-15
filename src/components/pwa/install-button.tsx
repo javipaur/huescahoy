@@ -13,6 +13,8 @@ const TONES = {
   outline:
     "border border-brand/30 bg-white text-brand hover:border-brand/60 hover:bg-brand/5",
   light: "bg-white text-choco hover:bg-gold/40",
+  "dark-outline":
+    "border border-white/20 bg-white/5 text-cream hover:border-gold/50 hover:bg-white/10",
 } as const;
 
 export function InstallButton({ tone = "solid" }: { tone?: keyof typeof TONES }) {

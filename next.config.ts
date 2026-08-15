@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   experimental: {
     useOffline: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/wikipedia/commons/**",
+      },
+    ],
+  },
   headers: async () => [
     {
       source: "/sw.js",
