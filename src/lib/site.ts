@@ -8,8 +8,8 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://huescahoy.javierpalacio.es",
   locale: "es_ES",
   email: "hola@huescahoy.es",
-  instagram: "https://instagram.com/huescahoy",
-  instagramHandle: "@huescahoy",
+  instagram: "https://www.instagram.com/huesca.hoy/",
+  instagramHandle: "@huesca.hoy",
   twitterHandle: "@huescahoy",
-  sameAs: ["https://instagram.com/huescahoy"],
+  sameAs: ["https://www.instagram.com/huesca.hoy/"],
 };
