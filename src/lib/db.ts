@@ -6,6 +6,8 @@ import type {
   CategoryWithCount,
   EventInput,
   EventItem,
+  FeaturedPick,
+  FeaturedPickInput,
   Plan,
   PlanInput,
   ScrapeEvent,
@@ -133,6 +135,20 @@ const SCHEMA_SQL = `
   CREATE TABLE IF NOT EXISTS push_meta (
     key TEXT PRIMARY KEY,
     value TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS featured_picks (
+    id SERIAL PRIMARY KEY,
+    label TEXT NOT NULL DEFAULT 'El plan del finde',
+    title TEXT NOT NULL,
+    tagline TEXT,
+    reason TEXT,
+    link_type TEXT NOT NULL DEFAULT 'evento' CHECK (link_type IN ('evento', 'plan')),
+    target_slug TEXT NOT NULL,
+    image_url TEXT,
+    active INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+    updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
 
   CREATE INDEX IF NOT EXISTS idx_events_start ON events(start_date);
@@ -1037,4 +1053,58 @@ export async function setPushMeta(key: string, value: string): Promise<void> {
      ON CONFLICT(key) DO UPDATE SET value = EXCLUDED.value`,
     [key, value]
   );
+}
+
+// ---------- Featured pick (El plan del finde) ----------
+
+const FEATURED_PICK_COLUMNS =
+  `id, label, title, tagline, reason, link_type AS "linkType", target_slug AS "targetSlug",
+   image_url AS "imageUrl", active, created_at AS "createdAt", updated_at AS "updatedAt"`;
+
+export async function getActiveFeaturedPick(): Promise<FeaturedPick | null> {
+  await init();
+  const res = await getPool().query(
+    `SELECT ${FEATURED_PICK_COLUMNS} FROM featured_picks WHERE active = 1 ORDER BY id DESC LIMIT 1`
+  );
+  return res.rows.length ? toPlain(res.rows[0] as FeaturedPick) : null;
+}
+
+export async function saveFeaturedPick(input: FeaturedPickInput): Promise<void> {
+  await init();
+  const existing = await getPool().query(
+    `SELECT id FROM featured_picks WHERE active = 1 ORDER BY id DESC LIMIT 1`
+  );
+  if (existing.rows.length) {
+    await getPool().query(
+      `UPDATE featured_picks SET label = $1, title = $2, tagline = $3, reason = $4,
+         link_type = $5, target_slug = $6, image_url = $7, active = $8, updated_at = ${NOW_SQL}
+       WHERE id = $9`,
+      [
+        input.label,
+        input.title,
+        input.tagline,
+        input.reason,
+        input.link_type,
+        input.target_slug,
+        input.image_url,
+        input.active,
+        existing.rows[0].id,
+      ]
+    );
+  } else {
+    await getPool().query(
+      `INSERT INTO featured_picks (label, title, tagline, reason, link_type, target_slug, image_url, active)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        input.label,
+        input.title,
+        input.tagline,
+        input.reason,
+        input.link_type,
+        input.target_slug,
+        input.image_url,
+        input.active,
+      ]
+    );
+  }
 }

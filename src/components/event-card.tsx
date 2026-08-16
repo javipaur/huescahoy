@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Clock, MapPin, Star } from "lucide-react";
+import { ArrowRight, Clock, LocateFixed, MapPin, Star } from "lucide-react";
 import type { Category, EventItem } from "@/lib/types";
 import { dayNumber, dayShort, formatTimeRange, monthShort } from "@/lib/format";
 import { getIcon } from "@/lib/icons";
@@ -59,16 +59,27 @@ function Placeholder({
   );
 }
 
+function DistanceBadge({ distance }: { distance: number }) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-sand px-2 py-0.5 text-[11px] font-semibold text-choco-muted">
+      <LocateFixed className="h-3 w-3 text-brand" />
+      {distance < 1 ? "menos de 1 km" : `a ${Math.round(distance)} km`}
+    </span>
+  );
+}
+
 function GridCard({
   event,
   category,
   icon,
   color,
+  distance,
 }: {
   event: EventItem;
   category?: Category | null;
   icon: ReturnType<typeof getIcon> | null;
   color: string;
+  distance?: number | null;
 }) {
   const Icon = icon;
   return (
@@ -159,6 +170,7 @@ function GridCard({
                 </span>
               </span>
             )}
+            {distance != null && <DistanceBadge distance={distance} />}
           </div>
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-brand transition group-hover:bg-brand group-hover:text-white">
             <ArrowRight className="h-4 w-4" />
@@ -174,11 +186,13 @@ function RowCard({
   category,
   icon,
   color,
+  distance,
 }: {
   event: EventItem;
   category?: Category | null;
   icon: ReturnType<typeof getIcon> | null;
   color: string;
+  distance?: number | null;
 }) {
   const Icon = icon;
   return (
@@ -249,15 +263,18 @@ function RowCard({
         )}
       </div>
 
-      <div className="flex shrink-0 flex-col items-end justify-between py-0.5 pl-1">
-        {event.price && (
-          <span
-            className="max-w-[9rem] truncate text-right text-sm font-bold text-brand"
-            title={event.price}
-          >
-            {event.price}
-          </span>
-        )}
+      <div className="flex shrink-0 flex-col items-end justify-between gap-2 py-0.5 pl-1">
+        <div className="flex flex-col items-end gap-2">
+          {event.price && (
+            <span
+              className="max-w-[9rem] truncate text-right text-sm font-bold text-brand"
+              title={event.price}
+            >
+              {event.price}
+            </span>
+          )}
+          {distance != null && <DistanceBadge distance={distance} />}
+        </div>
         <ArrowRight className="h-4 w-4 text-choco-muted transition group-hover:translate-x-0.5 group-hover:text-brand" />
       </div>
     </Link>
@@ -268,16 +285,20 @@ export function EventCard({
   event,
   category,
   variant = "grid",
+  distance,
 }: {
   event: EventItem;
   category?: Category | null;
   variant?: "grid" | "row";
+  distance?: number | null;
 }) {
   const icon = category ? getIcon(category.icon) : null;
   const color = category?.color ?? "#16a34a";
 
   if (variant === "row") {
-    return <RowCard event={event} category={category} icon={icon} color={color} />;
+    return (
+      <RowCard event={event} category={category} icon={icon} color={color} distance={distance} />
+    );
   }
-  return <GridCard event={event} category={category} icon={icon} color={color} />;
+  return <GridCard event={event} category={category} icon={icon} color={color} distance={distance} />;
 }

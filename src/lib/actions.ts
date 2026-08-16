@@ -22,6 +22,7 @@ import {
   isSuggestionKind,
   recentPendingEventCount,
   recentSuggestionCount,
+  saveFeaturedPick,
   setSuggestionStatus,
   toggleEventFeatured,
   toggleEventStatus,
@@ -585,4 +586,47 @@ export async function togglePlanPublishedById(id: number): Promise<ActionResult>
   await togglePlanPublished(id);
   revalidateAll();
   return {};
+}
+
+export type FeaturedPickResult = { error?: string; summary?: string };
+
+export async function saveFeaturedPickAction(
+  _prevState: FeaturedPickResult | undefined,
+  formData: FormData
+): Promise<FeaturedPickResult> {
+  await requireAuth();
+  const label = String(formData.get("label") ?? "").trim() || "El plan del finde";
+  const title = String(formData.get("title") ?? "").trim();
+  const tagline = String(formData.get("tagline") ?? "").trim();
+  const reason = String(formData.get("reason") ?? "").trim();
+  const imageUrl = String(formData.get("image_url") ?? "").trim();
+  const linkType =
+    String(formData.get("link_type") ?? "evento") === "plan" ? "plan" : "evento";
+  const targetSlug = String(formData.get("target_slug") ?? "").trim();
+  const active = formData.get("active") === "on" ? 1 : 0;
+
+  if (!title || !targetSlug) {
+    return { error: "El título y el slug del enlace son obligatorios." };
+  }
+
+  const target =
+    linkType === "plan"
+      ? await getPlanBySlug(targetSlug)
+      : await getEventBySlug(targetSlug);
+  if (!target) {
+    return { error: `No existe ${linkType === "plan" ? "un plan" : "un evento"} con ese slug.` };
+  }
+
+  await saveFeaturedPick({
+    label,
+    title,
+    tagline: tagline || null,
+    reason: reason || null,
+    link_type: linkType,
+    target_slug: targetSlug,
+    image_url: imageUrl || null,
+    active,
+  });
+  revalidateAll();
+  return { summary: "Plan del finde guardado. Revisa la portada." };
 }

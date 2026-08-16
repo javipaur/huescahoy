@@ -170,3 +170,30 @@ export type PlanInput = {
   published: number;
   sort_order: number;
 };
+
+export type FeaturedPickLinkType = "evento" | "plan";
+
+export type FeaturedPick = {
+  id: number;
+  label: string;
+  title: string;
+  tagline: string | null;
+  reason: string | null;
+  linkType: FeaturedPickLinkType;
+  targetSlug: string;
+  imageUrl: string | null;
+  active: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type FeaturedPickInput = {
+  label: string;
+  title: string;
+  tagline: string | null;
+  reason: string | null;
+  link_type: FeaturedPickLinkType;
+  target_slug: string;
+  image_url: string | null;
+  active: number;
+};

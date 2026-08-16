@@ -12,14 +12,18 @@ import {
 } from "lucide-react";
 import { EventCard } from "@/components/event-card";
 import { CategoryGrid } from "@/components/category-grid";
+import { FeaturedPickCard } from "@/components/featured-pick-card";
 import { HomeHero } from "@/components/home-hero";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
 import { PhotoCredit } from "@/components/photo-credit";
 import {
+  getActiveFeaturedPick,
   getCategoriesAdmin,
   getCategoriesWithCounts,
+  getEventBySlug,
   getFeaturedEvents,
+  getPlanBySlug,
   getUpcomingEvents,
   getStats,
 } from "@/lib/db";
@@ -65,14 +69,25 @@ const COLLAB_ITEMS = [
 ];
 
 export default async function HomePage() {
-  const [allEvents, categories, stats, featured, categoryList] = await Promise.all([
-    getUpcomingEvents(20),
-    getCategoriesWithCounts(),
-    getStats(),
-    getFeaturedEvents(3),
-    getCategoriesAdmin(),
-  ]);
+  const [allEvents, categories, stats, featured, categoryList, activePick] =
+    await Promise.all([
+      getUpcomingEvents(20),
+      getCategoriesWithCounts(),
+      getStats(),
+      getFeaturedEvents(3),
+      getCategoriesAdmin(),
+      getActiveFeaturedPick(),
+    ]);
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
+
+  let pickImage: string | null = null;
+  if (activePick) {
+    const target =
+      activePick.linkType === "plan"
+        ? await getPlanBySlug(activePick.targetSlug)
+        : await getEventBySlug(activePick.targetSlug);
+    pickImage = target?.image ?? null;
+  }
 
   const cityEvents = allEvents
     .filter((event) => {
@@ -100,6 +115,8 @@ export default async function HomePage() {
     <>
       <JsonLd data={eventsJsonLd} />
       <HomeHero stats={stats} categories={categories} />
+
+      {activePick && <FeaturedPickCard pick={activePick} image={pickImage} />}
 
       {featured.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">

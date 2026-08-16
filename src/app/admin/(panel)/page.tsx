@@ -14,11 +14,13 @@ import {
   getStats,
   getSuggestionCounts,
   getSuggestions,
+  getActiveFeaturedPick,
   countPushSubscriptions,
 } from "@/lib/db";
 import { formatDayShort } from "@/lib/format";
 import { pushConfigured } from "@/lib/push";
 import { PushAdmin } from "@/components/admin/push-admin";
+import { FeaturedPickAdmin } from "@/components/admin/featured-pick-admin";
 
 export const metadata: Metadata = {
   title: "Panel",
@@ -35,7 +37,7 @@ const statCards = [
 ] as const;
 
 export default async function AdminDashboardPage() {
-  const [stats, recent, runs, suggestionCounts, latestSuggestions, categories, subscribers] =
+  const [stats, recent, runs, suggestionCounts, latestSuggestions, categories, subscribers, pick] =
     await Promise.all([
       getStats(),
       getEvents({ upcoming: true, limit: 5, includeHidden: true }),
@@ -44,6 +46,7 @@ export default async function AdminDashboardPage() {
       getSuggestions(4),
       getCategoriesAdmin(),
       countPushSubscriptions(),
+      getActiveFeaturedPick(),
     ]);
   const categoryMap = new Map(categories.map((c) => [c.id, c]));
 
@@ -261,6 +264,13 @@ export default async function AdminDashboardPage() {
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-choco">
+          El plan del finde
+        </h2>
+        <FeaturedPickAdmin pick={pick} />
       </section>
 
       <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">

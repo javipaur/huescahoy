@@ -1,24 +1,28 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { LayoutList, Map as MapIcon } from "lucide-react";
+import type { ReactNode } from "react";
+import { LayoutGrid, LayoutList, Map as MapIcon } from "lucide-react";
 import { MapView, type MapPoint } from "./map-view";
+
+export type AgendaViewMode = "grid" | "list" | "map";
 
 export function AgendaSwitcher({
   count,
   points,
+  view,
+  onViewChange,
   children,
 }: {
   count: number;
   points: MapPoint[];
+  view: AgendaViewMode;
+  onViewChange: (view: AgendaViewMode) => void;
   children: ReactNode;
 }) {
-  const [view, setView] = useState<"list" | "map">("list");
-
-  const tab = (value: "list" | "map", label: string, Icon: typeof MapIcon) => (
+  const tab = (value: AgendaViewMode, label: string, Icon: typeof MapIcon) => (
     <button
       type="button"
-      onClick={() => setView(value)}
+      onClick={() => onViewChange(value)}
       aria-pressed={view === value}
       className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition ${
         view === value
@@ -39,6 +43,7 @@ export function AgendaSwitcher({
           {view === "map" ? ` · ${points.length} con mapa` : " en la agenda"}
         </p>
         <div className="flex items-center gap-1 rounded-full border border-sand bg-white p-1 shadow-sm">
+          {tab("grid", "Tarjetas", LayoutGrid)}
           {tab("list", "Lista", LayoutList)}
           {tab("map", "Mapa", MapIcon)}
         </div>
@@ -59,7 +64,7 @@ export function AgendaSwitcher({
             </div>
           )
         ) : (
-          <div className="flex flex-col gap-3">{children}</div>
+          children
         )}
       </div>
     </div>
