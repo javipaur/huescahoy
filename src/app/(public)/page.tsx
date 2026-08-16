@@ -14,10 +14,10 @@ import { HomeHero } from "@/components/home-hero";
 import { InstallButton } from "@/components/pwa/install-button";
 import { PhotoCredit } from "@/components/photo-credit";
 import {
+  getCategoriesAdmin,
   getCategoriesWithCounts,
   getFeaturedEvents,
   getUpcomingEvents,
-  getCategoryById,
   getStats,
 } from "@/lib/db";
 import { photos } from "@/lib/photos";
@@ -44,12 +44,14 @@ const COLLAB_ITEMS = [
 ];
 
 export default async function HomePage() {
-  const [events, categories, stats, featured] = await Promise.all([
+  const [events, categories, stats, featured, categoryList] = await Promise.all([
     getUpcomingEvents(6),
     getCategoriesWithCounts(),
     getStats(),
     getFeaturedEvents(3),
+    getCategoriesAdmin(),
   ]);
+  const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
 
   return (
     <>
@@ -76,7 +78,7 @@ export default async function HomePage() {
               <EventCard
                 key={event.id}
                 event={event}
-                category={event.categoryId ? getCategoryById(event.categoryId) : null}
+                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
               />
             ))}
           </div>
@@ -115,7 +117,7 @@ export default async function HomePage() {
               <EventCard
                 key={event.id}
                 event={event}
-                category={event.categoryId ? getCategoryById(event.categoryId) : null}
+                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
               />
             ))}
           </div>

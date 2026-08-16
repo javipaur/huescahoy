@@ -13,7 +13,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const plan = getPlanBySlug(slug);
+  const plan = await getPlanBySlug(slug);
   if (!plan) return { title: "Plan no encontrado" };
   return {
     title: plan.title,
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PlanPage({ params }: PageProps) {
   const { slug } = await params;
-  const plan = getPlanBySlug(slug);
+  const plan = await getPlanBySlug(slug);
   if (!plan) notFound();
 
   return (

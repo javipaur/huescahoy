@@ -8,10 +8,10 @@ import {
   Tags,
 } from "lucide-react";
 import {
+  getCategoriesAdmin,
   getEvents,
   getScraperRuns,
   getStats,
-  getCategoryById,
   getSuggestionCounts,
   getSuggestions,
 } from "@/lib/db";
@@ -32,11 +32,16 @@ const statCards = [
 ] as const;
 
 export default async function AdminDashboardPage() {
-  const stats = getStats();
-  const recent = getEvents({ upcoming: true, limit: 5, includeHidden: true });
-  const runs = getScraperRuns(5);
-  const suggestionCounts = getSuggestionCounts();
-  const latestSuggestions = getSuggestions(4);
+  const [stats, recent, runs, suggestionCounts, latestSuggestions, categories] =
+    await Promise.all([
+      getStats(),
+      getEvents({ upcoming: true, limit: 5, includeHidden: true }),
+      getScraperRuns(5),
+      getSuggestionCounts(),
+      getSuggestions(4),
+      getCategoriesAdmin(),
+    ]);
+  const categoryMap = new Map(categories.map((c) => [c.id, c]));
 
   return (
     <div className="space-y-10">
@@ -109,7 +114,7 @@ export default async function AdminDashboardPage() {
               </li>
             )}
             {recent.map((event) => {
-              const category = event.categoryId ? getCategoryById(event.categoryId) : null;
+              const category = event.categoryId ? categoryMap.get(event.categoryId) ?? null : null;
               return (
                 <li key={event.id}>
                   <Link

@@ -65,7 +65,7 @@ export async function geocodeLocation(
     .replace(/[\u0300-\u036f]/g, "");
   if (GENERIC_VENUES.some((v) => norm.includes(v))) return null;
 
-  const cached = getGeocodeCache(key);
+  const cached = await getGeocodeCache(key);
   if (cached) return cached.notFound ? null : { lat: cached.lat, lng: cached.lng };
 
   if (inflight) {
@@ -86,6 +86,6 @@ async function queryAndCache(
   key: string
 ): Promise<{ lat: number; lng: number } | null> {
   const result = await queryNominatim(key);
-  setGeocodeCache(key, result?.lat ?? null, result?.lng ?? null);
+  await setGeocodeCache(key, result?.lat ?? null, result?.lng ?? null);
   return result;
 }

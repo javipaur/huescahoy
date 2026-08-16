@@ -12,8 +12,10 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AdminEventsPage() {
-  const events = getEvents({ includeHidden: true, limit: 200 });
-  const categories = getCategoriesAdmin();
+  const [events, categories] = await Promise.all([
+    getEvents({ includeHidden: true, limit: 200 }),
+    getCategoriesAdmin(),
+  ]);
 
   return (
     <div>

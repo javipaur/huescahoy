@@ -5,7 +5,7 @@ import { ArrowLeft, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react
 import { EventActions } from "@/components/event-actions";
 import { RemindButton } from "@/components/remind-button";
 import {
-  getCategoryById,
+  getCategoriesAdmin,
   getEventBySlug,
   getFeaturedEvents,
 } from "@/lib/db";
@@ -22,7 +22,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
   if (!event) return { title: "Evento no encontrado" };
   return {
     title: event.title,
@@ -38,13 +38,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function EventPage({ params }: PageProps) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const [event, categories] = await Promise.all([
+    getEventBySlug(slug),
+    getCategoriesAdmin(),
+  ]);
   if (!event) notFound();
+  const categoryMap = new Map(categories.map((c) => [c.id, c]));
 
-  const category = event.categoryId ? getCategoryById(event.categoryId) : null;
+  const category = event.categoryId ? categoryMap.get(event.categoryId) ?? null : null;
   const CategoryIcon = category ? getIcon(category.icon) : null;
   const color = category?.color ?? "#16a34a";
-  const upcoming = getFeaturedEvents(3).filter((e) => e.id !== event.id).slice(0, 2);
+  const upcoming = (await getFeaturedEvents(3)).filter((e) => e.id !== event.id).slice(0, 2);
   const coords = await geocodeLocation(event.location);
   const d = 0.003;
   const mapSrc = coords
@@ -199,7 +203,7 @@ export default async function EventPage({ params }: PageProps) {
           <h2 className="font-display text-xl font-bold">También te puede interesar</h2>
           <div className="mt-4 space-y-3">
             {upcoming.map((e) => {
-              const cat = e.categoryId ? getCategoryById(e.categoryId) : null;
+              const cat = e.categoryId ? categoryMap.get(e.categoryId) ?? null : null;
               const Icon = cat ? getIcon(cat.icon) : null;
               return (
                 <Link

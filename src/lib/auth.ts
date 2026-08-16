@@ -8,7 +8,7 @@ export async function getSession(): Promise<string | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
   if (!token) return null;
-  if (!sessionExists(token)) return null;
+  if (!(await sessionExists(token))) return null;
   return token;
 }
 

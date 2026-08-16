@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AdminSuggestionsPage() {
-  const suggestions = getSuggestions();
-  const counts = getSuggestionCounts();
+  const suggestions = await getSuggestions();
+  const counts = await getSuggestionCounts();
 
   return (
     <div className="space-y-6">

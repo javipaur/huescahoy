@@ -4,7 +4,7 @@ import { buildAgendaIcs } from "@/lib/ics";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const events = getEvents({
+  const events = await getEvents({
     from: todayStr(),
     to: todayStr(7),
     limit: 100,

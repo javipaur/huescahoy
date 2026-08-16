@@ -93,20 +93,20 @@ function slugify(input: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-function uniqueSlug(base: string): string {
+async function uniqueSlug(base: string): Promise<string> {
   let candidate = base || "evento";
   let n = 2;
-  while (getEventBySlug(candidate)) {
+  while (await getEventBySlug(candidate)) {
     candidate = `${base}-${n}`;
     n++;
   }
   return candidate;
 }
 
-function uniquePlanSlug(base: string): string {
+async function uniquePlanSlug(base: string): Promise<string> {
   let candidate = base || "plan";
   let n = 2;
-  while (getPlanBySlug(candidate)) {
+  while (await getPlanBySlug(candidate)) {
     candidate = `${base}-${n}`;
     n++;
   }
@@ -233,14 +233,14 @@ export async function loginAction(
     redirect("/admin/login?error=1");
   }
   const token = crypto.randomBytes(32).toString("hex");
-  createSession(token);
+  await createSession(token);
   await setSessionCookie(token);
   redirect("/admin");
 }
 
 export async function logoutAction(): Promise<void> {
   const token = await clearSessionCookie();
-  if (token) deleteSession(token);
+  if (token) await deleteSession(token);
   redirect("/admin/login");
 }
 
@@ -253,8 +253,8 @@ export async function createEventAction(
   await requireAuth();
   const parsed = parseEventInput(formData);
   if (parsed.error) return parsed;
-  const value = { ...parsed.value!, slug: uniqueSlug(parsed.value!.slug) };
-  createEvent(value);
+  const value = { ...parsed.value!, slug: await uniqueSlug(parsed.value!.slug) };
+  await createEvent(value);
   revalidateAll();
   return {};
 }
@@ -267,28 +267,28 @@ export async function updateEventAction(
   const id = toInt(formData.get("id"));
   const parsed = parseEventInput(formData);
   if (parsed.error) return parsed;
-  updateEvent(id, parsed.value!);
+  await updateEvent(id, parsed.value!);
   revalidateAll();
   return {};
 }
 
 export async function toggleEventStatusById(id: number): Promise<ActionResult> {
   await requireAuth();
-  toggleEventStatus(id);
+  await toggleEventStatus(id);
   revalidateAll();
   return {};
 }
 
 export async function toggleEventFeaturedById(id: number): Promise<ActionResult> {
   await requireAuth();
-  toggleEventFeatured(id);
+  await toggleEventFeatured(id);
   revalidateAll();
   return {};
 }
 
 export async function deleteEventById(id: number): Promise<ActionResult> {
   await requireAuth();
-  deleteEvent(id);
+  await deleteEvent(id);
   revalidateAll();
   return {};
 }
@@ -302,7 +302,7 @@ export async function createCategoryAction(
   await requireAuth();
   const parsed = parseCategoryInput(formData);
   if (parsed.error) return parsed;
-  createCategory(parsed.value!);
+  await createCategory(parsed.value!);
   revalidateAll();
   return {};
 }
@@ -315,14 +315,14 @@ export async function updateCategoryAction(
   const id = toInt(formData.get("id"));
   const parsed = parseCategoryInput(formData);
   if (parsed.error) return parsed;
-  updateCategory(id, parsed.value!);
+  await updateCategory(id, parsed.value!);
   revalidateAll();
   return {};
 }
 
 export async function deleteCategoryById(id: number): Promise<ActionResult> {
   await requireAuth();
-  deleteCategory(id);
+  await deleteCategory(id);
   revalidateAll();
   return {};
 }
@@ -336,7 +336,7 @@ export async function createSourceAction(
   await requireAuth();
   const parsed = parseSourceInput(formData);
   if (parsed.error) return parsed;
-  createSource(parsed.value!);
+  await createSource(parsed.value!);
   revalidateAll();
   return {};
 }
@@ -349,21 +349,21 @@ export async function updateSourceAction(
   const id = toInt(formData.get("id"));
   const parsed = parseSourceInput(formData);
   if (parsed.error) return parsed;
-  updateSource(id, parsed.value!);
+  await updateSource(id, parsed.value!);
   revalidateAll();
   return {};
 }
 
 export async function deleteSourceById(id: number): Promise<ActionResult> {
   await requireAuth();
-  deleteSource(id);
+  await deleteSource(id);
   revalidateAll();
   return {};
 }
 
 export async function toggleSourceEnabled(id: number): Promise<ActionResult> {
   await requireAuth();
-  toggleSource(id);
+  await toggleSource(id);
   revalidateAll();
   return {};
 }
@@ -418,11 +418,11 @@ export async function submitSuggestionAction(
     return { error: "El mensaje es demasiado largo (máximo 2000 caracteres)" };
   }
 
-  if (recentSuggestionCount() >= 15) {
+  if ((await recentSuggestionCount()) >= 15) {
     return { error: "Demasiadas sugerencias en pocos minutos. Inténtalo más tarde." };
   }
 
-  createSuggestion({
+  await createSuggestion({
     kind,
     title,
     detail: nullable(detail),
@@ -472,13 +472,13 @@ export async function submitEventAction(
     return { error: "La URL con más información debe empezar por http:// o https://" };
   }
 
-  if (recentPendingEventCount() >= 10) {
+  if ((await recentPendingEventCount()) >= 10) {
     return { error: "Demasiados eventos en pocos minutos. Inténtalo más tarde." };
   }
 
-  createEvent({
+  await createEvent({
     title,
-    slug: uniqueSlug(slugify(title) || "evento"),
+    slug: await uniqueSlug(slugify(title) || "evento"),
     category_id: null,
     start_date: startDate,
     end_date: endDate,
@@ -503,13 +503,13 @@ export async function setSuggestionStatusAction(
   status: SuggestionStatus
 ): Promise<ActionResult> {
   await requireAuth();
-  setSuggestionStatus(id, status);
+  await setSuggestionStatus(id, status);
   return {};
 }
 
 export async function deleteSuggestionById(id: number): Promise<ActionResult> {
   await requireAuth();
-  deleteSuggestion(id);
+  await deleteSuggestion(id);
   return {};
 }
 
@@ -522,8 +522,8 @@ export async function createPlanAction(
   await requireAuth();
   const parsed = parsePlanInput(formData);
   if (parsed.error) return parsed;
-  const value = { ...parsed.value!, slug: uniquePlanSlug(parsed.value!.slug) };
-  createPlan(value);
+  const value = { ...parsed.value!, slug: await uniquePlanSlug(parsed.value!.slug) };
+  await createPlan(value);
   revalidateAll();
   return {};
 }
@@ -536,21 +536,21 @@ export async function updatePlanAction(
   const id = toInt(formData.get("id"));
   const parsed = parsePlanInput(formData);
   if (parsed.error) return parsed;
-  updatePlan(id, parsed.value!);
+  await updatePlan(id, parsed.value!);
   revalidateAll();
   return {};
 }
 
 export async function deletePlanById(id: number): Promise<ActionResult> {
   await requireAuth();
-  deletePlan(id);
+  await deletePlan(id);
   revalidateAll();
   return {};
 }
 
 export async function togglePlanPublishedById(id: number): Promise<ActionResult> {
   await requireAuth();
-  togglePlanPublished(id);
+  await togglePlanPublished(id);
   revalidateAll();
   return {};
 }

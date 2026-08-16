@@ -21,8 +21,8 @@ export default async function AgendaPage({ searchParams }: PageProps) {
   const desde = typeof params.desde === "string" ? params.desde : "";
   const q = typeof params.q === "string" ? params.q : "";
 
-  const categories = getCategoriesAdmin();
-  const events = getEvents({ from: todayStr(), limit: 200 });
+  const categories = await getCategoriesAdmin();
+  const events = await getEvents({ from: todayStr(), limit: 200 });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">

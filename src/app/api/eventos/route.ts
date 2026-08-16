@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   try {
     const sp = request.nextUrl.searchParams;
-    const events = getEvents({
+    const events = await getEvents({
       category: sp.get("categoria") ?? undefined,
       from: sp.get("desde") ?? undefined,
       to: sp.get("hasta") ?? undefined,

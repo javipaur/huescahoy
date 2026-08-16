@@ -18,10 +18,10 @@ type PageProps = {
 
 export default async function EditEventPage({ params }: PageProps) {
   const { id } = await params;
-  const event = getEventById(Number(id));
+  const event = await getEventById(Number(id));
   if (!event) notFound();
 
-  const categories = getCategoriesAdmin();
+  const categories = await getCategoriesAdmin();
 
   return (
     <div className="mx-auto max-w-2xl">

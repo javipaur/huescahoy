@@ -10,6 +10,6 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AdminPlanesPage() {
-  const plans = getPlans(true);
+  const plans = await getPlans(true);
   return <PlanesAdmin plans={plans} />;
 }

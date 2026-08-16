@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function NewEventPage() {
-  const categories = getCategoriesAdmin();
+  const categories = await getCategoriesAdmin();
 
   return (
     <div className="mx-auto max-w-2xl">

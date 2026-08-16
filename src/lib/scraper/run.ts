@@ -199,7 +199,7 @@ export async function runSource(source: Source): Promise<SourceResult> {
         parsed.push(...parseSource(source.kind, text, url, source.url));
       }
     }
-    const categories = getCategoriesAdmin();
+    const categories = await getCategoriesAdmin();
 
     let created = 0;
     let updated = 0;
@@ -209,7 +209,7 @@ export async function runSource(source: Source): Promise<SourceResult> {
       if (categoryId == null && source.categoryId == null) {
         categoryId = categoryIdFor(inferCategory(event.title), categories, null);
       }
-      const result = upsertScrapedEvent(event, source.name, categoryId);
+      const result = await upsertScrapedEvent(event, source.name, categoryId);
       if (result === "new") created++;
       else if (result === "updated") updated++;
     }
@@ -234,13 +234,13 @@ export async function runSource(source: Source): Promise<SourceResult> {
 }
 
 export async function runSourceById(sourceId: number): Promise<SourceResult> {
-  const source = getSources().find((s) => s.id === sourceId);
+  const source = (await getSources()).find((s) => s.id === sourceId);
   if (!source) {
     return { status: "error", found: 0, created: 0, updated: 0, error: "Fuente no encontrada" };
   }
   const result = await runSource(source);
-  markSourceResult(source.id, result);
-  recordScraperRun({
+  await markSourceResult(source.id, result);
+  await recordScraperRun({
     sourceId: source.id,
     sourceName: source.name,
     found: result.found,
@@ -253,7 +253,7 @@ export async function runSourceById(sourceId: number): Promise<SourceResult> {
 }
 
 export async function runAllSources(): Promise<SourceResult & { errors: number }> {
-  const sources = getSources().filter((s) => s.enabled === 1);
+  const sources = (await getSources()).filter((s) => s.enabled === 1);
   let totalFound = 0;
   let totalCreated = 0;
   let totalUpdated = 0;
@@ -261,8 +261,8 @@ export async function runAllSources(): Promise<SourceResult & { errors: number }
 
   for (const source of sources) {
     const result = await runSource(source);
-    markSourceResult(source.id, result);
-    recordScraperRun({
+    await markSourceResult(source.id, result);
+    await recordScraperRun({
       sourceId: source.id,
       sourceName: source.name,
       found: result.found,
