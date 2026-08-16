@@ -3,7 +3,8 @@ import { PostHog } from "posthog-node";
 let client: PostHog | null = null;
 
 export function posthogServer(): PostHog | null {
-  const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+  const token =
+    process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN ?? process.env.NEXT_PUBLIC_POSTHOG_KEY;
   if (!token) return null;
   if (!client) {
     client = new PostHog(token, {
