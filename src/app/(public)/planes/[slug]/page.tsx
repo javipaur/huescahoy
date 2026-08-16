@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Compass } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, Compass } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { getPlanBySlug } from "@/lib/db";
 import { site } from "@/lib/site";
@@ -44,6 +44,15 @@ export default async function PlanPage({ params }: PageProps) {
   const { slug } = await params;
   const plan = await getPlanBySlug(slug);
   if (!plan) notFound();
+
+  const readingTime = Math.max(1, Math.round(plan.body.trim().split(/\s+/).length / 200));
+  const publishedLabel = plan.createdAt
+    ? new Date(plan.createdAt).toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : undefined;
 
   const planJsonLd = {
     "@context": "https://schema.org",
@@ -100,7 +109,19 @@ export default async function PlanPage({ params }: PageProps) {
               {plan.summary}
             </p>
           )}
-          <div className="mt-6 whitespace-pre-line leading-relaxed text-choco/90">
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-sand pt-5 text-sm text-choco-muted">
+            {publishedLabel && (
+              <span className="inline-flex items-center gap-1.5">
+                <CalendarDays className="h-4 w-4 shrink-0 text-brand" />
+                {publishedLabel}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5">
+              <Clock className="h-4 w-4 shrink-0 text-brand" />
+              {readingTime} {readingTime === 1 ? "minuto" : "minutos"} de lectura
+            </span>
+          </div>
+          <div className="mt-6 whitespace-pre-line text-[17px] leading-relaxed text-choco/90">
             {plan.body}
           </div>
         </div>

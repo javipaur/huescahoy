@@ -6,6 +6,7 @@ import {
   Bug,
   CalendarPlus,
   Lightbulb,
+  MapPin,
   Star,
   Users,
 } from "lucide-react";
@@ -24,6 +25,7 @@ import {
 } from "@/lib/db";
 import { photos } from "@/lib/photos";
 import { site } from "@/lib/site";
+import { zoneFor } from "@/lib/zones";
 
 export const dynamic = "force-dynamic";
 
@@ -63,8 +65,8 @@ const COLLAB_ITEMS = [
 ];
 
 export default async function HomePage() {
-  const [events, categories, stats, featured, categoryList] = await Promise.all([
-    getUpcomingEvents(6),
+  const [allEvents, categories, stats, featured, categoryList] = await Promise.all([
+    getUpcomingEvents(20),
     getCategoriesWithCounts(),
     getStats(),
     getFeaturedEvents(3),
@@ -72,11 +74,21 @@ export default async function HomePage() {
   ]);
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
 
+  const cityEvents = allEvents
+    .filter((event) => {
+      const zone = zoneFor(event);
+      return zone !== "provincia" && zone !== "fuera";
+    })
+    .slice(0, 6);
+  const provinceEvents = allEvents
+    .filter((event) => zoneFor(event) === "provincia")
+    .slice(0, 3);
+
   const eventsJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Próximos eventos en Huesca",
-    itemListElement: events.map((event, index) => ({
+    itemListElement: cityEvents.map((event, index) => ({
       "@type": "ListItem",
       position: index + 1,
       url: `${site.url}/eventos/${event.slug}`,
@@ -139,13 +151,13 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {events.length === 0 ? (
+        {cityEvents.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted">
             Todavía no hay eventos publicados. ¡Vuelve en un momento!
           </div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {events.map((event) => (
+            {cityEvents.map((event) => (
               <EventCard
                 key={event.id}
                 event={event}
@@ -155,6 +167,40 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {provinceEvents.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-3 py-1 text-xs font-semibold text-choco">
+                <MapPin className="h-3.5 w-3.5 text-brand" />
+                También en la provincia
+              </span>
+              <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                Planes por toda la provincia
+              </h2>
+              <p className="mt-1 text-choco-muted">
+                Fiestas, conciertos y cultura en los pueblos de Huesca.
+              </p>
+            </div>
+            <Link
+              href="/agenda?zona=provincia"
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand transition hover:text-brand-dark"
+            >
+              Ver toda la provincia <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {provinceEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="border-y border-sand bg-sand/40">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">

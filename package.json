@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "icons": "node scripts/gen-icons.mjs",
-    "db:migrate": "node scripts/migrate-from-sqlite.mjs"
+    "db:migrate": "node scripts/migrate-from-sqlite.mjs",
+    "db:geocode": "node scripts/geocode-events.mjs"
   },
   "engines": {
     "node": ">=20.0.0"

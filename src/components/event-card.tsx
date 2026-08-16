@@ -3,6 +3,17 @@ import { ArrowRight, Clock, MapPin, Star } from "lucide-react";
 import type { Category, EventItem } from "@/lib/types";
 import { dayNumber, dayShort, formatTimeRange, monthShort } from "@/lib/format";
 import { getIcon } from "@/lib/icons";
+import { zoneFor, zoneLabel, type EventZone } from "@/lib/zones";
+
+function ZoneBadge({ zone }: { zone: EventZone }) {
+  if (zone !== "provincia") return null;
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-choco shadow-sm backdrop-blur">
+      <MapPin className="h-3 w-3 text-brand" />
+      {zoneLabel(zone)}
+    </span>
+  );
+}
 
 function Placeholder({
   category,
@@ -109,6 +120,10 @@ function GridCard({
           </span>
         )}
 
+        <span className="absolute bottom-3 right-3">
+          <ZoneBadge zone={zoneFor(event)} />
+        </span>
+
         <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 group-hover:opacity-100">
           <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco shadow-lg transition duration-300 group-hover:translate-y-0">
             Ver evento
@@ -171,15 +186,30 @@ function RowCard({
       href={`/eventos/${event.slug}`}
       className="group flex items-stretch gap-4 rounded-2xl border border-sand bg-white p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md sm:gap-5"
     >
-      <div className="flex w-16 shrink-0 flex-col items-center justify-center rounded-xl bg-sand px-2 py-3 text-center">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-choco-muted">
-          {dayShort(event.startDate)}
-        </span>
-        <span className="my-0.5 font-display text-2xl font-bold leading-none text-choco">
-          {dayNumber(event.startDate)}
-        </span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brand">
-          {monthShort(event.startDate)}
+      <div className="relative w-20 shrink-0 self-stretch overflow-hidden rounded-xl bg-sand sm:w-28">
+        {event.image ? (
+          <img
+            src={event.image}
+            alt={event.title}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <Placeholder category={category} icon={icon} title={event.title} />
+        )}
+        <span className="absolute left-2 top-2 flex flex-col items-center rounded-lg bg-white/95 px-2 py-1 text-center shadow-sm backdrop-blur">
+          <span className="text-[9px] font-bold uppercase leading-tight tracking-widest text-choco-muted">
+            {dayShort(event.startDate)}
+          </span>
+          <span className="my-0.5 font-display text-base font-bold leading-none text-choco">
+            {dayNumber(event.startDate)}
+          </span>
+          <span
+            className="text-[9px] font-bold uppercase leading-tight tracking-widest"
+            style={{ color }}
+          >
+            {monthShort(event.startDate)}
+          </span>
         </span>
       </div>
 
@@ -200,8 +230,10 @@ function RowCard({
               Recomendado
             </span>
           )}
+          <ZoneBadge zone={zoneFor(event)} />
           {event.startTime && (
-            <span className="text-xs font-medium text-choco-muted">
+            <span className="ml-auto flex items-center gap-1 text-xs font-medium text-choco-muted">
+              <Clock className="h-3.5 w-3.5 shrink-0" />
               {formatTimeRange(event.startTime, event.endTime)}
             </span>
           )}

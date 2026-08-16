@@ -171,7 +171,7 @@ export default function ColaboraPage() {
                 key={step.title}
                 className="relative rounded-2xl border border-sand bg-white p-6 shadow-sm"
               >
-                <span className="absolute right-5 top-5 font-display text-5xl font-extrabold text-sand">
+                <span className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full bg-brand/10 font-display text-base font-extrabold text-brand">
                   {index + 1}
                 </span>
                 <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-brand/10 text-brand">

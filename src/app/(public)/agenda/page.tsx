@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Download } from "lucide-react";
+import { CalendarDays, Download } from "lucide-react";
 import { Suspense } from "react";
 import { AgendaView } from "@/components/agenda-view";
 import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
@@ -33,6 +33,7 @@ export default async function AgendaPage({ searchParams }: PageProps) {
   const categoria = typeof params.categoria === "string" ? params.categoria : "";
   const desde = typeof params.desde === "string" ? params.desde : "";
   const q = typeof params.q === "string" ? params.q : "";
+  const zona = typeof params.zona === "string" ? params.zona : "";
 
   const categories = await getCategoriesAdmin();
   const events = await getEvents({ from: todayStr(), limit: 200 });
@@ -41,8 +42,12 @@ export default async function AgendaPage({ searchParams }: PageProps) {
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            Agenda
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+            <CalendarDays className="h-3.5 w-3.5" />
+            Calendario cultural
+          </span>
+          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+            Agenda de eventos en {site.city}
           </h1>
           <p className="mt-2 text-choco-muted">
             Todo lo que pasa en {site.city}, ordenado por fecha.
@@ -64,6 +69,7 @@ export default async function AgendaPage({ searchParams }: PageProps) {
           initialCategory={categoria}
           initialDesde={desde}
           initialQ={q}
+          initialZona={zona}
         />
       </Suspense>
     </div>

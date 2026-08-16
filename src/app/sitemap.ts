@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { getEvents, getPlans, todayStr } from "@/lib/db";
 import { site } from "@/lib/site";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [events, plans] = await Promise.all([
     getEvents({ from: todayStr(), limit: 200 }),

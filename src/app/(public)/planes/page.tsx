@@ -40,9 +40,9 @@ export default async function PlanesPage() {
         probado para que solo tengas que disfrutar.
       </p>
 
-      <div className="mt-10 space-y-6">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {plans.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted">
+          <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted sm:col-span-2">
             Pronto publicaremos los primeros planes. ¡Vuelve en un momento!
           </div>
         )}
@@ -50,15 +50,15 @@ export default async function PlanesPage() {
           <Link
             key={plan.id}
             href={`/planes/${plan.slug}`}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-choco/5 sm:flex-row"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
           >
-            <div className="relative aspect-[16/9] w-full shrink-0 bg-sand sm:aspect-auto sm:w-72">
+            <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
               {plan.image ? (
                 <img
                   src={plan.image}
                   alt={plan.title}
                   loading="lazy"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand/15 to-gold/20">
@@ -66,17 +66,22 @@ export default async function PlanesPage() {
                 </div>
               )}
             </div>
-            <div className="flex flex-1 flex-col justify-center gap-2 p-6">
-              <h2 className="font-display text-xl font-bold text-choco transition-colors group-hover:text-brand-dark sm:text-2xl">
+            <div className="flex flex-1 flex-col gap-2 p-6">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-brand">
+                <Compass className="h-3.5 w-3.5" />
+                Guía de {site.city}
+              </span>
+              <h2 className="line-clamp-2 font-display text-xl font-bold text-choco transition-colors group-hover:text-brand-dark">
                 {plan.title}
               </h2>
               {plan.summary && (
-                <p className="text-sm leading-relaxed text-choco-muted">
+                <p className="line-clamp-2 text-sm leading-relaxed text-choco-muted">
                   {plan.summary}
                 </p>
               )}
-              <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
-                Leer el plan <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-brand">
+                Leer el plan
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </span>
             </div>
           </Link>

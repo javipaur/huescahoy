@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react";
 import { EventActions } from "@/components/event-actions";
 import { JsonLd } from "@/components/json-ld";
 import { RemindButton } from "@/components/remind-button";
@@ -11,7 +11,11 @@ import {
   getFeaturedEvents,
 } from "@/lib/db";
 import { geocodeLocation } from "@/lib/geocode";
-import { formatDateRange, formatDayLong } from "@/lib/format";
+import {
+  formatDateRange,
+  formatDayLong,
+  formatTimeRange,
+} from "@/lib/format";
 import { getIcon } from "@/lib/icons";
 import { site } from "@/lib/site";
 
@@ -116,6 +120,32 @@ export default async function EventPage({ params }: PageProps) {
     };
   }
 
+  const facts: { Icon: typeof Clock; label: string; value: string }[] = [
+    {
+      Icon: CalendarDays,
+      label: "Fecha",
+      value: formatDateRange(
+        event.startDate,
+        event.endDate,
+        event.startTime,
+        event.endTime
+      ),
+    },
+    ...(event.startTime
+      ? [
+          {
+            Icon: Clock,
+            label: "Hora",
+            value: formatTimeRange(event.startTime, event.endTime) ?? "",
+          },
+        ]
+      : []),
+    ...(event.location
+      ? [{ Icon: MapPin, label: "Lugar", value: event.location }]
+      : []),
+    ...(event.price ? [{ Icon: Ticket, label: "Precio", value: event.price }] : []),
+  ];
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       <JsonLd data={eventJsonLd} />
@@ -191,40 +221,37 @@ export default async function EventPage({ params }: PageProps) {
             {event.title}
           </h1>
 
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-choco-muted">
-            <p className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4 shrink-0 text-brand" />
-              <span className="font-medium text-choco">
-                {formatDateRange(
-                  event.startDate,
-                  event.endDate,
-                  event.startTime,
-                  event.endTime
-                )}
-              </span>
-            </p>
-            {event.location && (
-              <p className="flex items-center gap-2 text-sm">
-                <MapPin className="h-4 w-4 shrink-0 text-brand" />
-                <span className="font-medium text-choco">{event.location}</span>
-              </p>
-            )}
-            {event.price && (
-              <p className="flex items-center gap-2 text-sm">
-                <Ticket className="h-4 w-4 shrink-0 text-brand" />
-                <span className="font-medium text-choco">{event.price}</span>
-              </p>
-            )}
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {facts.map((fact) => (
+              <div
+                key={fact.label}
+                className="flex items-center gap-3 rounded-2xl border border-sand bg-sand/40 px-4 py-3"
+              >
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand">
+                  <fact.Icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-choco-muted">
+                    {fact.label}
+                  </p>
+                  <p className="truncate text-sm font-semibold text-choco" title={fact.value}>
+                    {fact.value}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
 
           {event.address && (
-            <p className="mt-2 text-sm text-choco-muted">{event.address}</p>
+            <p className="mt-3 text-sm text-choco-muted">{event.address}</p>
           )}
 
           {event.description && (
-            <p className="mt-6 whitespace-pre-line leading-relaxed text-choco/90">
-              {event.description}
-            </p>
+            <div className="mt-6 rounded-2xl border border-sand bg-sand/30 p-5 sm:p-6">
+              <p className="whitespace-pre-line leading-relaxed text-choco/90">
+                {event.description}
+              </p>
+            </div>
           )}
 
           {mapSrc && (

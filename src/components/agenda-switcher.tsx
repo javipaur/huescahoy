@@ -19,10 +19,11 @@ export function AgendaSwitcher({
     <button
       type="button"
       onClick={() => setView(value)}
-      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
+      aria-pressed={view === value}
+      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition ${
         view === value
-          ? "bg-choco text-cream"
-          : "border border-sand bg-white text-choco-muted hover:bg-sand"
+          ? "bg-choco text-cream shadow-sm"
+          : "text-choco-muted hover:text-choco"
       }`}
     >
       <Icon className="h-4 w-4" />
@@ -33,13 +34,11 @@ export function AgendaSwitcher({
   return (
     <div>
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-choco-muted">
+        <p className="rounded-full bg-choco/5 px-3.5 py-1.5 text-sm font-semibold text-choco-muted">
           {count} {count === 1 ? "evento" : "eventos"}
-          {view === "map"
-            ? ` · ${points.length} con mapa`
-            : " en la agenda"}
+          {view === "map" ? ` · ${points.length} con mapa` : " en la agenda"}
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 rounded-full border border-sand bg-white p-1 shadow-sm">
           {tab("list", "Lista", LayoutList)}
           {tab("map", "Mapa", MapIcon)}
         </div>

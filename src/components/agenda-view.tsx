@@ -6,7 +6,9 @@ import { Search } from "lucide-react";
 import { AgendaSwitcher } from "@/components/agenda-switcher";
 import { EventCard } from "@/components/event-card";
 import type { MapPoint } from "@/components/map-view";
+import { formatDayLong } from "@/lib/format";
 import type { Category, EventItem } from "@/lib/types";
+import { zoneFor } from "@/lib/zones";
 
 const DATE_OPTIONS = [
   { value: "", label: "Todas las fechas" },
@@ -14,6 +16,12 @@ const DATE_OPTIONS = [
   { value: "7d", label: "Próximos 7 días" },
   { value: "finde", label: "Este fin de semana" },
   { value: "mes", label: "Este mes" },
+];
+
+const ZONE_OPTIONS = [
+  { value: "", label: "Toda la provincia" },
+  { value: "ciudad", label: "Huesca" },
+  { value: "provincia", label: "Provincia" },
 ];
 
 function toDateStr(date: Date): string {
@@ -53,18 +61,21 @@ export function AgendaView({
   initialCategory,
   initialDesde,
   initialQ,
+  initialZona,
 }: {
   events: EventItem[];
   categories: Category[];
   initialCategory: string;
   initialDesde: string;
   initialQ: string;
+  initialZona: string;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const [q, setQ] = useState(initialQ);
   const [categoria, setCategoria] = useState(initialCategory);
   const [desde, setDesde] = useState(initialDesde);
+  const [zona, setZona] = useState(initialZona);
 
   const categoryById = useMemo(
     () => new Map(categories.map((category) => [category.id, category])),
@@ -76,6 +87,10 @@ export function AgendaView({
     const catId = categories.find((category) => category.slug === categoria)?.id;
     const term = q.trim().toLowerCase();
     return events.filter((event) => {
+      const zone = zoneFor(event);
+      if (zona === "ciudad" && zone !== "ciudad") return false;
+      if (zona === "provincia" && zone !== "provincia") return false;
+      if (!zona && zone === "fuera") return false;
       if (catId && event.categoryId !== catId) return false;
       if (from) {
         const startOk = event.endDate ? event.endDate >= from : event.startDate >= from;
@@ -89,7 +104,7 @@ export function AgendaView({
       }
       return true;
     });
-  }, [events, categories, categoria, desde, q]);
+  }, [events, categories, categoria, desde, q, zona]);
 
   const points: MapPoint[] = filtered
     .filter((event) => event.lat != null && event.lng != null)
@@ -101,27 +116,42 @@ export function AgendaView({
       lng: event.lng!,
     }));
 
+  const grouped = useMemo(() => {
+    const groups: { date: string; events: EventItem[] }[] = [];
+    for (const event of filtered) {
+      const last = groups[groups.length - 1];
+      if (last && last.date === event.startDate) {
+        last.events.push(event);
+      } else {
+        groups.push({ date: event.startDate, events: [event] });
+      }
+    }
+    return groups;
+  }, [filtered]);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       const next = new URLSearchParams();
       if (categoria) next.set("categoria", categoria);
       if (desde) next.set("desde", desde);
       if (q.trim()) next.set("q", q.trim());
+      if (zona) next.set("zona", zona);
       const qs = next.toString();
       const current = window.location.search.replace(/^\?/, "");
       if (qs === current) return;
       router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
     }, 300);
     return () => clearTimeout(timeout);
-  }, [categoria, desde, q, pathname, router]);
+  }, [categoria, desde, q, zona, pathname, router]);
 
   function clearFilters() {
     setCategoria("");
     setDesde("");
     setQ("");
+    setZona("");
   }
 
-  const hasFilters = Boolean(categoria || desde || q.trim());
+  const hasFilters = Boolean(categoria || desde || q.trim() || zona);
 
   return (
     <div>
@@ -149,6 +179,25 @@ export function AgendaView({
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-choco-muted">
+              Zona
+            </span>
+            {ZONE_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => setZona(option.value)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  zona === option.value
+                    ? "bg-brand text-white shadow-sm shadow-brand/30"
+                    : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -209,13 +258,33 @@ export function AgendaView({
         </div>
       ) : (
         <AgendaSwitcher count={filtered.length} points={points}>
-          {filtered.map((event) => (
-            <EventCard
-              key={event.id}
-              event={event}
-              category={event.categoryId ? categoryById.get(event.categoryId) ?? null : null}
-              variant="row"
-            />
+          {grouped.map((group) => (
+            <div key={group.date}>
+              <div className="sticky top-16 z-30 -mx-1 mb-3 flex items-center gap-2 rounded-full border border-sand bg-cream/90 px-4 py-1.5 shadow-sm backdrop-blur sm:mx-0">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-brand" />
+                <span className="font-display text-sm font-bold tracking-tight text-choco sm:text-base">
+                  {formatDayLong(group.date)}
+                </span>
+                <span className="ml-auto rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
+                  {group.events.length}{" "}
+                  {group.events.length === 1 ? "evento" : "eventos"}
+                </span>
+              </div>
+              <div className="flex flex-col gap-3">
+                {group.events.map((event) => (
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    category={
+                      event.categoryId
+                        ? categoryById.get(event.categoryId) ?? null
+                        : null
+                    }
+                    variant="row"
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </AgendaSwitcher>
       )}
