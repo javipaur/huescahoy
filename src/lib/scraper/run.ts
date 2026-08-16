@@ -14,6 +14,7 @@ import { parseFraga } from "./fraga";
 import { inferCategory } from "./category";
 import { normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
+import { sendPush } from "../push";
 import {
   getCategoriesAdmin,
   getSources,
@@ -249,6 +250,17 @@ export async function runSourceById(sourceId: number): Promise<SourceResult> {
     status: result.status,
     error: result.error,
   });
+  if (result.created > 0) {
+    await sendPush({
+      title:
+        result.created === 1
+          ? "Nuevo evento en Huesca Hoy"
+          : `${result.created} eventos nuevos en Huesca Hoy`,
+      body: source.name,
+      url: "/agenda?desde=hoy",
+      tag: "new-events",
+    }).catch(() => {});
+  }
   return result;
 }
 
@@ -275,6 +287,18 @@ export async function runAllSources(): Promise<SourceResult & { errors: number }
     totalCreated += result.created;
     totalUpdated += result.updated;
     if (result.status === "error") errors++;
+  }
+
+  if (totalCreated > 0) {
+    await sendPush({
+      title:
+        totalCreated === 1
+          ? "Nuevo evento en Huesca Hoy"
+          : `${totalCreated} eventos nuevos en Huesca Hoy`,
+      body: "Echa un vistazo a lo que se añade a la agenda",
+      url: "/agenda?desde=hoy",
+      tag: "new-events",
+    }).catch(() => {});
   }
 
   return { status: "ok", found: totalFound, created: totalCreated, updated: totalUpdated, errors };

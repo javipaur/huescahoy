@@ -14,8 +14,11 @@ import {
   getStats,
   getSuggestionCounts,
   getSuggestions,
+  countPushSubscriptions,
 } from "@/lib/db";
 import { formatDayShort } from "@/lib/format";
+import { pushConfigured } from "@/lib/push";
+import { PushAdmin } from "@/components/admin/push-admin";
 
 export const metadata: Metadata = {
   title: "Panel",
@@ -32,7 +35,7 @@ const statCards = [
 ] as const;
 
 export default async function AdminDashboardPage() {
-  const [stats, recent, runs, suggestionCounts, latestSuggestions, categories] =
+  const [stats, recent, runs, suggestionCounts, latestSuggestions, categories, subscribers] =
     await Promise.all([
       getStats(),
       getEvents({ upcoming: true, limit: 5, includeHidden: true }),
@@ -40,6 +43,7 @@ export default async function AdminDashboardPage() {
       getSuggestionCounts(),
       getSuggestions(4),
       getCategoriesAdmin(),
+      countPushSubscriptions(),
     ]);
   const categoryMap = new Map(categories.map((c) => [c.id, c]));
 
@@ -257,6 +261,13 @@ export default async function AdminDashboardPage() {
             ))}
           </ul>
         )}
+      </section>
+
+      <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
+        <h2 className="mb-4 font-display text-lg font-bold text-choco">
+          Notificaciones push
+        </h2>
+        <PushAdmin subscriberCount={subscribers} configured={pushConfigured()} />
       </section>
     </div>
   );

@@ -221,20 +221,22 @@ export default async function EventPage({ params }: PageProps) {
             {event.title}
           </h1>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {facts.map((fact) => (
+          <div className="mt-6 overflow-hidden rounded-2xl border border-sand bg-white">
+            {facts.map((fact, index) => (
               <div
                 key={fact.label}
-                className="flex items-center gap-3 rounded-2xl border border-sand bg-sand/40 px-4 py-3"
+                className={`flex items-start gap-3 px-4 py-3.5 ${
+                  index > 0 ? "border-t border-sand" : ""
+                }`}
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand">
                   <fact.Icon className="h-5 w-5" />
                 </span>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-choco-muted">
                     {fact.label}
                   </p>
-                  <p className="truncate text-sm font-semibold text-choco" title={fact.value}>
+                  <p className="mt-0.5 whitespace-pre-line break-words text-sm font-semibold leading-snug text-choco">
                     {fact.value}
                   </p>
                 </div>

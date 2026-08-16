@@ -5,18 +5,18 @@ import { getPlans } from "@/lib/db";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Planes y guías de Huesca",
+  title: "La magia de Huesca · Planes y guías",
   description:
-    "Planes y guías útiles para disfrutar de Huesca: rutas, ideas en familia, un día completo por la ciudad y más. Lo hemos probado para que solo disfrutes.",
+    "La magia de Huesca: rutas, ideas en familia, un día completo por la ciudad y guías útiles. Lo hemos probado para que solo disfrutes.",
   alternates: {
     canonical: "/planes",
   },
   openGraph: {
     type: "website",
     locale: site.locale,
-    title: "Planes y guías de Huesca",
+    title: "La magia de Huesca · Planes y guías",
     description:
-      "Rutas, planes en familia y un día completo por Huesca. Ideas probadas para que solo disfrutes.",
+      "Rutas, planes en familia y un día completo por Huesca. La magia de la ciudad, probada para que solo disfrutes.",
     images: [{ url: "/opengraph-image" }],
   },
 };
@@ -30,10 +30,10 @@ export default async function PlanesPage() {
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-4 py-1.5 text-sm font-semibold text-brand">
         <Compass className="h-4 w-4" />
-        Planes y guías
+        La magia de Huesca
       </span>
       <h1 className="mt-5 max-w-2xl font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-        Ideas para disfrutar de {site.city}
+        La magia de Huesca
       </h1>
       <p className="mt-4 max-w-xl text-lg leading-relaxed text-choco-muted">
         Rutas, planes en familia, un día completo por la ciudad... Lo hemos

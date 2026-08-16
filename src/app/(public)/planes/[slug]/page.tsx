@@ -78,7 +78,7 @@ export default async function PlanPage({ params }: PageProps) {
         className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"
       >
         <ArrowLeft className="h-4 w-4" />
-        Volver a planes y guías
+        Volver a la magia de Huesca
       </Link>
 
       <div className="overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">

@@ -249,9 +249,14 @@ function RowCard({
         )}
       </div>
 
-      <div className="flex shrink-0 flex-col items-end justify-between py-0.5">
+      <div className="flex shrink-0 flex-col items-end justify-between py-0.5 pl-1">
         {event.price && (
-          <span className="text-sm font-bold text-brand">{event.price}</span>
+          <span
+            className="max-w-[9rem] truncate text-right text-sm font-bold text-brand"
+            title={event.price}
+          >
+            {event.price}
+          </span>
         )}
         <ArrowRight className="h-4 w-4 text-choco-muted transition group-hover:translate-x-0.5 group-hover:text-brand" />
       </div>

@@ -33,6 +33,8 @@ import {
   updateSource,
 } from "./db";
 import { runAllSources, runSourceById } from "./scraper/run";
+import { sendDailyDigest } from "./digest";
+import { sendPush } from "./push";
 import type {
   CategoryInput,
   EventInput,
@@ -511,6 +513,36 @@ export async function deleteSuggestionById(id: number): Promise<ActionResult> {
   await requireAuth();
   await deleteSuggestion(id);
   return {};
+}
+
+// ---------- Notificaciones push ----------
+
+export async function sendPushAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult & { summary?: string }> {
+  await requireAuth();
+  const title = toString(formData.get("title"));
+  if (!title) return { error: "El título es obligatorio" };
+  const text = toString(formData.get("text"));
+  const url = toString(formData.get("url")) || undefined;
+  if (url && !/^https?:\/\//i.test(url)) {
+    return { error: "El enlace debe empezar por http:// o https://" };
+  }
+  const result = await sendPush({ title, body: text, url, tag: "admin" });
+  return { summary: `Notificación enviada a ${result.sent} dispositivos.` };
+}
+
+export async function runDigestAction(): Promise<ActionResult & { summary?: string }> {
+  await requireAuth();
+  const result = await sendDailyDigest();
+  const messages: Record<typeof result.status, string> = {
+    sent: `Resumen enviado a ${result.sent} dispositivos (${result.events} eventos).`,
+    already_sent: "El resumen de hoy ya se ha enviado antes.",
+    nothing_to_send: "No hay eventos próximos para notificar hoy.",
+    not_configured: "Las claves VAPID no están configuradas.",
+  };
+  return { summary: messages[result.status] };
 }
 
 // ---------- Planes ----------

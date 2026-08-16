@@ -121,6 +121,20 @@ const SCHEMA_SQL = `
     updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
 
+  CREATE TABLE IF NOT EXISTS push_subscriptions (
+    id SERIAL PRIMARY KEY,
+    endpoint TEXT NOT NULL UNIQUE,
+    keys_p256dh TEXT NOT NULL,
+    keys_auth TEXT NOT NULL,
+    user_agent TEXT,
+    created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+  );
+
+  CREATE TABLE IF NOT EXISTS push_meta (
+    key TEXT PRIMARY KEY,
+    value TEXT
+  );
+
   CREATE INDEX IF NOT EXISTS idx_events_start ON events(start_date);
   CREATE INDEX IF NOT EXISTS idx_events_category ON events(category_id);
   CREATE INDEX IF NOT EXISTS idx_events_status ON events(status);
@@ -959,5 +973,68 @@ export async function setGeocodeCache(
      ON CONFLICT(location) DO UPDATE SET lat = EXCLUDED.lat, lng = EXCLUDED.lng,
        not_found = EXCLUDED.not_found, updated_at = ${NOW_SQL}`,
     [location, lat, lng, lat == null || lng == null ? 1 : 0]
+  );
+}
+
+// ---------- Push subscriptions ----------
+
+export type PushSubscriptionRow = {
+  id: number;
+  endpoint: string;
+  keysP256dh: string;
+  keysAuth: string;
+  userAgent: string | null;
+  createdAt: string;
+};
+
+export async function upsertPushSubscription(input: {
+  endpoint: string;
+  keysP256dh: string;
+  keysAuth: string;
+  userAgent: string | null;
+}): Promise<void> {
+  await init();
+  await getPool().query(
+    `INSERT INTO push_subscriptions (endpoint, keys_p256dh, keys_auth, user_agent)
+     VALUES ($1, $2, $3, $4)
+     ON CONFLICT(endpoint) DO UPDATE SET keys_p256dh = EXCLUDED.keys_p256dh,
+       keys_auth = EXCLUDED.keys_auth, user_agent = EXCLUDED.user_agent`,
+    [input.endpoint, input.keysP256dh, input.keysAuth, input.userAgent]
+  );
+}
+
+export async function deletePushSubscriptionByEndpoint(endpoint: string): Promise<void> {
+  await init();
+  await getPool().query("DELETE FROM push_subscriptions WHERE endpoint = $1", [endpoint]);
+}
+
+export async function getPushSubscriptions(): Promise<PushSubscriptionRow[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT id, endpoint, keys_p256dh AS "keysP256dh", keys_auth AS "keysAuth",
+       user_agent AS "userAgent", created_at AS "createdAt"
+     FROM push_subscriptions ORDER BY id DESC`
+  );
+  return res.rows as PushSubscriptionRow[];
+}
+
+export async function countPushSubscriptions(): Promise<number> {
+  await init();
+  const res = await getPool().query("SELECT COUNT(*)::int AS total FROM push_subscriptions");
+  return res.rows[0].total as number;
+}
+
+export async function getPushMeta(key: string): Promise<string | null> {
+  await init();
+  const res = await getPool().query("SELECT value FROM push_meta WHERE key = $1", [key]);
+  return (res.rows[0]?.value as string | undefined) ?? null;
+}
+
+export async function setPushMeta(key: string, value: string): Promise<void> {
+  await init();
+  await getPool().query(
+    `INSERT INTO push_meta (key, value) VALUES ($1, $2)
+     ON CONFLICT(key) DO UPDATE SET value = EXCLUDED.value`,
+    [key, value]
   );
 }

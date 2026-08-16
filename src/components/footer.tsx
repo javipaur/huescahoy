@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, Instagram, MapPin, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import { site } from "@/lib/site";
+import { PushSubscribeButton } from "@/components/push-button";
 
 const TRUST = [
   { Icon: Wallet, text: "100 % gratis, sin sorpresas" },
@@ -37,6 +38,9 @@ export function Footer() {
               <Instagram className="h-4 w-4 text-gold" />
               Seguir en Instagram
             </a>
+            <div className="mt-3">
+              <PushSubscribeButton tone="dark" />
+            </div>
           </div>
 
           <div>
@@ -66,7 +70,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/planes" className="text-cream/80 transition hover:text-gold">
-                  Planes y guías
+                  La magia de Huesca
                 </Link>
               </li>
             </ul>

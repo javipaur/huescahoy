@@ -8,9 +8,15 @@ import {
   Smartphone,
 } from "lucide-react";
 import { InstallButton } from "@/components/pwa/install-button";
-import { PhotoCredit } from "@/components/photo-credit";
+import { HeroCarousel } from "@/components/hero-carousel";
 import { photos } from "@/lib/photos";
 import type { CategoryWithCount } from "@/lib/types";
+
+const HERO_FEATURES = [
+  { photo: photos.fuegosSanLorenzo, label: "Fiestas de San Lorenzo" },
+  { photo: photos.semanaSanta, label: "Semana Santa" },
+  { photo: photos.plazaNavarra, label: "La Plaza de Navarra" },
+];
 
 export function HomeHero({
   stats,
@@ -129,31 +135,7 @@ export function HomeHero({
         </div>
 
         <div className="relative mb-10 lg:mb-0">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
-            <Image
-              src={photos.fuegosSanLorenzo.url}
-              alt={photos.fuegosSanLorenzo.alt}
-              width={1200}
-              height={900}
-              priority
-              className="aspect-[4/3] w-full object-cover"
-              sizes="(min-width: 1024px) 520px, 100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-choco/60 via-transparent to-transparent" />
-            <div className="absolute left-4 top-4 rounded-full bg-choco/70 px-3.5 py-1.5 text-xs font-semibold text-gold backdrop-blur">
-              Fiestas de San Lorenzo
-            </div>
-          </div>
-
-          <div className="absolute -left-3 -bottom-8 rounded-2xl bg-cream px-5 py-4 text-choco shadow-xl shadow-black/40 sm:-left-6">
-            <p className="font-display text-3xl font-extrabold">
-              {stats.upcoming}
-              <span className="text-brand">+</span>
-            </p>
-            <p className="text-xs font-medium text-choco-muted">
-              eventos en la agenda
-            </p>
-          </div>
+          <HeroCarousel features={HERO_FEATURES} />
 
           <div className="absolute -right-3 -top-5 hidden w-32 overflow-hidden rounded-2xl border-4 border-choco shadow-xl sm:block lg:-right-5">
             <Image
@@ -165,11 +147,6 @@ export function HomeHero({
               sizes="128px"
             />
           </div>
-
-          <PhotoCredit
-            photo={photos.fuegosSanLorenzo}
-            className="mt-6 text-cream/45"
-          />
         </div>
       </div>
     </section>
