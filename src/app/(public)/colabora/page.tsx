@@ -24,6 +24,17 @@ export const metadata: Metadata = {
   title: "Colabora — Huesca Hoy entre todos",
   description:
     "Publica tu evento en la agenda, reporta problemas y sugiere mejoras. Huesca Hoy se construye entre todos.",
+  alternates: {
+    canonical: "/colabora",
+  },
+  openGraph: {
+    type: "website",
+    locale: site.locale,
+    title: "Colabora con Huesca Hoy",
+    description:
+      "Publica tu evento en la agenda, reporta problemas y sugiere mejoras. La agenda cultural de Huesca se construye entre todos.",
+    images: [{ url: "/opengraph-image" }],
+  },
 };
 
 const STEPS = [

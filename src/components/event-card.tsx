@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin, Star } from "lucide-react";
 import type { Category, EventItem } from "@/lib/types";
-import {
-  dayNumber,
-  dayShort,
-  formatDateRange,
-  formatTimeRange,
-  monthShort,
-} from "@/lib/format";
+import { dayNumber, dayShort, formatTimeRange, monthShort } from "@/lib/format";
 import { getIcon } from "@/lib/icons";
 
 function Placeholder({
@@ -69,7 +63,7 @@ function GridCard({
   return (
     <Link
       href={`/eventos/${event.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-choco/5"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
         {event.image ? (
@@ -82,47 +76,76 @@ function GridCard({
         ) : (
           <Placeholder category={category} icon={icon} title={event.title} />
         )}
-        <span className="absolute left-3 top-3 rounded-lg border border-sand bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-choco shadow-sm backdrop-blur">
-          {formatDateRange(event.startDate, event.endDate, event.startTime, event.endTime)}
+
+        <span className="absolute left-3 top-3 flex flex-col items-center rounded-xl bg-white/95 px-2.5 py-1.5 text-center shadow-sm backdrop-blur">
+          <span className="text-[10px] font-bold uppercase leading-tight tracking-widest text-choco-muted">
+            {dayShort(event.startDate)}
+          </span>
+          <span className="my-0.5 font-display text-lg font-bold leading-none text-choco">
+            {dayNumber(event.startDate)}
+          </span>
+          <span
+            className="text-[10px] font-bold uppercase leading-tight tracking-widest"
+            style={{ color }}
+          >
+            {monthShort(event.startDate)}
+          </span>
         </span>
+
         {event.featured === 1 && (
           <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-choco/85 px-2.5 py-1 text-[11px] font-semibold text-cream shadow-sm backdrop-blur">
             <Star className="h-3 w-3 fill-gold text-gold" />
             Recomendado
           </span>
         )}
+
         {category && (
           <span
-            className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
+            className="absolute bottom-3 left-3 inline-flex max-w-[calc(100%-1.5rem)] items-center gap-1 truncate rounded-full px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
             style={{ backgroundColor: color }}
           >
-            {Icon && <Icon className="h-3 w-3" />}
-            {category.name}
+            {Icon && <Icon className="h-3 w-3 shrink-0" />}
+            <span className="truncate">{category.name}</span>
           </span>
         )}
+
+        <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 group-hover:opacity-100">
+          <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco shadow-lg transition duration-300 group-hover:translate-y-0">
+            Ver evento
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-1.5 p-4">
-        <h3 className="font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
           {event.title}
         </h3>
+
         {event.location && (
           <p className="flex items-center gap-1.5 text-sm text-choco-muted">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
             <span className="truncate">{event.location}</span>
           </p>
         )}
-        {event.startTime && (
-          <p className="flex items-center gap-1.5 text-sm text-choco-muted">
-            <Clock className="h-3.5 w-3.5 shrink-0" />
-            {formatTimeRange(event.startTime, event.endTime)}
-          </p>
-        )}
+
         <div className="mt-auto flex items-center justify-between gap-2 border-t border-sand pt-3">
-          {event.price && (
-            <span className="text-sm font-bold text-brand">{event.price}</span>
-          )}
-          <span className="ml-auto grid h-7 w-7 place-items-center rounded-full text-brand transition group-hover:bg-brand group-hover:text-white">
+          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+            {event.price ? (
+              <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand">
+                {event.price}
+              </span>
+            ) : null}
+            {event.startTime && (
+              <span className="flex items-center gap-1 text-xs font-medium text-choco-muted">
+                <Clock className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">
+                  {formatTimeRange(event.startTime, event.endTime)}
+                </span>
+              </span>
+            )}
+          </div>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-brand transition group-hover:bg-brand group-hover:text-white">
             <ArrowRight className="h-4 w-4" />
           </span>
         </div>
@@ -183,7 +206,7 @@ function RowCard({
             </span>
           )}
         </div>
-        <h3 className="mt-1.5 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
+        <h3 className="mt-1.5 line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
           {event.title}
         </h3>
         {event.location && (

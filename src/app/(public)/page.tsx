@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -12,6 +13,7 @@ import { EventCard } from "@/components/event-card";
 import { CategoryGrid } from "@/components/category-grid";
 import { HomeHero } from "@/components/home-hero";
 import { InstallButton } from "@/components/pwa/install-button";
+import { JsonLd } from "@/components/json-ld";
 import { PhotoCredit } from "@/components/photo-credit";
 import {
   getCategoriesAdmin,
@@ -24,6 +26,23 @@ import { photos } from "@/lib/photos";
 import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Agenda cultural de Huesca",
+  description:
+    "La agenda cultural de Huesca (Huesca City): conciertos, teatro, exposiciones, deporte, cine y planes en familia. Todo lo que pasa en Huesca hoy y en los próximos días.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: site.url,
+    title: `${site.name} · ${site.tagline}`,
+    description:
+      "Conciertos, teatro, exposiciones, deporte y planes en familia. La agenda cultural de Huesca, cada día.",
+    images: [{ url: "/opengraph-image" }],
+  },
+};
 
 const COLLAB_ITEMS = [
   {
@@ -53,8 +72,21 @@ export default async function HomePage() {
   ]);
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
 
+  const eventsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Próximos eventos en Huesca",
+    itemListElement: events.map((event, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${site.url}/eventos/${event.slug}`,
+      name: event.title,
+    })),
+  };
+
   return (
     <>
+      <JsonLd data={eventsJsonLd} />
       <HomeHero stats={stats} categories={categories} />
 
       {featured.length > 0 && (
@@ -85,7 +117,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">

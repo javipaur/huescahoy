@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Compass } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { getPlanBySlug } from "@/lib/db";
 import { site } from "@/lib/site";
 
@@ -15,14 +16,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const plan = await getPlanBySlug(slug);
   if (!plan) return { title: "Plan no encontrado" };
+  const url = `${site.url}/planes/${plan.slug}`;
   return {
     title: plan.title,
     description: plan.summary ?? undefined,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
+      type: "article",
+      locale: site.locale,
       title: plan.title,
       description: plan.summary ?? undefined,
-      url: `${site.url}/planes/${plan.slug}`,
-      images: plan.image ? [{ url: plan.image }] : undefined,
+      url,
+      images: plan.image ? [{ url: plan.image }] : [{ url: "/opengraph-image" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: plan.title,
+      description: plan.summary ?? undefined,
+      images: plan.image ? [plan.image] : ["/opengraph-image"],
     },
   };
 }
@@ -32,8 +45,25 @@ export default async function PlanPage({ params }: PageProps) {
   const plan = await getPlanBySlug(slug);
   if (!plan) notFound();
 
+  const planJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: plan.title,
+    description: plan.summary ?? undefined,
+    image: plan.image ?? undefined,
+    datePublished: plan.createdAt,
+    dateModified: plan.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url,
+    },
+    mainEntityOfPage: `${site.url}/planes/${plan.slug}`,
+  };
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+      <JsonLd data={planJsonLd} />
       <Link
         href="/planes"
         className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"

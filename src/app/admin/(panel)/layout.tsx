@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import AdminNav from "@/components/admin/admin-nav";
 import { requireAuth } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Panel de administración",
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminPanelLayout({
   children,

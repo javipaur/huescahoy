@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react";
 import { EventActions } from "@/components/event-actions";
+import { JsonLd } from "@/components/json-ld";
 import { RemindButton } from "@/components/remind-button";
 import {
   getCategoriesAdmin,
@@ -20,18 +21,34 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function isoDateTime(date: string, time: string | null): string {
+  return time ? `${date}T${time}` : date;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   if (!event) return { title: "Evento no encontrado" };
+  const url = `${site.url}/eventos/${event.slug}`;
   return {
     title: event.title,
     description: event.description?.slice(0, 160) ?? undefined,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
+      type: "website",
+      locale: site.locale,
       title: event.title,
       description: event.description?.slice(0, 200) ?? undefined,
-      url: `${site.url}/eventos/${event.slug}`,
-      images: event.image ? [{ url: event.image }] : undefined,
+      url,
+      images: event.image ? [{ url: event.image }] : [{ url: "/opengraph-image" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description: event.description?.slice(0, 200) ?? undefined,
+      images: event.image ? [event.image] : ["/opengraph-image"],
     },
   };
 }
@@ -55,8 +72,53 @@ export default async function EventPage({ params }: PageProps) {
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lng - d}%2C${coords.lat - d}%2C${coords.lng + d}%2C${coords.lat + d}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}`
     : null;
 
+  const priceMatch = event.price?.match(/(\d+)(?:[.,](\d+))?/);
+  const priceValue = priceMatch
+    ? parseFloat(priceMatch[1] + (priceMatch[2] ? `.${priceMatch[2]}` : ""))
+    : null;
+
+  const eventJsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    url: `${site.url}/eventos/${event.slug}`,
+    description: event.description?.slice(0, 300) ?? undefined,
+    startDate: isoDateTime(event.startDate, event.startTime),
+    endDate: isoDateTime(
+      event.endDate ?? event.startDate,
+      event.endTime ?? event.startTime
+    ),
+    image: event.image ?? undefined,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventCategory: category?.name ?? undefined,
+    location: event.location
+      ? {
+          "@type": "Place",
+          name: event.location,
+          address: event.address ?? undefined,
+        }
+      : undefined,
+    organizer: {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url,
+    },
+  };
+
+  if (priceValue != null) {
+    eventJsonLd.offers = {
+      "@type": "Offer",
+      price: priceValue,
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `${site.url}/eventos/${event.slug}`,
+    };
+  }
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+      <JsonLd data={eventJsonLd} />
       <Link
         href="/agenda"
         className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"

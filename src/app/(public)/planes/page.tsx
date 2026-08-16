@@ -5,8 +5,20 @@ import { getPlans } from "@/lib/db";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Planes y guías",
-  description: "Planes y guías útiles para disfrutar de Huesca.",
+  title: "Planes y guías de Huesca",
+  description:
+    "Planes y guías útiles para disfrutar de Huesca: rutas, ideas en familia, un día completo por la ciudad y más. Lo hemos probado para que solo disfrutes.",
+  alternates: {
+    canonical: "/planes",
+  },
+  openGraph: {
+    type: "website",
+    locale: site.locale,
+    title: "Planes y guías de Huesca",
+    description:
+      "Rutas, planes en familia y un día completo por Huesca. Ideas probadas para que solo disfrutes.",
+    images: [{ url: "/opengraph-image" }],
+  },
 };
 
 export const dynamic = "force-dynamic";

@@ -6,7 +6,20 @@ import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Agenda",
+  title: "Agenda de eventos en Huesca",
+  description:
+    "Consulta la agenda de eventos en Huesca: conciertos, teatro, exposiciones, deporte, cine y planes en familia. Filtra por categoría, fecha o busca lo que te apetezca.",
+  alternates: {
+    canonical: "/agenda",
+  },
+  openGraph: {
+    type: "website",
+    locale: site.locale,
+    title: "Agenda de eventos en Huesca",
+    description:
+      "Conciertos, teatro, exposiciones, deporte y planes en familia. La agenda cultural de Huesca, al día.",
+    images: [{ url: "/opengraph-image" }],
+  },
 };
 
 export const dynamic = "force-dynamic";
