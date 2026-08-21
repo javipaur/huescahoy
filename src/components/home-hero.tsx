@@ -127,7 +127,7 @@ export function HomeHero({
               return (
                 <Link
                   key={category.id}
-                  href={`/agenda?categoria=${category.slug}`}
+                  href={`/agenda/${category.slug}`}
                   className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-cream/80 transition hover:border-gold/40 hover:text-gold"
                 >
                   {Icon && <Icon className="h-4 w-4" style={{ color: category.color }} />}

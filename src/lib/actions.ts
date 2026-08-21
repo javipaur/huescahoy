@@ -36,8 +36,10 @@ import {
 } from "./db";
 import { runAllSources, runSourceById } from "./scraper/run";
 import { sendDailyDigest } from "./digest";
+import { sendNotificationEmail } from "./mail";
 import { sendPush } from "./push";
 import { clientKey, rateLimit } from "./rate-limit";
+import { site } from "./site";
 import type {
   CategoryInput,
   EventInput,
@@ -438,6 +440,26 @@ export async function submitSuggestionAction(
     detail: nullable(detail),
     contact: nullable(toString(formData.get("contact"))),
   });
+
+  const kindLabels: Record<string, string> = {
+    mejora: "Sugerencia de mejora",
+    problema: "Problema reportado",
+    idea: "Idea propuesta",
+  };
+  const contact = toString(formData.get("contact"));
+  await sendNotificationEmail({
+    subject: `[Huesca Hoy] ${kindLabels[kind] ?? "Sugerencia"}: ${title}`,
+    text: [
+      `Tipo: ${kindLabels[kind] ?? kind}`,
+      `Título: ${title}`,
+      detail ? `\nDetalle:\n${detail}` : "",
+      contact ? `\nContacto: ${contact}` : "\n(sin contacto)",
+      `\nGestiona desde el panel: ${site.url}/admin/sugerencias`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  });
+
   return { ok: true };
 }
 
@@ -508,6 +530,29 @@ export async function submitEventAction(
     featured: 0,
     status: "pending",
   });
+
+  const contact = toString(formData.get("contact"));
+  await sendNotificationEmail({
+    subject: `[Huesca Hoy] Nuevo evento para revisar: ${title}`,
+    text: [
+      `Evento: ${title}`,
+      `Fecha: ${endDate ? `${startDate} al ${endDate}` : startDate}`,
+      toString(formData.get("start_time"))
+        ? `Hora: ${toString(formData.get("start_time"))}`
+        : "",
+      toString(formData.get("location"))
+        ? `Lugar: ${toString(formData.get("location"))}`
+        : "",
+      toString(formData.get("price")) ? `Precio: ${toString(formData.get("price"))}` : "",
+      description ? `\nDescripción:\n${description}` : "",
+      externalUrl ? `\nMás info: ${externalUrl}` : "",
+      contact ? `\nContacto del organizador: ${contact}` : "\n(sin contacto)",
+      `\nRevísalo y publícalo desde el panel: ${site.url}/admin/eventos`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  });
+
   return { ok: true };
 }
 

@@ -130,8 +130,10 @@ const SCHEMA_SQL = `
     keys_p256dh TEXT NOT NULL,
     keys_auth TEXT NOT NULL,
     user_agent TEXT,
+    categories TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
+  ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS categories TEXT NOT NULL DEFAULT '[]';
 
   CREATE TABLE IF NOT EXISTS newsletter_subscribers (
     id SERIAL PRIMARY KEY,
@@ -621,11 +623,19 @@ export async function archivePastEvents(days = 7): Promise<number> {
   return res.rowCount ?? 0;
 }
 
+export async function setEventImage(id: number, image: string): Promise<void> {
+  await init();
+  await getPool().query(
+    `UPDATE events SET image = $1, updated_at = ${NOW_SQL} WHERE id = $2`,
+    [image, id]
+  );
+}
+
 export async function upsertScrapedEvent(
   event: ScrapeEvent,
   sourceName: string,
   categoryId: number | null
-): Promise<"new" | "updated" | "skipped"> {
+): Promise<{ status: "new" | "updated" | "skipped"; id: number | null }> {
   await init();
   const dedupeKey =
     event.source_url && event.source_url.trim().length > 0
@@ -646,7 +656,8 @@ export async function upsertScrapedEvent(
     const dateChanged = existing.start_date !== event.start_date;
     const hasNewImage = Boolean(event.image) && !existing.image;
     const categoryChanged = existing.category_id !== categoryId;
-    if (!titleChanged && !dateChanged && !hasNewImage && !categoryChanged) return "skipped";
+    if (!titleChanged && !dateChanged && !hasNewImage && !categoryChanged)
+      return { status: "skipped", id: existing.id };
     await getPool().query(
       `UPDATE events SET title = $1, start_date = $2, end_date = $3, start_time = $4, end_time = $5,
        location = $6, address = $7, price = $8, description = $9, image = $10, external_url = $11,
@@ -668,7 +679,7 @@ export async function upsertScrapedEvent(
         existing.id,
       ]
     );
-    return "updated";
+    return { status: "updated", id: existing.id };
   }
 
   const duplicate = await findCrossSourceDuplicate(event);
@@ -701,7 +712,7 @@ export async function upsertScrapedEvent(
     if (event.external_url && !current.externalUrl) gaps.push({ column: "external_url", value: event.external_url });
 
     const fillCategory = categoryId != null && current.categoryId == null;
-    if (gaps.length === 0 && !fillCategory) return "skipped";
+    if (gaps.length === 0 && !fillCategory) return { status: "skipped", id: duplicate.id };
 
     const sets = gaps.map((_, i) => `${gaps[i].column} = $${i + 1}`).join(", ");
     const params: (string | number | null)[] = gaps.map((g) => g.value);
@@ -713,12 +724,12 @@ export async function upsertScrapedEvent(
     params.push(duplicate.id);
     sql += `, updated_at = ${NOW_SQL} WHERE id = $${params.length}`;
     await getPool().query(sql, params);
-    return "updated";
+    return { status: "updated", id: duplicate.id };
   }
 
-  await getPool().query(
+  const inserted = await getPool().query(
     `INSERT INTO events (slug, title, category_id, start_date, end_date, start_time, end_time, location, address, price, description, image, external_url, source, source_url, featured, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 0, 'published')`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 0, 'published') RETURNING id`,
     [
       `${slugify(event.title)}-${crypto.randomBytes(4).toString("hex")}`,
       event.title,
@@ -737,7 +748,7 @@ export async function upsertScrapedEvent(
       dedupeKey,
     ]
   );
-  return "new";
+  return { status: "new", id: inserted.rows[0]?.id ?? null };
 }
 
 async function findCrossSourceDuplicate(event: ScrapeEvent): Promise<{ id: number } | undefined> {
@@ -1041,15 +1052,27 @@ export async function upsertPushSubscription(input: {
   keysP256dh: string;
   keysAuth: string;
   userAgent: string | null;
+  categories?: string[];
 }): Promise<void> {
   await init();
+  const categories = JSON.stringify(input.categories ?? []);
   await getPool().query(
-    `INSERT INTO push_subscriptions (endpoint, keys_p256dh, keys_auth, user_agent)
-     VALUES ($1, $2, $3, $4)
+    `INSERT INTO push_subscriptions (endpoint, keys_p256dh, keys_auth, user_agent, categories)
+     VALUES ($1, $2, $3, $4, $5)
      ON CONFLICT(endpoint) DO UPDATE SET keys_p256dh = EXCLUDED.keys_p256dh,
-       keys_auth = EXCLUDED.keys_auth, user_agent = EXCLUDED.user_agent`,
-    [input.endpoint, input.keysP256dh, input.keysAuth, input.userAgent]
+       keys_auth = EXCLUDED.keys_auth, user_agent = EXCLUDED.user_agent,
+       categories = EXCLUDED.categories`,
+    [input.endpoint, input.keysP256dh, input.keysAuth, input.userAgent, categories]
   );
+}
+
+export async function setPushCategories(endpoint: string, categories: string[]): Promise<boolean> {
+  await init();
+  const res = await getPool().query(
+    "UPDATE push_subscriptions SET categories = $1 WHERE endpoint = $2",
+    [JSON.stringify(categories), endpoint]
+  );
+  return (res.rowCount ?? 0) > 0;
 }
 
 export async function deletePushSubscriptionByEndpoint(endpoint: string): Promise<void> {
@@ -1063,6 +1086,22 @@ export async function getPushSubscriptions(): Promise<PushSubscriptionRow[]> {
     `SELECT id, endpoint, keys_p256dh AS "keysP256dh", keys_auth AS "keysAuth",
        user_agent AS "userAgent", created_at AS "createdAt"
      FROM push_subscriptions ORDER BY id DESC`
+  );
+  return res.rows as PushSubscriptionRow[];
+}
+
+export async function getPushSubscriptionsByCategories(
+  slugs: string[]
+): Promise<PushSubscriptionRow[]> {
+  await init();
+  if (slugs.length === 0) return [];
+  const res = await getPool().query(
+    `SELECT id, endpoint, keys_p256dh AS "keysP256dh", keys_auth AS "keysAuth",
+       user_agent AS "userAgent", created_at AS "createdAt"
+     FROM push_subscriptions
+     WHERE categories = '[]' OR categories::jsonb ?| $1::text[]
+     ORDER BY id DESC`,
+    [slugs]
   );
   return res.rows as PushSubscriptionRow[];
 }

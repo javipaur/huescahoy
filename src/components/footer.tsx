@@ -23,9 +23,9 @@ export function Footer() {
               <Image
                 src="/logo.png"
                 alt=""
-                width={36}
-                height={36}
-                className="h-9 w-9 rounded-xl object-cover shadow-sm"
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-xl object-cover shadow-sm"
               />
               <span className="font-display text-xl font-bold tracking-tight text-cream">
                 Huesca<span className="text-gold">Hoy</span>

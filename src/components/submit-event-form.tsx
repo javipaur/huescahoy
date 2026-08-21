@@ -175,6 +175,20 @@ export function SubmitEventForm() {
         />
       </div>
 
+      <div>
+        <label htmlFor="contact" className="mb-1.5 block text-sm font-medium text-choco">
+          Tu email o teléfono <span className="font-normal text-choco-muted">(opcional)</span>
+        </label>
+        <input
+          id="contact"
+          name="contact"
+          type="text"
+          maxLength={200}
+          placeholder="Por si necesitamos confirmar algún dato"
+          className={inputClass}
+        />
+      </div>
+
       {state.error && (
         <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
           {state.error}

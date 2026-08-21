@@ -3,6 +3,7 @@ import {
   countPushSubscriptions,
   deletePushSubscriptionByEndpoint,
   getPushSubscriptions,
+  getPushSubscriptionsByCategories,
 } from "./db";
 import { captureServerError } from "./posthog";
 import { site } from "./site";
@@ -30,20 +31,18 @@ export function pushConfigured(): boolean {
   return getVapidKeys() !== null;
 }
 
-export async function sendPush(
-  payload: PushPayload,
-  opts?: { url?: string; tag?: string }
+async function deliver(
+  subscriptions: Array<{ endpoint: string; keysP256dh: string; keysAuth: string }>,
+  payload: PushPayload
 ): Promise<{ sent: number; removed: number }> {
   const keys = getVapidKeys();
   if (!keys) return { sent: 0, removed: 0 };
 
   webPush.setVapidDetails(keys.subject, keys.publicKey, keys.privateKey);
-
-  const subscriptions = await getPushSubscriptions();
   if (subscriptions.length === 0) return { sent: 0, removed: 0 };
 
-  const url = opts?.url ?? payload.url ?? site.url;
-  const tag = opts?.tag ?? payload.tag ?? "huescahoy";
+  const url = payload.url ?? site.url;
+  const tag = payload.tag ?? "huescahoy";
   const data = JSON.stringify({ title: payload.title, body: payload.body ?? "", url, tag });
 
   let sent = 0;
@@ -70,6 +69,32 @@ export async function sendPush(
     }
   }
   return { sent, removed };
+}
+
+export async function sendPush(
+  payload: PushPayload,
+  opts?: { url?: string; tag?: string }
+): Promise<{ sent: number; removed: number }> {
+  const subscriptions = await getPushSubscriptions();
+  return deliver(subscriptions, {
+    ...payload,
+    url: opts?.url ?? payload.url,
+    tag: opts?.tag ?? payload.tag,
+  });
+}
+
+export async function sendCategoryPush(params: {
+  categorySlug: string;
+  categoryName: string;
+  titles: string[];
+}): Promise<{ sent: number; removed: number }> {
+  const subscriptions = await getPushSubscriptionsByCategories([params.categorySlug]);
+  return deliver(subscriptions, {
+    title: `${params.categoryName}: novedades en la agenda`,
+    body: params.titles.slice(0, 2).join(" · "),
+    url: `/agenda?categoria=${params.categorySlug}`,
+    tag: `cat-${params.categorySlug}`,
+  });
 }
 
 export async function sendPushToAll(

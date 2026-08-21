@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CalendarDays, Download } from "lucide-react";
 import { Suspense } from "react";
 import { AgendaView } from "@/components/agenda-view";
+import { CategoryAlerts } from "@/components/category-alerts";
 import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
 import { site } from "@/lib/site";
 
@@ -62,6 +63,8 @@ export default async function AgendaPage({ searchParams }: PageProps) {
           Descargar la semana (.ics)
         </a>
       </div>
+
+      <CategoryAlerts categories={categories} />
 
       <Suspense fallback={null}>
         <AgendaView

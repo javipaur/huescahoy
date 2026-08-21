@@ -33,3 +33,18 @@ for (const { file, size, inset } of outputs) {
   await pipeline.png().toFile(file);
   console.log("generated", path.relative(root, file), `${size}x${size}`);
 }
+
+const svgSize = 512;
+const jpeg = await sharp(source)
+  .resize(svgSize, svgSize, { fit: "cover" })
+  .jpeg({ quality: 85 })
+  .toBuffer();
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgSize} ${svgSize}" width="${svgSize}" height="${svgSize}"><image width="${svgSize}" height="${svgSize}" href="data:image/jpeg;base64,${jpeg.toString("base64")}"/></svg>`;
+const svgFile = path.join(iconsDir, "icon.svg");
+fs.writeFileSync(svgFile, svg);
+console.log(
+  "generated",
+  path.relative(root, svgFile),
+  `${svgSize}x${svgSize}`,
+  `${(jpeg.length / 1024).toFixed(0)} KB embed`
+);

@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { EventCard } from "@/components/event-card";
 import { CategoryGrid } from "@/components/category-grid";
-import { EventImage } from "@/components/event-image";
 import { FeaturedPickCard } from "@/components/featured-pick-card";
 import { HomeHero } from "@/components/home-hero";
 import { InstallButton } from "@/components/pwa/install-button";
@@ -19,13 +18,11 @@ import {
   getCategoriesAdmin,
   getCategoriesWithCounts,
   getEventBySlug,
-  getEvents,
   getFeaturedEvents,
   getPlanBySlug,
   getUpcomingEvents,
   getStats,
 } from "@/lib/db";
-import { formatDayShort } from "@/lib/format";
 import { site } from "@/lib/site";
 import { zoneFor } from "@/lib/zones";
 
@@ -49,10 +46,9 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [allEvents, ongoingEvents, categories, stats, featured, categoryList, activePick] =
+  const [allEvents, categories, stats, featured, categoryList, activePick] =
     await Promise.all([
-      getUpcomingEvents(20),
-      getEvents({ ongoing: true, limit: 6 }),
+      getUpcomingEvents(60),
       getCategoriesWithCounts(),
       getStats(),
       getFeaturedEvents(3),
@@ -70,23 +66,23 @@ export default async function HomePage() {
     pickImage = target?.image ?? null;
   }
 
-  const ongoingSlugs = new Set(ongoingEvents.map((event) => event.slug));
+  const today = new Date().toISOString().slice(0, 10);
+  const isOngoing = (event: (typeof allEvents)[number]) =>
+    event.startDate < today && (event.endDate ?? event.startDate) >= today;
+  const inCity = (event: (typeof allEvents)[number]) =>
+    zoneFor(event) === "ciudad" || zoneFor(event) === null;
+
   const cityEvents = [
-    ...allEvents
-      .filter(
-        (event) =>
-          zoneFor(event) !== "provincia" && zoneFor(event) !== "fuera" && !ongoingSlugs.has(event.slug)
-      )
-      .slice(0, 6),
-    ...ongoingEvents
-      .filter((event) => zoneFor(event) !== "provincia" && zoneFor(event) !== "fuera")
-      .slice(0, 2),
+    ...allEvents.filter((event) => inCity(event) && !isOngoing(event)).slice(0, 6),
+    ...allEvents.filter((event) => inCity(event) && isOngoing(event)).slice(0, 2),
   ];
   const provinceEvents = [
     ...allEvents
-      .filter((event) => zoneFor(event) === "provincia" && !ongoingSlugs.has(event.slug))
+      .filter((event) => zoneFor(event) === "provincia" && !isOngoing(event))
       .slice(0, 3),
-    ...ongoingEvents.filter((event) => zoneFor(event) === "provincia").slice(0, 1),
+    ...allEvents
+      .filter((event) => zoneFor(event) === "provincia" && isOngoing(event))
+      .slice(0, 1),
   ];
 
   const eventsJsonLd = {
@@ -165,27 +161,15 @@ export default async function HomePage() {
             Todavía no hay eventos publicados. ¡Vuelve en un momento!
           </div>
         ) : (
-          <>
-            <div className="flex flex-col gap-3 sm:hidden">
-              {cityEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-                  variant="row"
-                />
-              ))}
-            </div>
-            <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
-              {cityEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-                />
-              ))}
-            </div>
-          </>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cityEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+              />
+            ))}
+          </div>
         )}
       </section>
 
@@ -213,56 +197,15 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {(() => {
-            const [big, ...rest] = provinceEvents;
-            const bigCategory = big.categoryId ? categoryMap.get(big.categoryId) ?? null : null;
-            return (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Link
-                  href={`/eventos/${big.slug}`}
-                  className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-2xl bg-sand shadow-sm sm:aspect-auto sm:min-h-[22rem]"
-                >
-                  {big.image ? (
-                    <EventImage
-                      src={big.image}
-                      alt={big.title}
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                      sizes="(min-width: 1152px) 576px, 100vw"
-                    />
-                  ) : (
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 bg-gradient-to-br from-brand via-brand-dark to-choco"
-                    />
-                  )}
-                  <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-choco/90 via-choco/35 to-transparent" />
-                  <div className="relative flex flex-col gap-2 p-6">
-                    <span className="inline-flex w-fit items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
-                      <MapPin className="h-3 w-3" />
-                      {big.location || "Provincia"}
-                    </span>
-                    <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
-                      {big.title}
-                    </h3>
-                    <p className="text-sm text-white/85">
-                      {formatDayShort(big.startDate)}
-                      {bigCategory ? ` · ${bigCategory.name}` : ""}
-                    </p>
-                  </div>
-                </Link>
-                <div className="flex flex-col gap-3">
-                  {rest.map((event) => (
-                    <EventCard
-                      key={event.id}
-                      event={event}
-                      category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-                      variant="row"
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {provinceEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+              />
+            ))}
+          </div>
         </section>
       )}
 

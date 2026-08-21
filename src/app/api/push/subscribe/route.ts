@@ -14,8 +14,17 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: "Suscripción no válida" }, { status: 400 });
     }
 
+    const rawCategories: unknown[] = Array.isArray(body?.categories) ? body.categories : [];
+    const categories = [
+      ...new Set(
+        rawCategories.filter(
+          (c): c is string => typeof c === "string" && /^[a-z0-9-]{1,40}$/.test(c)
+        )
+      ),
+    ].slice(0, 20);
+
     const userAgent = request.headers.get("user-agent");
-    await upsertPushSubscription({ endpoint, keysP256dh, keysAuth, userAgent });
+    await upsertPushSubscription({ endpoint, keysP256dh, keysAuth, userAgent, categories });
     return Response.json({ ok: true });
   } catch (err) {
     return Response.json(

@@ -10,6 +10,38 @@ export function firstImage(html: string): string | null {
   return match ? match[1] : null;
 }
 
+export function extractOgImage(html: string, baseUrl: string): string | null {
+  const $ = load(html);
+  const metas = [
+    $('meta[property="og:image"]').attr("content"),
+    $('meta[property="og:image:url"]').attr("content"),
+    $('meta[name="twitter:image"]').attr("content"),
+    $('meta[name="twitter:image:src"]').attr("content"),
+  ];
+  let candidate = metas.find((c) => c && c.trim().length > 0)?.trim() ?? null;
+
+  if (!candidate) {
+    $("img[src]").each((_, el) => {
+      const src = $(el).attr("src")?.trim();
+      if (!src || src.startsWith("data:")) return;
+      if (/\.svg(\?|#|$)/i.test(src)) return;
+      const width = Number($(el).attr("width"));
+      if (Number.isFinite(width) && width > 0 && width < 200) return;
+      candidate = src;
+      return false;
+    });
+  }
+
+  if (!candidate) return null;
+  try {
+    const url = new URL(candidate, baseUrl);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function normalizeTime(value: string | null | undefined): string | null {
   if (!value) return null;
   const match = value.match(/(\d{1,2}):(\d{2})/);

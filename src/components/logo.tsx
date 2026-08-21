@@ -7,10 +7,10 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       <Image
         src="/logo.png"
         alt=""
-        width={36}
-        height={36}
+        width={44}
+        height={44}
         priority
-        className="h-9 w-9 rounded-xl object-cover shadow-sm shadow-brand/30"
+        className="h-11 w-11 rounded-xl object-cover shadow-sm shadow-brand/30"
       />
       {!compact && (
         <span className="hidden font-display text-xl font-bold tracking-tight text-choco sm:inline">

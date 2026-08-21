@@ -12,20 +12,24 @@ import { parseMonegros } from "./monegros";
 import { parseAinsa } from "./ainsa";
 import { parseFraga } from "./fraga";
 import { inferCategory } from "./category";
-import { normalizeCategory } from "./util";
+import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
-import { sendPush } from "../push";
+import { sendCategoryPush } from "../push";
 import {
   getCategoriesAdmin,
   getSources,
   markSourceResult,
   recordScraperRun,
+  setEventImage,
   todayStr,
   upsertScrapedEvent,
 } from "../db";
 import type { Category, ScrapeEvent, Source } from "../types";
 
 const TIMEOUT_MS = Number(process.env.SCRAPER_TIMEOUT_MS ?? 15000);
+const IMAGE_TIMEOUT_MS = Number(process.env.SCRAPER_IMAGE_TIMEOUT_MS ?? 8000);
+const MAX_IMAGE_FETCHES_PER_SOURCE = 8;
+const IMAGE_CONCURRENCY = 4;
 const SOMONTANO_WEEKS = 5;
 const AINSA_SITEMAP = "https://villadeainsa.com/wp-sitemap-posts-lsvr_event-1.xml";
 const AINSA_MAX_DETAILS = 60;
@@ -40,10 +44,10 @@ export type SourceResult = {
   error?: string;
 };
 
-async function fetchText(url: string, rejectUnauthorized = true): Promise<string> {
+async function fetchText(url: string, rejectUnauthorized = true, timeoutMs = TIMEOUT_MS): Promise<string> {
   try {
     const res = await axios.get<string>(url, {
-      timeout: TIMEOUT_MS,
+      timeout: timeoutMs,
       responseType: "text",
       headers: {
         "User-Agent":
@@ -188,6 +192,32 @@ function categoryIdFor(
   return fallback;
 }
 
+async function enrichImages(
+  tasks: Array<{ id: number; url: string }>
+): Promise<number> {
+  const queue = tasks.slice(0, MAX_IMAGE_FETCHES_PER_SOURCE);
+  if (queue.length === 0) return 0;
+  let added = 0;
+  let i = 0;
+  async function worker() {
+    while (i < queue.length) {
+      const task = queue[i++];
+      try {
+        const html = await fetchText(task.url, true, IMAGE_TIMEOUT_MS);
+        const image = extractOgImage(html, task.url);
+        if (image) {
+          await setEventImage(task.id, image);
+          added++;
+        }
+      } catch {
+        // sin imagen no pasa nada: la card ya tiene un degradado de respaldo
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(IMAGE_CONCURRENCY, queue.length) }, worker));
+  return added;
+}
+
 export async function runSource(source: Source): Promise<SourceResult> {
   try {
     let parsed: ScrapeEvent[] = [];
@@ -204,6 +234,8 @@ export async function runSource(source: Source): Promise<SourceResult> {
 
     let created = 0;
     let updated = 0;
+    const pendingImages: Array<{ id: number; url: string }> = [];
+    const newByCategory = new Map<number, string[]>();
     for (const event of parsed) {
       const categoryName = event.category ?? (source.categoryId == null ? inferCategory(event.title) : null);
       let categoryId = categoryIdFor(categoryName, categories, source.categoryId);
@@ -211,8 +243,29 @@ export async function runSource(source: Source): Promise<SourceResult> {
         categoryId = categoryIdFor(inferCategory(event.title), categories, null);
       }
       const result = await upsertScrapedEvent(event, source.name, categoryId);
-      if (result === "new") created++;
-      else if (result === "updated") updated++;
+      if (result.status === "new") {
+        created++;
+        if (!event.image && event.source_url && result.id != null) {
+          pendingImages.push({ id: result.id, url: event.source_url });
+        }
+        if (categoryId != null) {
+          newByCategory.set(categoryId, [...(newByCategory.get(categoryId) ?? []), event.title]);
+        }
+      } else if (result.status === "updated") updated++;
+    }
+    await enrichImages(pendingImages);
+
+    let notifiedCategories = 0;
+    for (const [categoryId, titles] of newByCategory) {
+      if (notifiedCategories >= 2) break;
+      const category = categories.find((c) => c.id === categoryId);
+      if (!category) continue;
+      await sendCategoryPush({
+        categorySlug: category.slug,
+        categoryName: category.name,
+        titles,
+      });
+      notifiedCategories++;
     }
 
     return { status: "ok", found: parsed.length, created, updated };
@@ -250,17 +303,6 @@ export async function runSourceById(sourceId: number): Promise<SourceResult> {
     status: result.status,
     error: result.error,
   });
-  if (result.created > 0) {
-    await sendPush({
-      title:
-        result.created === 1
-          ? "Nuevo evento en Huesca Hoy"
-          : `${result.created} eventos nuevos en Huesca Hoy`,
-      body: source.name,
-      url: "/agenda?desde=hoy",
-      tag: "new-events",
-    }).catch(() => {});
-  }
   return result;
 }
 
@@ -287,18 +329,6 @@ export async function runAllSources(): Promise<SourceResult & { errors: number }
     totalCreated += result.created;
     totalUpdated += result.updated;
     if (result.status === "error") errors++;
-  }
-
-  if (totalCreated > 0) {
-    await sendPush({
-      title:
-        totalCreated === 1
-          ? "Nuevo evento en Huesca Hoy"
-          : `${totalCreated} eventos nuevos en Huesca Hoy`,
-      body: "Echa un vistazo a lo que se añade a la agenda",
-      url: "/agenda?desde=hoy",
-      tag: "new-events",
-    }).catch(() => {});
   }
 
   return { status: "ok", found: totalFound, created: totalCreated, updated: totalUpdated, errors };
