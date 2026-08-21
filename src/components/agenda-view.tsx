@@ -97,6 +97,13 @@ function rangeFrom(desde: string): { from?: string; to?: string } {
   return { from: today };
 }
 
+function displayDate(event: EventItem, today: string): string {
+  if (event.startDate < today && event.endDate && event.endDate >= today) {
+    return today;
+  }
+  return event.startDate;
+}
+
 export function AgendaView({
   events,
   categories,
@@ -157,32 +164,39 @@ export function AgendaView({
 
   const filtered = useMemo(() => {
     const { from, to } = rangeFrom(desde);
+    const today = toDateStr(new Date());
     const catId = categories.find((category) => category.slug === categoria)?.id;
     const term = q.trim().toLowerCase();
-    return events.filter((event) => {
-      const zone = zoneFor(event);
-      if (zona === "ciudad" && zone !== "ciudad") return false;
-      if (zona === "provincia" && zone !== "provincia") return false;
-      if (!zona && zone === "fuera") return false;
-      if (position) {
-        if (event.lat == null || event.lng == null) return false;
-        if (haversineKm(position, { lat: event.lat, lng: event.lng }) > NEAR_RADIUS_KM) {
-          return false;
+    return events
+      .filter((event) => {
+        const zone = zoneFor(event);
+        if (zona === "ciudad" && zone !== "ciudad") return false;
+        if (zona === "provincia" && zone !== "provincia") return false;
+        if (!zona && zone === "fuera") return false;
+        if (position) {
+          if (event.lat == null || event.lng == null) return false;
+          if (haversineKm(position, { lat: event.lat, lng: event.lng }) > NEAR_RADIUS_KM) {
+            return false;
+          }
         }
-      }
-      if (catId && event.categoryId !== catId) return false;
-      if (from) {
-        const startOk = event.endDate ? event.endDate >= from : event.startDate >= from;
-        if (!startOk) return false;
-      }
-      if (to && event.startDate > to) return false;
-      if (term) {
-        const haystack =
-          `${event.title} ${event.description ?? ""} ${event.location ?? ""}`.toLowerCase();
-        if (!haystack.includes(term)) return false;
-      }
-      return true;
-    });
+        if (catId && event.categoryId !== catId) return false;
+        if (from) {
+          const startOk = event.endDate ? event.endDate >= from : event.startDate >= from;
+          if (!startOk) return false;
+        }
+        if (to && event.startDate > to) return false;
+        if (term) {
+          const haystack =
+            `${event.title} ${event.description ?? ""} ${event.location ?? ""}`.toLowerCase();
+          if (!haystack.includes(term)) return false;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const dateDiff = displayDate(a, today).localeCompare(displayDate(b, today));
+        if (dateDiff !== 0) return dateDiff;
+        return a.startTime?.localeCompare(b.startTime ?? "") ?? 0;
+      });
   }, [events, categories, categoria, desde, q, zona, position]);
 
   const points: MapPoint[] = filtered
@@ -208,13 +222,15 @@ export function AgendaView({
   }, [filtered, position]);
 
   const grouped = useMemo(() => {
+    const today = toDateStr(new Date());
     const groups: { date: string; events: EventItem[] }[] = [];
     for (const event of filtered) {
+      const date = displayDate(event, today);
       const last = groups[groups.length - 1];
-      if (last && last.date === event.startDate) {
+      if (last && last.date === date) {
         last.events.push(event);
       } else {
-        groups.push({ date: event.startDate, events: [event] });
+        groups.push({ date, events: [event] });
       }
     }
     return groups;

@@ -68,6 +68,23 @@ function DistanceBadge({ distance }: { distance: number }) {
   );
 }
 
+export function isEventOngoing(event: EventItem): boolean {
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(
+    now.getDate()
+  ).padStart(2, "0")}`;
+  return event.startDate < today && Boolean(event.endDate && event.endDate >= today);
+}
+
+function OngoingBadge() {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-brand/90 px-2 py-0.5 text-[11px] font-semibold text-white shadow-sm backdrop-blur">
+      <Clock className="h-3 w-3" />
+      En curso
+    </span>
+  );
+}
+
 function GridCard({
   event,
   category,
@@ -118,6 +135,11 @@ function GridCard({
           <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-choco/85 px-2.5 py-1 text-[11px] font-semibold text-cream shadow-sm backdrop-blur">
             <Star className="h-3 w-3 fill-gold text-gold" />
             Recomendado
+          </span>
+        )}
+        {event.featured !== 1 && isEventOngoing(event) && (
+          <span className="absolute right-3 top-3">
+            <OngoingBadge />
           </span>
         )}
 
@@ -244,6 +266,7 @@ function RowCard({
               Recomendado
             </span>
           )}
+          {event.featured !== 1 && isEventOngoing(event) && <OngoingBadge />}
           <ZoneBadge zone={zoneFor(event)} />
           {event.startTime && (
             <span className="ml-auto flex items-center gap-1 text-xs font-medium text-choco-muted">

@@ -92,17 +92,21 @@ export default async function EventPage({ params }: PageProps) {
       event.endDate ?? event.startDate,
       event.endTime ?? event.startTime
     ),
-    image: event.image ?? undefined,
+    image: [event.image ?? `${site.url}/opengraph-image`],
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventCategory: category?.name ?? undefined,
-    location: event.location
-      ? {
-          "@type": "Place",
-          name: event.location,
-          address: event.address ?? undefined,
-        }
-      : undefined,
+    location: {
+      "@type": "Place",
+      name: event.location?.trim() || site.city,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: event.address ?? undefined,
+        addressLocality: site.city,
+        addressRegion: "Huesca",
+        addressCountry: "ES",
+      },
+    },
     organizer: {
       "@type": "Organization",
       name: site.name,
@@ -117,6 +121,7 @@ export default async function EventPage({ params }: PageProps) {
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${site.url}/eventos/${event.slug}`,
+      validFrom: isoDateTime(event.createdAt.slice(0, 10), null),
     };
   }
 

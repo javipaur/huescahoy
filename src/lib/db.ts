@@ -191,8 +191,10 @@ function toPlain<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
+const SITE_TIME_ZONE = "Europe/Madrid";
+
 export function todayStr(offsetDays = 0): string {
-  const d = new Date();
+  const d = new Date(new Date().toLocaleString("en-US", { timeZone: SITE_TIME_ZONE }));
   d.setDate(d.getDate() + offsetDays);
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -345,7 +347,7 @@ export async function getEvents(filter: EventFilter = {}): Promise<EventItem[]> 
   }
   if (filter.from) {
     conditions.push(
-      `(e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}) OR e.end_date IS NULL AND e.start_date >= $${params.length + 1}`
+      `((e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}) OR (e.end_date IS NULL AND e.start_date >= $${params.length + 1}))`
     );
     params.push(filter.from);
   }

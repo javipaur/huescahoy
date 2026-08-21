@@ -11,10 +11,15 @@ import {
   setReminder,
   subscribeReminders,
   triggerAtFor,
+  type Reminder,
   type ReminderOffset,
 } from "@/lib/reminders";
 
 const emptySubscribe = () => () => {};
+
+function getServerRemindersSnapshot(): Record<number, Reminder> {
+  return {};
+}
 
 export function RemindButton({ event }: { event: EventItem }) {
   const [open, setOpen] = useState(false);
@@ -26,7 +31,11 @@ export function RemindButton({ event }: { event: EventItem }) {
     () => false
   );
 
-  const reminders = useSyncExternalStore(subscribeReminders, getRemindersSnapshot);
+  const reminders = useSyncExternalStore(
+    subscribeReminders,
+    getRemindersSnapshot,
+    getServerRemindersSnapshot
+  );
   const reminder = reminders[event.id];
   const active = Boolean(reminder);
   const savedOffset: ReminderOffset | null = active
