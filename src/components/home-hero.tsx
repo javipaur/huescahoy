@@ -3,12 +3,11 @@ import Image from "next/image";
 import {
   ArrowRight,
   CalendarDays,
-  Layers,
-  RefreshCw,
   Smartphone,
 } from "lucide-react";
 import { InstallButton } from "@/components/pwa/install-button";
 import { HeroCarousel } from "@/components/hero-carousel";
+import { getIcon } from "@/lib/icons";
 import { photos } from "@/lib/photos";
 import type { CategoryWithCount } from "@/lib/types";
 
@@ -48,7 +47,7 @@ export function HomeHero({
       />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:pb-24 lg:pt-20">
-        <div>
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-gold">
             <CalendarDays className="h-4 w-4" />
             Agenda cultural de Huesca · actualizada cada día
@@ -66,10 +65,10 @@ export function HomeHero({
             próximos días. Gratis, sin anuncios y siempre al día.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco shadow-sm shadow-gold/20 transition hover:brightness-105"
+              className="inline-flex h-12 items-center gap-2 rounded-full bg-gold px-7 font-semibold text-choco shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
             >
               Ver qué hacer hoy
               <ArrowRight className="h-5 w-5" />
@@ -77,61 +76,31 @@ export function HomeHero({
             <InstallButton tone="dark-outline" />
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-white/10 pt-7">
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-gold">
-                <CalendarDays className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="font-display text-2xl font-bold text-cream">
-                  {stats.upcoming}
-                  <span className="text-gold">+</span>
-                </p>
-                <p className="text-sm text-cream/60">planes para hoy y esta semana</p>
-              </div>
+          <div className="mt-10 flex w-full flex-wrap justify-center gap-3 lg:justify-start">
+            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+              <p className="font-display text-2xl font-bold text-gold">
+                {stats.upcoming}
+                <span>+</span>
+              </p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-cream/60">
+                planes para hoy
+              </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-gold">
-                <Layers className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="font-display text-2xl font-bold text-cream">
-                  {stats.categories}
-                </p>
-                <p className="text-sm text-cream/60">categorías</p>
-              </div>
+            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+              <p className="font-display text-2xl font-bold text-gold">
+                {stats.categories}
+              </p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-cream/60">
+                categorías
+              </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-gold">
-                <RefreshCw className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="inline-flex items-center gap-1.5 font-display text-base font-bold text-cream">
-                  <Smartphone className="h-4 w-4 text-gold" />
-                  Siempre al día
-                </p>
-                <p className="text-sm text-cream/60">con la ciudad, no con un bot</p>
-              </div>
+            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+              <Smartphone className="mb-1 h-5 w-5 text-gold" />
+              <p className="text-xs font-semibold uppercase tracking-wider text-cream/60">
+                siempre al día
+              </p>
             </div>
           </div>
-
-          {chips.length > 0 && (
-            <div className="mt-8 flex flex-wrap gap-2">
-              {chips.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/agenda?categoria=${category.slug}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-sm font-medium text-cream/80 transition hover:border-gold/40 hover:text-gold"
-                >
-                  <span
-                    className="h-2 w-2 rounded-full"
-                    style={{ backgroundColor: category.color }}
-                  />
-                  {category.name}
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
 
         <div className="relative mb-10 lg:mb-0">
@@ -149,6 +118,26 @@ export function HomeHero({
           </div>
         </div>
       </div>
+
+      {chips.length > 0 && (
+        <div className="relative border-t border-white/10">
+          <div className="no-scrollbar flex gap-2 overflow-x-auto px-4 py-4 sm:px-6 lg:hidden">
+            {chips.map((category) => {
+              const Icon = getIcon(category.icon);
+              return (
+                <Link
+                  key={category.id}
+                  href={`/agenda?categoria=${category.slug}`}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-cream/80 transition hover:border-gold/40 hover:text-gold"
+                >
+                  {Icon && <Icon className="h-4 w-4" style={{ color: category.color }} />}
+                  {category.name}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

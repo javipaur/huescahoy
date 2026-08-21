@@ -1,22 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
-  Bug,
   CalendarPlus,
-  Lightbulb,
   MapPin,
   Star,
   Users,
 } from "lucide-react";
 import { EventCard } from "@/components/event-card";
 import { CategoryGrid } from "@/components/category-grid";
+import { EventImage } from "@/components/event-image";
 import { FeaturedPickCard } from "@/components/featured-pick-card";
 import { HomeHero } from "@/components/home-hero";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
-import { PhotoCredit } from "@/components/photo-credit";
 import {
   getActiveFeaturedPick,
   getCategoriesAdmin,
@@ -28,7 +25,7 @@ import {
   getUpcomingEvents,
   getStats,
 } from "@/lib/db";
-import { photos } from "@/lib/photos";
+import { formatDayShort } from "@/lib/format";
 import { site } from "@/lib/site";
 import { zoneFor } from "@/lib/zones";
 
@@ -50,24 +47,6 @@ export const metadata: Metadata = {
     images: [{ url: "/opengraph-image" }],
   },
 };
-
-const COLLAB_ITEMS = [
-  {
-    Icon: CalendarPlus,
-    title: "Publica tu evento",
-    text: "¿Organizas algo? Lo añadimos a la agenda tras una revisión rápida.",
-  },
-  {
-    Icon: Bug,
-    title: "Reporta un fallo",
-    text: "Un horario mal, un enlace roto, un dato que no cuadra: lo corregimos.",
-  },
-  {
-    Icon: Lightbulb,
-    title: "Propón una idea",
-    text: "Se te ocurre cómo mejorar la web o la ciudad: aquí se escucha.",
-  },
-];
 
 export default async function HomePage() {
   const [allEvents, ongoingEvents, categories, stats, featured, categoryList, activePick] =
@@ -186,15 +165,27 @@ export default async function HomePage() {
             Todavía no hay eventos publicados. ¡Vuelve en un momento!
           </div>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {cityEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-              />
-            ))}
-          </div>
+          <>
+            <div className="flex flex-col gap-3 sm:hidden">
+              {cityEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+                  variant="row"
+                />
+              ))}
+            </div>
+            <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+              {cityEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+                />
+              ))}
+            </div>
+          </>
         )}
       </section>
 
@@ -216,20 +207,62 @@ export default async function HomePage() {
             </div>
             <Link
               href="/agenda?zona=provincia"
-              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand transition hover:text-brand-dark"
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-dark transition hover:text-brand"
             >
               Ver toda la provincia <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {provinceEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-              />
-            ))}
-          </div>
+
+          {(() => {
+            const [big, ...rest] = provinceEvents;
+            const bigCategory = big.categoryId ? categoryMap.get(big.categoryId) ?? null : null;
+            return (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Link
+                  href={`/eventos/${big.slug}`}
+                  className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-2xl bg-sand shadow-sm sm:aspect-auto sm:min-h-[22rem]"
+                >
+                  {big.image ? (
+                    <EventImage
+                      src={big.image}
+                      alt={big.title}
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(min-width: 1152px) 576px, 100vw"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-br from-brand via-brand-dark to-choco"
+                    />
+                  )}
+                  <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-choco/90 via-choco/35 to-transparent" />
+                  <div className="relative flex flex-col gap-2 p-6">
+                    <span className="inline-flex w-fit items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
+                      <MapPin className="h-3 w-3" />
+                      {big.location || "Provincia"}
+                    </span>
+                    <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
+                      {big.title}
+                    </h3>
+                    <p className="text-sm text-white/85">
+                      {formatDayShort(big.startDate)}
+                      {bigCategory ? ` · ${bigCategory.name}` : ""}
+                    </p>
+                  </div>
+                </Link>
+                <div className="flex flex-col gap-3">
+                  {rest.map((event) => (
+                    <EventCard
+                      key={event.id}
+                      event={event}
+                      category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
+                      variant="row"
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </section>
       )}
 
@@ -255,77 +288,41 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="relative order-2 lg:order-1">
-            <div className="overflow-hidden rounded-3xl border border-sand shadow-lg">
-              <Image
-                src={photos.plazaNavarra.url}
-                alt={photos.plazaNavarra.alt}
-                width={2048}
-                height={1536}
-                className="aspect-[4/3] w-full object-cover"
-                sizes="(min-width: 1024px) 560px, 100vw"
-              />
-            </div>
-            <div className="absolute -bottom-7 left-6 rounded-2xl bg-choco px-5 py-4 text-cream shadow-xl">
-              <p className="font-display text-lg font-bold">Hecho en Huesca</p>
-              <p className="text-xs text-cream/70">por y para la ciudad</p>
-            </div>
-            <PhotoCredit
-              photo={photos.plazaNavarra}
-              className="mt-9 text-choco-muted/60"
-            />
-          </div>
-
-          <div className="order-1 lg:order-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco p-8 text-white shadow-lg sm:p-12">
+          <CalendarPlus
+            aria-hidden
+            className="pointer-events-none absolute -right-8 -top-8 h-56 w-56 text-white/10"
+            strokeWidth={1.2}
+          />
+          <div className="relative">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
               <Users className="h-3.5 w-3.5" />
               Colabora
             </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-balance sm:text-3xl">
+            <h2 className="mt-4 max-w-xl font-display text-2xl font-bold tracking-tight text-balance sm:text-3xl">
               Una agenda de Huesca hecha entre todos
             </h2>
-            <p className="mt-3 max-w-lg leading-relaxed text-choco-muted">
+            <p className="mt-3 max-w-lg leading-relaxed text-white/85">
               {site.name} no tiene redacción: la alimentan las personas que
               viven {site.city}. Tú sabes qué pasa en tu barrio antes que
               nadie, así que cuéntanoslo y lo contaremos con la ciudad entera.
             </p>
 
-            <ul className="mt-7 space-y-4">
-              {COLLAB_ITEMS.map((item) => {
-                const Icon = item.Icon;
-                return (
-                  <li key={item.title} className="flex items-start gap-4">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <p className="font-semibold text-choco">{item.title}</p>
-                      <p className="mt-0.5 text-sm leading-relaxed text-choco-muted">
-                        {item.text}
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/colabora"
-                className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 font-semibold text-white shadow-sm shadow-brand/30 transition hover:bg-brand-dark"
-              >
-                Quiero colaborar <ArrowRight className="h-5 w-5" />
-              </Link>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/colabora#publica"
-                className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-6 py-3 font-semibold text-choco transition hover:bg-sand"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-choco shadow-md transition hover:bg-cream active:scale-95"
               >
-                <CalendarPlus className="h-5 w-5 text-brand" />
-                Publicar mi evento
+                Publicar mi evento <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                href="/colabora#formulario"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-white/40 px-7 font-semibold text-white transition hover:bg-white/10 active:scale-95"
+              >
+                Reportar un fallo o proponer una idea
               </Link>
             </div>
-            <p className="mt-4 text-xs text-choco-muted">
+            <p className="mt-4 text-xs text-white/70">
               Respuesta humana, no un bot: cada aportación la lee una persona.
             </p>
           </div>
