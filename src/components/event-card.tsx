@@ -53,7 +53,7 @@ function Placeholder({
       )}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-2 px-3 text-center text-[10px] font-medium uppercase tracking-widest text-choco-muted/50"
+        className="pointer-events-none absolute inset-x-0 bottom-2 px-3 text-center text-[10px] font-medium uppercase tracking-widest text-choco-muted"
       >
         {title}
       </span>

@@ -34,7 +34,7 @@ export function CategoryGrid({ categories }: { categories: CategoryWithCount[] }
               >
                 <Icon className="h-6 w-6" />
               </span>
-              <span className="grid h-8 w-8 place-items-center rounded-full text-choco-muted/40 transition group-hover:bg-brand group-hover:text-white">
+              <span className="grid h-8 w-8 place-items-center rounded-full text-choco-muted transition group-hover:bg-brand group-hover:text-white">
                 <ArrowUpRight className="h-4 w-4 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </span>
             </span>

@@ -139,7 +139,7 @@ export function Footer() {
                 );
               })}
             </ul>
-            <p className="mt-5 text-xs leading-relaxed text-cream/45">
+            <p className="mt-5 text-xs leading-relaxed text-cream/55">
               Todas las aportaciones entran por el formulario web y quedan
               registradas. Sin correos expuestos.
             </p>
@@ -148,7 +148,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-cream/45 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-cream/55 sm:px-6">
           <p>
             © {year} {site.name}. Hecho a mano en Huesca, con cariño.
           </p>

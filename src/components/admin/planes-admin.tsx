@@ -14,7 +14,7 @@ import {
 import type { Plan } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 const btnPrimary =
   "rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream transition hover:bg-brand-dark disabled:opacity-60";
 const btnSecondary =
@@ -39,7 +39,7 @@ function Field({
         {label}
       </span>
       {children}
-      {hint && <span className="mt-1 block text-xs text-choco-muted/70">{hint}</span>}
+      {hint && <span className="mt-1 block text-xs text-choco-muted">{hint}</span>}
     </label>
   );
 }
@@ -118,7 +118,7 @@ function PlanFields({ plan }: { plan?: Plan }) {
         />
         <span>
           Publicado
-          <span className="ml-1 text-xs text-choco-muted/70">— visible en la web</span>
+          <span className="ml-1 text-xs text-choco-muted">— visible en la web</span>
         </span>
       </label>
       <div className="sm:col-span-2">

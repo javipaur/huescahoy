@@ -55,7 +55,7 @@ export function NewsletterForm() {
             if (status !== "idle") setStatus("idle");
           }}
           placeholder="tu@correo.es"
-          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-cream placeholder:text-cream/40 outline-none transition focus:border-gold/50"
+          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-cream placeholder:text-cream/60 outline-none transition focus:border-gold/50"
         />
         <button
           type="submit"

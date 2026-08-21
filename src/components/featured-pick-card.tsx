@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import type { FeaturedPick } from "@/lib/types";
@@ -22,11 +23,12 @@ export function FeaturedPickCard({
         className="group relative block overflow-hidden rounded-3xl shadow-lg shadow-choco/10"
       >
         {img ? (
-          <img
+          <Image
             src={img}
             alt={pick.title}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            fill
+            sizes="(min-width: 1152px) 1152px, 100vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
           />
         ) : (
           <div

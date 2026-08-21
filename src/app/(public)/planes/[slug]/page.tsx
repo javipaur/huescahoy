@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, Clock, Compass } from "lucide-react";
@@ -83,11 +84,16 @@ export default async function PlanPage({ params }: PageProps) {
 
       <div className="overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
         {plan.image ? (
-          <img
-            src={plan.image}
-            alt={plan.title}
-            className="aspect-[16/9] w-full object-cover"
-          />
+          <div className="relative aspect-[16/9] w-full">
+            <Image
+              src={plan.image}
+              alt={plan.title}
+              fill
+              priority
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover"
+            />
+          </div>
         ) : (
           <div className="grid aspect-[16/9] w-full place-items-center bg-gradient-to-br from-brand/15 to-gold/20">
             <span className="grid h-20 w-20 place-items-center rounded-3xl bg-white/85 shadow-sm">
@@ -97,7 +103,7 @@ export default async function PlanPage({ params }: PageProps) {
         )}
 
         <div className="p-6 sm:p-8">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand-dark">
             <Compass className="h-3.5 w-3.5" />
             Plan de {site.city}
           </span>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Compass } from "lucide-react";
 import { getPlans } from "@/lib/db";
@@ -54,11 +55,12 @@ export default async function PlanesPage() {
           >
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
               {plan.image ? (
-                <img
+                <Image
                   src={plan.image}
                   alt={plan.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand/15 to-gold/20">
@@ -67,7 +69,7 @@ export default async function PlanesPage() {
               )}
             </div>
             <div className="flex flex-1 flex-col gap-2 p-6">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-brand">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-brand-dark">
                 <Compass className="h-3.5 w-3.5" />
                 Guía de {site.city}
               </span>
@@ -79,7 +81,7 @@ export default async function PlanesPage() {
                   {plan.summary}
                 </p>
               )}
-              <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-brand">
+              <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-brand-dark">
                 Leer el plan
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </span>

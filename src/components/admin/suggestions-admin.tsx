@@ -99,7 +99,7 @@ export function SuggestionsAdmin({ suggestions }: { suggestions: Suggestion[] })
                     {suggestion.detail}
                   </p>
                 )}
-                <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-choco-muted/70">
+                <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-choco-muted">
                   <span>{formatCreatedAt(suggestion.createdAt)}</span>
                   {suggestion.contact && (
                     <span className="inline-flex items-center gap-1">

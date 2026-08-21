@@ -27,7 +27,7 @@ export default function LoginForm({ hasError }: { hasError: boolean }) {
           required
           autoFocus
           placeholder="••••••••"
-          className="w-full rounded-lg border border-choco/20 bg-white px-3 py-2.5 text-sm text-choco placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
+          className="w-full rounded-lg border border-choco/20 bg-white px-3 py-2.5 text-sm text-choco placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
         />
       </div>
       <button

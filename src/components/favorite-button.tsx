@@ -40,7 +40,7 @@ export function FavoriteButton({
         onClick={onClick}
         aria-pressed={active}
         aria-label={active ? "Quitar de guardados" : "Guardar evento"}
-        className={`grid h-8 w-8 place-items-center rounded-full backdrop-blur transition ${
+        className={`grid h-9 w-9 place-items-center rounded-full backdrop-blur transition ${
           active
             ? "bg-brand text-white"
             : "bg-white/90 text-choco hover:bg-white"
@@ -59,13 +59,13 @@ export function FavoriteButton({
         aria-pressed={active}
         aria-label={active ? "Quitar de guardados" : "Guardar evento"}
         title={active ? "Quitar de guardados" : "Guardar evento"}
-        className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border transition ${
+        className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition ${
           active
             ? "border-brand bg-brand/10 text-brand"
             : "border-sand bg-white text-choco-muted hover:border-brand/40 hover:text-brand"
         }`}
       >
-        <Heart className={`h-3.5 w-3.5 ${active ? "fill-brand" : ""}`} />
+        <Heart className={`h-4 w-4 ${active ? "fill-brand" : ""}`} />
       </button>
     );
   }

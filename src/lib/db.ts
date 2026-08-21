@@ -346,15 +346,11 @@ export async function getEvents(filter: EventFilter = {}): Promise<EventItem[]> 
     conditions.push("e.featured = 1");
   }
   if (filter.upcoming) {
-    conditions.push(
-      `(e.start_date >= $${params.length + 1} OR (e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}))`
-    );
+    conditions.push(`e.start_date >= $${params.length + 1}`);
     params.push(todayStr());
   }
   if (filter.from) {
-    conditions.push(
-      `((e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}) OR (e.end_date IS NULL AND e.start_date >= $${params.length + 1}))`
-    );
+    conditions.push(`e.start_date >= $${params.length + 1}`);
     params.push(filter.from);
   }
   if (filter.to) {
@@ -409,7 +405,7 @@ export async function getCategoriesWithCounts(): Promise<CategoryWithCount[]> {
   const res = await getPool().query(
     `SELECT c.id, c.slug, c.name, c.icon, c.color, c.sort_order, COUNT(e.id)::int AS event_count
      FROM categories c
-     LEFT JOIN events e ON e.category_id = c.id AND e.status = 'published' AND (e.start_date >= $1 OR (e.end_date IS NOT NULL AND e.end_date >= $1))
+     LEFT JOIN events e ON e.category_id = c.id AND e.status = 'published' AND e.start_date >= $1
      GROUP BY c.id
      ORDER BY c.sort_order, c.name`,
     [todayStr()]
@@ -428,7 +424,7 @@ export async function getUpcomingEvents(limit = 6): Promise<EventItem[]> {
 export async function getStats() {
   await init();
   const published = await getPool().query(
-    `SELECT COUNT(*)::int AS total FROM events WHERE status = 'published' AND (start_date >= $1 OR (end_date IS NOT NULL AND end_date >= $1))`,
+    `SELECT COUNT(*)::int AS total FROM events WHERE status = 'published' AND start_date >= $1`,
     [todayStr()]
   );
   const upcoming = await getPool().query(
