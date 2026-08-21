@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, LocateFixed, MapPin, Star } from "lucide-react";
+import { EventImage } from "@/components/event-image";
+import { FavoriteButton } from "@/components/favorite-button";
 import type { Category, EventItem } from "@/lib/types";
 import { dayNumber, dayShort, formatTimeRange, monthShort } from "@/lib/format";
 import { getIcon } from "@/lib/icons";
@@ -106,11 +108,11 @@ function GridCard({
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
         {event.image ? (
-          <img
+          <EventImage
             src={event.image}
             alt={event.title}
-            loading="lazy"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
         ) : (
           <Placeholder category={category} icon={icon} title={event.title} />
@@ -131,17 +133,16 @@ function GridCard({
           </span>
         </span>
 
-        {event.featured === 1 && (
-          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-choco/85 px-2.5 py-1 text-[11px] font-semibold text-cream shadow-sm backdrop-blur">
-            <Star className="h-3 w-3 fill-gold text-gold" />
-            Recomendado
-          </span>
-        )}
-        {event.featured !== 1 && isEventOngoing(event) && (
-          <span className="absolute right-3 top-3">
-            <OngoingBadge />
-          </span>
-        )}
+        <span className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
+          {event.featured === 1 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-choco/85 px-2.5 py-1 text-[11px] font-semibold text-cream shadow-sm backdrop-blur">
+              <Star className="h-3 w-3 fill-gold text-gold" />
+              Recomendado
+            </span>
+          )}
+          {event.featured !== 1 && isEventOngoing(event) && <OngoingBadge />}
+          <FavoriteButton event={event} tone="dark" />
+        </span>
 
         {category && (
           <span
@@ -224,11 +225,11 @@ function RowCard({
     >
       <div className="relative w-20 shrink-0 self-stretch overflow-hidden rounded-xl bg-sand sm:w-28">
         {event.image ? (
-          <img
+          <EventImage
             src={event.image}
             alt={event.title}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="112px"
           />
         ) : (
           <Placeholder category={category} icon={icon} title={event.title} />
@@ -268,6 +269,7 @@ function RowCard({
           )}
           {event.featured !== 1 && isEventOngoing(event) && <OngoingBadge />}
           <ZoneBadge zone={zoneFor(event)} />
+          <FavoriteButton event={event} tone="inline" />
           {event.startTime && (
             <span className="ml-auto flex items-center gap-1 text-xs font-medium text-choco-muted">
               <Clock className="h-3.5 w-3.5 shrink-0" />

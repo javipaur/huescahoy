@@ -3,13 +3,22 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react";
 import { EventActions } from "@/components/event-actions";
+import { EventImage } from "@/components/event-image";
+import { FavoriteButton } from "@/components/favorite-button";
 import { JsonLd } from "@/components/json-ld";
 import { RemindButton } from "@/components/remind-button";
 import {
   getCategoriesAdmin,
   getEventBySlug,
+  getEvents,
   getFeaturedEvents,
+  todayStr,
 } from "@/lib/db";
+import {
+  buildBreadcrumbJsonLd,
+  buildEventJsonLd,
+  isEventPast,
+} from "@/lib/event-jsonld";
 import { geocodeLocation } from "@/lib/geocode";
 import {
   formatDateRange,
@@ -25,34 +34,32 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-function isoDateTime(date: string, time: string | null): string {
-  return time ? `${date}T${time}` : date;
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   if (!event) return { title: "Evento no encontrado" };
   const url = `${site.url}/eventos/${event.slug}`;
+  const past = isEventPast(event, todayStr());
   return {
     title: event.title,
     description: event.description?.slice(0, 160) ?? undefined,
     alternates: {
       canonical: url,
     },
+    robots: past ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "website",
       locale: site.locale,
       title: event.title,
       description: event.description?.slice(0, 200) ?? undefined,
       url,
-      images: event.image ? [{ url: event.image }] : [{ url: "/opengraph-image" }],
+      ...(event.image ? { images: [{ url: event.image }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: event.title,
       description: event.description?.slice(0, 200) ?? undefined,
-      images: event.image ? [event.image] : ["/opengraph-image"],
+      ...(event.image ? { images: [event.image] } : {}),
     },
   };
 }
@@ -69,61 +76,31 @@ export default async function EventPage({ params }: PageProps) {
   const category = event.categoryId ? categoryMap.get(event.categoryId) ?? null : null;
   const CategoryIcon = category ? getIcon(category.icon) : null;
   const color = category?.color ?? "#16a34a";
-  const upcoming = (await getFeaturedEvents(3)).filter((e) => e.id !== event.id).slice(0, 2);
+  const today = todayStr();
+  const past = isEventPast(event, today);
+
+  let related = category
+    ? (
+        await getEvents({ category: category.slug, from: today, limit: 5 })
+      ).filter((e) => e.id !== event.id)
+    : [];
+  if (related.length === 0) {
+    related = (await getFeaturedEvents(4)).filter((e) => e.id !== event.id);
+  }
+  related = related.slice(0, 2);
+
   const coords = await geocodeLocation(event.location);
   const d = 0.003;
   const mapSrc = coords
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lng - d}%2C${coords.lat - d}%2C${coords.lng + d}%2C${coords.lat + d}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}`
     : null;
 
-  const priceMatch = event.price?.match(/(\d+)(?:[.,](\d+))?/);
-  const priceValue = priceMatch
-    ? parseFloat(priceMatch[1] + (priceMatch[2] ? `.${priceMatch[2]}` : ""))
-    : null;
-
-  const eventJsonLd: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: event.title,
-    url: `${site.url}/eventos/${event.slug}`,
-    description: event.description?.slice(0, 300) ?? undefined,
-    startDate: isoDateTime(event.startDate, event.startTime),
-    endDate: isoDateTime(
-      event.endDate ?? event.startDate,
-      event.endTime ?? event.startTime
-    ),
-    image: [event.image ?? `${site.url}/opengraph-image`],
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    eventCategory: category?.name ?? undefined,
-    location: {
-      "@type": "Place",
-      name: event.location?.trim() || site.city,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: event.address ?? undefined,
-        addressLocality: site.city,
-        addressRegion: "Huesca",
-        addressCountry: "ES",
-      },
-    },
-    organizer: {
-      "@type": "Organization",
-      name: site.name,
-      url: site.url,
-    },
-  };
-
-  if (priceValue != null) {
-    eventJsonLd.offers = {
-      "@type": "Offer",
-      price: priceValue,
-      priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
-      url: `${site.url}/eventos/${event.slug}`,
-      validFrom: isoDateTime(event.createdAt.slice(0, 10), null),
-    };
-  }
+  const eventJsonLd = past ? null : buildEventJsonLd(event, category);
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Inicio", path: "/" },
+    { name: "Agenda", path: "/agenda" },
+    { name: event.title },
+  ]);
 
   const facts: { Icon: typeof Clock; label: string; value: string }[] = [
     {
@@ -153,7 +130,8 @@ export default async function EventPage({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <JsonLd data={eventJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      {eventJsonLd && <JsonLd data={eventJsonLd} />}
       <Link
         href="/agenda"
         className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"
@@ -162,13 +140,17 @@ export default async function EventPage({ params }: PageProps) {
         Volver a la agenda
       </Link>
 
-      <div className="overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
+      <div className="relative overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
         {event.image ? (
-          <img
-            src={event.image}
-            alt={event.title}
-            className="aspect-[16/9] w-full object-cover"
-          />
+          <div className="relative aspect-[16/9] w-full bg-sand">
+            <EventImage
+              src={event.image}
+              alt={event.title}
+              className="object-cover"
+              sizes="(min-width: 768px) 768px, 100vw"
+              priority
+            />
+          </div>
         ) : (
           <div
             className="relative grid aspect-[16/9] w-full place-items-center overflow-hidden"
@@ -225,6 +207,16 @@ export default async function EventPage({ params }: PageProps) {
           <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
             {event.title}
           </h1>
+
+          {past && (
+            <p className="mt-4 rounded-xl border border-sand bg-sand/50 px-4 py-3 text-sm font-medium text-choco-muted">
+              Este evento ya ha finalizado.{" "}
+              <Link href="/agenda" className="font-semibold text-brand hover:underline">
+                Mira lo que viene ahora
+              </Link>
+              .
+            </p>
+          )}
 
           <div className="mt-6 overflow-hidden rounded-2xl border border-sand bg-white">
             {facts.map((fact, index) => (
@@ -286,6 +278,7 @@ export default async function EventPage({ params }: PageProps) {
           <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-sand pt-6">
             <EventActions event={event} />
             <RemindButton event={event} />
+            {!past && <FavoriteButton event={event} />}
           </div>
 
           <p className="mt-6 text-xs text-choco-muted/70">
@@ -294,11 +287,11 @@ export default async function EventPage({ params }: PageProps) {
         </div>
       </div>
 
-      {upcoming.length > 0 && (
+      {related.length > 0 && (
         <div className="mt-12">
           <h2 className="font-display text-xl font-bold">También te puede interesar</h2>
           <div className="mt-4 space-y-3">
-            {upcoming.map((e) => {
+            {related.map((e) => {
               const cat = e.categoryId ? categoryMap.get(e.categoryId) ?? null : null;
               const Icon = cat ? getIcon(cat.icon) : null;
               return (

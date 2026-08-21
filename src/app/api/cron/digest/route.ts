@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { archivePastEvents } from "@/lib/db";
 import { sendDailyDigest } from "@/lib/digest";
 import { captureServerError } from "@/lib/posthog";
 
@@ -17,8 +18,9 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: "No autorizado" }, { status: 401 });
   }
   try {
+    const archived = await archivePastEvents(7);
     const result = await sendDailyDigest();
-    return Response.json({ ok: true, ...result });
+    return Response.json({ ok: true, archived, ...result });
   } catch (err) {
     await captureServerError("api_error", {
       route: "/api/cron/digest",

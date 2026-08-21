@@ -2,10 +2,16 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { LocateFixed, Search } from "lucide-react";
+import { Heart, LocateFixed, Search } from "lucide-react";
 import { AgendaSwitcher, type AgendaViewMode } from "@/components/agenda-switcher";
 import { EventCard } from "@/components/event-card";
 import type { MapPoint } from "@/components/map-view";
+import {
+  getFavoritesSnapshot,
+  getServerFavoritesSnapshot,
+  subscribeFavorites,
+} from "@/lib/favorites";
+import { displayDate, rangeFrom, toDateStr } from "@/lib/agenda-dates";
 import { formatDayLong } from "@/lib/format";
 import type { Category, EventItem } from "@/lib/types";
 import { zoneFor } from "@/lib/zones";
@@ -66,44 +72,6 @@ function haversineKm(a: GeoPosition, b: GeoPosition): number {
   return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
 }
 
-function toDateStr(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
-function addDays(days: number): string {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return toDateStr(date);
-}
-
-function rangeFrom(desde: string): { from?: string; to?: string } {
-  const today = toDateStr(new Date());
-  if (desde === "hoy") return { from: today, to: today };
-  if (desde === "7d") return { from: today, to: addDays(7) };
-  if (desde === "mes") {
-    const now = new Date();
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    return { from: today, to: toDateStr(lastDay) };
-  }
-  if (desde === "finde") {
-    const day = new Date().getDay();
-    if (day === 6) return { from: today, to: addDays(1) };
-    const daysToSat = ((6 - day) + 7) % 7;
-    return { from: addDays(daysToSat), to: addDays(daysToSat + 1) };
-  }
-  return { from: today };
-}
-
-function displayDate(event: EventItem, today: string): string {
-  if (event.startDate < today && event.endDate && event.endDate >= today) {
-    return today;
-  }
-  return event.startDate;
-}
-
 export function AgendaView({
   events,
   categories,
@@ -111,6 +79,7 @@ export function AgendaView({
   initialDesde,
   initialQ,
   initialZona,
+  initialGuardados,
 }: {
   events: EventItem[];
   categories: Category[];
@@ -118,6 +87,7 @@ export function AgendaView({
   initialDesde: string;
   initialQ: string;
   initialZona: string;
+  initialGuardados: boolean;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -125,11 +95,17 @@ export function AgendaView({
   const [categoria, setCategoria] = useState(initialCategory);
   const [desde, setDesde] = useState(initialDesde);
   const [zona, setZona] = useState(initialZona);
+  const [guardados, setGuardados] = useState(initialGuardados);
   const [position, setPosition] = useState<GeoPosition | null>(null);
   const [locStatus, setLocStatus] = useState<"idle" | "locating" | "granted" | "denied">(
     "idle"
   );
   const view = useSyncExternalStore(subscribeView, getViewSnapshot, getViewServerSnapshot);
+  const favorites = useSyncExternalStore(
+    subscribeFavorites,
+    getFavoritesSnapshot,
+    getServerFavoritesSnapshot
+  );
 
   function changeView(next: AgendaViewMode) {
     window.localStorage.setItem(VIEW_STORAGE_KEY, next);
@@ -169,6 +145,7 @@ export function AgendaView({
     const term = q.trim().toLowerCase();
     return events
       .filter((event) => {
+        if (guardados && !favorites[event.slug]) return false;
         const zone = zoneFor(event);
         if (zona === "ciudad" && zone !== "ciudad") return false;
         if (zona === "provincia" && zone !== "provincia") return false;
@@ -197,7 +174,7 @@ export function AgendaView({
         if (dateDiff !== 0) return dateDiff;
         return a.startTime?.localeCompare(b.startTime ?? "") ?? 0;
       });
-  }, [events, categories, categoria, desde, q, zona, position]);
+  }, [events, categories, categoria, desde, q, zona, position, guardados, favorites]);
 
   const points: MapPoint[] = filtered
     .filter((event) => event.lat != null && event.lng != null)
@@ -243,22 +220,24 @@ export function AgendaView({
       if (desde) next.set("desde", desde);
       if (q.trim()) next.set("q", q.trim());
       if (zona) next.set("zona", zona);
+      if (guardados) next.set("guardados", "1");
       const qs = next.toString();
       const current = window.location.search.replace(/^\?/, "");
       if (qs === current) return;
       router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
     }, 300);
     return () => clearTimeout(timeout);
-  }, [categoria, desde, q, zona, pathname, router]);
+  }, [categoria, desde, q, zona, guardados, pathname, router]);
 
   function clearFilters() {
     setCategoria("");
     setDesde("");
     setQ("");
     setZona("");
+    setGuardados(false);
   }
 
-  const hasFilters = Boolean(categoria || desde || q.trim() || zona);
+  const hasFilters = Boolean(categoria || desde || q.trim() || zona || guardados);
 
   return (
     <div>
@@ -305,6 +284,17 @@ export function AgendaView({
                 {option.label}
               </button>
             ))}
+            <button
+              onClick={() => setGuardados(!guardados)}
+              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition ${
+                guardados
+                  ? "bg-brand text-white shadow-sm shadow-brand/30"
+                  : "border border-sand bg-white text-choco-muted hover:bg-sand"
+              }`}
+            >
+              <Heart className={`h-4 w-4 ${guardados ? "fill-current" : ""}`} />
+              Guardados
+            </button>
             <button
               onClick={toggleNear}
               disabled={locStatus === "locating"}

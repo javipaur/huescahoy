@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/fuentes", label: "Fuentes" },
   { href: "/admin/planes", label: "Planes" },
   { href: "/admin/sugerencias", label: "Sugerencias" },
+  { href: "/admin/suscriptores", label: "Suscriptores" },
 ];
 
 export default function AdminNav() {

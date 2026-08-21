@@ -1,6 +1,7 @@
 "use server";
 
 import crypto from "node:crypto";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAuth, setSessionCookie, clearSessionCookie } from "./auth";
@@ -36,6 +37,7 @@ import {
 import { runAllSources, runSourceById } from "./scraper/run";
 import { sendDailyDigest } from "./digest";
 import { sendPush } from "./push";
+import { clientKey, rateLimit } from "./rate-limit";
 import type {
   CategoryInput,
   EventInput,
@@ -403,6 +405,11 @@ export async function submitSuggestionAction(
     return { ok: true };
   }
 
+  const ipLimit = rateLimit(clientKey(await headers(), "sugerencia"), 5, 10 * 60 * 1000);
+  if (!ipLimit.ok) {
+    return { error: "Demasiados envíos desde tu conexión. Inténtalo más tarde." };
+  }
+
   const kind = toString(formData.get("kind"));
   if (!isSuggestionKind(kind)) {
     return { error: "Elige el tipo de sugerencia" };
@@ -442,6 +449,11 @@ export async function submitEventAction(
 ): Promise<SuggestResult> {
   if (toString(formData.get("website"))) {
     return { ok: true };
+  }
+
+  const ipLimit = rateLimit(clientKey(await headers(), "evento-publicado"), 3, 60 * 60 * 1000);
+  if (!ipLimit.ok) {
+    return { error: "Demasiados envíos desde tu conexión. Inténtalo más tarde." };
   }
 
   const title = toString(formData.get("title"));

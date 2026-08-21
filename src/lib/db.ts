@@ -132,6 +132,12 @@ const SCHEMA_SQL = `
     created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
 
+  CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id SERIAL PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+  );
+
   CREATE TABLE IF NOT EXISTS push_meta (
     key TEXT PRIMARY KEY,
     value TEXT
@@ -588,6 +594,17 @@ export async function toggleEventFeatured(id: number): Promise<void> {
     `UPDATE events SET featured = CASE WHEN featured = 1 THEN 0 ELSE 1 END, updated_at = ${NOW_SQL} WHERE id = $1`,
     [id]
   );
+}
+
+export async function archivePastEvents(days = 7): Promise<number> {
+  await init();
+  const cutoff = todayStr(-days);
+  const res = await getPool().query(
+    `UPDATE events SET status = 'hidden', updated_at = ${NOW_SQL}
+     WHERE status = 'published' AND COALESCE(end_date, start_date) < $1`,
+    [cutoff]
+  );
+  return res.rowCount ?? 0;
 }
 
 export async function upsertScrapedEvent(
@@ -1055,6 +1072,34 @@ export async function setPushMeta(key: string, value: string): Promise<void> {
      ON CONFLICT(key) DO UPDATE SET value = EXCLUDED.value`,
     [key, value]
   );
+}
+
+// ---------- Newsletter ----------
+
+export async function addNewsletterSubscriber(
+  email: string
+): Promise<"new" | "existing"> {
+  await init();
+  const res = await getPool().query(
+    `INSERT INTO newsletter_subscribers (email) VALUES ($1)
+     ON CONFLICT (email) DO NOTHING RETURNING id`,
+    [email]
+  );
+  return res.rows.length ? "new" : "existing";
+}
+
+export type NewsletterSubscriber = {
+  id: number;
+  email: string;
+  createdAt: string;
+};
+
+export async function getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT id, email, created_at AS "createdAt" FROM newsletter_subscribers ORDER BY id DESC`
+  );
+  return res.rows.map(toPlain);
 }
 
 // ---------- Featured pick (El plan del finde) ----------

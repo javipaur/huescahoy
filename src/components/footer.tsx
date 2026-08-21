@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { CalendarDays, Instagram, MapPin, ShieldCheck, Sparkles, Wallet } from "lucide-react";
+import { CalendarDays, Instagram, MapPin, Rss, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import { site } from "@/lib/site";
+import { NewsletterForm } from "@/components/newsletter-form";
 import { PushSubscribeButton } from "@/components/push-button";
 
 const TRUST = [
@@ -41,6 +42,7 @@ export function Footer() {
             <div className="mt-3">
               <PushSubscribeButton tone="dark" />
             </div>
+            <NewsletterForm />
           </div>
 
           <div>
@@ -108,6 +110,15 @@ export function Footer() {
                 >
                   <CalendarDays className="h-3.5 w-3.5" />
                   Agenda de la semana (.ics)
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/feed.xml"
+                  className="inline-flex items-center gap-1.5 text-cream/80 transition hover:text-gold"
+                >
+                  <Rss className="h-3.5 w-3.5" />
+                  RSS de eventos
                 </Link>
               </li>
             </ul>

@@ -34,6 +34,7 @@ export default async function AgendaPage({ searchParams }: PageProps) {
   const desde = typeof params.desde === "string" ? params.desde : "";
   const q = typeof params.q === "string" ? params.q : "";
   const zona = typeof params.zona === "string" ? params.zona : "";
+  const guardados = params.guardados === "1";
 
   const categories = await getCategoriesAdmin();
   const events = await getEvents({ from: todayStr(), limit: 200 });
@@ -70,6 +71,7 @@ export default async function AgendaPage({ searchParams }: PageProps) {
           initialDesde={desde}
           initialQ={q}
           initialZona={zona}
+          initialGuardados={guardados}
         />
       </Suspense>
     </div>
