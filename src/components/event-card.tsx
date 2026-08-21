@@ -1,9 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, Clock, LocateFixed, MapPin, Star } from "lucide-react";
+import { ArrowRight, CalendarRange, Clock, LocateFixed, MapPin, Star } from "lucide-react";
 import { EventImage } from "@/components/event-image";
 import { FavoriteButton } from "@/components/favorite-button";
 import type { Category, EventItem } from "@/lib/types";
-import { dayNumber, dayShort, formatTimeRange, monthShort } from "@/lib/format";
+import {
+  dayNumber,
+  dayShort,
+  formatTimeRange,
+  monthShort,
+} from "@/lib/format";
 import { getIcon } from "@/lib/icons";
 import { zoneFor, zoneLabel, type EventZone } from "@/lib/zones";
 
@@ -83,6 +88,17 @@ function OngoingBadge() {
     <span className="inline-flex items-center gap-1 rounded-full bg-brand/90 px-2 py-0.5 text-[11px] font-semibold text-white shadow-sm backdrop-blur">
       <Clock className="h-3 w-3" />
       En curso
+    </span>
+  );
+}
+
+function OngoingRange({ event }: { event: EventItem }) {
+  if (!event.endDate || event.endDate === event.startDate) return null;
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand-dark">
+      <CalendarRange className="h-3 w-3 shrink-0" />
+      {dayNumber(event.startDate)} {monthShort(event.startDate)} –{" "}
+      {dayNumber(event.endDate)} {monthShort(event.endDate)}
     </span>
   );
 }
@@ -180,6 +196,7 @@ function GridCard({
 
         <div className="mt-auto flex items-center justify-between gap-2 border-t border-sand pt-3">
           <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+            {isEventOngoing(event) && <OngoingRange event={event} />}
             {event.price ? (
               <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand">
                 {event.price}
@@ -268,6 +285,7 @@ function RowCard({
             </span>
           )}
           {event.featured !== 1 && isEventOngoing(event) && <OngoingBadge />}
+          {isEventOngoing(event) && <OngoingRange event={event} />}
           <ZoneBadge zone={zoneFor(event)} />
           <FavoriteButton event={event} tone="inline" />
           {event.startTime && (

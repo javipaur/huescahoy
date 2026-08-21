@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 import crypto from "node:crypto";
+import { isEventPast } from "./event-jsonld";
 import type {
   Category,
   CategoryInput,
@@ -325,6 +326,7 @@ export type EventFilter = {
   to?: string;
   q?: string;
   upcoming?: boolean;
+  ongoing?: boolean;
   featured?: boolean;
   limit?: number;
   includeHidden?: boolean;
@@ -346,11 +348,21 @@ export async function getEvents(filter: EventFilter = {}): Promise<EventItem[]> 
     conditions.push("e.featured = 1");
   }
   if (filter.upcoming) {
-    conditions.push(`e.start_date >= $${params.length + 1}`);
+    conditions.push(
+      `(e.start_date >= $${params.length + 1} OR (e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}))`
+    );
+    params.push(todayStr());
+  }
+  if (filter.ongoing) {
+    conditions.push(
+      `(e.start_date < $${params.length + 1} AND e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1})`
+    );
     params.push(todayStr());
   }
   if (filter.from) {
-    conditions.push(`e.start_date >= $${params.length + 1}`);
+    conditions.push(
+      `((e.end_date IS NOT NULL AND e.end_date >= $${params.length + 1}) OR (e.end_date IS NULL AND e.start_date >= $${params.length + 1}))`
+    );
     params.push(filter.from);
   }
   if (filter.to) {
@@ -365,7 +377,13 @@ export async function getEvents(filter: EventFilter = {}): Promise<EventItem[]> 
   }
 
   const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
-  let sql = `SELECT e.${EVENT_COLUMNS.replace(/, /g, ", e.")} FROM events e LEFT JOIN categories c ON c.id = e.category_id ${where} ORDER BY e.start_date ASC, e.start_time ASC`;
+  const ongoingLast = Boolean(filter.upcoming || filter.from);
+  let sql = `SELECT e.${EVENT_COLUMNS.replace(/, /g, ", e.")} FROM events e LEFT JOIN categories c ON c.id = e.category_id ${where} ORDER BY ${
+    ongoingLast ? `(CASE WHEN e.start_date < $${params.length + 1} THEN 1 ELSE 0 END), ` : ""
+  }e.start_date ASC, e.start_time ASC`;
+  if (ongoingLast) {
+    params.push(todayStr());
+  }
   if (filter.limit) {
     const limit = Math.max(1, Math.min(filter.limit, 200));
     params.push(limit);
@@ -405,7 +423,7 @@ export async function getCategoriesWithCounts(): Promise<CategoryWithCount[]> {
   const res = await getPool().query(
     `SELECT c.id, c.slug, c.name, c.icon, c.color, c.sort_order, COUNT(e.id)::int AS event_count
      FROM categories c
-     LEFT JOIN events e ON e.category_id = c.id AND e.status = 'published' AND e.start_date >= $1
+     LEFT JOIN events e ON e.category_id = c.id AND e.status = 'published' AND (e.start_date >= $1 OR (e.end_date IS NOT NULL AND e.end_date >= $1))
      GROUP BY c.id
      ORDER BY c.sort_order, c.name`,
     [todayStr()]
@@ -424,7 +442,7 @@ export async function getUpcomingEvents(limit = 6): Promise<EventItem[]> {
 export async function getStats() {
   await init();
   const published = await getPool().query(
-    `SELECT COUNT(*)::int AS total FROM events WHERE status = 'published' AND start_date >= $1`,
+    `SELECT COUNT(*)::int AS total FROM events WHERE status = 'published' AND (start_date >= $1 OR (end_date IS NOT NULL AND end_date >= $1))`,
     [todayStr()]
   );
   const upcoming = await getPool().query(
@@ -1109,7 +1127,13 @@ export async function getActiveFeaturedPick(): Promise<FeaturedPick | null> {
   const res = await getPool().query(
     `SELECT ${FEATURED_PICK_COLUMNS} FROM featured_picks WHERE active = 1 ORDER BY id DESC LIMIT 1`
   );
-  return res.rows.length ? toPlain(res.rows[0] as FeaturedPick) : null;
+  if (!res.rows.length) return null;
+  const pick = toPlain(res.rows[0] as FeaturedPick);
+  if (pick.linkType === "evento") {
+    const event = await getEventBySlug(pick.targetSlug);
+    if (!event || isEventPast(event, todayStr())) return null;
+  }
+  return pick;
 }
 
 export async function saveFeaturedPick(input: FeaturedPickInput): Promise<void> {

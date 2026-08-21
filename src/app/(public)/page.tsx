@@ -22,6 +22,7 @@ import {
   getCategoriesAdmin,
   getCategoriesWithCounts,
   getEventBySlug,
+  getEvents,
   getFeaturedEvents,
   getPlanBySlug,
   getUpcomingEvents,
@@ -36,7 +37,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Agenda cultural de Huesca",
   description:
-    "La agenda cultural de Huesca (Huesca City): conciertos, teatro, exposiciones, deporte, cine y planes en familia. Todo lo que pasa en Huesca hoy y en los próximos días.",
+    "Qué hacer en Huesca hoy y este fin de semana: conciertos, teatro, exposiciones, cine, deporte y planes en familia. La agenda cultural de Huesca y su provincia, actualizada cada día.",
   alternates: {
     canonical: "/",
   },
@@ -69,9 +70,10 @@ const COLLAB_ITEMS = [
 ];
 
 export default async function HomePage() {
-  const [allEvents, categories, stats, featured, categoryList, activePick] =
+  const [allEvents, ongoingEvents, categories, stats, featured, categoryList, activePick] =
     await Promise.all([
       getUpcomingEvents(20),
+      getEvents({ ongoing: true, limit: 6 }),
       getCategoriesWithCounts(),
       getStats(),
       getFeaturedEvents(3),
@@ -89,15 +91,24 @@ export default async function HomePage() {
     pickImage = target?.image ?? null;
   }
 
-  const cityEvents = allEvents
-    .filter((event) => {
-      const zone = zoneFor(event);
-      return zone !== "provincia" && zone !== "fuera";
-    })
-    .slice(0, 6);
-  const provinceEvents = allEvents
-    .filter((event) => zoneFor(event) === "provincia")
-    .slice(0, 3);
+  const ongoingSlugs = new Set(ongoingEvents.map((event) => event.slug));
+  const cityEvents = [
+    ...allEvents
+      .filter(
+        (event) =>
+          zoneFor(event) !== "provincia" && zoneFor(event) !== "fuera" && !ongoingSlugs.has(event.slug)
+      )
+      .slice(0, 6),
+    ...ongoingEvents
+      .filter((event) => zoneFor(event) !== "provincia" && zoneFor(event) !== "fuera")
+      .slice(0, 2),
+  ];
+  const provinceEvents = [
+    ...allEvents
+      .filter((event) => zoneFor(event) === "provincia" && !ongoingSlugs.has(event.slug))
+      .slice(0, 3),
+    ...ongoingEvents.filter((event) => zoneFor(event) === "provincia").slice(0, 1),
+  ];
 
   const eventsJsonLd = {
     "@context": "https://schema.org",
@@ -127,10 +138,11 @@ export default async function HomePage() {
                 Selección de la semana
               </span>
               <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Planes que nos gustan especialmente
+                Los planes de la semana en Huesca
               </h2>
               <p className="mt-1 text-choco-muted">
-                Elegidos a mano por el equipo, no por un algoritmo.
+                Elegidos a mano por el equipo: lo mejor del teatro, la música y
+                las exposiciones de Huesca estos días.
               </p>
             </div>
           </div>
@@ -154,10 +166,11 @@ export default async function HomePage() {
               Lo próximo
             </span>
             <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Próximos eventos
+              Qué hacer en Huesca hoy y estos días
             </h2>
             <p className="mt-1 text-choco-muted">
-              Lo que está por venir en los próximos días.
+              Los próximos conciertos, obras de teatro, exposiciones y planes
+              en familia de la agenda cultural de Huesca. Actualizado cada día.
             </p>
           </div>
           <Link
@@ -194,10 +207,11 @@ export default async function HomePage() {
                 También en la provincia
               </span>
               <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Planes por toda la provincia
+                Planes por toda la provincia de Huesca
               </h2>
               <p className="mt-1 text-choco-muted">
-                Fiestas, conciertos y cultura en los pueblos de Huesca.
+                Fiestas, conciertos y cultura en los pueblos: Aínsa, Barbastro,
+                Fraga, Sariñena y la Sierra de Guara.
               </p>
             </div>
             <Link
@@ -227,10 +241,11 @@ export default async function HomePage() {
               Categorías
             </span>
             <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Explora por categoría
+              Explora la agenda por categoría
             </h2>
             <p className="mt-1 text-choco-muted">
-              Encuentra el plan que buscas al instante.
+              Música, teatro, exposiciones, deporte, cine y planes con niños:
+              encuentra en un clic qué hacer en Huesca.
             </p>
           </div>
           <div className="mt-8">
@@ -268,12 +283,12 @@ export default async function HomePage() {
               Colabora
             </span>
             <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-balance sm:text-3xl">
-              La agenda se construye entre todos
+              Una agenda de Huesca hecha entre todos
             </h2>
             <p className="mt-3 max-w-lg leading-relaxed text-choco-muted">
               {site.name} no tiene redacción: la alimentan las personas que
-              viven {site.city}. Tú sabes lo que pasa en tu barrio antes que
-              nadie, así que cuéntanoslo.
+              viven {site.city}. Tú sabes qué pasa en tu barrio antes que
+              nadie, así que cuéntanoslo y lo contaremos con la ciudad entera.
             </p>
 
             <ul className="mt-7 space-y-4">
@@ -336,8 +351,9 @@ export default async function HomePage() {
                 Lleva Huesca Hoy siempre contigo
               </h2>
               <p className="mt-3 max-w-lg leading-relaxed text-cream/75">
-                Funciona como una app del móvil: consulta la agenda aunque no
-                tengas cobertura, sin instalar nada desde una tienda.
+                La agenda cultural de Huesca funciona como una app del móvil:
+                consulta qué hacer hoy aunque no tengas cobertura, sin pasar
+                por ninguna tienda.
               </p>
             </div>
             <InstallButton tone="light" />

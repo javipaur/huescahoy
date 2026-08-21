@@ -1,9 +1,9 @@
 export const site = {
   name: "Huesca Hoy",
   shortName: "Huesca Hoy",
-  tagline: "No te pierdas nada",
+  tagline: "Qué hacer hoy en Huesca",
   description:
-    "Agenda cultural de Huesca: conciertos, teatro, exposiciones, deporte, cine y planes en familia. Todo lo que pasa en Huesca, cada día y sin anuncios.",
+    "Qué hacer en Huesca hoy y este fin de semana: conciertos, teatro, exposiciones, cine, deporte y planes en familia. La agenda cultural de Huesca, cada día.",
   city: "Huesca",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://huescahoy.javierpalacio.es",
   locale: "es_ES",

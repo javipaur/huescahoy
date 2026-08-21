@@ -51,19 +51,19 @@ export function HomeHero({
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-gold">
             <CalendarDays className="h-4 w-4" />
-            Cada día en Huesca
+            Agenda cultural de Huesca · actualizada cada día
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-cream sm:text-6xl">
             Huesca entera,
             <br />
-            en una <span className="text-gold">agenda</span>
+            en la <span className="text-gold">palma de tu mano</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/70">
-            Reunimos cada día los conciertos, el teatro, el deporte, el cine y
-            los planes en familia que hay en la ciudad. Gratis, sin anuncios y
-            siempre al día.
+            Conciertos, teatro, exposiciones, cine y planes en familia: toda
+            la agenda cultural de Huesca para hoy, el fin de semana y los
+            próximos días. Gratis, sin anuncios y siempre al día.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -71,7 +71,7 @@ export function HomeHero({
               href="/agenda"
               className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco shadow-sm shadow-gold/20 transition hover:brightness-105"
             >
-              Ver la agenda
+              Ver qué hacer hoy
               <ArrowRight className="h-5 w-5" />
             </Link>
             <InstallButton tone="dark-outline" />
@@ -87,7 +87,7 @@ export function HomeHero({
                   {stats.upcoming}
                   <span className="text-gold">+</span>
                 </p>
-                <p className="text-sm text-cream/60">eventos próximos</p>
+                <p className="text-sm text-cream/60">planes para hoy y esta semana</p>
               </div>
             </div>
             <div className="flex items-center gap-3">

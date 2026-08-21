@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, Instagram, MapPin, Rss, ShieldCheck, Sparkles, Wallet } from "lucide-react";
+import { CalendarDays, Instagram, Rss, ShieldCheck, Sparkles, Wallet } from "lucide-react";
 import { site } from "@/lib/site";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { PushSubscribeButton } from "@/components/push-button";
@@ -19,9 +20,13 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1fr_1.1fr]">
           <div>
             <Link href="/" className="inline-flex items-center gap-2.5" aria-label="Huesca Hoy">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-white shadow-sm">
-                <MapPin className="h-5 w-5" strokeWidth={2.4} />
-              </span>
+              <Image
+                src="/logo.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 rounded-xl object-cover shadow-sm"
+              />
               <span className="font-display text-xl font-bold tracking-tight text-cream">
                 Huesca<span className="text-gold">Hoy</span>
               </span>
