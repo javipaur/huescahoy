@@ -92,6 +92,8 @@ function SourceFields({
           <option value="monegros">Turismo Monegros (HTML)</option>
           <option value="ainsa">Aínsa (sitemap + detalle)</option>
           <option value="fraga">Ayto. de Fraga (calendario)</option>
+          <option value="magia">Huesca La Magia (API JSON)</option>
+          <option value="ayto">Agenda Ayuntamiento Huesca (HTML)</option>
         </select>
       </Field>
       <div className="sm:col-span-2">

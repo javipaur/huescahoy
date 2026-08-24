@@ -76,6 +76,8 @@ export type ScrapeEvent = {
   external_url?: string | null;
   source_url?: string | null;
   category?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 export type SourceKind =
@@ -89,7 +91,9 @@ export type SourceKind =
   | "aragon"
   | "monegros"
   | "ainsa"
-  | "fraga";
+  | "fraga"
+  | "magia"
+  | "ayto";
 
 export type Source = {
   id: number;

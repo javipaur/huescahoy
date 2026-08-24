@@ -644,11 +644,11 @@ export async function upsertScrapedEvent(
 
   const existing = (
     await getPool().query(
-      "SELECT id, title, start_date, image, category_id FROM events WHERE source_url = $1",
+      "SELECT id, title, start_date, image, category_id, lat, lng FROM events WHERE source_url = $1",
       [dedupeKey]
     )
   ).rows[0] as
-    | { id: number; title: string; start_date: string; image: string | null; category_id: number | null }
+    | { id: number; title: string; start_date: string; image: string | null; category_id: number | null; lat: number | null; lng: number | null }
     | undefined;
 
   if (existing) {
@@ -661,7 +661,8 @@ export async function upsertScrapedEvent(
     await getPool().query(
       `UPDATE events SET title = $1, start_date = $2, end_date = $3, start_time = $4, end_time = $5,
        location = $6, address = $7, price = $8, description = $9, image = $10, external_url = $11,
-       category_id = COALESCE($12, category_id), source = $13, updated_at = ${NOW_SQL} WHERE id = $14`,
+       category_id = COALESCE($12, category_id), source = $13,
+       lat = COALESCE($14, lat), lng = COALESCE($15, lng), updated_at = ${NOW_SQL} WHERE id = $16`,
       [
         event.title,
         event.start_date,
@@ -676,6 +677,8 @@ export async function upsertScrapedEvent(
         event.external_url ?? null,
         categoryId,
         sourceName,
+        event.latitude ?? null,
+        event.longitude ?? null,
         existing.id,
       ]
     );
@@ -686,7 +689,7 @@ export async function upsertScrapedEvent(
   if (duplicate) {
     const current = (
       await getPool().query(
-        "SELECT end_date AS \"endDate\", end_time AS \"endTime\", location, address, price, description, image, external_url AS \"externalUrl\", category_id AS \"categoryId\" FROM events WHERE id = $1",
+        "SELECT end_date AS \"endDate\", end_time AS \"endTime\", location, address, price, description, image, external_url AS \"externalUrl\", category_id AS \"categoryId\", lat, lng FROM events WHERE id = $1",
         [duplicate.id]
       )
     ).rows[0] as {
@@ -699,9 +702,11 @@ export async function upsertScrapedEvent(
       image: string | null;
       externalUrl: string | null;
       categoryId: number | null;
+      lat: number | null;
+      lng: number | null;
     };
 
-    const gaps: Array<{ column: string; value: string }> = [];
+    const gaps: Array<{ column: string; value: string | number }> = [];
     if (event.end_date && !current.endDate) gaps.push({ column: "end_date", value: event.end_date });
     if (event.end_time && !current.endTime) gaps.push({ column: "end_time", value: event.end_time });
     if (event.location && !current.location) gaps.push({ column: "location", value: event.location });
@@ -710,6 +715,10 @@ export async function upsertScrapedEvent(
     if (event.description && !current.description) gaps.push({ column: "description", value: event.description });
     if (event.image && !current.image) gaps.push({ column: "image", value: event.image });
     if (event.external_url && !current.externalUrl) gaps.push({ column: "external_url", value: event.external_url });
+    if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
+    if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
+    if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
+    if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
 
     const fillCategory = categoryId != null && current.categoryId == null;
     if (gaps.length === 0 && !fillCategory) return { status: "skipped", id: duplicate.id };
@@ -728,8 +737,8 @@ export async function upsertScrapedEvent(
   }
 
   const inserted = await getPool().query(
-    `INSERT INTO events (slug, title, category_id, start_date, end_date, start_time, end_time, location, address, price, description, image, external_url, source, source_url, featured, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 0, 'published') RETURNING id`,
+    `INSERT INTO events (slug, title, category_id, start_date, end_date, start_time, end_time, location, address, price, description, image, external_url, source, source_url, featured, status, lat, lng)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 0, 'published', $16, $17) RETURNING id`,
     [
       `${slugify(event.title)}-${crypto.randomBytes(4).toString("hex")}`,
       event.title,
@@ -746,6 +755,8 @@ export async function upsertScrapedEvent(
       event.external_url ?? null,
       sourceName,
       dedupeKey,
+      event.latitude ?? null,
+      event.longitude ?? null,
     ]
   );
   return { status: "new", id: inserted.rows[0]?.id ?? null };

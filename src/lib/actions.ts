@@ -189,6 +189,8 @@ function parseSourceInput(
     "monegros",
     "ainsa",
     "fraga",
+    "magia",
+    "ayto",
   ];
   if (!validKinds.includes(kind)) {
     return { error: "Tipo de fuente no válido" };

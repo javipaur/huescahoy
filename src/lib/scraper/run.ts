@@ -11,6 +11,8 @@ import { parseAragon } from "./aragon";
 import { parseMonegros } from "./monegros";
 import { parseAinsa } from "./ainsa";
 import { parseFraga } from "./fraga";
+import { parseMagia } from "./magia";
+import { parseAytoHuesca } from "./ayto";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -116,6 +118,9 @@ function parseSource(kind: Source["kind"], text: string, url: string, sourceUrl:
   if (kind === "monegros") return parseMonegros(text);
   if (kind === "ainsa") return parseAinsa(text, url);
   if (kind === "fraga") return parseFraga(text);
+  if (kind === "magia") return parseMagia(text);
+  if (kind === "ayto") return parseAytoHuesca(text, url);
+  return [];
   return [];
 }
 
