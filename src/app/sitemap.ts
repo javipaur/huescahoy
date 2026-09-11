@@ -1,14 +1,16 @@
 import type { MetadataRoute } from "next";
-import { getCategoriesAdmin, getEvents, getPlans, todayStr } from "@/lib/db";
+import { getCategoriesAdmin, getEvents, getPlans, getRestaurants, getRoutes, todayStr } from "@/lib/db";
 import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [events, plans, categories] = await Promise.all([
+  const [events, plans, categories, restaurants, routes] = await Promise.all([
     getEvents({ from: todayStr(), limit: 200 }),
     getPlans(),
     getCategoriesAdmin(),
+    getRestaurants({ limit: 500 }),
+    getRoutes({ limit: 500 }),
   ]);
   const now = new Date();
 
@@ -33,6 +35,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const restaurantEntries: MetadataRoute.Sitemap = restaurants.map((restaurant) => ({
+    url: `${site.url}/restaurantes/${restaurant.slug}`,
+    lastModified: restaurant.updatedAt ? new Date(restaurant.updatedAt) : now,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const routeEntries: MetadataRoute.Sitemap = routes.map((route) => ({
+    url: `${site.url}/rutas/${route.slug}`,
+    lastModified: route.updatedAt ? new Date(route.updatedAt) : now,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
   return [
     {
       url: site.url,
@@ -54,6 +70,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
+      url: `${site.url}/buscar`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    },
+    {
+      url: `${site.url}/restaurantes`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${site.url}/rutas`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
       url: `${site.url}/colabora`,
       lastModified: now,
       changeFrequency: "monthly",
@@ -61,5 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...eventEntries,
     ...planEntries,
+    ...restaurantEntries,
+    ...routeEntries,
   ];
 }

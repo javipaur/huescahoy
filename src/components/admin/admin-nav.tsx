@@ -8,6 +8,8 @@ const navItems = [
   { href: "/admin", label: "Panel" },
   { href: "/admin/eventos", label: "Eventos" },
   { href: "/admin/categorias", label: "Categorías" },
+  { href: "/admin/restaurantes", label: "Restaurantes" },
+  { href: "/admin/rutas", label: "Rutas" },
   { href: "/admin/fuentes", label: "Fuentes" },
   { href: "/admin/planes", label: "Planes" },
   { href: "/admin/sugerencias", label: "Sugerencias" },

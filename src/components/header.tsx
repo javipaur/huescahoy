@@ -10,6 +10,9 @@ import { site } from "@/lib/site";
 const NAV = [
   { href: "/", label: "Inicio", exact: true },
   { href: "/agenda", label: "Agenda" },
+  { href: "/rutas", label: "Rutas" },
+  { href: "/restaurantes", label: "Restaurantes" },
+  { href: "/buscar", label: "Buscar" },
   { href: "/planes", label: "Planes" },
   { href: "/colabora", label: "Colabora" },
 ];

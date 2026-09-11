@@ -4,10 +4,15 @@ import {
   ArrowRight,
   CalendarPlus,
   MapPin,
+  Mountain,
+  Search,
   Star,
   Users,
+  UtensilsCrossed,
 } from "lucide-react";
 import { EventCard } from "@/components/event-card";
+import { RestaurantCard } from "@/components/restaurant-card";
+import { RouteCard } from "@/components/route-card";
 import { CategoryGrid } from "@/components/category-grid";
 import { FeaturedPickCard } from "@/components/featured-pick-card";
 import { HomeHero } from "@/components/home-hero";
@@ -22,6 +27,8 @@ import {
   getPlanBySlug,
   getUpcomingEvents,
   getStats,
+  getRestaurants,
+  getRoutes,
 } from "@/lib/db";
 import { site } from "@/lib/site";
 import { zoneFor } from "@/lib/zones";
@@ -46,7 +53,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [allEvents, categories, stats, featured, categoryList, activePick] =
+  const [allEvents, categories, stats, featured, categoryList, activePick, restaurants, routes] =
     await Promise.all([
       getUpcomingEvents(60),
       getCategoriesWithCounts(),
@@ -54,6 +61,8 @@ export default async function HomePage() {
       getFeaturedEvents(3),
       getCategoriesAdmin(),
       getActiveFeaturedPick(),
+      getRestaurants({ limit: 3 }),
+      getRoutes({ limit: 3 }),
     ]);
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
 
@@ -228,6 +237,90 @@ export default async function HomePage() {
             <CategoryGrid categories={categories} />
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+              <Search className="h-3.5 w-3.5" />
+              Buscador híbrido
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              Descubre Huesca: rutas, restaurantes y más
+            </h2>
+            <p className="mt-1 text-choco-muted">
+              No solo eventos: explora las mejores rutas de senderismo y los restaurantes de Huesca y su provincia.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Link
+            href="/buscar"
+            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-brand/30 bg-brand/5 p-8 text-center transition hover:border-brand hover:bg-brand/10"
+          >
+            <Search className="h-10 w-10 text-brand" />
+            <h3 className="font-display text-lg font-bold text-choco">Buscar todo</h3>
+            <p className="text-sm text-choco-muted">Eventos, rutas, restaurantes y planes en un solo buscador.</p>
+          </Link>
+
+          <Link
+            href="/rutas"
+            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+          >
+            <Mountain className="h-10 w-10 text-brand" />
+            <h3 className="font-display text-lg font-bold text-choco">Rutas y senderismo</h3>
+            <p className="text-sm text-choco-muted">Senderismo, bicicleta, cultural y excursiones por la provincia.</p>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand">
+              Explorar <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+
+          <Link
+            href="/restaurantes"
+            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+          >
+            <UtensilsCrossed className="h-10 w-10 text-brand" />
+            <h3 className="font-display text-lg font-bold text-choco">Dónde comer</h3>
+            <p className="text-sm text-choco-muted">Restaurantes, bares y tabernas: cocina aragonesa y fusión.</p>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand">
+              Ver restaurantes <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        </div>
+
+        {routes.length > 0 && (
+          <div className="mt-10">
+            <div className="mb-4 flex items-end justify-between">
+              <h3 className="font-display text-lg font-bold text-choco">Rutas destacadas</h3>
+              <Link href="/rutas" className="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-dark">
+                Ver todas <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {routes.map((route) => (
+                <RouteCard key={route.id} route={route} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {restaurants.length > 0 && (
+          <div className="mt-10">
+            <div className="mb-4 flex items-end justify-between">
+              <h3 className="font-display text-lg font-bold text-choco">Restaurantes para ti</h3>
+              <Link href="/restaurantes" className="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-dark">
+                Ver todos <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {restaurants.map((r) => (
+                <RestaurantCard key={r.id} restaurant={r} />
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
