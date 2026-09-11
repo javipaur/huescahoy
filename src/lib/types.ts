@@ -93,7 +93,15 @@ export type SourceKind =
   | "ainsa"
   | "fraga"
   | "magia"
-  | "ayto";
+  | "ayto"
+  | "huescalamagia-restaurants"
+  | "huescalamagia-routes"
+  | "huescalamagia-events"
+  | "senderosgr"
+  | "caminosnaturales"
+  | "opendata-restaurants"
+  | "huescaturismo"
+  | "diputacion";
 
 export type Source = {
   id: number;
@@ -200,4 +208,117 @@ export type FeaturedPickInput = {
   target_slug: string;
   image_url: string | null;
   active: number;
+};
+
+export type RestaurantItem = {
+  id: number;
+  slug: string;
+  name: string;
+  description: string | null;
+  cuisineType: string | null;
+  priceRange: string | null;
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  image: string | null;
+  lat: number | null;
+  lng: number | null;
+  rating: number | null;
+  source: string;
+  sourceUrl: string | null;
+  status: "published" | "hidden";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type RestaurantInput = {
+  name: string;
+  slug: string;
+  description: string | null;
+  cuisine_type: string | null;
+  price_range: string | null;
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  image: string | null;
+  lat: number | null;
+  lng: number | null;
+  rating: number | null;
+  source: string;
+  source_url: string | null;
+  status: "published" | "hidden";
+};
+
+export type RouteItem = {
+  id: number;
+  slug: string;
+  title: string;
+  description: string | null;
+  summary: string | null;
+  image: string | null;
+  distanceKm: number | null;
+  elevationM: number | null;
+  difficulty: string | null;
+  routeType: string | null;
+  lat: number | null;
+  lng: number | null;
+  externalUrl: string | null;
+  gpxUrl: string | null;
+  stagesCount: number;
+  source: string;
+  sourceUrl: string | null;
+  status: "published" | "hidden";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type RouteInput = {
+  title: string;
+  slug: string;
+  description: string | null;
+  summary: string | null;
+  image: string | null;
+  distance_km: number | null;
+  elevation_m: number | null;
+  difficulty: string | null;
+  route_type: string | null;
+  lat: number | null;
+  lng: number | null;
+  external_url: string | null;
+  gpx_url: string | null;
+  stages_count: number;
+  source: string;
+  source_url: string | null;
+  status: "published" | "hidden";
+};
+
+export type RouteStage = {
+  id: number;
+  routeId: number;
+  stageNumber: number;
+  title: string;
+  description: string | null;
+  distanceKm: number | null;
+  elevationGain: number | null;
+  elevationLoss: number | null;
+  lat: number | null;
+  lng: number | null;
+  sortOrder: number;
+};
+
+export type RestaurantFilter = {
+  q?: string;
+  cuisineType?: string;
+  priceRange?: string;
+  zone?: string;
+  limit?: number;
+};
+
+export type RouteFilter = {
+  q?: string;
+  routeType?: string;
+  difficulty?: string;
+  limit?: number;
 };

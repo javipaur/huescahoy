@@ -13,6 +13,14 @@ import { parseAinsa } from "./ainsa";
 import { parseFraga } from "./fraga";
 import { parseMagia } from "./magia";
 import { parseAytoHuesca } from "./ayto";
+import { fetchHuescaLaMagiaRestaurants } from "./huescalamagia-restaurants";
+import { fetchHuescaLaMagiaRoutes } from "./huescalamagia-routes";
+import { fetchHuescaLaMagiaEvents } from "./huescalamagia-events";
+import { fetchSenderosGrRoutes } from "./senderosgr";
+import { fetchCaminosNaturalesRoutes } from "./caminosnaturales";
+import { fetchOpenDataRestaurants } from "./opendata-restaurants";
+import { fetchHuescaTurismoEvents } from "./huescaturismo-events";
+import { fetchDiputacionEvents } from "./diputacion-events";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -24,6 +32,8 @@ import {
   recordScraperRun,
   setEventImage,
   todayStr,
+  upsertRestaurant,
+  upsertRoute,
   upsertScrapedEvent,
 } from "../db";
 import type { Category, ScrapeEvent, Source } from "../types";
@@ -120,7 +130,6 @@ function parseSource(kind: Source["kind"], text: string, url: string, sourceUrl:
   if (kind === "fraga") return parseFraga(text);
   if (kind === "magia") return parseMagia(text);
   if (kind === "ayto") return parseAytoHuesca(text, url);
-  return [];
   return [];
 }
 
@@ -223,10 +232,69 @@ async function enrichImages(
   return added;
 }
 
+const API_EVENT_FETCHERS: Record<string, () => Promise<ScrapeEvent[]>> = {
+  "huescalamagia-events": fetchHuescaLaMagiaEvents,
+  huescaturismo: fetchHuescaTurismoEvents,
+  diputacion: fetchDiputacionEvents,
+};
+
+const RESTAURANT_FETCHERS: Record<string, () => Promise<import("../types").RestaurantInput[]>> = {
+  "huescalamagia-restaurants": fetchHuescaLaMagiaRestaurants,
+  "opendata-restaurants": fetchOpenDataRestaurants,
+};
+
+const ROUTE_FETCHERS: Record<string, () => Promise<import("../types").RouteInput[]>> = {
+  "huescalamagia-routes": fetchHuescaLaMagiaRoutes,
+  senderosgr: fetchSenderosGrRoutes,
+  caminosnaturales: fetchCaminosNaturalesRoutes,
+};
+
+async function runContentSource(source: Source): Promise<SourceResult> {
+  try {
+    if (RESTAURANT_FETCHERS[source.kind]) {
+      const items = await RESTAURANT_FETCHERS[source.kind]();
+      let created = 0;
+      let updated = 0;
+      for (const item of items) {
+        const result = await upsertRestaurant(item);
+        if (result.status === "new") created++;
+        else if (result.status === "updated") updated++;
+      }
+      return { status: "ok", found: items.length, created, updated };
+    }
+    if (ROUTE_FETCHERS[source.kind]) {
+      const items = await ROUTE_FETCHERS[source.kind]();
+      let created = 0;
+      let updated = 0;
+      for (const item of items) {
+        const result = await upsertRoute(item);
+        if (result.status === "new") created++;
+        else if (result.status === "updated") updated++;
+      }
+      return { status: "ok", found: items.length, created, updated };
+    }
+    return { status: "error", found: 0, created: 0, updated: 0, error: "Tipo de contenido no soportado" };
+  } catch (err) {
+    const error = err instanceof Error ? err.message : String(err);
+    await captureServerError("scraper_content_error", {
+      source_name: source.name,
+      source_url: source.url,
+      source_kind: source.kind,
+      error,
+    });
+    return { status: "error", found: 0, created: 0, updated: 0, error };
+  }
+}
+
 export async function runSource(source: Source): Promise<SourceResult> {
+  if (RESTAURANT_FETCHERS[source.kind] || ROUTE_FETCHERS[source.kind]) {
+    return runContentSource(source);
+  }
   try {
     let parsed: ScrapeEvent[] = [];
-    if (source.kind === "ainsa") {
+    if (API_EVENT_FETCHERS[source.kind]) {
+      parsed = await API_EVENT_FETCHERS[source.kind]();
+    } else if (source.kind === "ainsa") {
       parsed = await fetchAinsaEvents();
     } else {
       const urls = urlsFor(source);

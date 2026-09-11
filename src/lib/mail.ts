@@ -7,6 +7,17 @@ export function mailConfigured(): boolean {
   return Boolean((hasGmail || hasResend) && process.env.NOTIFY_EMAIL);
 }
 
+export function missingMailConfig(): string[] {
+  const hasGmail = Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+  const hasResend = Boolean(process.env.RESEND_API_KEY);
+  const missing: string[] = [];
+  if (!hasGmail && !hasResend) {
+    missing.push("EMAIL_USER/EMAIL_PASS (Gmail) o RESEND_API_KEY");
+  }
+  if (!process.env.NOTIFY_EMAIL) missing.push("NOTIFY_EMAIL");
+  return missing;
+}
+
 function gmailTransport() {
   const user = process.env.EMAIL_USER;
   const pass = process.env.EMAIL_PASS;

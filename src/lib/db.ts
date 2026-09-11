@@ -11,6 +11,13 @@ import type {
   FeaturedPickInput,
   Plan,
   PlanInput,
+  RestaurantFilter,
+  RestaurantInput,
+  RestaurantItem,
+  RouteFilter,
+  RouteInput,
+  RouteItem,
+  RouteStage,
   ScrapeEvent,
   ScraperRun,
   Source,
@@ -165,6 +172,72 @@ const SCHEMA_SQL = `
   CREATE INDEX IF NOT EXISTS idx_events_status ON events(status);
   CREATE INDEX IF NOT EXISTS idx_suggestions_status ON suggestions(status);
   CREATE INDEX IF NOT EXISTS idx_planes_published ON planes(published);
+
+  CREATE TABLE IF NOT EXISTS restaurants (
+    id SERIAL PRIMARY KEY,
+    slug TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    description TEXT,
+    cuisine_type TEXT,
+    price_range TEXT,
+    address TEXT,
+    phone TEXT,
+    email TEXT,
+    website TEXT,
+    image TEXT,
+    lat DOUBLE PRECISION,
+    lng DOUBLE PRECISION,
+    rating DOUBLE PRECISION,
+    source TEXT NOT NULL DEFAULT 'manual',
+    source_url TEXT UNIQUE,
+    status TEXT NOT NULL DEFAULT 'published',
+    created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+    updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+  );
+
+  CREATE TABLE IF NOT EXISTS routes (
+    id SERIAL PRIMARY KEY,
+    slug TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    description TEXT,
+    summary TEXT,
+    image TEXT,
+    distance_km REAL,
+    elevation_m INTEGER,
+    difficulty TEXT,
+    route_type TEXT,
+    lat DOUBLE PRECISION,
+    lng DOUBLE PRECISION,
+    external_url TEXT,
+    gpx_url TEXT,
+    stages_count INTEGER NOT NULL DEFAULT 0,
+    source TEXT NOT NULL DEFAULT 'manual',
+    source_url TEXT UNIQUE,
+    status TEXT NOT NULL DEFAULT 'published',
+    created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+    updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+  );
+
+  CREATE TABLE IF NOT EXISTS route_stages (
+    id SERIAL PRIMARY KEY,
+    route_id INTEGER REFERENCES routes(id) ON DELETE CASCADE,
+    stage_number INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    distance_km REAL,
+    elevation_gain INTEGER,
+    elevation_loss INTEGER,
+    lat DOUBLE PRECISION,
+    lng DOUBLE PRECISION,
+    sort_order INTEGER NOT NULL DEFAULT 0
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_restaurants_source ON restaurants(source);
+  CREATE INDEX IF NOT EXISTS idx_restaurants_status ON restaurants(status);
+  CREATE INDEX IF NOT EXISTS idx_routes_source ON routes(source);
+  CREATE INDEX IF NOT EXISTS idx_routes_status ON routes(status);
+  CREATE INDEX IF NOT EXISTS idx_routes_type ON routes(route_type);
+  CREATE INDEX IF NOT EXISTS idx_route_stages_route ON route_stages(route_id);
 `;
 
 let pool: Pool | null = null;
@@ -455,11 +528,19 @@ export async function getStats() {
   const sources = await getPool().query(
     `SELECT COUNT(*)::int AS total FROM sources WHERE enabled = 1`
   );
+  const restaurants = await getPool().query(
+    `SELECT COUNT(*)::int AS total FROM restaurants WHERE status = 'published'`
+  );
+  const routes = await getPool().query(
+    `SELECT COUNT(*)::int AS total FROM routes WHERE status = 'published'`
+  );
   return {
     upcoming: published.rows[0].total,
     week: upcoming.rows[0].total,
     categories: categories.rows[0].total,
     sources: sources.rows[0].total,
+    restaurants: restaurants.rows[0].total,
+    routes: routes.rows[0].total,
   };
 }
 
@@ -1223,5 +1304,329 @@ export async function saveFeaturedPick(input: FeaturedPickInput): Promise<void> 
         input.active,
       ]
     );
+  }
+}
+
+// ============================================================
+// ---------- Restaurants ----------
+// ============================================================
+
+const RESTAURANT_COLUMNS =
+  `id, slug, name, description, cuisine_type AS "cuisineType", price_range AS "priceRange",
+   address, phone, email, website, image, lat, lng, rating, source,
+   source_url AS "sourceUrl", status, created_at AS "createdAt", updated_at AS "updatedAt"`;
+
+function rowToRestaurant(row: unknown): RestaurantItem {
+  return toPlain(row as RestaurantItem);
+}
+
+export async function getRestaurants(filter: RestaurantFilter = {}): Promise<RestaurantItem[]> {
+  await init();
+  const conditions: string[] = ["r.status = 'published'"];
+  const params: (string | number)[] = [];
+
+  if (filter.q) {
+    conditions.push(
+      `(r.name LIKE $${params.length + 1} OR r.description LIKE $${params.length + 2} OR r.address LIKE $${params.length + 3})`
+    );
+    params.push(`%${filter.q}%`, `%${filter.q}%`, `%${filter.q}%`);
+  }
+  if (filter.cuisineType) {
+    conditions.push(`r.cuisine_type = $${params.length + 1}`);
+    params.push(filter.cuisineType);
+  }
+  if (filter.priceRange) {
+    conditions.push(`r.price_range = $${params.length + 1}`);
+    params.push(filter.priceRange);
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+  let sql = `SELECT ${RESTAURANT_COLUMNS} FROM restaurants r ${where} ORDER BY r.name ASC`;
+  if (filter.limit) {
+    const limit = Math.max(1, Math.min(filter.limit, 500));
+    params.push(limit);
+    sql += ` LIMIT $${params.length}`;
+  }
+
+  const res = await getPool().query(sql, params);
+  return (res.rows as RestaurantItem[]).map(rowToRestaurant);
+}
+
+export async function getRestaurantBySlug(slug: string): Promise<RestaurantItem | null> {
+  await init();
+  const res = await getPool().query(`SELECT ${RESTAURANT_COLUMNS} FROM restaurants WHERE slug = $1`, [slug]);
+  return res.rows.length ? rowToRestaurant(res.rows[0]) : null;
+}
+
+export async function getRestaurantById(id: number): Promise<RestaurantItem | null> {
+  await init();
+  const res = await getPool().query(`SELECT ${RESTAURANT_COLUMNS} FROM restaurants WHERE id = $1`, [id]);
+  return res.rows.length ? rowToRestaurant(res.rows[0]) : null;
+}
+
+export async function getRestaurantsAdmin(): Promise<RestaurantItem[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT ${RESTAURANT_COLUMNS} FROM restaurants ORDER BY name ASC`
+  );
+  return (res.rows as RestaurantItem[]).map(rowToRestaurant);
+}
+
+export async function createRestaurant(input: RestaurantInput): Promise<void> {
+  await init();
+  await getPool().query(
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+    [
+      input.slug, input.name, input.description, input.cuisine_type, input.price_range,
+      input.address, input.phone, input.email, input.website, input.image,
+      input.lat, input.lng, input.rating, input.source, input.source_url, input.status,
+    ]
+  );
+}
+
+export async function updateRestaurant(id: number, input: Partial<RestaurantInput>): Promise<void> {
+  await init();
+  const current = await getRestaurantById(id);
+  if (!current) return;
+  await getPool().query(
+    `UPDATE restaurants SET slug = $1, name = $2, description = $3, cuisine_type = $4, price_range = $5,
+     address = $6, phone = $7, email = $8, website = $9, image = $10, lat = $11, lng = $12,
+     rating = $13, status = $14, updated_at = ${NOW_SQL} WHERE id = $15`,
+    [
+      input.slug ?? current.slug,
+      input.name ?? current.name,
+      input.description ?? current.description,
+      input.cuisine_type ?? current.cuisineType,
+      input.price_range ?? current.priceRange,
+      input.address ?? current.address,
+      input.phone ?? current.phone,
+      input.email ?? current.email,
+      input.website ?? current.website,
+      input.image ?? current.image,
+      input.lat ?? current.lat,
+      input.lng ?? current.lng,
+      input.rating ?? current.rating,
+      input.status ?? current.status,
+      id,
+    ]
+  );
+}
+
+export async function deleteRestaurant(id: number): Promise<void> {
+  await init();
+  await getPool().query("DELETE FROM restaurants WHERE id = $1", [id]);
+}
+
+export async function upsertRestaurant(input: RestaurantInput): Promise<{ status: "new" | "updated" | "skipped"; id: number | null }> {
+  await init();
+  const dedupeKey = input.source_url ?? `manual:${input.slug}`;
+
+  const existing = (
+    await getPool().query("SELECT id, name, image, source FROM restaurants WHERE source_url = $1", [dedupeKey])
+  ).rows[0] as { id: number; name: string; image: string | null; source: string } | undefined;
+
+  if (existing) {
+    const hasNewImage = Boolean(input.image) && !existing.image;
+    if (!hasNewImage) return { status: "skipped", id: existing.id };
+    await getPool().query(
+      `UPDATE restaurants SET image = $1, updated_at = ${NOW_SQL} WHERE id = $2`,
+      [input.image, existing.id]
+    );
+    return { status: "updated", id: existing.id };
+  }
+
+  const inserted = await getPool().query(
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id`,
+    [
+      input.slug, input.name, input.description, input.cuisine_type, input.price_range,
+      input.address, input.phone, input.email, input.website, input.image,
+      input.lat, input.lng, input.rating, input.source, dedupeKey, input.status,
+    ]
+  );
+  return { status: "new", id: inserted.rows[0]?.id ?? null };
+}
+
+// ============================================================
+// ---------- Routes ----------
+// ============================================================
+
+const ROUTE_COLUMNS =
+  `id, slug, title, description, summary, image, distance_km AS "distanceKm",
+   elevation_m AS "elevationM", difficulty, route_type AS "routeType",
+   lat, lng, external_url AS "externalUrl", gpx_url AS "gpxUrl",
+   stages_count AS "stagesCount", source, source_url AS "sourceUrl", status,
+   created_at AS "createdAt", updated_at AS "updatedAt"`;
+
+function rowToRoute(row: unknown): RouteItem {
+  return toPlain(row as RouteItem);
+}
+
+export async function getRoutes(filter: RouteFilter = {}): Promise<RouteItem[]> {
+  await init();
+  const conditions: string[] = ["r.status = 'published'"];
+  const params: (string | number)[] = [];
+
+  if (filter.q) {
+    conditions.push(
+      `(r.title LIKE $${params.length + 1} OR r.description LIKE $${params.length + 2} OR r.summary LIKE $${params.length + 3})`
+    );
+    params.push(`%${filter.q}%`, `%${filter.q}%`, `%${filter.q}%`);
+  }
+  if (filter.routeType) {
+    conditions.push(`r.route_type = $${params.length + 1}`);
+    params.push(filter.routeType);
+  }
+  if (filter.difficulty) {
+    conditions.push(`r.difficulty = $${params.length + 1}`);
+    params.push(filter.difficulty);
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+  let sql = `SELECT ${ROUTE_COLUMNS} FROM routes r ${where} ORDER BY r.title ASC`;
+  if (filter.limit) {
+    const limit = Math.max(1, Math.min(filter.limit, 500));
+    params.push(limit);
+    sql += ` LIMIT $${params.length}`;
+  }
+
+  const res = await getPool().query(sql, params);
+  return (res.rows as RouteItem[]).map(rowToRoute);
+}
+
+export async function getRouteBySlug(slug: string): Promise<RouteItem | null> {
+  await init();
+  const res = await getPool().query(`SELECT ${ROUTE_COLUMNS} FROM routes WHERE slug = $1`, [slug]);
+  return res.rows.length ? rowToRoute(res.rows[0]) : null;
+}
+
+export async function getRouteById(id: number): Promise<RouteItem | null> {
+  await init();
+  const res = await getPool().query(`SELECT ${ROUTE_COLUMNS} FROM routes WHERE id = $1`, [id]);
+  return res.rows.length ? rowToRoute(res.rows[0]) : null;
+}
+
+export async function getRoutesAdmin(): Promise<RouteItem[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT ${ROUTE_COLUMNS} FROM routes ORDER BY title ASC`
+  );
+  return (res.rows as RouteItem[]).map(rowToRoute);
+}
+
+export async function createRoute(input: RouteInput): Promise<void> {
+  await init();
+  await getPool().query(
+    `INSERT INTO routes (slug, title, description, summary, image, distance_km, elevation_m, difficulty, route_type, lat, lng, external_url, gpx_url, stages_count, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
+    [
+      input.slug, input.title, input.description, input.summary, input.image,
+      input.distance_km, input.elevation_m, input.difficulty, input.route_type,
+      input.lat, input.lng, input.external_url, input.gpx_url, input.stages_count,
+      input.source, input.source_url, input.status,
+    ]
+  );
+}
+
+export async function updateRoute(id: number, input: Partial<RouteInput>): Promise<void> {
+  await init();
+  const current = await getRouteById(id);
+  if (!current) return;
+  await getPool().query(
+    `UPDATE routes SET slug = $1, title = $2, description = $3, summary = $4, image = $5,
+     distance_km = $6, elevation_m = $7, difficulty = $8, route_type = $9, lat = $10, lng = $11,
+     external_url = $12, gpx_url = $13, stages_count = $14, status = $15, updated_at = ${NOW_SQL} WHERE id = $16`,
+    [
+      input.slug ?? current.slug,
+      input.title ?? current.title,
+      input.description ?? current.description,
+      input.summary ?? current.summary,
+      input.image ?? current.image,
+      input.distance_km ?? current.distanceKm,
+      input.elevation_m ?? current.elevationM,
+      input.difficulty ?? current.difficulty,
+      input.route_type ?? current.routeType,
+      input.lat ?? current.lat,
+      input.lng ?? current.lng,
+      input.external_url ?? current.externalUrl,
+      input.gpx_url ?? current.gpxUrl,
+      input.stages_count ?? current.stagesCount,
+      input.status ?? current.status,
+      id,
+    ]
+  );
+}
+
+export async function deleteRoute(id: number): Promise<void> {
+  await init();
+  await getPool().query("DELETE FROM routes WHERE id = $1", [id]);
+}
+
+export async function upsertRoute(input: RouteInput): Promise<{ status: "new" | "updated" | "skipped"; id: number | null }> {
+  await init();
+  const dedupeKey = input.source_url ?? `manual:${input.slug}`;
+
+  const existing = (
+    await getPool().query("SELECT id, title, image, source FROM routes WHERE source_url = $1", [dedupeKey])
+  ).rows[0] as { id: number; title: string; image: string | null; source: string } | undefined;
+
+  if (existing) {
+    const hasNewImage = Boolean(input.image) && !existing.image;
+    if (!hasNewImage) return { status: "skipped", id: existing.id };
+    await getPool().query(
+      `UPDATE routes SET image = $1, updated_at = ${NOW_SQL} WHERE id = $2`,
+      [input.image, existing.id]
+    );
+    return { status: "updated", id: existing.id };
+  }
+
+  const inserted = await getPool().query(
+    `INSERT INTO routes (slug, title, description, summary, image, distance_km, elevation_m, difficulty, route_type, lat, lng, external_url, gpx_url, stages_count, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id`,
+    [
+      input.slug, input.title, input.description, input.summary, input.image,
+      input.distance_km, input.elevation_m, input.difficulty, input.route_type,
+      input.lat, input.lng, input.external_url, input.gpx_url, input.stages_count,
+      input.source, dedupeKey, input.status,
+    ]
+  );
+  return { status: "new", id: inserted.rows[0]?.id ?? null };
+}
+
+// ---------- Route stages ----------
+
+export async function getRouteStages(routeId: number): Promise<RouteStage[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT id, route_id AS "routeId", stage_number AS "stageNumber", title, description,
+     distance_km AS "distanceKm", elevation_gain AS "elevationGain", elevation_loss AS "elevationLoss",
+     lat, lng, sort_order AS "sortOrder"
+     FROM route_stages WHERE route_id = $1 ORDER BY sort_order, stage_number`,
+    [routeId]
+  );
+  return (res.rows as RouteStage[]).map(toPlain);
+}
+
+export async function replaceRouteStages(routeId: number, stages: Omit<RouteStage, "id" | "routeId">[]): Promise<void> {
+  await init();
+  const client = await getPool().connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("DELETE FROM route_stages WHERE route_id = $1", [routeId]);
+    for (let i = 0; i < stages.length; i++) {
+      const s = stages[i];
+      await client.query(
+        `INSERT INTO route_stages (route_id, stage_number, title, description, distance_km, elevation_gain, elevation_loss, lat, lng, sort_order)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+        [routeId, s.stageNumber, s.title, s.description, s.distanceKm, s.elevationGain, s.elevationLoss, s.lat, s.lng, i]
+      );
+    }
+    await client.query("COMMIT");
+  } catch (err) {
+    try { await client.query("ROLLBACK"); } catch { /* ignore */ }
+    throw err;
+  } finally {
+    client.release();
   }
 }

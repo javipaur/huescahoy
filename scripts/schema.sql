@@ -102,8 +102,73 @@ CREATE TABLE IF NOT EXISTS geocodes (
   updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
 );
 
+CREATE TABLE IF NOT EXISTS restaurants (
+  id SERIAL PRIMARY KEY,
+  slug TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  description TEXT,
+  cuisine_type TEXT,
+  price_range TEXT,
+  address TEXT,
+  phone TEXT,
+  email TEXT,
+  website TEXT,
+  image TEXT,
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
+  rating DOUBLE PRECISION,
+  source TEXT NOT NULL DEFAULT 'manual',
+  source_url TEXT UNIQUE,
+  status TEXT NOT NULL DEFAULT 'published',
+  created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+  updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+);
+
+CREATE TABLE IF NOT EXISTS routes (
+  id SERIAL PRIMARY KEY,
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  description TEXT,
+  summary TEXT,
+  image TEXT,
+  distance_km REAL,
+  elevation_m INTEGER,
+  difficulty TEXT,
+  route_type TEXT,
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
+  external_url TEXT,
+  gpx_url TEXT,
+  stages_count INTEGER NOT NULL DEFAULT 0,
+  source TEXT NOT NULL DEFAULT 'manual',
+  source_url TEXT UNIQUE,
+  status TEXT NOT NULL DEFAULT 'published',
+  created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
+  updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
+);
+
+CREATE TABLE IF NOT EXISTS route_stages (
+  id SERIAL PRIMARY KEY,
+  route_id INTEGER REFERENCES routes(id) ON DELETE CASCADE,
+  stage_number INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT,
+  distance_km REAL,
+  elevation_gain INTEGER,
+  elevation_loss INTEGER,
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
+  sort_order INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE INDEX IF NOT EXISTS idx_events_start ON events(start_date);
 CREATE INDEX IF NOT EXISTS idx_events_category ON events(category_id);
 CREATE INDEX IF NOT EXISTS idx_events_status ON events(status);
 CREATE INDEX IF NOT EXISTS idx_suggestions_status ON suggestions(status);
 CREATE INDEX IF NOT EXISTS idx_planes_published ON planes(published);
+CREATE INDEX IF NOT EXISTS idx_restaurants_source ON restaurants(source);
+CREATE INDEX IF NOT EXISTS idx_restaurants_status ON restaurants(status);
+CREATE INDEX IF NOT EXISTS idx_routes_source ON routes(source);
+CREATE INDEX IF NOT EXISTS idx_routes_status ON routes(status);
+CREATE INDEX IF NOT EXISTS idx_routes_type ON routes(route_type);
+CREATE INDEX IF NOT EXISTS idx_route_stages_route ON route_stages(route_id);

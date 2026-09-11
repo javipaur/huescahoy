@@ -9,17 +9,24 @@ import {
   createCategory,
   createEvent,
   createPlan,
+  createRestaurant,
+  createRoute,
   createSession,
   createSource,
   createSuggestion,
   deleteCategory,
   deleteEvent,
   deletePlan,
+  deleteRestaurant,
+  deleteRoute,
   deleteSession,
   deleteSource,
   deleteSuggestion,
   getEventBySlug,
   getPlanBySlug,
+  getRestaurantById,
+  getRouteById,
+  getSources,
   isSuggestionKind,
   recentPendingEventCount,
   recentSuggestionCount,
@@ -32,6 +39,8 @@ import {
   updateCategory,
   updateEvent,
   updatePlan,
+  updateRestaurant,
+  updateRoute,
   updateSource,
 } from "./db";
 import { runAllSources, runSourceById } from "./scraper/run";
@@ -44,6 +53,8 @@ import type {
   CategoryInput,
   EventInput,
   PlanInput,
+  RestaurantInput,
+  RouteInput,
   SourceInput,
   SourceKind,
   SuggestionStatus,
@@ -52,12 +63,14 @@ import type {
 export type ActionResult = { error?: string };
 export type SuggestResult = { ok?: boolean; error?: string };
 
-const PUBLIC_PATHS = ["/", "/agenda", "/planes", "/api/eventos"];
+const PUBLIC_PATHS = ["/", "/agenda", "/planes", "/api/eventos", "/restaurantes", "/rutas", "/buscar"];
 
 function revalidateAll(): void {
   for (const path of PUBLIC_PATHS) revalidatePath(path);
   revalidatePath("/eventos/[slug]", "page");
   revalidatePath("/planes/[slug]", "page");
+  revalidatePath("/restaurantes/[slug]", "page");
+  revalidatePath("/rutas/[slug]", "page");
 }
 
 function getAdminPassword(): string {
@@ -191,6 +204,14 @@ function parseSourceInput(
     "fraga",
     "magia",
     "ayto",
+    "huescalamagia-restaurants",
+    "huescalamagia-routes",
+    "huescalamagia-events",
+    "senderosgr",
+    "caminosnaturales",
+    "opendata-restaurants",
+    "huescaturismo",
+    "diputacion",
   ];
   if (!validKinds.includes(kind)) {
     return { error: "Tipo de fuente no válido" };
@@ -688,4 +709,150 @@ export async function saveFeaturedPickAction(
   });
   revalidateAll();
   return { summary: "Plan del finde guardado. Revisa la portada." };
+}
+
+// ---------- Restaurants ----------
+
+function parseRestaurantInput(
+  formData: FormData
+): { error?: string; value?: RestaurantInput } {
+  const name = toString(formData.get("name"));
+  if (!name) return { error: "El nombre del restaurante es obligatorio" };
+  return {
+    value: {
+      name,
+      slug: slugify(toString(formData.get("slug")) || name),
+      description: nullable(toString(formData.get("description"))),
+      cuisine_type: nullable(toString(formData.get("cuisine_type"))),
+      price_range: nullable(toString(formData.get("price_range"))),
+      address: nullable(toString(formData.get("address"))),
+      phone: nullable(toString(formData.get("phone"))),
+      email: nullable(toString(formData.get("email"))),
+      website: nullable(toString(formData.get("website"))),
+      image: nullable(toString(formData.get("image"))),
+      lat: Number(formData.get("lat")) || null,
+      lng: Number(formData.get("lng")) || null,
+      rating: Number(formData.get("rating")) || null,
+      source: toString(formData.get("source")) || "manual",
+      source_url: nullable(toString(formData.get("source_url"))),
+      status: toString(formData.get("status")) === "hidden" ? "hidden" : "published",
+    },
+  };
+}
+
+export async function createRestaurantAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult> {
+  await requireAuth();
+  const parsed = parseRestaurantInput(formData);
+  if (parsed.error) return parsed;
+  await createRestaurant(parsed.value!);
+  revalidateAll();
+  return {};
+}
+
+export async function updateRestaurantAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult> {
+  await requireAuth();
+  const id = toInt(formData.get("id"));
+  const parsed = parseRestaurantInput(formData);
+  if (parsed.error) return parsed;
+  await updateRestaurant(id, parsed.value!);
+  revalidateAll();
+  return {};
+}
+
+export async function deleteRestaurantById(id: number): Promise<ActionResult> {
+  await requireAuth();
+  await deleteRestaurant(id);
+  revalidateAll();
+  return {};
+}
+
+// ---------- Routes ----------
+
+function parseRouteInput(
+  formData: FormData
+): { error?: string; value?: RouteInput } {
+  const title = toString(formData.get("title"));
+  if (!title) return { error: "El título de la ruta es obligatorio" };
+  return {
+    value: {
+      title,
+      slug: slugify(toString(formData.get("slug")) || title),
+      description: nullable(toString(formData.get("description"))),
+      summary: nullable(toString(formData.get("summary"))),
+      image: nullable(toString(formData.get("image"))),
+      distance_km: Number(formData.get("distance_km")) || null,
+      elevation_m: Number(formData.get("elevation_m")) || null,
+      difficulty: nullable(toString(formData.get("difficulty"))),
+      route_type: nullable(toString(formData.get("route_type"))),
+      lat: Number(formData.get("lat")) || null,
+      lng: Number(formData.get("lng")) || null,
+      external_url: nullable(toString(formData.get("external_url"))),
+      gpx_url: nullable(toString(formData.get("gpx_url"))),
+      stages_count: toInt(formData.get("stages_count")),
+      source: toString(formData.get("source")) || "manual",
+      source_url: nullable(toString(formData.get("source_url"))),
+      status: toString(formData.get("status")) === "hidden" ? "hidden" : "published",
+    },
+  };
+}
+
+export async function createRouteAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult> {
+  await requireAuth();
+  const parsed = parseRouteInput(formData);
+  if (parsed.error) return parsed;
+  await createRoute(parsed.value!);
+  revalidateAll();
+  return {};
+}
+
+export async function updateRouteAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult> {
+  await requireAuth();
+  const id = toInt(formData.get("id"));
+  const parsed = parseRouteInput(formData);
+  if (parsed.error) return parsed;
+  await updateRoute(id, parsed.value!);
+  revalidateAll();
+  return {};
+}
+
+export async function deleteRouteById(id: number): Promise<ActionResult> {
+  await requireAuth();
+  await deleteRoute(id);
+  revalidateAll();
+  return {};
+}
+
+// ---------- Scraper content ----------
+
+export async function runContentScraperAction(
+  _prevState: ActionResult | undefined,
+  formData: FormData
+): Promise<ActionResult & { summary?: string }> {
+  await requireAuth();
+  const kind = toString(formData.get("kind"));
+  const sources = await getSources();
+  const source = sources.find((s) => s.kind === kind);
+  if (!source) {
+    return { summary: `No se encontró fuente con tipo ${kind}. Crea la fuente primero.` };
+  }
+  const result = await runSourceById(source.id);
+  revalidateAll();
+  if (result.status === "error") {
+    return { summary: `Error al procesar: ${result.error ?? "desconocido"}` };
+  }
+  return {
+    summary: `Fuente procesada: ${result.found} encontrados, ${result.created} nuevos, ${result.updated} actualizados.`,
+  };
 }
