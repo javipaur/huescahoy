@@ -107,7 +107,16 @@ export async function fetchDiputacionEvents(): Promise<ScrapeEvent[]> {
     for (const event of events) {
       if (event.start_date === "2099-12-31") {
         event.start_date = parsed.day;
-        event.start_time = parsed.time;
+        event.start_time = parsed.time ?? event.start_time;
+        if (!event.start_time) {
+          const ctx = dateMatch.index != null
+            ? scrapedText.slice(dateMatch.index, dateMatch.index + 80)
+            : scrapedText;
+          const timeMatch = ctx.match(/(\d{1,2}):(\d{2})/);
+          if (timeMatch) {
+            event.start_time = `${String(Number(timeMatch[1])).padStart(2, "0")}:${timeMatch[2]}`;
+          }
+        }
         break;
       }
     }

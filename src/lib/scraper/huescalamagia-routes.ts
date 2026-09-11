@@ -60,7 +60,11 @@ function categoryFor(item: MagiaItem, fallback: string): string {
       subsections.push(...(item.subsections[key] ?? []));
     }
   }
-  const haystack = [...subsections, item.title ?? ""].join(" ");
+  const haystack = [...subsections, item.title ?? ""]
+    .join(" ")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
   for (const mapping of CATEGORY_MAP) {
     if (mapping.match.test(haystack)) return mapping.type;
   }

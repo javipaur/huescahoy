@@ -18,7 +18,7 @@ function slugify(input: string): string {
 }
 
 function parseDistance(text: string): number | null {
-  const match = text.match(/(\d+(?:\.\d+)?)\s*km/i);
+  const match = text.match(/(\d+(?:[.,]\d+)?)\s*km/i);
   return match ? Number(match[1].replace(",", ".")) : null;
 }
 

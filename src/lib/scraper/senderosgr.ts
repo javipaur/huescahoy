@@ -29,8 +29,8 @@ function slugify(input: string): string {
 }
 
 function parseDistance(text: string): number | null {
-  const match = text.match(/(\d+(?:\.\d+)?)\s*(?:km|kil[oó]metros)/i);
-  return match ? Number(match[1].replace(".", "")) : null;
+  const match = text.match(/(\d+(?:[.,]\d+)?)\s*(?:km|kil[oó]metros)/i);
+  return match ? Number(match[1].replace(",", ".")) : null;
 }
 
 function parseElevation(text: string): { gain: number | null; loss: number | null } {
