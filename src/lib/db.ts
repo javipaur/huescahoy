@@ -232,6 +232,13 @@ const SCHEMA_SQL = `
     sort_order INTEGER NOT NULL DEFAULT 0
   );
 
+  CREATE TABLE IF NOT EXISTS rate_limits (
+    key VARCHAR(255) NOT NULL,
+    window_start BIGINT NOT NULL,
+    count INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (key, window_start)
+  );
+
   CREATE INDEX IF NOT EXISTS idx_restaurants_source ON restaurants(source);
   CREATE INDEX IF NOT EXISTS idx_restaurants_status ON restaurants(status);
   CREATE INDEX IF NOT EXISTS idx_routes_source ON routes(source);
@@ -243,7 +250,7 @@ const SCHEMA_SQL = `
 let pool: Pool | null = null;
 let ready: Promise<void> | null = null;
 
-function getPool(): Pool {
+export function getPool(): Pool {
   if (!pool) {
     if (!process.env.DATABASE_URL) {
       throw new Error("DATABASE_URL no está configurada en el entorno");

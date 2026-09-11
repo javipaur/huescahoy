@@ -161,6 +161,13 @@ CREATE TABLE IF NOT EXISTS route_stages (
   sort_order INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS rate_limits (
+  key VARCHAR(255) NOT NULL,
+  window_start BIGINT NOT NULL,
+  count INTEGER NOT NULL DEFAULT 1,
+  PRIMARY KEY (key, window_start)
+);
+
 CREATE INDEX IF NOT EXISTS idx_events_start ON events(start_date);
 CREATE INDEX IF NOT EXISTS idx_events_category ON events(category_id);
 CREATE INDEX IF NOT EXISTS idx_events_status ON events(status);

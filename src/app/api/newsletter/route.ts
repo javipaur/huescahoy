@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(request: NextRequest) {
-  const limit = rateLimit(clientKey(request.headers, "newsletter"), 5, 60 * 60 * 1000);
+  const limit = await rateLimit(clientKey(request.headers, "newsletter"), 5, 60 * 60 * 1000);
   if (!limit.ok) {
     return Response.json(
       { error: "Demasiados intentos. Inténtalo más tarde." },

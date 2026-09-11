@@ -430,7 +430,7 @@ export async function submitSuggestionAction(
     return { ok: true };
   }
 
-  const ipLimit = rateLimit(clientKey(await headers(), "sugerencia"), 5, 10 * 60 * 1000);
+  const ipLimit = await rateLimit(clientKey(await headers(), "sugerencia"), 5, 10 * 60 * 1000);
   if (!ipLimit.ok) {
     return { error: "Demasiados envíos desde tu conexión. Inténtalo más tarde." };
   }
@@ -496,7 +496,7 @@ export async function submitEventAction(
     return { ok: true };
   }
 
-  const ipLimit = rateLimit(clientKey(await headers(), "evento-publicado"), 3, 60 * 60 * 1000);
+  const ipLimit = await rateLimit(clientKey(await headers(), "evento-publicado"), 3, 60 * 60 * 1000);
   if (!ipLimit.ok) {
     return { error: "Demasiados envíos desde tu conexión. Inténtalo más tarde." };
   }
