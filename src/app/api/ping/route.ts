@@ -1,27 +1,19 @@
 import { NextRequest } from "next/server";
 import dns from "node:dns/promises";
+import { getRestaurants, initAppDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
 export async function GET(_request: NextRequest) {
-  const url = process.env.DATABASE_URL ?? "";
-  let host: string | null = null;
-  try {
-    host = new URL(url).hostname;
-  } catch {
-    // URL mal formada: seguimos y reportamos
-  }
+  const report: Record<string, unknown> = { dbConfigured: Boolean(process.env.DATABASE_URL) };
 
-  const report: Record<string, unknown> = {
-    dbConfigured: Boolean(url),
-    host,
-  };
-
-  if (host) {
+  if (process.env.DATABASE_URL) {
     try {
+      const url = new URL(process.env.DATABASE_URL);
+      report.host = url.hostname;
       const lookup = await Promise.race([
-        dns.lookup(host),
+        dns.lookup(url.hostname),
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error("lookup timeout")), 5000)
         ),
@@ -29,29 +21,18 @@ export async function GET(_request: NextRequest) {
       report.dns = { ok: true, address: standalone(lookup).address };
     } catch (err) {
       report.dns = { ok: false, error: err instanceof Error ? err.message : String(err) };
-      return Response.json({
-        ok: false,
-        ...report,
-        error: "DNS lookup failed for DB host",
-      });
     }
   }
 
   try {
-    const { Pool } = await import("pg");
-    const pool = new Pool({
-      connectionString: url || undefined,
-      connectionTimeoutMillis: 4000,
-      query_timeout: 4000,
-      max: 1,
-    });
-    const res = await pool.query("SELECT 1 AS ok");
-    await pool.end();
-    return Response.json({ ok: true, ...report, select: res.rows[0] });
+    await initAppDb();
+    const rows = await getRestaurants({ limit: 1 });
+    return Response.json({ ok: true, ...report, viaAppDb: true, sampleRestaurants: rows.length });
   } catch (err) {
     return Response.json({
       ok: false,
       ...report,
+      viaAppDb: false,
       error: err instanceof Error ? err.message : String(err),
     });
   }

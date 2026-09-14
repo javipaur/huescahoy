@@ -274,12 +274,21 @@ export function getPool(): Pool {
 async function init(): Promise<void> {
   if (!ready) {
     ready = (async () => {
-      await getPool().query(SCHEMA_SQL);
-      await seedIfEmpty();
-      await seedDefaultSources();
+      try {
+        await getPool().query(SCHEMA_SQL);
+        await seedIfEmpty();
+        await seedDefaultSources();
+      } catch (err) {
+        ready = null;
+        throw err;
+      }
     })();
   }
   return ready;
+}
+
+export function initAppDb(): Promise<void> {
+  return init();
 }
 
 function toPlain<T>(value: T): T {
