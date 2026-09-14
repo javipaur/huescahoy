@@ -35,7 +35,7 @@ import {
 import { site } from "@/lib/site";
 import { zoneFor } from "@/lib/zones";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Agenda cultural de Huesca",
@@ -302,6 +302,12 @@ export default async function HomePage() {
               No solo eventos: explora las mejores rutas de senderismo y los restaurantes de Huesca y su provincia.
             </p>
           </div>
+          <Link
+            href="/cultura"
+            className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand transition hover:text-brand-dark"
+          >
+            Guía de cultura en Huesca <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -95,7 +95,7 @@ export default async function EventPage({ params }: PageProps) {
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lng - d}%2C${coords.lat - d}%2C${coords.lng + d}%2C${coords.lat + d}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}`
     : null;
 
-  const eventJsonLd = past ? null : buildEventJsonLd(event, category);
+  const eventJsonLd = past ? null : buildEventJsonLd(event, category, coords);
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "Inicio", path: "/" },
     { name: "Agenda", path: "/agenda" },

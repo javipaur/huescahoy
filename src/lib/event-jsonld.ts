@@ -15,12 +15,33 @@ export function isEventPast(
 
 export function buildEventJsonLd(
   event: EventItem,
-  category: Category | null
+  category: Category | null,
+  geo?: { lat: number; lng: number } | null
 ): Record<string, unknown> {
   const priceMatch = event.price?.match(/(\d+)(?:[.,](\d+))?/);
   const priceValue = priceMatch
     ? parseFloat(priceMatch[1] + (priceMatch[2] ? `.${priceMatch[2]}` : ""))
     : null;
+
+  const location: Record<string, unknown> = {
+    "@type": "Place",
+    name: event.location?.trim() || site.city,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: event.address ?? undefined,
+      addressLocality: site.city,
+      addressRegion: "Huesca",
+      addressCountry: "ES",
+    },
+  };
+
+  if (geo && typeof geo.lat === "number" && typeof geo.lng === "number") {
+    location.geo = {
+      "@type": "GeoCoordinates",
+      latitude: geo.lat,
+      longitude: geo.lng,
+    };
+  }
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -37,17 +58,7 @@ export function buildEventJsonLd(
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventCategory: category?.name ?? undefined,
-    location: {
-      "@type": "Place",
-      name: event.location?.trim() || site.city,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: event.address ?? undefined,
-        addressLocality: site.city,
-        addressRegion: "Huesca",
-        addressCountry: "ES",
-      },
-    },
+    location,
     organizer: {
       "@type": "Organization",
       name: site.name,
