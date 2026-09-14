@@ -68,8 +68,21 @@ export default async function PlanesPage() {
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         {plans.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted">
-            Pronto publicaremos los primeros planes. ¡Vuelve en un momento!
+          <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center">
+            <p className="font-display text-xl font-semibold text-choco">
+              Estamos preparando los primeros planes
+            </p>
+            <p className="mx-auto mt-2 max-w-md text-choco-muted">
+              Pronto tendremos aquí rutas por la Sierra, planes en familia y
+              guías de la ciudad. Mientras tanto, échale un vistazo a toda la
+              agenda cultural de Huesca.
+            </p>
+            <Link
+              href="/agenda"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark active:scale-95"
+            >
+              Ver la agenda cultural <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         )}
 

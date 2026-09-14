@@ -109,7 +109,18 @@ export function RouteListView({ routes }: { routes: RouteItem[] }) {
         {filtered.length} {filtered.length === 1 ? "ruta" : "rutas"}
       </p>
 
-      {filtered.length === 0 ? (
+      {routes.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-12 text-center">
+          <p className="font-display text-xl font-semibold text-choco">
+            Estamos recopilando las rutas de la provincia
+          </p>
+          <p className="mx-auto mt-2 max-w-md text-choco-muted">
+            Estamos incorporando senderos, excursiones y rutas por la provincia
+            de Huesca. Vuelve en unos días o explora los planes y la agenda
+            cultural mientras tanto.
+          </p>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-12 text-center">
           <p className="font-display text-xl font-semibold text-choco">
             No se encontraron rutas

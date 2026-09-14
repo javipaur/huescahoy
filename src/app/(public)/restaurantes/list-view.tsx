@@ -82,7 +82,18 @@ export function RestaurantListView({ restaurants }: { restaurants: RestaurantIte
         {filtered.length} {filtered.length === 1 ? "restaurante" : "restaurantes"}
       </p>
 
-      {filtered.length === 0 ? (
+      {restaurants.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-12 text-center">
+          <p className="font-display text-xl font-semibold text-choco">
+            Estamos recopilando los restaurantes de Huesca
+          </p>
+          <p className="mx-auto mt-2 max-w-md text-choco-muted">
+            Estamos incorporando los restaurantes, bares y cafeterías de Huesca
+            y su provincia. Vuelve en unos días o échale un vistazo a la agenda
+            cultural mientras tanto.
+          </p>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-12 text-center">
           <p className="font-display text-xl font-semibold text-choco">
             No se encontraron restaurantes

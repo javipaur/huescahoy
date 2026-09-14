@@ -276,6 +276,7 @@ async function init(): Promise<void> {
     ready = (async () => {
       await getPool().query(SCHEMA_SQL);
       await seedIfEmpty();
+      await seedDefaultSources();
     })();
   }
   return ready;
@@ -393,6 +394,34 @@ async function seedIfEmpty(): Promise<void> {
     throw err;
   } finally {
     client.release();
+  }
+}
+
+const DEFAULT_SOURCES: SourceInput[] = [
+  {
+    name: "Restaurantes y cafeterías de Aragón (Open Data)",
+    url: "https://opendata.aragon.es/aod/api/3/action/package_show?id=cafeterias-y-restaurantes-en-la-comunidad-autonoma-de-aragon",
+    kind: "opendata-restaurants",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Rutas y actividades de la Diputación de Huesca",
+    url: "https://datosabiertos.dphuesca.es/dataset/a82f0a3b-53d3-4b79-a9f1-49de958e4955",
+    kind: "dph-planes",
+    category_id: null,
+    enabled: 1,
+  },
+];
+
+async function seedDefaultSources(): Promise<void> {
+  for (const input of DEFAULT_SOURCES) {
+    const existing = await getPool().query(
+      "SELECT id FROM sources WHERE kind = $1 LIMIT 1",
+      [input.kind]
+    );
+    if ((existing.rowCount ?? 0) > 0) continue;
+    await createSource(input);
   }
 }
 
