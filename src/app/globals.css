@@ -9,6 +9,7 @@
   --color-cream: #ffffff;
   --color-sand: #ecf3ef;
   --color-choco: #12281b;
+  --color-ink: #12281b;
   --color-choco-muted: #5d7266;
   --color-brand: #16a34a;
   --color-brand-dark: #128341;
@@ -19,6 +20,22 @@
   --background: #ffffff;
   --foreground: #12281b;
   color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: #0f172a;
+    --foreground: #f4f4f5;
+    --color-cream: #0f172a;
+    --color-sand: #18181b;
+    --color-choco: #f4f4f5;
+    --color-ink: #12281b;
+    --color-choco-muted: #a1a1aa;
+    --color-brand: #22c55e;
+    --color-brand-dark: #16a34a;
+    --color-gold: #86efac;
+  }
 }
 
 html {
@@ -33,7 +50,7 @@ body {
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-choco);
+  color: var(--color-ink);
 }
 
 @utility text-balance {
@@ -42,6 +59,20 @@ body {
 
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.force-light {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #12281b;
+  --color-cream: #ffffff;
+  --color-sand: #ecf3ef;
+  --color-choco: #12281b;
+  --color-ink: #12281b;
+  --color-choco-muted: #5d7266;
+  --color-brand: #16a34a;
+  --color-brand-dark: #128341;
+  --color-gold: #a7e8c4;
 }
 
 .no-scrollbar::-webkit-scrollbar {

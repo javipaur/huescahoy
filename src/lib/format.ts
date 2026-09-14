@@ -71,11 +71,11 @@ export function formatDateRange(
   if (endDate && endDate !== startDate) {
     const start = parseDate(startDate);
     const end = parseDate(endDate);
-    return `${SHORT_DAYS[start.getDay()]} ${start.getDate()} ${SHORT_MONTHS[start.getMonth()]} – ${SHORT_DAYS[end.getDay()]} ${end.getDate()} ${SHORT_MONTHS[end.getMonth()]}`;
+    return `${SHORT_DAYS[start.getDay()]} ${start.getDate()} ${SHORT_MONTHS[start.getMonth()]} - ${SHORT_DAYS[end.getDay()]} ${end.getDate()} ${SHORT_MONTHS[end.getMonth()]}`;
   }
   const base = formatDayShort(startDate);
   if (startTime) {
-    const time = endTime ? `${startTime}–${endTime}` : startTime;
+    const time = endTime ? `${startTime}-${endTime}` : startTime;
     return `${base} · ${time}`;
   }
   return base;
@@ -86,7 +86,7 @@ export function formatTimeRange(
   endTime: string | null
 ): string | null {
   if (!startTime) return null;
-  return endTime ? `${startTime}–${endTime}` : startTime;
+  return endTime ? `${startTime}-${endTime}` : startTime;
 }
 
 export function timeTo12h(time: string): string {

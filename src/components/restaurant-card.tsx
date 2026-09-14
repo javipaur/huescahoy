@@ -4,7 +4,7 @@ import type { RestaurantItem } from "@/lib/types";
 
 function PriceBadge({ price }: { price: string }) {
   return (
-    <span className="inline-flex items-center gap-0.5 rounded-full bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">
+    <span className="inline-flex items-center gap-0.5 rounded-full bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand-dark">
       {price}
     </span>
   );
@@ -12,7 +12,7 @@ function PriceBadge({ price }: { price: string }) {
 
 function CuisineBadge({ type }: { type: string }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-choco/10 px-2.5 py-0.5 text-[11px] font-semibold text-choco">
+    <span className="inline-flex items-center gap-1 rounded-full bg-choco/10 dark:bg-ink/10 px-2.5 py-0.5 text-[11px] font-semibold text-choco dark:text-ink">
       {type}
     </span>
   );
@@ -22,7 +22,7 @@ function Placeholder({ name }: { name: string }) {
   return (
     <div className="relative grid h-full w-full place-items-center overflow-hidden bg-gradient-to-br from-brand/10 to-brand/5">
       <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand/8" />
-      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/90 shadow-sm">
+      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/90 dark:bg-zinc-100 shadow-sm">
         <UtensilsCrossed className="h-6 w-6 text-brand" />
       </span>
       <span
@@ -39,7 +39,7 @@ function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
   return (
     <Link
       href={`/restaurantes/${restaurant.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5 dark:bg-zinc-900 dark:border-zinc-800"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
         {restaurant.image ? (
@@ -52,8 +52,8 @@ function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
         ) : (
           <Placeholder name={restaurant.name} />
         )}
-        <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 group-hover:opacity-100">
-          <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco shadow-lg transition duration-300 group-hover:translate-y-0">
+        <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 dark:bg-ink/25 group-hover:opacity-100">
+          <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco dark:text-ink shadow-lg transition duration-300 group-hover:translate-y-0">
             Ver restaurante
             <ArrowRight className="h-4 w-4" />
           </span>
@@ -61,7 +61,7 @@ function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
+        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco dark:text-ink transition-colors group-hover:text-brand-dark">
           {restaurant.name}
         </h3>
 
@@ -88,7 +88,7 @@ function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
   return (
     <Link
       href={`/restaurantes/${restaurant.slug}`}
-      className="group flex items-stretch gap-4 rounded-2xl border border-sand bg-white p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md sm:gap-5"
+      className="group flex items-stretch gap-4 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md sm:gap-5 dark:bg-zinc-900 dark:border-zinc-800"
     >
       <div className="relative w-20 shrink-0 self-stretch overflow-hidden rounded-xl bg-sand sm:w-28">
         {restaurant.image ? (
@@ -125,7 +125,7 @@ function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
             </span>
           )}
           {restaurant.website && (
-            <span className="flex items-center gap-1 text-xs font-medium text-brand">
+            <span className="flex items-center gap-1 text-xs font-medium text-brand-dark">
               <Globe className="h-3 w-3" />
               Web
             </span>

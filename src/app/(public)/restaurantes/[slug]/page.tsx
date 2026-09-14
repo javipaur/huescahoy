@@ -77,12 +77,12 @@ export default async function RestaurantDetailPage({ params }: PageProps) {
 
       <div className="flex flex-wrap items-center gap-2">
         {restaurant.cuisineType && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand">
+          <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand-dark">
             {restaurant.cuisineType}
           </span>
         )}
         {restaurant.priceRange && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-gold px-3 py-1 text-sm font-semibold text-choco">
+          <span className="inline-flex items-center gap-1 rounded-full bg-gold px-3 py-1 text-sm font-semibold text-choco dark:bg-gold/15 dark:text-gold">
             {restaurant.priceRange}
           </span>
         )}

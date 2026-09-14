@@ -127,11 +127,11 @@ export default async function CategoryLandingPage({ params }: PageProps) {
           <span aria-hidden className="mx-2">
             /
           </span>
-          <span className="font-medium text-choco">{category.name}</span>
+          <span className="font-medium text-choco dark:text-ink">{category.name}</span>
         </nav>
 
         <span
-          className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-3 py-1 text-xs font-semibold text-choco"
+          className="inline-flex items-center gap-2 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3 py-1 text-xs font-semibold text-choco dark:text-ink"
         >
           <CalendarDays className="h-3.5 w-3.5" style={{ color: category.color }} />
           Agenda cultural de {site.city}
@@ -148,7 +148,7 @@ export default async function CategoryLandingPage({ params }: PageProps) {
           de la ciudad y su provincia.
         </p>
 
-        <p className="mt-2 text-sm font-medium text-choco">
+        <p className="mt-2 text-sm font-medium text-choco dark:text-ink">
           {events.length > 0
             ? `${events.length} ${events.length === 1 ? "evento próximo" : "eventos próximos"}`
             : "Sin eventos próximos por ahora"}
@@ -175,13 +175,13 @@ export default async function CategoryLandingPage({ params }: PageProps) {
         )}
 
         <div className="mt-10 flex flex-wrap items-center gap-3 rounded-2xl border border-sand bg-sand/40 p-5">
-          <p className="text-sm font-semibold text-choco">¿Buscas otros planes?</p>
+          <p className="text-sm font-semibold text-choco dark:text-ink">¿Buscas otros planes?</p>
           <div className="flex flex-wrap gap-2">
             {others.map((other) => (
               <Link
                 key={other.id}
                 href={`/agenda/${other.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white px-3 py-1.5 text-sm font-medium text-choco transition hover:border-brand/40 hover:text-brand-dark"
+                className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3 py-1.5 text-sm font-medium text-choco dark:text-ink transition hover:border-brand/40 hover:text-brand-dark"
               >
                 <span
                   aria-hidden

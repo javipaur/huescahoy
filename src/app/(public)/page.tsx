@@ -8,6 +8,7 @@ import {
   MapPin,
   Mountain,
   Search,
+  Smartphone,
   Star,
   Users,
   UtensilsCrossed,
@@ -18,6 +19,7 @@ import { RouteCard } from "@/components/route-card";
 import { CategoryGrid } from "@/components/category-grid";
 import { FeaturedPickCard } from "@/components/featured-pick-card";
 import { HomeHero } from "@/components/home-hero";
+import { Reveal } from "@/components/reveal";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
 import {
@@ -158,15 +160,38 @@ export default async function HomePage() {
     <>
       <JsonLd data={eventsJsonLd} />
       <JsonLd data={faqJsonLd} />
-      <HomeHero stats={stats} categories={categories} />
+      <HomeHero categories={categories} />
+
+      <section className="bg-choco dark:bg-ink">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 px-4 py-6 sm:grid-cols-3 sm:px-6">
+          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+            <p className="font-display text-3xl font-bold text-gold">{stats.upcoming}+</p>
+            <p className="text-sm font-semibold leading-tight text-white/75">
+              planes para hoy en la agenda
+            </p>
+          </div>
+          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+            <p className="font-display text-3xl font-bold text-gold">{stats.categories}</p>
+            <p className="text-sm font-semibold leading-tight text-white/75">
+              categorías para filtrar cada día
+            </p>
+          </div>
+          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
+            <Smartphone className="h-8 w-8 shrink-0 text-gold" />
+            <p className="text-sm font-semibold leading-tight text-white/75">
+              Gratis y sin anuncios, en tu móvil con la web app
+            </p>
+          </div>
+        </div>
+      </section>
 
       {activePick && <FeaturedPickCard pick={activePick} image={pickImage} />}
 
       {featured.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco px-3 py-1 text-xs font-semibold text-cream">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco dark:bg-ink px-3 py-1 text-xs font-semibold text-white">
                 <Star className="h-3.5 w-3.5 fill-gold text-gold" />
                 Selección de la semana
               </span>
@@ -178,8 +203,8 @@ export default async function HomePage() {
                 las exposiciones de Huesca estos días.
               </p>
             </div>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          </Reveal>
+          <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((event) => (
               <EventCard
                 key={event.id}
@@ -187,14 +212,14 @@ export default async function HomePage() {
                 category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
               />
             ))}
-          </div>
+          </Reveal>
         </section>
       )}
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
               <CalendarPlus className="h-3.5 w-3.5" />
               Lo próximo
             </span>
@@ -212,14 +237,14 @@ export default async function HomePage() {
           >
             Ver toda la agenda <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
+        </Reveal>
 
         {cityEvents.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted">
             Todavía no hay eventos publicados. ¡Vuelve en un momento!
           </div>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {cityEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -227,15 +252,15 @@ export default async function HomePage() {
                 category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
               />
             ))}
-          </div>
+          </Reveal>
         )}
       </section>
 
 {provinceEvents.length > 0 && (
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+<Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-3 py-1 text-xs font-semibold text-choco">
+              <span className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-3 py-1 text-xs font-semibold text-choco dark:text-ink">
                 <MapPin className="h-3.5 w-3.5 text-brand" />
                 También en la provincia
               </span>
@@ -253,9 +278,9 @@ export default async function HomePage() {
             >
               Ver toda la provincia <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {provinceEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -263,14 +288,14 @@ export default async function HomePage() {
                 category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
               />
             ))}
-          </div>
+          </Reveal>
         </section>
       )}
 
       <section className="border-y border-sand bg-sand/40">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <div className="mb-8">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-white px-3 py-1 text-xs font-semibold text-brand">
+          <Reveal className="mb-8">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-white px-3 py-1 text-xs font-semibold text-brand-dark dark:border-brand/40 dark:bg-zinc-900 dark:text-brand-dark">
               <Star className="h-3.5 w-3.5" />
               Categorías
             </span>
@@ -281,7 +306,7 @@ export default async function HomePage() {
               Música, teatro, exposiciones, deporte, cine y planes con niños:
               encuentra en un clic qué hacer en Huesca.
             </p>
-          </div>
+          </Reveal>
           <div className="mt-8">
             <CategoryGrid categories={categories} />
           </div>
@@ -291,7 +316,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
               <Search className="h-3.5 w-3.5" />
               Buscador híbrido
             </span>
@@ -310,45 +335,52 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Link
+              href="/rutas"
+              className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+            >
+              <Mountain className="h-10 w-10 text-brand" />
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Rutas y senderismo</h3>
+              <p className="text-sm text-choco-muted">Senderismo, bicicleta, cultural y excursiones por la provincia.</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
+                Explorar <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+
+            <Link
+              href="/restaurantes"
+              className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+            >
+              <UtensilsCrossed className="h-10 w-10 text-brand" />
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Dónde comer</h3>
+              <p className="text-sm text-choco-muted">Restaurantes, bares y tabernas: cocina aragonesa y fusión.</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
+                Ver restaurantes <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          </div>
+
           <Link
             href="/buscar"
-            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-brand/30 bg-brand/5 p-8 text-center transition hover:border-brand hover:bg-brand/10"
+            className="group flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-brand/30 bg-brand/5 p-10 text-center transition hover:border-brand hover:bg-brand/10"
           >
-            <Search className="h-10 w-10 text-brand" />
-            <h3 className="font-display text-lg font-bold text-choco">Buscar todo</h3>
-            <p className="text-sm text-choco-muted">Eventos, rutas, restaurantes y planes en un solo buscador.</p>
-          </Link>
-
-          <Link
-            href="/rutas"
-            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
-          >
-            <Mountain className="h-10 w-10 text-brand" />
-            <h3 className="font-display text-lg font-bold text-choco">Rutas y senderismo</h3>
-            <p className="text-sm text-choco-muted">Senderismo, bicicleta, cultural y excursiones por la provincia.</p>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand">
-              Explorar <ArrowRight className="h-4 w-4" />
+            <Search className="h-12 w-12 text-brand" />
+            <div>
+              <h3 className="font-display text-xl font-bold text-choco dark:text-ink">Buscar todo</h3>
+              <p className="mt-1 max-w-xs text-sm text-choco-muted">Eventos, rutas, restaurantes y planes en un solo buscador.</p>
+            </div>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
+              Abrir buscador <ArrowRight className="h-4 w-4" />
             </span>
           </Link>
-
-          <Link
-            href="/restaurantes"
-            className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
-          >
-            <UtensilsCrossed className="h-10 w-10 text-brand" />
-            <h3 className="font-display text-lg font-bold text-choco">Dónde comer</h3>
-            <p className="text-sm text-choco-muted">Restaurantes, bares y tabernas: cocina aragonesa y fusión.</p>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand">
-              Ver restaurantes <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
+        </Reveal>
 
         {routes.length > 0 && (
           <div className="mt-10">
             <div className="mb-4 flex items-end justify-between">
-              <h3 className="font-display text-lg font-bold text-choco">Rutas destacadas</h3>
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Rutas destacadas</h3>
               <Link href="/rutas" className="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-dark">
                 Ver todas <ArrowRight className="h-4 w-4" />
               </Link>
@@ -364,7 +396,7 @@ export default async function HomePage() {
         {restaurants.length > 0 && (
           <div className="mt-10">
             <div className="mb-4 flex items-end justify-between">
-              <h3 className="font-display text-lg font-bold text-choco">Restaurantes para ti</h3>
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Restaurantes para ti</h3>
               <Link href="/restaurantes" className="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-dark">
                 Ver todos <ArrowRight className="h-4 w-4" />
               </Link>
@@ -379,51 +411,53 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco p-8 text-white shadow-lg sm:p-12">
-          <CalendarPlus
-            aria-hidden
-            className="pointer-events-none absolute -right-8 -top-8 h-56 w-56 text-white/10"
-            strokeWidth={1.2}
-          />
-          <div className="relative">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-              <Users className="h-3.5 w-3.5" />
-              Colabora
-            </span>
-            <h2 className="mt-4 max-w-xl font-display text-2xl font-bold tracking-tight text-balance sm:text-3xl">
-              Una agenda de Huesca hecha entre todos
-            </h2>
-            <p className="mt-3 max-w-lg leading-relaxed text-white/85">
-              {site.name} no tiene redacción: la alimentan las personas que
-              viven {site.city}. Tú sabes qué pasa en tu barrio antes que
-              nadie, así que cuéntanoslo y lo contaremos con la ciudad entera.
-            </p>
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco dark:to-ink p-8 text-white shadow-lg sm:p-12">
+            <CalendarPlus
+              aria-hidden
+              className="pointer-events-none absolute -right-8 -top-8 h-56 w-56 text-white/10"
+              strokeWidth={1.2}
+            />
+            <div className="relative">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+                <Users className="h-3.5 w-3.5" />
+                Colabora
+              </span>
+              <h2 className="mt-4 max-w-xl font-display text-2xl font-bold tracking-tight text-balance sm:text-3xl">
+                Una agenda de Huesca hecha entre todos
+              </h2>
+              <p className="mt-3 max-w-lg leading-relaxed text-white/85">
+                {site.name} no tiene redacción: la alimentan las personas que
+                viven {site.city}. Tú sabes qué pasa en tu barrio antes que
+                nadie, así que cuéntanoslo y lo contaremos con la ciudad entera.
+              </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/colabora#publica"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-choco shadow-md transition hover:bg-cream active:scale-95"
-              >
-                Publicar mi evento <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                href="/colabora#formulario"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/40 px-7 font-semibold text-white transition hover:bg-white/10 active:scale-95"
-              >
-                Reportar un fallo o proponer una idea
-              </Link>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/colabora#publica"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-choco dark:text-ink shadow-md transition hover:bg-white/90 active:scale-95"
+                >
+                  Publicar mi evento <ArrowRight className="h-5 w-5" />
+                </Link>
+                <Link
+                  href="/colabora#formulario"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-white/40 px-7 font-semibold text-white transition hover:bg-white/10 active:scale-95"
+                >
+                  Reportar un fallo o proponer una idea
+                </Link>
+              </div>
+              <p className="mt-4 text-xs text-white/70">
+                Respuesta humana, no un bot: cada aportación la lee una persona.
+              </p>
             </div>
-            <p className="mt-4 text-xs text-white/70">
-              Respuesta humana, no un bot: cada aportación la lee una persona.
-            </p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      <section className="border-t border-sand bg-white">
+      <section className="border-t border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <div className="mb-8 max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+          <Reveal className="mb-8 max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
               <HelpCircle className="h-3.5 w-3.5" />
               Guía rápida
             </span>
@@ -434,16 +468,16 @@ export default async function HomePage() {
               Resolvemos las dudas más habituales para sacarle partido a la
               agenda de {site.city}.
             </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          </Reveal>
+          <Reveal delay={0.1} className="grid gap-4 sm:grid-cols-2">
             {faqData.map((item) => (
               <details
                 key={item.question}
-                className="group rounded-2xl border border-sand bg-cream/50 px-5 py-4 transition hover:border-brand/30"
+                className="group rounded-2xl border border-sand bg-cream/50 px-5 py-4 transition hover:border-brand/30 dark:bg-zinc-800/60 dark:border-zinc-700"
               >
                 <summary className="flex cursor-pointer list-none items-center gap-3 font-semibold text-choco">
                   <span className="flex-1">{item.question}</span>
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand/10 text-brand transition group-open:rotate-180">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand/10 text-brand-dark transition group-open:rotate-180">
                     <ChevronDown className="h-4 w-4" />
                   </span>
                 </summary>
@@ -452,37 +486,39 @@ export default async function HomePage() {
                 </p>
               </details>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl bg-choco p-8 text-cream sm:p-12">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand/30 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-gold/20 blur-3xl"
-          />
-          <div className="relative grid items-center gap-8 sm:grid-cols-[1fr_auto]">
-            <div>
-              <p className="text-sm font-semibold text-gold">
-                Instalable y sin conexión
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Lleva Huesca Hoy siempre contigo
-              </h2>
-              <p className="mt-3 max-w-lg leading-relaxed text-cream/75">
-                La agenda cultural de Huesca funciona como una app del móvil:
-                consulta qué hacer hoy aunque no tengas cobertura, sin pasar
-                por ninguna tienda.
-              </p>
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl bg-choco dark:bg-ink p-8 text-white sm:p-12">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand/30 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-gold/20 blur-3xl"
+            />
+            <div className="relative grid items-center gap-8 sm:grid-cols-[1fr_auto]">
+              <div>
+                <p className="text-sm font-semibold text-gold">
+                  Instalable y sin conexión
+                </p>
+                <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                  Lleva Huesca Hoy siempre contigo
+                </h2>
+                <p className="mt-3 max-w-lg leading-relaxed text-white/75">
+                  La agenda cultural de Huesca funciona como una app del móvil:
+                  consulta qué hacer hoy aunque no tengas cobertura, sin pasar
+                  por ninguna tienda.
+                </p>
+              </div>
+              <InstallButton tone="light" />
             </div>
-            <InstallButton tone="light" />
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

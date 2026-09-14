@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Compass, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, Compass, Sparkles } from "lucide-react";
 import { getPlans } from "@/lib/db";
 import { site } from "@/lib/site";
 
@@ -28,9 +28,13 @@ export default async function PlanesPage() {
   const plans = await getPlans();
   const [featured, ...rest] = plans;
 
+  function minutes(body: string): number {
+    return Math.max(1, Math.round(body.trim().split(/\s+/).length / 200));
+  }
+
   return (
     <>
-      <section className="bg-choco text-cream">
+      <section className="bg-choco dark:bg-ink text-white">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-gold">
             <Compass className="h-4 w-4" />
@@ -40,7 +44,7 @@ export default async function PlanesPage() {
             Planes y guías para{" "}
             <span className="text-gold">disfrutar de Huesca</span>
           </h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-cream/70">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/70">
             Rutas por los cañones y la Sierra, un día perfecto por la ciudad,
             escapadas en familia... Guías probadas sobre el terreno para que
             solo tengas que disfrutar.
@@ -48,13 +52,13 @@ export default async function PlanesPage() {
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link
               href="/agenda?desde=hoy"
-              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
+              className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco dark:text-ink shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
             >
               <CalendarDays className="h-5 w-5" />
               Ver la agenda de hoy
             </Link>
             {plans.length > 0 && (
-              <span className="text-sm font-medium text-cream/60">
+              <span className="text-sm font-medium text-white/60">
                 {plans.length} {plans.length === 1 ? "guía publicada" : "guías publicadas"}
               </span>
             )}
@@ -86,12 +90,12 @@ export default async function PlanesPage() {
             ) : (
               <div
                 aria-hidden
-                className="absolute inset-0 bg-gradient-to-br from-brand via-brand-dark to-choco"
+                className="absolute inset-0 bg-gradient-to-br from-brand via-brand-dark to-choco dark:to-ink"
               />
             )}
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-choco/90 via-choco/35 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-choco/90 via-choco/35 to-transparent dark:from-ink/90 dark:via-ink/35"
             />
             <div className="relative flex flex-col gap-3 p-7 sm:p-9">
               <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
@@ -106,6 +110,10 @@ export default async function PlanesPage() {
                   {featured.summary}
                 </p>
               )}
+              <span className="inline-flex w-fit items-center gap-1.5 text-xs font-medium text-white/70">
+                <Clock className="h-3.5 w-3.5 text-gold" />
+                {minutes(featured.body)} min de lectura
+              </span>
               <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
                 Leer el plan
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -120,7 +128,7 @@ export default async function PlanesPage() {
               <Link
                 key={plan.id}
                 href={`/planes/${plan.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5 dark:bg-zinc-900 dark:border-zinc-800"
               >
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-sand">
                   {plan.image ? (
@@ -136,7 +144,7 @@ export default async function PlanesPage() {
                       <Compass className="h-10 w-10 text-brand" />
                     </div>
                   )}
-                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-choco shadow-sm backdrop-blur">
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-choco dark:text-ink shadow-sm backdrop-blur">
                     <Compass className="h-3.5 w-3.5 text-brand" />
                     Guía de {site.city}
                   </span>
@@ -150,6 +158,10 @@ export default async function PlanesPage() {
                       {plan.summary}
                     </p>
                   )}
+                  <p className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium text-choco-muted">
+                    <Clock className="h-3.5 w-3.5 text-brand" />
+                    {minutes(plan.body)} min de lectura
+                  </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-brand-dark">
                     Leer el plan
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -160,7 +172,7 @@ export default async function PlanesPage() {
           </div>
         )}
 
-        <div className="relative mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco p-8 text-white shadow-lg sm:p-10">
+        <div className="relative mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco dark:to-ink p-8 text-white shadow-lg sm:p-10">
           <Compass
             aria-hidden
             className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 text-white/10"

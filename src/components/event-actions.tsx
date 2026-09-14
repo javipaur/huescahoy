@@ -56,14 +56,14 @@ export function EventActions({ event }: { event: EventItem }) {
         href={gcalEventUrl(event)}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-brand-dark"
+        className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
       >
         <CalendarPlus className="h-4 w-4" />
         Google Calendar
       </a>
       <button
         onClick={downloadIcs}
-        className="inline-flex items-center gap-2 rounded-full border border-choco/20 bg-white px-5 py-2.5 text-sm font-semibold text-choco transition hover:border-choco/40"
+        className="inline-flex items-center gap-2 rounded-full border border-choco/20 bg-white px-5 py-2.5 text-sm font-semibold text-choco dark:text-ink transition hover:border-choco/40"
       >
         <Download className="h-4 w-4" />
         Descargar .ics

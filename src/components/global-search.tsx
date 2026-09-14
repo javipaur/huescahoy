@@ -75,7 +75,7 @@ export function GlobalSearch({
 
   return (
     <div>
-      <div className="mb-6 rounded-2xl border border-sand bg-white p-4 shadow-sm sm:p-5">
+      <div className="mb-6 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm sm:p-5">
         <div className="relative">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-choco-muted" />
           <input
@@ -83,12 +83,12 @@ export function GlobalSearch({
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Buscar eventos, rutas, restaurantes, planes…"
-            className="w-full rounded-full border border-sand bg-white py-2.5 pl-10 pr-10 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+            className="w-full rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 py-2.5 pl-10 pr-10 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           {q && (
             <button
               onClick={() => setQ("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-choco-muted hover:text-choco"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-choco-muted hover:text-choco dark:text-ink"
             >
               <X className="h-4 w-4" />
             </button>
@@ -104,8 +104,8 @@ export function GlobalSearch({
                 onClick={() => setTab(t.id)}
                 className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition ${
                   tab === t.id
-                    ? "bg-choco text-cream shadow-sm shadow-choco/30"
-                    : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                    ? "bg-choco dark:bg-ink text-white shadow-sm shadow-choco/30"
+                    : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -118,7 +118,7 @@ export function GlobalSearch({
 
       {term && totalResults === 0 && (
         <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-12 text-center">
-          <p className="font-display text-xl font-semibold text-choco">
+          <p className="font-display text-xl font-semibold text-choco dark:text-ink">
             No se encontraron resultados
           </p>
           <p className="mt-2 text-choco-muted">
@@ -135,7 +135,7 @@ export function GlobalSearch({
 
       {filteredEvents.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco dark:text-ink">
             <CalendarDays className="h-5 w-5 text-brand" />
             Eventos
             <span className="rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
@@ -156,7 +156,7 @@ export function GlobalSearch({
 
       {filteredRoutes.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco dark:text-ink">
             <Route className="h-5 w-5 text-brand" />
             Rutas
             <span className="rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
@@ -173,7 +173,7 @@ export function GlobalSearch({
 
       {filteredRestaurants.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco dark:text-ink">
             <UtensilsCrossed className="h-5 w-5 text-brand" />
             Restaurantes
             <span className="rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
@@ -190,7 +190,7 @@ export function GlobalSearch({
 
       {filteredPlans.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco">
+          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco dark:text-ink">
             <BookOpen className="h-5 w-5 text-brand" />
             Planes
             <span className="rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
@@ -202,7 +202,7 @@ export function GlobalSearch({
               <a
                 key={plan.slug}
                 href={`/planes/${plan.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
                   {plan.image ? (

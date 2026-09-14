@@ -102,7 +102,7 @@ export function PushSubscribeButton({ tone = "dark" }: { tone?: "dark" | "light"
 
   if (status === "denied") {
     return (
-      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-cream/50">
+      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/50">
         <BellOff className="h-4 w-4" />
         Avisos bloqueados en el navegador
       </span>
@@ -114,7 +114,7 @@ export function PushSubscribeButton({ tone = "dark" }: { tone?: "dark" | "light"
     tone === "dark"
       ? subscribed
         ? "border border-gold/40 bg-gold/10 text-gold hover:bg-gold/20"
-        : "border border-white/15 bg-white/5 text-cream hover:border-gold/40 hover:text-gold"
+        : "border border-white/15 bg-white/5 text-white hover:border-gold/40 hover:text-gold"
       : subscribed
         ? "border border-brand/30 bg-brand/10 text-brand hover:bg-brand/20"
         : "border border-brand/20 bg-white text-brand hover:bg-brand/5";

@@ -13,7 +13,7 @@ import type { Category, EventItem } from "@/lib/types";
 import { formatDayShort } from "@/lib/format";
 
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnPublish =
   "rounded-lg bg-brand px-2.5 py-1 text-xs font-semibold text-white transition hover:bg-brand-dark";
 const btnDanger =
@@ -86,7 +86,7 @@ export function EventsTable({
                     ? "bg-green-100 text-green-700"
                     : event.status === "pending"
                       ? "bg-amber-100 text-amber-700"
-                      : "bg-choco/10 text-choco-muted"
+                      : "bg-choco/10 dark:bg-ink/10 text-choco-muted"
                 }`}
               >
                 {event.status === "published"

@@ -27,11 +27,13 @@ export function Header() {
 
   const navLinkClass = (href: string, exact?: boolean) =>
     `rounded-full px-3.5 py-2 text-sm font-medium transition ${
-      isActive(href, exact) ? "bg-sand text-choco" : "text-choco-muted hover:bg-sand hover:text-choco"
+      isActive(href, exact)
+        ? "bg-sand text-choco dark:bg-zinc-800 dark:text-zinc-100"
+        : "text-choco-muted hover:bg-sand hover:text-choco dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
     }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-sand bg-white/85 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-sand bg-white/85 backdrop-blur dark:bg-zinc-900/85 dark:border-zinc-800">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
         <Logo />
 
@@ -46,7 +48,7 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Síguenos en Instagram"
-            className="grid h-9 w-9 place-items-center rounded-full text-choco-muted transition hover:bg-sand hover:text-choco"
+            className="grid h-9 w-9 place-items-center rounded-full text-choco-muted transition hover:bg-sand hover:text-choco dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
           >
             <Instagram className="h-[18px] w-[18px]" />
           </a>
@@ -72,7 +74,7 @@ export function Header() {
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className="grid h-10 w-10 place-items-center rounded-full text-choco transition hover:bg-sand"
+            className="grid h-10 w-10 place-items-center rounded-full text-choco transition hover:bg-sand dark:text-zinc-100 dark:hover:bg-zinc-800"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -80,7 +82,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="border-t border-sand bg-white px-4 pb-5 pt-3 sm:hidden">
+        <nav className="border-t border-sand bg-white px-4 pb-5 pt-3 sm:hidden dark:bg-zinc-900 dark:border-zinc-800">
           <div className="flex flex-col gap-1">
             {NAV.map((item) => (
               <Link
@@ -89,8 +91,8 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className={`rounded-xl px-4 py-3 text-base font-medium transition ${
                   isActive(item.href, item.exact)
-                    ? "bg-sand text-choco"
-                    : "text-choco-muted hover:bg-sand hover:text-choco"
+                    ? "bg-sand text-choco dark:bg-zinc-800 dark:text-zinc-100"
+                    : "text-choco-muted hover:bg-sand hover:text-choco dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                 }`}
               >
                 {item.label}
@@ -102,7 +104,7 @@ export function Header() {
               href={site.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-sand px-4 py-2.5 text-sm font-semibold text-choco transition hover:bg-sand"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-sand px-4 py-2.5 text-sm font-semibold text-choco transition hover:bg-sand dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
             >
               <Instagram className="h-4 w-4 text-brand" />
               Instagram

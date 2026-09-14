@@ -5,7 +5,7 @@ import { createRouteAction, updateRouteAction } from "@/lib/actions";
 import type { RouteItem } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 const btnPrimary =
   "rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream transition hover:bg-brand-dark disabled:opacity-60";
 

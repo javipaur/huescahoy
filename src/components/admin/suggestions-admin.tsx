@@ -25,11 +25,11 @@ const STATUS_META: Record<
 > = {
   nuevo: { label: "Nueva", className: "bg-green-100 text-green-700", next: "visto" },
   visto: { label: "En revisión", className: "bg-amber-100 text-amber-700", next: "hecho" },
-  hecho: { label: "Resuelta", className: "bg-choco/10 text-choco-muted", next: "nuevo" },
+  hecho: { label: "Resuelta", className: "bg-choco/10 dark:bg-ink/10 text-choco-muted", next: "nuevo" },
 };
 
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnDanger =
   "rounded-lg px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700";
 

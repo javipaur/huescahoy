@@ -61,7 +61,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
       <nav className="mb-4 flex items-center gap-1.5 text-sm text-choco-muted">
         <Link href="/rutas" className="text-brand hover:text-brand-dark">Rutas</Link>
         <span>/</span>
-        <span className="truncate text-choco">{route.title}</span>
+        <span className="truncate text-choco dark:text-ink">{route.title}</span>
       </nav>
 
       {route.image && (
@@ -72,7 +72,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
 
       <div className="flex flex-wrap items-center gap-2">
         {route.routeType && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand">
+          <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand-dark">
             <Route className="h-3.5 w-3.5" />
             {route.routeType}
           </span>
@@ -84,7 +84,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
         )}
       </div>
 
-      <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-choco sm:text-4xl">
+      <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-choco dark:text-ink sm:text-4xl">
         {route.title}
       </h1>
 
@@ -100,7 +100,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
             <MapPin className="h-5 w-5 text-brand" />
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-choco-muted">Distancia</p>
-              <p className="text-lg font-bold text-choco">{route.distanceKm} km</p>
+              <p className="text-lg font-bold text-choco dark:text-ink">{route.distanceKm} km</p>
             </div>
           </div>
         )}
@@ -109,7 +109,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
             <Mountain className="h-5 w-5 text-brand" />
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-choco-muted">Desnivel</p>
-              <p className="text-lg font-bold text-choco">{route.elevationM} m</p>
+              <p className="text-lg font-bold text-choco dark:text-ink">{route.elevationM} m</p>
             </div>
           </div>
         )}
@@ -118,7 +118,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
             <Route className="h-5 w-5 text-brand" />
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-choco-muted">Etapas</p>
-              <p className="text-lg font-bold text-choco">{route.stagesCount}</p>
+              <p className="text-lg font-bold text-choco dark:text-ink">{route.stagesCount}</p>
             </div>
           </div>
         )}
@@ -126,7 +126,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
 
       {route.description && (
         <div className="mt-8">
-          <h2 className="font-display text-xl font-bold text-choco">Descripción</h2>
+          <h2 className="font-display text-xl font-bold text-choco dark:text-ink">Descripción</h2>
           <div className="mt-3 whitespace-pre-line text-choco-muted leading-relaxed">
             {route.description}
           </div>
@@ -135,15 +135,15 @@ export default async function RouteDetailPage({ params }: PageProps) {
 
       {stages.length > 0 && (
         <div className="mt-8">
-          <h2 className="font-display text-xl font-bold text-choco">Etapas</h2>
+          <h2 className="font-display text-xl font-bold text-choco dark:text-ink">Etapas</h2>
           <div className="mt-4 space-y-3">
             {stages.map((stage) => (
-              <div key={stage.id} className="rounded-xl border border-sand bg-white p-4 shadow-sm">
+              <div key={stage.id} className="rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm">
                 <div className="flex items-center gap-2">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand/10 text-sm font-bold text-brand">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand/10 text-sm font-bold text-brand-dark">
                     {stage.stageNumber}
                   </span>
-                  <h3 className="font-display font-semibold text-choco">
+                  <h3 className="font-display font-semibold text-choco dark:text-ink">
                     {stage.title}
                   </h3>
                   {stage.distanceKm && (
@@ -192,7 +192,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
             href={route.gpxUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-6 py-3 font-semibold text-choco transition hover:bg-sand"
+            className="inline-flex items-center gap-2 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-6 py-3 font-semibold text-choco dark:text-ink transition hover:bg-sand"
           >
             Descargar GPX
           </a>

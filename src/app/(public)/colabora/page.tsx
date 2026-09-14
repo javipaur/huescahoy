@@ -21,7 +21,7 @@ import { photos } from "@/lib/photos";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Colabora — Huesca Hoy entre todos",
+  title: "Colabora con Huesca Hoy, entre todos",
   description:
     "Publica tu evento en la agenda, reporta problemas y sugiere mejoras. Huesca Hoy se construye entre todos.",
   alternates: {
@@ -82,7 +82,7 @@ const TARGETS = [
 export default function ColaboraPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-choco">
+      <section className="relative overflow-hidden bg-choco dark:bg-ink">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-32 -top-32 h-[24rem] w-[24rem] rounded-full bg-brand/20 blur-3xl"
@@ -97,10 +97,10 @@ export default function ColaboraPage() {
               <Handshake className="h-4 w-4" />
               Colabora con Huesca Hoy
             </span>
-            <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-cream sm:text-5xl">
+            <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-white sm:text-5xl">
               Hagamos la agenda <span className="text-gold">juntos</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/70">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
               {site.name} no tiene redacción. La alimentan las personas que
               viven {site.city}: tú sabes lo que pasa en tu barrio antes que
               nadie. Publica tu evento, avísanos de un fallo o cuéntanos cómo
@@ -109,14 +109,14 @@ export default function ColaboraPage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#publica"
-                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco transition hover:brightness-105"
+                className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-semibold text-choco dark:text-ink transition hover:brightness-105"
               >
                 <CalendarPlus className="h-5 w-5" />
                 Publicar mi evento
               </a>
               <a
                 href="#formulario"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-cream transition hover:border-gold/40 hover:text-gold"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:border-gold/40 hover:text-gold"
               >
                 O contarnos algo <ArrowRight className="h-5 w-5" />
               </a>
@@ -134,7 +134,7 @@ export default function ColaboraPage() {
                 sizes="(min-width: 1024px) 480px, 100vw"
               />
             </div>
-            <div className="absolute -bottom-8 left-5 rounded-2xl bg-cream px-5 py-4 text-choco shadow-xl">
+            <div className="absolute -bottom-8 left-5 rounded-2xl bg-cream px-5 py-4 text-choco dark:text-ink shadow-xl">
               <p className="inline-flex items-center gap-2 font-display text-base font-bold">
                 <MessageCircleHeart className="h-5 w-5 text-brand" />
                 Respuesta humana, no un bot
@@ -143,14 +143,14 @@ export default function ColaboraPage() {
                 Tiempo real de respuesta: hoy mismo
               </p>
             </div>
-            <PhotoCredit photo={photos.semanaSanta} className="mt-9 text-cream/45" />
+            <PhotoCredit photo={photos.semanaSanta} className="mt-9 text-white/45" />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-10 max-w-2xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
             <Handshake className="h-3.5 w-3.5" />
             Cómo funciona
           </span>
@@ -169,15 +169,15 @@ export default function ColaboraPage() {
             return (
               <li
                 key={step.title}
-                className="relative rounded-2xl border border-sand bg-white p-6 shadow-sm"
+                className="relative rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-6 shadow-sm"
               >
-                <span className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full bg-brand/10 font-display text-base font-extrabold text-brand">
+                <span className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full bg-brand/10 font-display text-base font-extrabold text-brand-dark">
                   {index + 1}
                 </span>
-                <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-brand/10 text-brand">
+                <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-brand/10 text-brand-dark">
                   <Icon className="h-6 w-6" />
                 </span>
-                <h3 className="relative mt-4 font-display text-lg font-bold text-choco">
+                <h3 className="relative mt-4 font-display text-lg font-bold text-choco dark:text-ink">
                   {step.title}
                 </h3>
                 <p className="relative mt-1.5 text-sm leading-relaxed text-choco-muted">
@@ -194,7 +194,7 @@ export default function ColaboraPage() {
           <div className="flex flex-col gap-6">
             <div
               id="publica"
-              className="scroll-mt-24 overflow-hidden rounded-2xl border border-sand bg-white shadow-sm"
+              className="scroll-mt-24 overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm"
             >
               <div className="flex items-center gap-3 border-b border-sand bg-brand/5 px-6 py-4 sm:px-8">
                 <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand text-white">
@@ -216,10 +216,10 @@ export default function ColaboraPage() {
 
             <div
               id="formulario"
-              className="scroll-mt-24 overflow-hidden rounded-2xl border border-sand bg-white shadow-sm"
+              className="scroll-mt-24 overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm"
             >
               <div className="flex items-center gap-3 border-b border-sand bg-sand/60 px-6 py-4 sm:px-8">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-choco text-cream">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-choco dark:bg-ink text-white">
                   <Lightbulb className="h-5 w-5" />
                 </span>
                 <div>
@@ -238,23 +238,23 @@ export default function ColaboraPage() {
           </div>
 
           <aside className="flex flex-col gap-6">
-            <div className="rounded-2xl border border-sand bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-6 shadow-sm">
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#8134af] text-white shadow-sm">
                 <Instagram className="h-6 w-6" />
               </span>
-              <h3 className="mt-4 font-display text-lg font-bold text-choco">
+              <h3 className="mt-4 font-display text-lg font-bold text-choco dark:text-ink">
                 Síguenos en Instagram
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-choco-muted">
                 Cada día los planes de {site.city}, historias de la agenda y
                 avisos de nuevos eventos. Síguenos en{" "}
-                <span className="font-semibold text-choco">{site.instagramHandle}</span>.
+                <span className="font-semibold text-choco dark:text-ink">{site.instagramHandle}</span>.
               </p>
               <a
                 href={site.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-choco px-5 py-2.5 font-semibold text-cream transition hover:bg-choco/90"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-choco dark:bg-ink px-5 py-2.5 font-semibold text-white transition hover:bg-choco/90 dark:bg-ink/90"
               >
                 <Instagram className="h-4 w-4" />
                 Seguir en Instagram
@@ -266,8 +266,8 @@ export default function ColaboraPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-sand bg-white p-6 shadow-sm">
-              <h3 className="font-display text-lg font-bold text-choco">
+            <div className="rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-6 shadow-sm">
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">
                 ¿Para quién es esto?
               </h3>
               <ul className="mt-4 space-y-4">
@@ -275,11 +275,11 @@ export default function ColaboraPage() {
                   const Icon = target.Icon;
                   return (
                     <li key={target.title} className="flex items-start gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand-dark">
                         <Icon className="h-5 w-5" />
                       </span>
                       <span>
-                        <span className="block text-sm font-semibold text-choco">
+                        <span className="block text-sm font-semibold text-choco dark:text-ink">
                           {target.title}
                         </span>
                         <span className="mt-0.5 block text-sm text-choco-muted">
@@ -298,12 +298,12 @@ export default function ColaboraPage() {
               </ul>
             </div>
 
-            <div className="rounded-2xl bg-choco p-6 text-cream">
+            <div className="rounded-2xl bg-choco dark:bg-ink p-6 text-white">
               <Users className="h-6 w-6 text-gold" />
               <h3 className="mt-3 font-display text-lg font-bold">
                 Huesca es de los suyos
               </h3>
-              <p className="mt-1 text-sm leading-relaxed text-cream/70">
+              <p className="mt-1 text-sm leading-relaxed text-white/70">
                 Cuantos más eventos y avisos recibamos, más viva estará la
                 agenda para todo el mundo. Sin ti, no sería lo mismo.
               </p>
@@ -339,7 +339,7 @@ export default function ColaboraPage() {
                 href={site.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-6 py-3 font-semibold text-choco transition hover:bg-sand"
+                className="inline-flex items-center gap-2 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-6 py-3 font-semibold text-choco dark:text-ink transition hover:bg-sand"
               >
                 <Instagram className="h-4 w-4 text-brand" />
                 {site.instagramHandle}

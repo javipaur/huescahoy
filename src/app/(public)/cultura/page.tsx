@@ -156,10 +156,10 @@ export default async function CulturaLandingPage() {
         <span aria-hidden className="mx-2">
           /
         </span>
-        <span className="font-medium text-choco">Cultura</span>
+        <span className="font-medium text-choco dark:text-ink">Cultura</span>
       </nav>
 
-      <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+      <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
         <Compass className="h-3.5 w-3.5" />
         Guía de cultura · {site.city}
       </span>
@@ -188,7 +188,7 @@ export default async function CulturaLandingPage() {
         </Link>
         <Link
           href="/agenda?desde=finde"
-          className="inline-flex h-12 items-center gap-2 rounded-full border border-sand bg-white px-6 font-semibold text-choco transition hover:border-brand/40 hover:text-brand"
+          className="inline-flex h-12 items-center gap-2 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-6 font-semibold text-choco dark:text-ink transition hover:border-brand/40 hover:text-brand"
         >
           <CalendarDays className="h-4 w-4" />
           Este fin de semana
@@ -212,7 +212,7 @@ export default async function CulturaLandingPage() {
               <Link
                 key={category.id}
                 href={`/agenda/${category.slug}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white px-3.5 py-2 text-sm font-medium text-choco transition hover:border-brand/40 hover:text-brand-dark"
+                className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-sm font-medium text-choco dark:text-ink transition hover:border-brand/40 hover:text-brand-dark"
               >
                 {Icon && (
                   <Icon className="h-4 w-4" style={{ color: category.color }} />
@@ -238,9 +238,9 @@ export default async function CulturaLandingPage() {
             return (
               <div
                 key={item.title}
-                className="rounded-2xl border border-sand bg-white p-5 shadow-sm"
+                className="rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-5 shadow-sm"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand-dark">
                   <Icon className="h-5 w-5" />
                 </span>
                 <h3 className="mt-3 font-display text-lg font-bold">
@@ -323,7 +323,7 @@ export default async function CulturaLandingPage() {
               key={item.question}
               className="group rounded-2xl border border-sand bg-cream/50 px-5 py-4 transition hover:border-brand/30"
             >
-              <summary className="cursor-pointer list-none font-semibold text-choco">
+              <summary className="cursor-pointer list-none font-semibold text-choco dark:text-ink">
                 {item.question}
               </summary>
               <p className="mt-2 text-sm leading-relaxed text-choco-muted">
@@ -334,7 +334,7 @@ export default async function CulturaLandingPage() {
         </div>
       </section>
 
-      <aside className="mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco p-7 text-white sm:p-10">
+      <aside className="mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco dark:to-ink p-7 text-white sm:p-10">
         <h2 className="font-display text-2xl font-bold tracking-tight">
           Un día cualquiera en {site.city}, siempre hay algo
         </h2>
@@ -345,7 +345,7 @@ export default async function CulturaLandingPage() {
         </p>
         <Link
           href="/agenda"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-choco transition hover:bg-cream"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-choco dark:text-ink transition hover:bg-cream"
         >
           Abrir la agenda <ArrowRight className="h-5 w-5" />
         </Link>

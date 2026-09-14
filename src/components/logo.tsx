@@ -13,8 +13,8 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         className="h-11 w-11 rounded-xl object-cover shadow-sm shadow-brand/30"
       />
       {!compact && (
-        <span className="hidden font-display text-xl font-bold tracking-tight text-choco sm:inline">
-          Huesca<span className="text-brand">Hoy</span>
+        <span className="hidden font-display text-xl font-bold tracking-tight text-choco sm:inline dark:text-zinc-100">
+          Huesca<span className="text-brand dark:text-brand">Hoy</span>
         </span>
       )}
     </Link>

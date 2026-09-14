@@ -241,7 +241,7 @@ export function AgendaView({
 
   return (
     <div>
-      <div className="rounded-2xl border border-sand bg-white p-4 shadow-sm sm:p-5">
+      <div className="rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm sm:p-5">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
@@ -251,13 +251,13 @@ export function AgendaView({
                 value={q}
                 onChange={(event) => setQ(event.target.value)}
                 placeholder="Buscar conciertos, teatro, exposiciones…"
-                className="w-full rounded-full border border-sand bg-white py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+                className="w-full rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
               />
             </div>
             <select
               value={desde}
               onChange={(event) => setDesde(event.target.value)}
-              className="rounded-full border border-sand bg-white px-4 py-2.5 text-sm font-medium outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+              className="rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm font-medium outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
             >
               {DATE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -278,7 +278,7 @@ export function AgendaView({
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   zona === option.value
                     ? "bg-brand text-white shadow-sm shadow-brand/30"
-                    : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                    : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
                 }`}
               >
                 {option.label}
@@ -289,7 +289,7 @@ export function AgendaView({
               className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition ${
                 guardados
                   ? "bg-brand text-white shadow-sm shadow-brand/30"
-                  : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                  : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
               }`}
             >
               <Heart className={`h-4 w-4 ${guardados ? "fill-current" : ""}`} />
@@ -300,13 +300,13 @@ export function AgendaView({
               disabled={locStatus === "locating"}
               className={`ml-2 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition disabled:opacity-60 ${
                 locStatus === "granted"
-                  ? "bg-choco text-cream shadow-sm"
-                  : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                  ? "bg-choco dark:bg-ink text-white shadow-sm"
+                  : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
               }`}
             >
               <LocateFixed
                 className={`h-4 w-4 ${locStatus === "locating" ? "animate-pulse" : ""} ${
-                  locStatus === "granted" ? "text-gold" : "text-brand"
+                  locStatus === "granted" ? "text-gold" : "text-brand-dark"
                 }`}
               />
               {locStatus === "locating"
@@ -328,8 +328,8 @@ export function AgendaView({
               onClick={() => setCategoria("")}
               className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                 !categoria
-                  ? "bg-choco text-cream"
-                  : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                  ? "bg-choco dark:bg-ink text-white"
+                  : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
               }`}
             >
               Todo
@@ -340,8 +340,8 @@ export function AgendaView({
                 onClick={() => setCategoria(categoria === category.slug ? "" : category.slug)}
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
                   categoria === category.slug
-                    ? "bg-choco text-cream"
-                    : "border border-sand bg-white text-choco-muted hover:bg-sand"
+                    ? "bg-choco dark:bg-ink text-white"
+                    : "border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 text-choco-muted hover:bg-sand"
                 }`}
               >
                 <span

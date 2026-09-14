@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${site.name} — ${site.tagline}`,
+    name: `${site.name} - ${site.tagline}`,
     short_name: site.shortName,
     description: `Agenda de eventos en ${site.city}: conciertos, teatro, exposiciones, deporte, cine, planes para niños y mercados. No te pierdas nada.`,
     lang: "es",

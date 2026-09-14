@@ -12,7 +12,7 @@ export function CategoryGrid({ categories }: { categories: CategoryWithCount[] }
           <Link
             key={category.id}
             href={`/agenda/${category.slug}`}
-            className="group relative flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-sand bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-lg sm:p-5"
+            className="group relative flex flex-col justify-between gap-4 overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-lg sm:p-5 dark:bg-zinc-900 dark:border-zinc-800"
             style={{ transitionProperty: "transform, box-shadow, border-color" }}
           >
             <span

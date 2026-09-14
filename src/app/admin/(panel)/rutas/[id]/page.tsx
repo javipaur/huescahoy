@@ -25,14 +25,14 @@ export default async function EditRoutePage({ params }: PageProps) {
     <div className="mx-auto max-w-2xl">
       <Link
         href="/admin/rutas"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco dark:text-ink"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver a rutas
       </Link>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">
             Editar ruta
           </h1>
           <p className="mt-1 text-sm text-choco-muted">{route.title}</p>
@@ -41,7 +41,7 @@ export default async function EditRoutePage({ params }: PageProps) {
           href={`/rutas/${route.slug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-choco/15 bg-white px-4 py-2 text-sm font-medium text-choco transition hover:bg-sand"
+          className="inline-flex items-center gap-1.5 rounded-full border border-choco/15 bg-white px-4 py-2 text-sm font-medium text-choco dark:text-ink transition hover:bg-sand"
         >
           <ExternalLink className="h-4 w-4" />
           Ver en la web

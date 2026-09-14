@@ -7,7 +7,7 @@ import { deleteRestaurantById, type ActionResult } from "@/lib/actions";
 import type { RestaurantItem } from "@/lib/types";
 
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnDanger =
   "rounded-lg px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700";
 
@@ -66,7 +66,7 @@ export function RestaurantsTable({ restaurants }: { restaurants: RestaurantItem[
               className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
                 restaurant.status === "published"
                   ? "bg-green-100 text-green-700"
-                  : "bg-choco/10 text-choco-muted"
+                  : "bg-choco/10 dark:bg-ink/10 text-choco-muted"
               }`}
             >
               {restaurant.status === "published" ? "Publicado" : "Oculto"}

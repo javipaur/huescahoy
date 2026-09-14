@@ -39,7 +39,7 @@ export function NewsletterForm() {
     <form onSubmit={onSubmit} className="mt-5">
       <label
         htmlFor="newsletter-email"
-        className="flex items-center gap-2 text-sm font-semibold text-cream/80"
+        className="flex items-center gap-2 text-sm font-semibold text-white/80"
       >
         <Mail className="h-4 w-4 text-gold" />
         Lo mejor de la semana en tu correo
@@ -55,7 +55,7 @@ export function NewsletterForm() {
             if (status !== "idle") setStatus("idle");
           }}
           placeholder="tu@correo.es"
-          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-cream placeholder:text-cream/60 outline-none transition focus:border-gold/50"
+          className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-gold/50"
         />
         <button
           type="submit"

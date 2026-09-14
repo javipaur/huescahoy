@@ -134,13 +134,13 @@ export default async function EventPage({ params }: PageProps) {
       {eventJsonLd && <JsonLd data={eventJsonLd} />}
       <Link
         href="/agenda"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco dark:text-ink"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver a la agenda
       </Link>
 
-      <div className="relative overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
+      <div className="relative overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
         {event.image ? (
           <div className="relative aspect-[16/9] w-full bg-sand">
             <EventImage
@@ -197,7 +197,7 @@ export default async function EventPage({ params }: PageProps) {
               </span>
             )}
             {event.featured === 1 && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco px-3 py-1 text-xs font-semibold text-cream">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco dark:bg-ink px-3 py-1 text-xs font-semibold text-white">
                 <Star className="h-3.5 w-3.5 fill-gold text-gold" />
                 Recomendado por HuescaHoy
               </span>
@@ -218,7 +218,7 @@ export default async function EventPage({ params }: PageProps) {
             </p>
           )}
 
-          <div className="mt-6 overflow-hidden rounded-2xl border border-sand bg-white">
+          <div className="mt-6 overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900">
             {facts.map((fact, index) => (
               <div
                 key={fact.label}
@@ -226,14 +226,14 @@ export default async function EventPage({ params }: PageProps) {
                   index > 0 ? "border-t border-sand" : ""
                 }`}
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand-dark">
                   <fact.Icon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-choco-muted">
                     {fact.label}
                   </p>
-                  <p className="mt-0.5 whitespace-pre-line break-words text-sm font-semibold leading-snug text-choco">
+                  <p className="mt-0.5 whitespace-pre-line break-words text-sm font-semibold leading-snug text-choco dark:text-ink">
                     {fact.value}
                   </p>
                 </div>
@@ -247,7 +247,7 @@ export default async function EventPage({ params }: PageProps) {
 
           {event.description && (
             <div className="mt-6 rounded-2xl border border-sand bg-sand/30 p-5 sm:p-6">
-              <p className="whitespace-pre-line leading-relaxed text-choco/90">
+              <p className="whitespace-pre-line leading-relaxed text-choco dark:text-ink/90">
                 {event.description}
               </p>
             </div>
@@ -298,7 +298,7 @@ export default async function EventPage({ params }: PageProps) {
                 <Link
                   key={e.id}
                   href={`/eventos/${e.slug}`}
-                  className="flex items-center gap-4 rounded-2xl border border-sand bg-white p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md"
+                  className="flex items-center gap-4 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md"
                 >
                   <span
                     className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-white"

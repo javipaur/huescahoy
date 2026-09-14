@@ -5,7 +5,7 @@ import { CalendarPlus, CheckCircle2 } from "lucide-react";
 import { submitEventAction } from "@/lib/actions";
 
 const inputClass =
-  "w-full rounded-xl border border-sand bg-white px-4 py-2.5 text-sm text-choco placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "w-full rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 export function SubmitEventForm() {
   const [state, action, pending] = useActionState(submitEventAction, {

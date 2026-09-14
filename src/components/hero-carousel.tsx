@@ -37,8 +37,8 @@ export function HeroCarousel({ features }: { features: HeroFeature[] }) {
             sizes="(min-width: 1024px) 520px, 100vw"
           />
         ))}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-choco/60 via-transparent to-transparent" />
-        <div className="absolute left-4 top-4 rounded-full bg-choco/70 px-3.5 py-1.5 text-xs font-semibold text-gold backdrop-blur">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-choco/60 via-choco/10 to-transparent dark:from-ink/60 dark:via-ink/10" />
+        <div className="absolute left-4 top-4 rounded-full bg-choco/70 dark:bg-ink/70 px-3.5 py-1.5 text-xs font-semibold text-gold backdrop-blur">
           {current.label}
         </div>
         {features.length > 1 && (
@@ -57,7 +57,7 @@ export function HeroCarousel({ features }: { features: HeroFeature[] }) {
           </div>
         )}
       </div>
-      <PhotoCredit photo={current.photo} className="mt-6 text-cream/45" />
+      <PhotoCredit photo={current.photo} className="mt-6 text-white/45" />
     </div>
   );
 }

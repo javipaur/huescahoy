@@ -14,13 +14,13 @@ import type { Category } from "@/lib/types";
 import { getIcon, ICON_OPTIONS } from "@/lib/icons";
 
 const inputCls =
-  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 const btnPrimary =
   "rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream transition hover:bg-brand-dark disabled:opacity-60";
 const btnSecondary =
-  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco transition hover:bg-white";
+  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco dark:text-ink transition hover:bg-white";
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnDanger =
   "rounded-lg px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700";
 
@@ -189,7 +189,7 @@ export default function CategoryAdmin({ categories }: { categories: Category[] }
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">Categorías</h1>
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">Categorías</h1>
           <p className="mt-1 text-sm text-choco-muted">
             Las secciones en las que se agrupan los eventos.
           </p>

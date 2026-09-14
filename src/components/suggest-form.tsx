@@ -21,7 +21,7 @@ export function SuggestForm() {
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand/10 text-brand">
           <CheckCircle2 className="h-7 w-7" />
         </span>
-        <h3 className="mt-4 font-display text-xl font-bold text-choco">
+        <h3 className="mt-4 font-display text-xl font-bold text-choco dark:text-ink">
           ¡Gracias por tu aportación!
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-choco-muted">
@@ -44,14 +44,14 @@ export function SuggestForm() {
       />
 
       <fieldset>
-        <legend className="mb-2 block text-sm font-medium text-choco">
+        <legend className="mb-2 block text-sm font-medium text-choco dark:text-ink">
           ¿Qué quieres contarnos?
         </legend>
         <div className="flex flex-col gap-2">
           {KINDS.map((kind) => (
             <label
               key={kind.value}
-              className="flex cursor-pointer items-start gap-3 rounded-xl border border-sand bg-white px-4 py-3 transition has-[:checked]:border-brand has-[:checked]:bg-brand/5"
+              className="flex cursor-pointer items-start gap-3 rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 transition has-[:checked]:border-brand has-[:checked]:bg-brand/5"
             >
               <input
                 type="radio"
@@ -61,7 +61,7 @@ export function SuggestForm() {
                 className="mt-1 h-4 w-4 accent-brand"
               />
               <span>
-                <span className="block text-sm font-semibold text-choco">
+                <span className="block text-sm font-semibold text-choco dark:text-ink">
                   {kind.label}
                 </span>
                 <span className="block text-xs text-choco-muted">{kind.hint}</span>
@@ -72,7 +72,7 @@ export function SuggestForm() {
       </fieldset>
 
       <div>
-        <label htmlFor="title" className="mb-1.5 block text-sm font-medium text-choco">
+        <label htmlFor="title" className="mb-1.5 block text-sm font-medium text-choco dark:text-ink">
           Título *
         </label>
         <input
@@ -83,12 +83,12 @@ export function SuggestForm() {
           minLength={3}
           maxLength={140}
           placeholder="Ej.: falta el evento de la fiesta del barrio"
-          className="w-full rounded-xl border border-sand bg-white px-4 py-2.5 text-sm text-choco placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="w-full rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
       </div>
 
       <div>
-        <label htmlFor="detail" className="mb-1.5 block text-sm font-medium text-choco">
+        <label htmlFor="detail" className="mb-1.5 block text-sm font-medium text-choco dark:text-ink">
           Cuéntanos más
         </label>
         <textarea
@@ -97,12 +97,12 @@ export function SuggestForm() {
           rows={4}
           maxLength={2000}
           placeholder="Detalles, dónde lo has visto, qué esperabas encontrar…"
-          className="w-full resize-y rounded-xl border border-sand bg-white px-4 py-2.5 text-sm text-choco placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="w-full resize-y rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
       </div>
 
       <div>
-        <label htmlFor="contact" className="mb-1.5 block text-sm font-medium text-choco">
+        <label htmlFor="contact" className="mb-1.5 block text-sm font-medium text-choco dark:text-ink">
           Tu email o Instagram <span className="font-normal text-choco-muted">(opcional)</span>
         </label>
         <input
@@ -111,7 +111,7 @@ export function SuggestForm() {
           type="text"
           maxLength={120}
           placeholder="Para poder responderte si lo necesitamos"
-          className="w-full rounded-xl border border-sand bg-white px-4 py-2.5 text-sm text-choco placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="w-full rounded-xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm text-choco dark:text-ink placeholder:text-choco-muted/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
         <p className="mt-1.5 text-xs text-choco-muted">
           Solo lo usamos para ponernos en contacto contigo. Nunca lo publicamos.

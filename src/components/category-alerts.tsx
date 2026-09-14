@@ -118,7 +118,7 @@ export function CategoryAlerts({ categories }: { categories: Category[] }) {
   const subscribed = status === "subscribed";
 
   return (
-    <div className="mb-8 rounded-2xl border border-sand bg-white p-5 shadow-sm">
+    <div className="mb-8 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="flex items-center gap-2 font-semibold text-choco">

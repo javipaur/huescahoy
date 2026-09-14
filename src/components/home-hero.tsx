@@ -1,10 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ArrowRight,
-  CalendarDays,
-  Smartphone,
-} from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 import { InstallButton } from "@/components/pwa/install-button";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { getIcon } from "@/lib/icons";
@@ -18,16 +14,14 @@ const HERO_FEATURES = [
 ];
 
 export function HomeHero({
-  stats,
   categories,
 }: {
-  stats: { upcoming: number; categories: number };
   categories: CategoryWithCount[];
 }) {
   const chips = categories.slice(0, 6);
 
   return (
-    <section className="relative overflow-hidden bg-choco">
+    <section className="relative overflow-hidden bg-choco dark:bg-ink">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-40 -top-40 h-[30rem] w-[30rem] rounded-full bg-brand/20 blur-3xl"
@@ -53,14 +47,14 @@ export function HomeHero({
             Agenda cultural de Huesca · actualizada cada día
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-cream sm:text-6xl">
+          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-white sm:text-6xl">
             Toda la agenda cultural
             <br />
             de Huesca, en la{" "}
             <span className="text-gold">palma de tu mano</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/70">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
             Conciertos, teatro, exposiciones, cine y planes en familia: toda
             la agenda cultural de Huesca para hoy, el fin de semana y los
             próximos días. Gratis, sin anuncios y siempre al día.
@@ -69,38 +63,12 @@ export function HomeHero({
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <Link
               href="/agenda"
-              className="inline-flex h-12 items-center gap-2 rounded-full bg-gold px-7 font-semibold text-choco shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
+              className="inline-flex h-12 items-center gap-2 rounded-full bg-gold px-7 font-semibold text-choco dark:text-ink shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
             >
               Ver qué hacer hoy
               <ArrowRight className="h-5 w-5" />
             </Link>
             <InstallButton tone="dark-outline" />
-          </div>
-
-          <div className="mt-10 flex w-full flex-wrap justify-center gap-3 lg:justify-start">
-            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-              <p className="font-display text-2xl font-bold text-gold">
-                {stats.upcoming}
-                <span>+</span>
-              </p>
-              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-cream/60">
-                planes para hoy
-              </p>
-            </div>
-            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-              <p className="font-display text-2xl font-bold text-gold">
-                {stats.categories}
-              </p>
-              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-cream/60">
-                categorías
-              </p>
-            </div>
-            <div className="flex min-w-[120px] flex-col items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-              <Smartphone className="mb-1 h-5 w-5 text-gold" />
-              <p className="text-xs font-semibold uppercase tracking-wider text-cream/60">
-                siempre al día
-              </p>
-            </div>
           </div>
         </div>
 
@@ -129,7 +97,7 @@ export function HomeHero({
                 <Link
                   key={category.id}
                   href={`/agenda/${category.slug}`}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-cream/80 transition hover:border-gold/40 hover:text-gold"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-gold/40 hover:text-gold"
                 >
                   {Icon && <Icon className="h-4 w-4" style={{ color: category.color }} />}
                   {category.name}

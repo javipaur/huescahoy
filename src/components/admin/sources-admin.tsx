@@ -15,13 +15,13 @@ import {
 import type { Category, ScraperRun, Source } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco dark:text-ink placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 const btnPrimary =
   "rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream transition hover:bg-brand-dark disabled:opacity-60";
 const btnSecondary =
-  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco transition hover:bg-white";
+  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco dark:text-ink transition hover:bg-white";
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnDanger =
   "rounded-lg px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700";
 
@@ -122,7 +122,7 @@ function SourceFields({
           ))}
         </select>
       </Field>
-      <label className="flex items-center gap-2 self-end pb-1 text-sm text-choco">
+      <label className="flex items-center gap-2 self-end pb-1 text-sm text-choco dark:text-ink">
         <input
           name="enabled"
           type="checkbox"
@@ -240,7 +240,7 @@ export default function SourcesAdmin({
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">Fuentes</h1>
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">Fuentes</h1>
           <p className="mt-1 text-sm text-choco-muted">
             Webs de las que se extraen eventos automáticamente (RSS, JSON-LD o parsers dedicados).
           </p>
@@ -282,10 +282,10 @@ export default function SourcesAdmin({
               <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="font-display text-lg font-bold text-choco">
+                    <h2 className="font-display text-lg font-bold text-choco dark:text-ink">
                       {source.name}
                     </h2>
-                    <span className="rounded-full bg-choco/10 px-2 py-0.5 text-xs font-semibold uppercase text-choco-muted">
+                    <span className="rounded-full bg-choco/10 dark:bg-ink/10 px-2 py-0.5 text-xs font-semibold uppercase text-choco-muted">
                       {source.kind}
                     </span>
                     {source.enabled === 1 ? (
@@ -293,7 +293,7 @@ export default function SourcesAdmin({
                         Activa
                       </span>
                     ) : (
-                      <span className="rounded-full bg-choco/10 px-2 py-0.5 text-xs font-semibold text-choco-muted">
+                      <span className="rounded-full bg-choco/10 dark:bg-ink/10 px-2 py-0.5 text-xs font-semibold text-choco-muted">
                         Inactiva
                       </span>
                     )}
@@ -360,7 +360,7 @@ export default function SourcesAdmin({
       </div>
 
       <div className="mt-12">
-        <h2 className="font-display text-lg font-bold text-choco">Historial de ejecuciones</h2>
+        <h2 className="font-display text-lg font-bold text-choco dark:text-ink">Historial de ejecuciones</h2>
         {runs.length === 0 ? (
           <p className="mt-3 rounded-2xl border border-dashed border-choco/20 bg-white/50 p-8 text-center text-sm text-choco-muted">
             Aún no se ha ejecutado ningún scraper.

@@ -15,7 +15,7 @@ import { zoneFor, zoneLabel, type EventZone } from "@/lib/zones";
 function ZoneBadge({ zone }: { zone: EventZone }) {
   if (zone !== "provincia") return null;
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-choco shadow-sm backdrop-blur">
+    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-choco dark:text-ink shadow-sm backdrop-blur">
       <MapPin className="h-3 w-3 text-brand" />
       {zoneLabel(zone)}
     </span>
@@ -50,7 +50,7 @@ function Placeholder({
       />
       {Icon && (
         <span
-          className="grid h-14 w-14 place-items-center rounded-2xl bg-white/90 shadow-md"
+          className="grid h-14 w-14 place-items-center rounded-2xl bg-white/90 dark:bg-zinc-100 shadow-md"
           style={{ boxShadow: `0 4px 14px ${color}33` }}
         >
           <Icon className="h-7 w-7" style={{ color }} />
@@ -97,7 +97,7 @@ function OngoingRange({ event }: { event: EventItem }) {
   return (
     <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2 py-0.5 text-[11px] font-semibold text-brand-dark">
       <CalendarRange className="h-3 w-3 shrink-0" />
-      {dayNumber(event.startDate)} {monthShort(event.startDate)} –{" "}
+      {dayNumber(event.startDate)} {monthShort(event.startDate)} -{" "}
       {dayNumber(event.endDate)} {monthShort(event.endDate)}
     </span>
   );
@@ -120,7 +120,7 @@ function GridCard({
   return (
     <Link
       href={`/eventos/${event.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5 dark:bg-zinc-900 dark:border-zinc-800"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
         {event.image ? (
@@ -134,11 +134,11 @@ function GridCard({
           <Placeholder category={category} icon={icon} title={event.title} />
         )}
 
-        <span className="absolute left-3 top-3 flex flex-col items-center rounded-xl bg-white/95 px-2.5 py-1.5 text-center shadow-sm backdrop-blur">
+        <span className="absolute left-3 top-3 flex flex-col items-center rounded-xl bg-white/95 px-2.5 py-1.5 text-center shadow-sm backdrop-blur dark:bg-zinc-800/95">
           <span className="text-[10px] font-bold uppercase leading-tight tracking-widest text-choco-muted">
             {dayShort(event.startDate)}
           </span>
-          <span className="my-0.5 font-display text-lg font-bold leading-none text-choco">
+          <span className="my-0.5 font-display text-lg font-bold leading-none text-choco dark:text-ink">
             {dayNumber(event.startDate)}
           </span>
           <span
@@ -151,7 +151,7 @@ function GridCard({
 
         <span className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
           {event.featured === 1 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-choco/85 px-2.5 py-1 text-[11px] font-semibold text-cream shadow-sm backdrop-blur">
+            <span className="inline-flex items-center gap-1 rounded-full bg-choco/85 dark:bg-ink/85 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm backdrop-blur">
               <Star className="h-3 w-3 fill-gold text-gold" />
               Recomendado
             </span>
@@ -174,8 +174,8 @@ function GridCard({
           <ZoneBadge zone={zoneFor(event)} />
         </span>
 
-        <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 group-hover:opacity-100">
-          <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco shadow-lg transition duration-300 group-hover:translate-y-0">
+        <span className="pointer-events-none absolute inset-0 grid place-items-center bg-choco/0 opacity-0 transition duration-300 group-hover:bg-choco/25 dark:bg-ink/25 group-hover:opacity-100">
+          <span className="inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-choco dark:text-ink shadow-lg transition duration-300 group-hover:translate-y-0">
             Ver evento
             <ArrowRight className="h-4 w-4" />
           </span>
@@ -183,7 +183,7 @@ function GridCard({
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
+        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco dark:text-ink transition-colors group-hover:text-brand-dark">
           {event.title}
         </h3>
 
@@ -198,7 +198,7 @@ function GridCard({
           <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
             {isEventOngoing(event) && <OngoingRange event={event} />}
             {event.price ? (
-              <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand">
+              <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-bold text-brand-dark">
                 {event.price}
               </span>
             ) : null}
@@ -238,7 +238,7 @@ function RowCard({
   return (
     <Link
       href={`/eventos/${event.slug}`}
-      className="group flex items-stretch gap-4 rounded-2xl border border-sand bg-white p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md sm:gap-5"
+      className="group flex items-stretch gap-4 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md sm:gap-5 dark:bg-zinc-900 dark:border-zinc-800"
     >
       <div className="relative w-20 shrink-0 self-stretch overflow-hidden rounded-xl bg-sand sm:w-28">
         {event.image ? (
@@ -251,7 +251,7 @@ function RowCard({
         ) : (
           <Placeholder category={category} icon={icon} title={event.title} />
         )}
-        <span className="absolute left-2 top-2 flex flex-col items-center rounded-lg bg-white/95 px-2 py-1 text-center shadow-sm backdrop-blur">
+        <span className="absolute left-2 top-2 flex flex-col items-center rounded-lg bg-white/95 px-2 py-1 text-center shadow-sm backdrop-blur dark:bg-zinc-800/95">
           <span className="text-[9px] font-bold uppercase leading-tight tracking-widest text-choco-muted">
             {dayShort(event.startDate)}
           </span>
@@ -279,7 +279,7 @@ function RowCard({
             </span>
           )}
           {event.featured === 1 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-choco/90 px-2 py-0.5 text-[11px] font-semibold text-cream">
+            <span className="inline-flex items-center gap-1 rounded-full bg-choco/90 dark:bg-ink/90 px-2 py-0.5 text-[11px] font-semibold text-white">
               <Star className="h-3 w-3 fill-gold text-gold" />
               Recomendado
             </span>
@@ -310,7 +310,7 @@ function RowCard({
         <div className="flex flex-col items-end gap-2">
           {event.price && (
             <span
-              className="max-w-[9rem] truncate text-right text-sm font-bold text-brand"
+              className="max-w-[9rem] truncate text-right text-sm font-bold text-brand-dark"
               title={event.price}
             >
               {event.price}

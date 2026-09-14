@@ -26,8 +26,8 @@ export function AgendaSwitcher({
       aria-pressed={view === value}
       className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition ${
         view === value
-          ? "bg-choco text-cream shadow-sm"
-          : "text-choco-muted hover:text-choco"
+          ? "bg-choco dark:bg-ink text-white shadow-sm"
+          : "text-choco-muted hover:text-choco dark:text-ink"
       }`}
     >
       <Icon className="h-4 w-4" />
@@ -42,7 +42,7 @@ export function AgendaSwitcher({
           {count} {count === 1 ? "evento" : "eventos"}
           {view === "map" ? ` · ${points.length} con mapa` : " en la agenda"}
         </p>
-        <div className="flex items-center gap-1 rounded-full border border-sand bg-white p-1 shadow-sm">
+        <div className="flex items-center gap-1 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-1 shadow-sm">
           {tab("grid", "Tarjetas", LayoutGrid)}
           {tab("list", "Lista", LayoutList)}
           {tab("map", "Mapa", MapIcon)}

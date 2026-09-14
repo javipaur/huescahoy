@@ -20,7 +20,7 @@ export default function AdminNav() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-choco/10 bg-choco text-cream">
+    <header className="border-b border-choco/10 bg-choco dark:bg-ink text-cream">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <Link href="/admin" className="font-display text-lg font-bold">
           Huesca<span className="text-brand">Hoy</span> <span className="text-cream/50">· Admin</span>

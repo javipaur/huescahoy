@@ -14,13 +14,13 @@ import {
 import type { Plan } from "@/lib/types";
 
 const inputCls =
-  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
+  "w-full rounded-lg border border-choco/20 bg-white px-3 py-2 text-sm text-choco dark:text-ink placeholder:text-choco-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 const btnPrimary =
   "rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream transition hover:bg-brand-dark disabled:opacity-60";
 const btnSecondary =
-  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco transition hover:bg-white";
+  "rounded-full border border-choco/15 bg-white/70 px-4 py-2 text-sm font-medium text-choco dark:text-ink transition hover:bg-white";
 const btnGhost =
-  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco";
+  "rounded-lg px-2 py-1 text-xs font-medium text-choco-muted transition hover:bg-choco/5 hover:text-choco dark:text-ink";
 const btnDanger =
   "rounded-lg px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700";
 
@@ -109,7 +109,7 @@ function PlanFields({ plan }: { plan?: Plan }) {
           className={inputCls}
         />
       </Field>
-      <label className="flex items-end gap-2 pb-2 text-sm text-choco">
+      <label className="flex items-end gap-2 pb-2 text-sm text-choco dark:text-ink">
         <input
           name="published"
           type="checkbox"
@@ -118,7 +118,7 @@ function PlanFields({ plan }: { plan?: Plan }) {
         />
         <span>
           Publicado
-          <span className="ml-1 text-xs text-choco-muted">— visible en la web</span>
+          <span className="ml-1 text-xs text-choco-muted">(visible en la web)</span>
         </span>
       </label>
       <div className="sm:col-span-2">
@@ -200,7 +200,7 @@ export default function PlanesAdmin({ plans }: { plans: Plan[] }) {
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">Planes</h1>
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">Planes</h1>
           <p className="mt-1 text-sm text-choco-muted">
             Guías y planes de la ciudad que se publican en /planes.
           </p>
@@ -250,7 +250,7 @@ export default function PlanesAdmin({ plans }: { plans: Plan[] }) {
                     className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
                       plan.published === 1
                         ? "bg-green-100 text-green-700"
-                        : "bg-choco/10 text-choco-muted"
+                        : "bg-choco/10 dark:bg-ink/10 text-choco-muted"
                     }`}
                   >
                     {plan.published === 1 ? "Publicado" : "Borrador"}

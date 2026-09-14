@@ -54,7 +54,7 @@ export default async function AdminDashboardPage() {
     <div className="space-y-10">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">Panel</h1>
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">Panel</h1>
           <p className="mt-1 text-sm text-choco-muted">
             Resumen de la agenda y acciones rápidas.
           </p>
@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
           </Link>
           <Link
             href="/admin/fuentes"
-            className="inline-flex items-center gap-2 rounded-full border border-choco/15 bg-white px-5 py-2.5 text-sm font-semibold text-choco transition hover:bg-sand"
+            className="inline-flex items-center gap-2 rounded-full border border-choco/15 bg-white px-5 py-2.5 text-sm font-semibold text-choco dark:text-ink transition hover:bg-sand"
           >
             <RefreshCw className="h-4 w-4" />
             Ejecutar scraper
@@ -93,7 +93,7 @@ export default async function AdminDashboardPage() {
                   {card.label}
                 </p>
               </div>
-              <p className="mt-3 font-display text-3xl font-bold text-choco">
+              <p className="mt-3 font-display text-3xl font-bold text-choco dark:text-ink">
                 {stats[card.key]}
               </p>
             </div>
@@ -104,7 +104,7 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-display text-lg font-bold text-choco">
+            <h2 className="font-display text-lg font-bold text-choco dark:text-ink">
               Próximos eventos
             </h2>
             <Link
@@ -129,7 +129,7 @@ export default async function AdminDashboardPage() {
                     className="flex items-center justify-between gap-3 py-3 transition hover:bg-cream"
                   >
                     <div className="min-w-0">
-                      <p className="truncate font-medium text-choco">{event.title}</p>
+                      <p className="truncate font-medium text-choco dark:text-ink">{event.title}</p>
                       <p className="text-xs text-choco-muted">
                         {formatDayShort(event.startDate)}
                         {category ? ` · ${category.name}` : ""}
@@ -139,7 +139,7 @@ export default async function AdminDashboardPage() {
                       className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
                         event.status === "published"
                           ? "bg-green-100 text-green-700"
-                          : "bg-choco/10 text-choco-muted"
+                          : "bg-choco/10 dark:bg-ink/10 text-choco-muted"
                       }`}
                     >
                       {event.status === "published" ? "Publicado" : "Oculto"}
@@ -153,7 +153,7 @@ export default async function AdminDashboardPage() {
 
         <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-display text-lg font-bold text-choco">
+            <h2 className="font-display text-lg font-bold text-choco dark:text-ink">
               Últimas ejecuciones del scraper
             </h2>
             <Link
@@ -177,7 +177,7 @@ export default async function AdminDashboardPage() {
                 <li key={run.id} className="py-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-choco">
+                      <p className="truncate text-sm font-medium text-choco dark:text-ink">
                         {run.sourceName ?? "Todas las fuentes"}
                       </p>
                       <p className="text-xs text-choco-muted">
@@ -207,7 +207,7 @@ export default async function AdminDashboardPage() {
 
       <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-display text-lg font-bold text-choco">
+          <h2 className="font-display text-lg font-bold text-choco dark:text-ink">
             Sugerencias recibidas
           </h2>
           <Link
@@ -236,7 +236,7 @@ export default async function AdminDashboardPage() {
             {latestSuggestions.map((suggestion) => (
               <li key={suggestion.id} className="py-3">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="truncate text-sm font-medium text-choco">
+                  <p className="truncate text-sm font-medium text-choco dark:text-ink">
                     {suggestion.title}
                   </p>
                   <span
@@ -245,7 +245,7 @@ export default async function AdminDashboardPage() {
                         ? "bg-green-100 text-green-700"
                         : suggestion.status === "visto"
                           ? "bg-amber-100 text-amber-700"
-                          : "bg-choco/10 text-choco-muted"
+                          : "bg-choco/10 dark:bg-ink/10 text-choco-muted"
                     }`}
                   >
                     {suggestion.status === "nuevo"
@@ -267,7 +267,7 @@ export default async function AdminDashboardPage() {
       </section>
 
       <section className="rounded-3xl border border-sand bg-white p-5 shadow-sm">
-        <h2 className="mb-4 font-display text-lg font-bold text-choco">
+        <h2 className="mb-4 font-display text-lg font-bold text-choco dark:text-ink">
           El plan del finde
         </h2>
         <FeaturedPickAdmin pick={pick} />

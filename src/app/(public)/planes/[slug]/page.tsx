@@ -76,13 +76,13 @@ export default async function PlanPage({ params }: PageProps) {
       <JsonLd data={planJsonLd} />
       <Link
         href="/planes"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco dark:text-ink"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver a la magia de Huesca
       </Link>
 
-      <div className="overflow-hidden rounded-2xl border border-sand bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
         {plan.image ? (
           <div className="relative aspect-[16/9] w-full">
             <Image

@@ -92,8 +92,8 @@ export function RemindButton({ event }: { event: EventItem }) {
         onClick={toggleMenu}
         className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
           active
-            ? "border-choco bg-choco text-cream hover:bg-choco/90"
-            : "border-choco/20 bg-white text-choco hover:border-choco/40"
+            ? "border-choco bg-choco dark:bg-ink text-white hover:bg-choco/90 dark:bg-ink/90"
+            : "border-choco/20 bg-white text-choco dark:text-ink hover:border-choco/40"
         }`}
         aria-expanded={open}
       >
@@ -108,7 +108,7 @@ export function RemindButton({ event }: { event: EventItem }) {
       )}
 
       {open && (
-        <div className="absolute right-0 z-20 mt-2 w-64 rounded-2xl border border-sand bg-white p-2 shadow-xl">
+        <div className="absolute right-0 z-20 mt-2 w-64 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-2 shadow-xl">
           <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-choco-muted">
             Recibir un aviso
           </p>

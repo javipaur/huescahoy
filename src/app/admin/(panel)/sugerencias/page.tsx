@@ -18,7 +18,7 @@ export default async function AdminSuggestionsPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-choco">
+          <h1 className="font-display text-2xl font-bold text-choco dark:text-ink">
             Sugerencias
           </h1>
           <p className="mt-1 text-sm text-choco-muted">
@@ -26,7 +26,7 @@ export default async function AdminSuggestionsPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-4 py-2 text-sm font-medium text-choco">
+          <span className="inline-flex items-center gap-2 rounded-full border border-sand bg-white px-4 py-2 text-sm font-medium text-choco dark:text-ink">
             <Inbox className="h-4 w-4 text-brand" />
             {counts.pending} {counts.pending === 1 ? "nueva" : "nuevas"} por revisar
           </span>
