@@ -421,7 +421,10 @@ async function seedDefaultSources(): Promise<void> {
       [input.kind]
     );
     if ((existing.rowCount ?? 0) > 0) continue;
-    await createSource(input);
+    await getPool().query(
+      "INSERT INTO sources (name, url, kind, category_id, enabled) VALUES ($1, $2, $3, $4, $5)",
+      [input.name, input.url, input.kind, input.category_id, input.enabled]
+    );
   }
 }
 
