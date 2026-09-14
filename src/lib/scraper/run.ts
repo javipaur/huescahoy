@@ -21,6 +21,7 @@ import { fetchCaminosNaturalesRoutes } from "./caminosnaturales";
 import { fetchOpenDataRestaurants } from "./opendata-restaurants";
 import { fetchHuescaTurismoEvents } from "./huescaturismo-events";
 import { fetchDiputacionEvents } from "./diputacion-events";
+import { fetchDphPlanes } from "./dph-planes";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -32,6 +33,7 @@ import {
   recordScraperRun,
   setEventImage,
   todayStr,
+  upsertPlan,
   upsertRestaurant,
   upsertRoute,
   upsertScrapedEvent,
@@ -249,6 +251,12 @@ const ROUTE_FETCHERS: Record<string, () => Promise<import("../types").RouteInput
   caminosnaturales: fetchCaminosNaturalesRoutes,
 };
 
+type PlanWithSource = import("../types").PlanInput & { source: string; source_url: string | null };
+
+const PLAN_FETCHERS: Record<string, () => Promise<PlanWithSource[]>> = {
+  "dph-planes": fetchDphPlanes,
+};
+
 async function runContentSource(source: Source): Promise<SourceResult> {
   try {
     if (RESTAURANT_FETCHERS[source.kind]) {
@@ -273,6 +281,17 @@ async function runContentSource(source: Source): Promise<SourceResult> {
       }
       return { status: "ok", found: items.length, created, updated };
     }
+    if (PLAN_FETCHERS[source.kind]) {
+      const items = await PLAN_FETCHERS[source.kind]();
+      let created = 0;
+      let updated = 0;
+      for (const item of items) {
+        const result = await upsertPlan(item);
+        if (result.status === "new") created++;
+        else if (result.status === "updated") updated++;
+      }
+      return { status: "ok", found: items.length, created, updated };
+    }
     return { status: "error", found: 0, created: 0, updated: 0, error: "Tipo de contenido no soportado" };
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
@@ -287,7 +306,11 @@ async function runContentSource(source: Source): Promise<SourceResult> {
 }
 
 export async function runSource(source: Source): Promise<SourceResult> {
-  if (RESTAURANT_FETCHERS[source.kind] || ROUTE_FETCHERS[source.kind]) {
+  if (
+    RESTAURANT_FETCHERS[source.kind] ||
+    ROUTE_FETCHERS[source.kind] ||
+    PLAN_FETCHERS[source.kind]
+  ) {
     return runContentSource(source);
   }
   try {

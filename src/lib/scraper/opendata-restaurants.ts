@@ -1,54 +1,8 @@
 import axios from "axios";
 import type { RestaurantInput } from "../types";
 
-const CKAN_API = "https://opendata.aragon.es/datos/catalogo/api/3/action/package_show";
+const CKAN_API = "https://opendata.aragon.es/aod/api/3/action/package_show";
 const PACKAGE_ID = "cafeterias-y-restaurantes-en-la-comunidad-autonoma-de-aragon";
-
-const HUESCA_COMARCA_MARKERS = [
-  "hoya de huesca",
-  "plana de uesca",
-  "hoya",
-  "alto galllego",
-  "jacetania",
-  "sob rarbe",
-  "sobrarbe",
-  "ribagorza",
-  "cinco villas",
-  "monegros",
-  "somontano",
-  "bajo cin",
-  "cinca medio",
-];
-
-const HUESCA_TOWN_MARKERS = [
-  "huesca",
-  "jaca",
-  "ainsa",
-  "barbastro",
-  "monzón",
-  "monzon",
-  "fraga",
-  "sabiñánigo",
-  "sabinanigo",
-  "huesca",
-  "benasque",
-  "boltaña",
-  "boltana",
-  "lorve",
-  "plan",
-  "campo",
-  "graus",
-  "sarriera",
-  "sariñena",
-  "sarinena",
-  "bielsa",
-  "torla",
-  "broto",
-  "hecho",
-  "anso",
-  "ejea",
-  "tamarite",
-];
 
 type OpenDataRow = Record<string, unknown>;
 
@@ -65,27 +19,24 @@ function slugify(input: string): string {
 function asString(value: unknown): string | null {
   if (value == null) return null;
   const text = String(value).trim();
-  return text.length > 0 ? text : null;
+  return text.length > 0 && text !== "0" ? text : null;
 }
 
-function cleanName(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim()
-    .replace(/\s+/g, " ");
+function cuisineFrom(row: OpenDataRow): string | null {
+  const sigla = String(row.actividad_sigla ?? "").toUpperCase();
+  if (sigla.includes("C")) return "Bar / Cafetería";
+  if (sigla.includes("R")) return "Restaurante";
+  const categoria = asString(row.categoria)?.toLowerCase() ?? "";
+  if (categoria.includes("tenedor")) return "Restaurante";
+  if (categoria.includes("taza")) return "Bar / Cafetería";
+  return null;
 }
 
 function inHuesca(row: OpenDataRow): boolean {
-  const comarca = (row.comarca ?? row.municipio ?? "").toString().toLowerCase();
-  const municipio = (row.municipio ?? "").toString().toLowerCase();
-  const anyText = `${comarca} ${municipio}`.toLowerCase();
-
-  if (HUESCA_COMARCA_MARKERS.some((m) => anyText.includes(cleanName(m)))) return true;
-  if (HUESCA_TOWN_MARKERS.some((m) => anyText.includes(cleanName(m)))) return true;
-  if (municipio.includes("huesca")) return true;
-  return false;
+  const provincia = String(row.actividad_provincia ?? "").toUpperCase();
+  if (provincia === "HU") return true;
+  const comarca = asString(row.nombre_comarca)?.toLowerCase() ?? "";
+  return comarca.length > 0 && /hoya|huesca|gallé?llego|jacetania|sobrarbe|ribagorza|cinco villas|monegros|somontano|bajo cin|bajo cinca|cinca medio/i.test(comarca);
 }
 
 async function getDataUrl(): Promise<string | null> {
@@ -93,7 +44,7 @@ async function getDataUrl(): Promise<string | null> {
     params: { id: PACKAGE_ID },
     timeout: 20000,
   });
-  const resources = res.data?.result?.resources as Array<{ id?: string; format?: string; url?: string }> | undefined;
+  const resources = res.data?.result?.resources as Array<{ format?: string; url?: string }> | undefined;
   if (!resources) return null;
   const json = resources.find((r) => (r.format ?? "").toUpperCase().includes("JSON"));
   const csv = resources.find((r) => (r.format ?? "").toUpperCase().includes("CSV"));
@@ -124,31 +75,41 @@ export async function fetchOpenDataRestaurants(): Promise<RestaurantInput[]> {
 
   const results: RestaurantInput[] = [];
   for (const row of rows) {
+    if (String(row.estado ?? "").toUpperCase() === "B") continue;
     if (!inHuesca(row)) continue;
-    const name = asString(row.nombre ?? row.name ?? row.nombre_comercial);
+    const name = asString(row.nombre_establecimiento ?? row.nombre ?? row.name ?? row.nombre_comercial);
     if (!name) continue;
     const slug = slugify(name);
-    const address = asString(row.direccion ?? row.ubicacion);
-    const web = asString(row.web ?? row.website ?? row.url);
-    const phone = asString(row.telefono ?? row.phone);
-    const cuisine = (asString(row.categoria) ?? asString(row.tipo) ?? asString(row.actividad))?.toLowerCase() ?? null;
+    const signatura = asString(row.signatura);
+    const localidad = asString(row.localidad_establecimiento ?? row.municipio);
+    const direccion = asString(row.direccion_establecimiento ?? row.direccion ?? row.ubicacion);
+    const direccionWeb = asString(row.direccion_web ?? row.web ?? row.website);
+    const telefono = asString(row.telefono_establecimiento ?? row.telefono ?? row.phone);
+    const email = asString(row.e_mail ?? row.email ?? row.correo);
+    const comarca = asString(row.nombre_comarca);
+    const categoria = asString(row.categoria);
+
+    const address = [direccion, localidad].filter(Boolean).join(", ") || null;
+    const description = [comarca ? `Localidad: ${localidad ?? "Huesca"}` : null, categoria ? `Clasificación: ${categoria}` : null]
+      .filter(Boolean)
+      .join(".\n");
 
     results.push({
       name,
       slug: `${slug}-${Math.random().toString(36).slice(2, 8)}`,
-      description: asString(row.descripcion ?? row.description ?? row.complemento),
-      cuisine_type: cuisine?.includes("caf") ? "Bar / Cafetería" : cuisine?.includes("rest") ? "Restaurante" : "Restaurante",
-      price_range: asString(row.precio ?? row.rango_precio),
+      description: description || null,
+      cuisine_type: cuisineFrom(row),
+      price_range: null,
       address,
-      phone,
-      email: asString(row.email ?? row.correo),
-      website: web,
+      phone: telefono,
+      email,
+      website: direccionWeb,
       image: null,
       lat: null,
       lng: null,
       rating: null,
       source: "opendata-aragon",
-      source_url: `opendata:${row.registro ?? row.id ?? name}`,
+      source_url: signatura ?? `opendata:${row.registro ?? row.id ?? name}`,
       status: "published",
     });
   }

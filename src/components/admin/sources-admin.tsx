@@ -94,6 +94,15 @@ function SourceFields({
           <option value="fraga">Ayto. de Fraga (calendario)</option>
           <option value="magia">Huesca La Magia (API JSON)</option>
           <option value="ayto">Agenda Ayuntamiento Huesca (HTML)</option>
+          <option value="huescalamagia-events">Huesca La Magia · eventos</option>
+          <option value="huescaturismo">Huesca Turismo · eventos</option>
+          <option value="diputacion">Diputación Huesca · eventos</option>
+          <option value="huescalamagia-restaurants">Huesca La Magia · restaurantes</option>
+          <option value="opendata-restaurants">Aragón Open Data · restaurantes</option>
+          <option value="huescalamagia-routes">Huesca La Magia · rutas</option>
+          <option value="senderosgr">Senderos GR · rutas</option>
+          <option value="caminosnaturales">Caminos Naturales · rutas</option>
+          <option value="dph-planes">Diputación Huesca · planes (rutas y actividades)</option>
         </select>
       </Field>
       <div className="sm:col-span-2">

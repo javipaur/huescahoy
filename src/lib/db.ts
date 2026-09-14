@@ -119,6 +119,8 @@ const SCHEMA_SQL = `
     image TEXT,
     published INTEGER NOT NULL DEFAULT 1,
     sort_order INTEGER NOT NULL DEFAULT 0,
+    source TEXT NOT NULL DEFAULT 'manual',
+    source_url TEXT UNIQUE,
     created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS'),
     updated_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
@@ -140,6 +142,9 @@ const SCHEMA_SQL = `
     categories TEXT NOT NULL DEFAULT '[]',
     created_at TEXT NOT NULL DEFAULT to_char(now(), 'YYYY-MM-DD HH24:MI:SS')
   );
+  ALTER TABLE planes ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'manual';
+  ALTER TABLE planes ADD COLUMN IF NOT EXISTS source_url TEXT;
+
   ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS categories TEXT NOT NULL DEFAULT '[]';
 
   CREATE TABLE IF NOT EXISTS newsletter_subscribers (
@@ -1029,7 +1034,7 @@ export function isSuggestionKind(value: string): value is SuggestionKind {
 // ---------- Planes ----------
 
 const PLAN_COLUMNS =
-  "id, slug, title, summary, body, image, published, sort_order AS \"sortOrder\", created_at AS \"createdAt\", updated_at AS \"updatedAt\"";
+  "id, slug, title, summary, body, image, published, sort_order AS \"sortOrder\", source, source_url AS \"sourceUrl\", created_at AS \"createdAt\", updated_at AS \"updatedAt\"";
 
 export async function getPlans(includeHidden = false): Promise<Plan[]> {
   await init();
@@ -1095,6 +1100,48 @@ export async function updatePlan(id: number, input: Partial<PlanInput>): Promise
 export async function deletePlan(id: number): Promise<void> {
   await init();
   await getPool().query("DELETE FROM planes WHERE id = $1", [id]);
+}
+
+export async function upsertPlan(input: PlanInput & { source: string; source_url: string | null }): Promise<{ status: "new" | "updated" | "skipped"; id: number | null }> {
+  await init();
+  const dedupeKey = input.source_url ?? `manual:${input.slug}`;
+  const existing = (
+    await getPool().query("SELECT id FROM planes WHERE source_url = $1", [dedupeKey])
+  ).rows[0] as { id: number } | undefined;
+
+  if (existing) {
+    const res = await getPool().query(
+      `UPDATE planes SET title = $1, summary = $2, body = $3, image = $4, published = $5, sort_order = $6,
+       updated_at = ${NOW_SQL} WHERE id = $7 RETURNING id`,
+      [
+        input.title,
+        input.summary,
+        input.body,
+        input.image,
+        input.published,
+        input.sort_order,
+        existing.id,
+      ]
+    );
+    return { status: "updated", id: res.rows[0]?.id ?? existing.id };
+  }
+
+  const inserted = await getPool().query(
+    `INSERT INTO planes (slug, title, summary, body, image, published, sort_order, source, source_url)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+    [
+      input.slug,
+      input.title,
+      input.summary,
+      input.body,
+      input.image,
+      input.published,
+      input.sort_order,
+      input.source,
+      dedupeKey,
+    ]
+  );
+  return { status: "new", id: inserted.rows[0]?.id ?? null };
 }
 
 export async function togglePlanPublished(id: number): Promise<void> {

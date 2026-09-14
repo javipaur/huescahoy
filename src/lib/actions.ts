@@ -210,6 +210,7 @@ function parseSourceInput(
     "senderosgr",
     "caminosnaturales",
     "opendata-restaurants",
+    "dph-planes",
     "huescaturismo",
     "diputacion",
   ];

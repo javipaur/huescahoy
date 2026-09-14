@@ -25,13 +25,18 @@ function ckanResponse() {
 
 function row(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
-    nombre: "Restaurante La Huesca",
-    municipio: "huesca",
-    comarca: "hoya de huesca",
-    direccion: "Calle Zaragoza 1, 22001 Huesca",
-    telefono: "974111111",
-    categoria: "restaurante",
-    web: "https://restaurantehuesca.es",
+    signatura: "R -HUESCA-01-001",
+    actividad_sigla: "R",
+    actividad_provincia: "HU",
+    nombre_establecimiento: "Restaurante La Huesca",
+    direccion_establecimiento: "Calle Zaragoza 1",
+    localidad_establecimiento: "HUESCA",
+    nombre_comarca: "HOYA DE HUESCA",
+    telefono_establecimiento: "974111111",
+    e_mail: "info@restaurantehuesca.es",
+    direccion_web: "https://restaurantehuesca.es",
+    categoria: "1 tenedor",
+    estado: "A",
     ...overrides,
   };
 }
@@ -48,24 +53,35 @@ describe("fetchOpenDataRestaurants", () => {
     expect(r.name).toBe("Restaurante La Huesca");
     expect(r.slug).toMatch(/^restaurante-la-huesca-/);
     expect(r.cuisine_type).toBe("Restaurante");
-    expect(r.address).toBe("Calle Zaragoza 1, 22001 Huesca");
+    expect(r.address).toContain("Calle Zaragoza 1");
     expect(r.phone).toBe("974111111");
     expect(r.website).toBe("https://restaurantehuesca.es");
     expect(r.source).toBe("opendata-aragon");
+    expect(r.source_url).toBe("R -HUESCA-01-001");
     expect(r.status).toBe("published");
   });
 
-  it("mapea tipo caf a Bar / Cafetería", async () => {
+  it("mapea actividad_sigla C a Bar / Cafetería", async () => {
     mockedGet.mockResolvedValueOnce(ckanResponse() as never);
-    mockedGet.mockResolvedValueOnce({ data: [row({ categoria: "cafetería" })] } as never);
+    mockedGet.mockResolvedValueOnce({ data: [row({ actividad_sigla: "C" })] } as never);
 
     const restaurants = await fetchOpenDataRestaurants();
     expect(restaurants[0].cuisine_type).toBe("Bar / Cafetería");
   });
 
-  it("reconoce la comarca como marca de Huesca aunque el municipio no lo diga", async () => {
+  it("deriva el tipo por categoría de tazas", async () => {
     mockedGet.mockResolvedValueOnce(ckanResponse() as never);
-    mockedGet.mockResolvedValueOnce({ data: [row({ municipio: "otro", comarca: "somontano de barbastro" })] } as never);
+    mockedGet.mockResolvedValueOnce({ data: [row({ actividad_sigla: "X", categoria: "2 tazas" })] } as never);
+
+    const restaurants = await fetchOpenDataRestaurants();
+    expect(restaurants[0].cuisine_type).toBe("Bar / Cafetería");
+  });
+
+  it("reconoce la comarca como marca de Huesca aunque la provincia no lo diga", async () => {
+    mockedGet.mockResolvedValueOnce(ckanResponse() as never);
+    mockedGet.mockResolvedValueOnce({
+      data: [row({ actividad_provincia: "XX", nombre_comarca: "SOMONTANO DE BARBASTRO" })],
+    } as never);
 
     const restaurants = await fetchOpenDataRestaurants();
     expect(restaurants).toHaveLength(1);
@@ -74,11 +90,20 @@ describe("fetchOpenDataRestaurants", () => {
   it("filtra filas fuera de Huesca", async () => {
     mockedGet.mockResolvedValueOnce(ckanResponse() as never);
     mockedGet.mockResolvedValueOnce({
-      data: [row({ municipio: "zaragoza", comarca: "zaragoza" })],
+      data: [row({ actividad_provincia: "ZA", nombre_comarca: "ZARAGOZA" })],
     } as never);
 
     const restaurants = await fetchOpenDataRestaurants();
     expect(restaurants).toEqual([]);
+  });
+
+  it("omite filas dadas de baja (estado B)", async () => {
+    mockedGet.mockResolvedValueOnce(ckanResponse() as never);
+    mockedGet.mockResolvedValueOnce({ data: [row({ estado: "B" }), row({ signatura: "R -HUESCA-01-999" })] } as never);
+
+    const restaurants = await fetchOpenDataRestaurants();
+    expect(restaurants).toHaveLength(1);
+    expect(restaurants[0].source_url).toBe("R -HUESCA-01-999");
   });
 
   it("soporta respuestas anidadas en data o results", async () => {
@@ -100,19 +125,31 @@ describe("fetchOpenDataRestaurants", () => {
 
     mockedGet.mockReset();
     mockedGet.mockResolvedValueOnce(ckanResponse() as never);
-    mockedGet.mockResolvedValueOnce({ data: [row({ nombre: "" }), row()] } as never);
+    mockedGet.mockResolvedValueOnce({ data: [row({ nombre_establecimiento: "" }), row({ signatura: "R -HUESCA-01-002" })] } as never);
     const restaurants = await fetchOpenDataRestaurants();
     expect(restaurants).toHaveLength(1);
   });
 
-  it("combina nombre/name/nombre_comercial y dirección/direccion", async () => {
+  it("combina dirección y localidad en la dirección", async () => {
     mockedGet.mockResolvedValueOnce(ckanResponse() as never);
     mockedGet.mockResolvedValueOnce({
-      data: [{ name: "Bar El Rinconcito", ubicacion: "Calle Mayor 5", municipio: "huesca" }],
+      data: [{ ...row(), direccion_establecimiento: "Plaza Mayor 3", localidad_establecimiento: "JACA" }],
     } as never);
 
     const restaurants = await fetchOpenDataRestaurants();
-    expect(restaurants[0].name).toBe("Bar El Rinconcito");
-    expect(restaurants[0].address).toBe("Calle Mayor 5");
+    expect(restaurants[0].address).toContain("Plaza Mayor 3");
+    expect(restaurants[0].address).toContain("JACA");
+  });
+
+  it("ignora valores '0' en web y teléfono", async () => {
+    mockedGet.mockResolvedValueOnce(ckanResponse() as never);
+    mockedGet.mockResolvedValueOnce({
+      data: [row({ direccion_web: "0", telefono_establecimiento: "0", e_mail: "" })],
+    } as never);
+
+    const restaurants = await fetchOpenDataRestaurants();
+    expect(restaurants[0].website).toBeNull();
+    expect(restaurants[0].phone).toBeNull();
+    expect(restaurants[0].email).toBeNull();
   });
 });

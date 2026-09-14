@@ -100,6 +100,7 @@ export type SourceKind =
   | "senderosgr"
   | "caminosnaturales"
   | "opendata-restaurants"
+  | "dph-planes"
   | "huescaturismo"
   | "diputacion";
 
@@ -169,6 +170,8 @@ export type Plan = {
   image: string | null;
   published: number;
   sortOrder: number;
+  source: string;
+  sourceUrl: string | null;
   createdAt: string;
   updatedAt: string;
 };

@@ -237,9 +237,14 @@ export default function PlanesAdmin({ plans }: { plans: Plan[] }) {
             <div key={plan.id} className="rounded-2xl border border-choco/10 bg-white/70">
               <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
                 <div className="min-w-0">
-                  <h2 className="font-display text-lg font-bold text-choco">
-                    {plan.title}
-                  </h2>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="font-display text-lg font-bold text-choco">{plan.title}</h2>
+                    {plan.source !== "manual" && (
+                      <span className="shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand-dark">
+                        {plan.source === "dph-rutas" ? "Ruta DPH" : plan.source === "dph-actividades" ? "Actividad DPH" : plan.source}
+                      </span>
+                    )}
+                  </div>
                   <p className="truncate text-xs text-choco-muted">
                     /{plan.slug} · orden {plan.sortOrder}
                     {plan.summary ? ` · ${plan.summary}` : ""}
