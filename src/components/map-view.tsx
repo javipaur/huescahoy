@@ -10,8 +10,8 @@ export type MapPoint = {
   lng: number;
 };
 
-const CSS_URL = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-const JS_URL = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+const CSS_URL = "/leaflet/leaflet.css";
+const JS_URL = "/leaflet/leaflet.js";
 
 type Leaflet = {
   map: (

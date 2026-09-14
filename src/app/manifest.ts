@@ -14,6 +14,22 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#ffffff",
     theme_color: "#16a34a",
     categories: ["lifestyle", "events"],
+    screenshots: [
+      {
+        src: "/screenshots/desktop-1280x800.png",
+        sizes: "1280x800",
+        type: "image/png",
+        form_factor: "wide",
+        label: "Agenda de eventos en Huesca",
+      },
+      {
+        src: "/screenshots/mobile-800x1280.png",
+        sizes: "800x1280",
+        type: "image/png",
+        form_factor: "narrow",
+        label: "Agenda de eventos en Huesca",
+      },
+    ],
     icons: [
       {
         src: "/icons/icon.svg",

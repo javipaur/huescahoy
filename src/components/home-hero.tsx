@@ -54,9 +54,10 @@ export function HomeHero({
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance text-cream sm:text-6xl">
-            Huesca entera,
+            Toda la agenda cultural
             <br />
-            en la <span className="text-gold">palma de tu mano</span>
+            de Huesca, en la{" "}
+            <span className="text-gold">palma de tu mano</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/70">

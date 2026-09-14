@@ -1,10 +1,15 @@
-const CACHE_NAME = "huescahoy-v2";
+const CACHE_NAME = "huescahoy-v3";
 const APP_SHELL = [
   "/",
   "/agenda",
+  "/offline",
+  "/restaurantes",
+  "/rutas",
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
+  "/leaflet/leaflet.css",
+  "/leaflet/leaflet.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -49,7 +54,7 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match("/"))
+          caches.match(request).then((cached) => cached || caches.match("/offline") || caches.match("/"))
         )
     );
     return;

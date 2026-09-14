@@ -40,6 +40,12 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  other: {
+    "geo.region": "ES-AR",
+    "geo.placename": "Huesca",
+    "geo.position": "42.139847;-0.408687",
+    ICBM: "42.139847, -0.408687",
+  },
   openGraph: {
     type: "website",
     locale: site.locale,
@@ -102,18 +108,65 @@ const websiteJsonLd = {
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "NewsMediaOrganization",
   name: site.name,
-  alternateName: `${site.name} (${site.city} City)`,
+  alternateName: `Agenda cultural de ${site.city}`,
   url: site.url,
   logo: `${site.url}/icon.png`,
   email: site.email,
+  inLanguage: "es",
+  slogan: site.tagline,
+  foundingLocation: {
+    "@type": "Place",
+    name: `${site.city}, España`,
+  },
+  areaServed: [
+    {
+      "@type": "City",
+      name: site.city,
+      url: `${site.url}/agenda`,
+      containedInPlace: {
+        "@type": "Place",
+        name: "Provincia de Huesca",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: site.city,
+          addressRegion: "Huesca",
+          addressCountry: "ES",
+        },
+      },
+    },
+    {
+      "@type": "Place",
+      name: "Provincia de Huesca",
+    },
+  ],
+  locationCreated: { "@type": "Place", name: site.city },
   sameAs: site.sameAs,
   contactPoint: {
     "@type": "ContactPoint",
     email: site.email,
     contactType: "customer service",
     availableLanguage: ["es"],
+  },
+};
+
+const placeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Place",
+  name: site.city,
+  description: `Agenda cultural y de ocio de ${site.city}: eventos, conciertos, exposiciones, rutas y restaurantes.`,
+  url: site.url,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.city,
+    addressRegion: "Huesca",
+    addressCountry: "ES",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 42.139847,
+    longitude: -0.408687,
   },
 };
 
@@ -126,6 +179,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col bg-cream text-choco">
         <JsonLd data={websiteJsonLd} />
         <JsonLd data={organizationJsonLd} />
+        <JsonLd data={placeJsonLd} />
         <SwRegister />
         {children}
       </body>

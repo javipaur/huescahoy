@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Mountain, Route, ArrowRight, ExternalLink, CalendarDays } from "lucide-react";
 import { getRouteBySlug, getRouteStages } from "@/lib/db";
@@ -58,7 +59,7 @@ export default async function RouteDetailPage({ params }: PageProps) {
       />
 
       <nav className="mb-4 flex items-center gap-1.5 text-sm text-choco-muted">
-        <a href="/rutas" className="text-brand hover:text-brand-dark">Rutas</a>
+        <Link href="/rutas" className="text-brand hover:text-brand-dark">Rutas</Link>
         <span>/</span>
         <span className="truncate text-choco">{route.title}</span>
       </nav>

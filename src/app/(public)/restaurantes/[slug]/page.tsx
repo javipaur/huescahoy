@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Phone, Globe, Mail, ArrowRight, UtensilsCrossed } from "lucide-react";
 import { getRestaurantBySlug, getRestaurants } from "@/lib/db";
@@ -57,7 +58,9 @@ export default async function RestaurantDetailPage({ params }: PageProps) {
       <JsonLd data={jsonLd} />
 
       <nav className="mb-4 flex items-center gap-1.5 text-sm text-choco-muted">
-        <a href="/restaurantes" className="text-brand hover:text-brand-dark">Restaurantes</a>
+        <Link href="/restaurantes" className="flex items-center gap-1.5 text-brand hover:text-brand-dark">
+          Restaurantes
+        </Link>
         <span>/</span>
         <span className="truncate text-choco">{restaurant.name}</span>
       </nav>

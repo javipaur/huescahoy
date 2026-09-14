@@ -3,6 +3,8 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarPlus,
+  ChevronDown,
+  HelpCircle,
   MapPin,
   Mountain,
   Search,
@@ -106,9 +108,56 @@ export default async function HomePage() {
     })),
   };
 
+  const faqData = [
+    {
+      question: "¿Qué hacer hoy en Huesca?",
+      answer:
+        "Entra en la agenda de Huesca Hoy y verás hoy mismo conciertos, teatro, exposiciones, cine, deporte y planes en familia, con fechas, horarios, lugares y precios. La agenda se actualiza cada día.",
+    },
+    {
+      question: "¿Dónde consulto la agenda cultural de Huesca?",
+      answer:
+        "Huesca Hoy reúne cada día la agenda cultural y de ocio de Huesca y su provincia: conciertos, teatro, exposiciones, cine, rutas de senderismo, mercados y planes con niños, todo en un solo sitio.",
+    },
+    {
+      question: "¿Qué planes hay este fin de semana en Huesca?",
+      answer:
+        "En /agenda con el filtro de fin de semana verás todo lo que ocurre en Huesca estos días: música en directo, teatro, exposiciones, mercados, deporte y excursiones por la provincia.",
+    },
+    {
+      question: "¿Hay eventos gratis en Huesca?",
+      answer:
+        "Sí. Muchas actividades de la agenda de Huesca son gratuitas, como exposiciones, fiestas y mercados. Cada evento indica su precio y cómo llegar al lugar.",
+    },
+    {
+      question: "¿Qué eventos hay para niños en Huesca?",
+      answer:
+        "Usa la categoría de planes en familia para ver teatro infantil, talleres, cuentacuentos y actividades para niños en Huesca y alrededores.",
+    },
+    {
+      question: "¿Cómo publico mi evento en la agenda de Huesca?",
+      answer:
+        "Entra en la página Colabora de Huesca Hoy y envíanos tus datos por el formulario. Una persona lo revisa y lo añade a la agenda cultural de Huesca.",
+    },
+  ];
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqData.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <>
       <JsonLd data={eventsJsonLd} />
+      <JsonLd data={faqJsonLd} />
       <HomeHero stats={stats} categories={categories} />
 
       {activePick && <FeaturedPickCard pick={activePick} image={pickImage} />}
@@ -182,8 +231,8 @@ export default async function HomePage() {
         )}
       </section>
 
-      {provinceEvents.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+{provinceEvents.length > 0 && (
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-3 py-1 text-xs font-semibold text-choco">
@@ -361,6 +410,42 @@ export default async function HomePage() {
             <p className="mt-4 text-xs text-white/70">
               Respuesta humana, no un bot: cada aportación la lee una persona.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-sand bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="mb-8 max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand">
+              <HelpCircle className="h-3.5 w-3.5" />
+              Guía rápida
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              Preguntas frecuentes sobre la agenda cultural de Huesca
+            </h2>
+            <p className="mt-1 text-choco-muted">
+              Resolvemos las dudas más habituales para sacarle partido a la
+              agenda de {site.city}.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {faqData.map((item) => (
+              <details
+                key={item.question}
+                className="group rounded-2xl border border-sand bg-cream/50 px-5 py-4 transition hover:border-brand/30"
+              >
+                <summary className="flex cursor-pointer list-none items-center gap-3 font-semibold text-choco">
+                  <span className="flex-1">{item.question}</span>
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand/10 text-brand transition group-open:rotate-180">
+                    <ChevronDown className="h-4 w-4" />
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-choco-muted">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
