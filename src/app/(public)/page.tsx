@@ -37,7 +37,7 @@ import {
 import { site } from "@/lib/site";
 import { zoneFor } from "@/lib/zones";
 
-export const revalidate = 600;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Agenda cultural de Huesca",
