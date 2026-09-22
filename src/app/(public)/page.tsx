@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
-  CalendarPlus,
+  CalendarDays,
   ChevronDown,
   HelpCircle,
-  MapPin,
   Mountain,
   Search,
-  Smartphone,
   Star,
   Users,
   UtensilsCrossed,
@@ -18,7 +16,7 @@ import { RestaurantCard } from "@/components/restaurant-card";
 import { RouteCard } from "@/components/route-card";
 import { CategoryGrid } from "@/components/category-grid";
 import { FeaturedPickCard } from "@/components/featured-pick-card";
-import { HomeHero } from "@/components/home-hero";
+import { HomeAgenda } from "@/components/home-agenda";
 import { Reveal } from "@/components/reveal";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
@@ -28,14 +26,14 @@ import {
   getCategoriesWithCounts,
   getEventBySlug,
   getFeaturedEvents,
+  getEvents,
   getPlanBySlug,
-  getUpcomingEvents,
-  getStats,
   getRestaurants,
   getRoutes,
+  todayStr,
 } from "@/lib/db";
+import { formatDayLong } from "@/lib/format";
 import { site } from "@/lib/site";
-import { zoneFor } from "@/lib/zones";
 
 export const dynamic = "force-dynamic";
 
@@ -57,17 +55,17 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [allEvents, categories, stats, featured, categoryList, activePick, restaurants, routes] =
+  const [events, categories, featured, activePick, restaurants, routes, categoryList] =
     await Promise.all([
-      getUpcomingEvents(60),
+      getEvents({ from: todayStr(), to: todayStr(7), limit: 200 }),
       getCategoriesWithCounts(),
-      getStats(),
       getFeaturedEvents(3),
-      getCategoriesAdmin(),
       getActiveFeaturedPick(),
       getRestaurants({ limit: 3 }),
       getRoutes({ limit: 3 }),
+      getCategoriesAdmin(),
     ]);
+  const today = todayStr();
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
 
   let pickImage: string | null = null;
@@ -79,30 +77,11 @@ export default async function HomePage() {
     pickImage = target?.image ?? null;
   }
 
-  const today = new Date().toISOString().slice(0, 10);
-  const isOngoing = (event: (typeof allEvents)[number]) =>
-    event.startDate < today && (event.endDate ?? event.startDate) >= today;
-  const inCity = (event: (typeof allEvents)[number]) =>
-    zoneFor(event) === "ciudad" || zoneFor(event) === null;
-
-  const cityEvents = [
-    ...allEvents.filter((event) => inCity(event) && !isOngoing(event)).slice(0, 6),
-    ...allEvents.filter((event) => inCity(event) && isOngoing(event)).slice(0, 2),
-  ];
-  const provinceEvents = [
-    ...allEvents
-      .filter((event) => zoneFor(event) === "provincia" && !isOngoing(event))
-      .slice(0, 3),
-    ...allEvents
-      .filter((event) => zoneFor(event) === "provincia" && isOngoing(event))
-      .slice(0, 1),
-  ];
-
   const eventsJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Próximos eventos en Huesca",
-    itemListElement: cityEvents.map((event, index) => ({
+    itemListElement: events.slice(0, 10).map((event, index) => ({
       "@type": "ListItem",
       position: index + 1,
       url: `${site.url}/eventos/${event.slug}`,
@@ -160,128 +139,67 @@ export default async function HomePage() {
     <>
       <JsonLd data={eventsJsonLd} />
       <JsonLd data={faqJsonLd} />
-      <HomeHero categories={categories} />
 
-      <section className="bg-choco dark:bg-ink">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 px-4 py-6 sm:grid-cols-3 sm:px-6">
-          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-            <p className="font-display text-3xl font-bold text-gold">{stats.upcoming}+</p>
-            <p className="text-sm font-semibold leading-tight text-white/75">
-              planes para hoy en la agenda
-            </p>
-          </div>
-          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-            <p className="font-display text-3xl font-bold text-gold">{stats.categories}</p>
-            <p className="text-sm font-semibold leading-tight text-white/75">
-              categorías para filtrar cada día
-            </p>
-          </div>
-          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/5 px-5 py-4">
-            <Smartphone className="h-8 w-8 shrink-0 text-gold" />
-            <p className="text-sm font-semibold leading-tight text-white/75">
-              Gratis y sin anuncios, en tu móvil con la web app
-            </p>
+      <section className="relative overflow-hidden bg-choco dark:bg-ink">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-40 -top-40 h-[30rem] w-[30rem] rounded-full bg-brand/20 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-56 -left-40 h-[26rem] w-[26rem] rounded-full bg-gold/10 blur-3xl"
+        />
+        <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-gold">
+                <CalendarDays className="h-4 w-4" />
+                Agenda cultural de {site.city} · actualizada cada día
+              </span>
+              <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-balance text-white sm:text-5xl">
+                Qué hacer hoy en {site.city}
+              </h1>
+              <p className="mt-3 text-lg font-semibold text-gold">{formatDayLong(today)}</p>
+              <p className="mt-2 max-w-xl text-white/70">
+                Conciertos, teatro, exposiciones, cine y planes en familia: toda la
+                agenda cultural de Huesca, al día. Gratis, sin anuncios.
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-3">
+              <Link
+                href="/agenda"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-gold px-7 font-semibold text-choco dark:text-ink shadow-md shadow-gold/20 transition hover:brightness-105 active:scale-95"
+              >
+                Ver toda la agenda
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <InstallButton tone="dark-outline" />
+            </div>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <HomeAgenda events={events} categories={categoryList} initialDay={today} />
       </section>
 
       {activePick && <FeaturedPickCard pick={activePick} image={pickImage} />}
 
       {featured.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+          <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco dark:bg-ink px-3 py-1 text-xs font-semibold text-white">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-choco px-3 py-1 text-xs font-semibold text-white dark:bg-ink">
                 <Star className="h-3.5 w-3.5 fill-gold text-gold" />
                 Selección de la semana
               </span>
               <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
                 Los planes de la semana en Huesca
               </h2>
-              <p className="mt-1 text-choco-muted">
-                Elegidos a mano por el equipo: lo mejor del teatro, la música y
-                las exposiciones de Huesca estos días.
-              </p>
             </div>
           </Reveal>
           <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-              />
-            ))}
-          </Reveal>
-        </section>
-      )}
-
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
-              <CalendarPlus className="h-3.5 w-3.5" />
-              Lo próximo
-            </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Qué hacer en Huesca hoy y estos días
-            </h2>
-            <p className="mt-1 text-choco-muted">
-              Los próximos conciertos, obras de teatro, exposiciones y planes
-              en familia de la agenda cultural de Huesca. Actualizado cada día.
-            </p>
-          </div>
-          <Link
-            href="/agenda"
-            className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand transition hover:text-brand-dark"
-          >
-            Ver toda la agenda <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Reveal>
-
-        {cityEvents.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-sand bg-sand/40 p-10 text-center text-choco-muted">
-            Todavía no hay eventos publicados. ¡Vuelve en un momento!
-          </div>
-        ) : (
-          <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {cityEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                category={event.categoryId ? categoryMap.get(event.categoryId) ?? null : null}
-              />
-            ))}
-          </Reveal>
-        )}
-      </section>
-
-{provinceEvents.length > 0 && (
-      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-<Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-3 py-1 text-xs font-semibold text-choco dark:text-ink">
-                <MapPin className="h-3.5 w-3.5 text-brand" />
-                También en la provincia
-              </span>
-              <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Planes por toda la provincia de Huesca
-              </h2>
-              <p className="mt-1 text-choco-muted">
-                Fiestas, conciertos y cultura en los pueblos: Aínsa, Barbastro,
-                Fraga, Sariñena y la Sierra de Guara.
-              </p>
-            </div>
-            <Link
-              href="/agenda?zona=provincia"
-              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-dark transition hover:text-brand"
-            >
-              Ver toda la provincia <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Reveal>
-
-          <Reveal delay={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {provinceEvents.map((event) => (
               <EventCard
                 key={event.id}
                 event={event}
@@ -318,13 +236,14 @@ export default async function HomePage() {
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
               <Search className="h-3.5 w-3.5" />
-              Buscador híbrido
+              Salir y explorar
             </span>
             <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Descubre Huesca: rutas, restaurantes y más
+              Rutas, restaurantes y más de Huesca
             </h2>
             <p className="mt-1 text-choco-muted">
-              No solo eventos: explora las mejores rutas de senderismo y los restaurantes de Huesca y su provincia.
+              No solo eventos: explora las mejores rutas de senderismo y los restaurantes de
+              Huesca y su provincia.
             </p>
           </div>
           <Link
@@ -410,10 +329,10 @@ export default async function HomePage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-dark to-choco dark:to-ink p-8 text-white shadow-lg sm:p-12">
-            <CalendarPlus
+            <Users
               aria-hidden
               className="pointer-events-none absolute -right-8 -top-8 h-56 w-56 text-white/10"
               strokeWidth={1.2}

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { AgendaView } from "@/components/agenda-view";
 import { CategoryAlerts } from "@/components/category-alerts";
 import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
+import { formatDayLong } from "@/lib/format";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -52,7 +53,9 @@ export default async function AgendaPage({ searchParams }: PageProps) {
             Agenda de eventos en {site.city}
           </h1>
           <p className="mt-2 text-choco-muted">
-            Todo lo que pasa en {site.city}, ordenado por fecha.
+            <span className="font-semibold text-choco dark:text-ink">{formatDayLong(todayStr())}</span>
+            <span className="mx-1.5 text-choco-muted">·</span>
+            todo lo que pasa en {site.city}, ordenado por fecha.
           </p>
         </div>
         <a
