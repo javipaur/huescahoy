@@ -213,6 +213,7 @@ function parseSourceInput(
     "dph-planes",
     "huescaturismo",
     "diputacion",
+    "instagram",
   ];
   if (!validKinds.includes(kind)) {
     return { error: "Tipo de fuente no válido" };

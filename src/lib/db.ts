@@ -421,6 +421,13 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda Huesca (Instagram)",
+    url: "https://www.instagram.com/stories/highlights/18353343727241524/?hl=es",
+    kind: "instagram",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 async function seedDefaultSources(): Promise<void> {

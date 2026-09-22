@@ -103,6 +103,7 @@ function SourceFields({
           <option value="senderosgr">Senderos GR · rutas</option>
           <option value="caminosnaturales">Caminos Naturales · rutas</option>
           <option value="dph-planes">Diputación Huesca · planes (rutas y actividades)</option>
+          <option value="instagram">Instagram · stories destacadas (highlight)</option>
         </select>
       </Field>
       <div className="sm:col-span-2">

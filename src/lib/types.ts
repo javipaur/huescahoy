@@ -102,7 +102,8 @@ export type SourceKind =
   | "opendata-restaurants"
   | "dph-planes"
   | "huescaturismo"
-  | "diputacion";
+  | "diputacion"
+  | "instagram";
 
 export type Source = {
   id: number;

@@ -22,6 +22,7 @@ import { fetchOpenDataRestaurants } from "./opendata-restaurants";
 import { fetchHuescaTurismoEvents } from "./huescaturismo-events";
 import { fetchDiputacionEvents } from "./diputacion-events";
 import { fetchDphPlanes } from "./dph-planes";
+import { fetchInstagramHighlightEvents } from "./instagram";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -319,6 +320,8 @@ export async function runSource(source: Source): Promise<SourceResult> {
       parsed = await API_EVENT_FETCHERS[source.kind]();
     } else if (source.kind === "ainsa") {
       parsed = await fetchAinsaEvents();
+    } else if (source.kind === "instagram") {
+      parsed = await fetchInstagramHighlightEvents(source.url);
     } else {
       const urls = urlsFor(source);
       for (const url of urls) {
