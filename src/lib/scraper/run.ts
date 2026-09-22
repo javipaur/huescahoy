@@ -19,6 +19,7 @@ import { fetchHuescaLaMagiaEvents } from "./huescalamagia-events";
 import { fetchSenderosGrRoutes } from "./senderosgr";
 import { fetchCaminosNaturalesRoutes } from "./caminosnaturales";
 import { fetchOpenDataRestaurants } from "./opendata-restaurants";
+import { fetchRutaDelVinoRestaurants, fetchRutaDelVinoRoutes, fetchRutaDelVinoAgenda } from "./rutadelvino";
 import { fetchHuescaTurismoEvents } from "./huescaturismo-events";
 import { fetchDiputacionEvents } from "./diputacion-events";
 import { fetchDphPlanes } from "./dph-planes";
@@ -27,6 +28,7 @@ import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
 import { sendCategoryPush } from "../push";
+import { geocodeLocation } from "../geocode";
 import {
   getCategoriesAdmin,
   getSources,
@@ -45,6 +47,7 @@ const TIMEOUT_MS = Number(process.env.SCRAPER_TIMEOUT_MS ?? 15000);
 const IMAGE_TIMEOUT_MS = Number(process.env.SCRAPER_IMAGE_TIMEOUT_MS ?? 8000);
 const MAX_IMAGE_FETCHES_PER_SOURCE = 8;
 const IMAGE_CONCURRENCY = 4;
+const MAX_RESTAURANT_GEOCODES_PER_SOURCE = 25;
 const SOMONTANO_WEEKS = 5;
 const AINSA_SITEMAP = "https://villadeainsa.com/wp-sitemap-posts-lsvr_event-1.xml";
 const AINSA_MAX_DETAILS = 60;
@@ -239,17 +242,20 @@ const API_EVENT_FETCHERS: Record<string, () => Promise<ScrapeEvent[]>> = {
   "huescalamagia-events": fetchHuescaLaMagiaEvents,
   huescaturismo: fetchHuescaTurismoEvents,
   diputacion: fetchDiputacionEvents,
+  "rutadelvino-agenda": fetchRutaDelVinoAgenda,
 };
 
 const RESTAURANT_FETCHERS: Record<string, () => Promise<import("../types").RestaurantInput[]>> = {
   "huescalamagia-restaurants": fetchHuescaLaMagiaRestaurants,
   "opendata-restaurants": fetchOpenDataRestaurants,
+  "rutadelvino-restaurants": fetchRutaDelVinoRestaurants,
 };
 
 const ROUTE_FETCHERS: Record<string, () => Promise<import("../types").RouteInput[]>> = {
   "huescalamagia-routes": fetchHuescaLaMagiaRoutes,
   senderosgr: fetchSenderosGrRoutes,
   caminosnaturales: fetchCaminosNaturalesRoutes,
+  "rutadelvino-rutas": fetchRutaDelVinoRoutes,
 };
 
 type PlanWithSource = import("../types").PlanInput & { source: string; source_url: string | null };
@@ -264,7 +270,20 @@ async function runContentSource(source: Source): Promise<SourceResult> {
       const items = await RESTAURANT_FETCHERS[source.kind]();
       let created = 0;
       let updated = 0;
+      let geocoded = 0;
       for (const item of items) {
+        if (
+          geocoded < MAX_RESTAURANT_GEOCODES_PER_SOURCE &&
+          item.lat == null &&
+          item.address
+        ) {
+          geocoded++;
+          const coord = await geocodeLocation(item.address);
+          if (coord) {
+            item.lat = coord.lat;
+            item.lng = coord.lng;
+          }
+        }
         const result = await upsertRestaurant(item);
         if (result.status === "new") created++;
         else if (result.status === "updated") updated++;

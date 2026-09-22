@@ -32,6 +32,25 @@ function cuisineFrom(row: OpenDataRow): string | null {
   return null;
 }
 
+function priceFrom(row: OpenDataRow): string | null {
+  const categoria = asString(row.categoria)?.toLowerCase() ?? "";
+  const forks = categoria.match(/(\d+)\s*tenedor/);
+  if (forks) {
+    const n = Math.min(Number(forks[1]), 4);
+    return Array.from({ length: Math.max(n, 1) }, () => "€").join("");
+  }
+  if (categoria.includes("taza")) return "€";
+  return null;
+}
+
+function hoursFrom(row: OpenDataRow): string | null {
+  for (const key of ["horario_establecimiento", "horario", "horario_apertura", "horarios_establecimiento"]) {
+    const value = asString(row[key]);
+    if (value) return value;
+  }
+  return null;
+}
+
 function inHuesca(row: OpenDataRow): boolean {
   const provincia = String(row.actividad_provincia ?? "").toUpperCase();
   if (provincia === "HU") return true;
@@ -99,7 +118,8 @@ export async function fetchOpenDataRestaurants(): Promise<RestaurantInput[]> {
       slug: `${slug}-${Math.random().toString(36).slice(2, 8)}`,
       description: description || null,
       cuisine_type: cuisineFrom(row),
-      price_range: null,
+      price_range: priceFrom(row),
+      opening_hours: hoursFrom(row),
       address,
       phone: telefono,
       email,

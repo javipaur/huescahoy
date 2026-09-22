@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import crypto from "node:crypto";
 import { isEventPast } from "./event-jsonld";
+import { haversineKm } from "./geo";
 import type {
   Category,
   CategoryInput,
@@ -144,6 +145,7 @@ const SCHEMA_SQL = `
   );
   ALTER TABLE planes ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'manual';
   ALTER TABLE planes ADD COLUMN IF NOT EXISTS source_url TEXT;
+  ALTER TABLE restaurants ADD COLUMN IF NOT EXISTS opening_hours TEXT;
 
   ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS categories TEXT NOT NULL DEFAULT '[]';
 
@@ -185,6 +187,7 @@ const SCHEMA_SQL = `
     description TEXT,
     cuisine_type TEXT,
     price_range TEXT,
+    opening_hours TEXT,
     address TEXT,
     phone TEXT,
     email TEXT,
@@ -425,6 +428,27 @@ const DEFAULT_SOURCES: SourceInput[] = [
     name: "Agenda Huesca (Instagram)",
     url: "https://www.instagram.com/stories/highlights/18353343727241524/?hl=es",
     kind: "instagram",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Restaurantes Ruta del Vino Somontano",
+    url: "https://rutadelvinosomontano.com/wp-json/wp/v2/establecimientos",
+    kind: "rutadelvino-restaurants",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Rutas Ruta del Vino Somontano",
+    url: "https://rutadelvinosomontano.com/wp-json/wp/v2/experiencias",
+    kind: "rutadelvino-rutas",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda Ruta del Vino Somontano",
+    url: "https://rutadelvinosomontano.com/wp-json/wp/v2/agenda",
+    kind: "rutadelvino-agenda",
     category_id: null,
     enabled: 1,
   },
@@ -1415,7 +1439,7 @@ export async function saveFeaturedPick(input: FeaturedPickInput): Promise<void> 
 
 const RESTAURANT_COLUMNS =
   `id, slug, name, description, cuisine_type AS "cuisineType", price_range AS "priceRange",
-   address, phone, email, website, image, lat, lng, rating, source,
+   opening_hours AS "openingHours", address, phone, email, website, image, lat, lng, rating, source,
    source_url AS "sourceUrl", status, created_at AS "createdAt", updated_at AS "updatedAt"`;
 
 function rowToRestaurant(row: unknown): RestaurantItem {
@@ -1474,14 +1498,34 @@ export async function getRestaurantsAdmin(): Promise<RestaurantItem[]> {
   return (res.rows as RestaurantItem[]).map(rowToRestaurant);
 }
 
+export async function getNearbyRestaurants(
+  lat: number,
+  lng: number,
+  radiusKm: number
+): Promise<RestaurantItem[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT ${RESTAURANT_COLUMNS} FROM restaurants r
+     WHERE r.status = 'published' AND r.lat IS NOT NULL AND r.lng IS NOT NULL`
+  );
+  const items = (res.rows as RestaurantItem[]).map(rowToRestaurant);
+  return items
+    .filter((r) => r.lat != null && r.lng != null && haversineKm({ lat, lng }, { lat: r.lat, lng: r.lng }) <= radiusKm)
+    .sort((a, b) => {
+      const da = a.lat != null && a.lng != null ? haversineKm({ lat, lng }, { lat: a.lat, lng: a.lng }) : Infinity;
+      const db = b.lat != null && b.lng != null ? haversineKm({ lat, lng }, { lat: b.lat, lng: b.lng }) : Infinity;
+      return da - db;
+    });
+}
+
 export async function createRestaurant(input: RestaurantInput): Promise<void> {
   await init();
   await getPool().query(
-    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
     [
       input.slug, input.name, input.description, input.cuisine_type, input.price_range,
-      input.address, input.phone, input.email, input.website, input.image,
+      input.opening_hours, input.address, input.phone, input.email, input.website, input.image,
       input.lat, input.lng, input.rating, input.source, input.source_url, input.status,
     ]
   );
@@ -1492,15 +1536,16 @@ export async function updateRestaurant(id: number, input: Partial<RestaurantInpu
   const current = await getRestaurantById(id);
   if (!current) return;
   await getPool().query(
-    `UPDATE restaurants SET slug = $1, name = $2, description = $3, cuisine_type = $4, price_range = $5,
-     address = $6, phone = $7, email = $8, website = $9, image = $10, lat = $11, lng = $12,
-     rating = $13, status = $14, updated_at = ${NOW_SQL} WHERE id = $15`,
+    `UPDATE restaurants SET slug = $1, name = $2, description = $3, cuisine_type = $4, price_range = $5, opening_hours = $6,
+     address = $7, phone = $8, email = $9, website = $10, image = $11, lat = $12, lng = $13,
+     rating = $14, status = $15, updated_at = ${NOW_SQL} WHERE id = $16`,
     [
       input.slug ?? current.slug,
       input.name ?? current.name,
       input.description ?? current.description,
       input.cuisine_type ?? current.cuisineType,
       input.price_range ?? current.priceRange,
+      input.opening_hours ?? current.openingHours,
       input.address ?? current.address,
       input.phone ?? current.phone,
       input.email ?? current.email,
@@ -1539,11 +1584,11 @@ export async function upsertRestaurant(input: RestaurantInput): Promise<{ status
   }
 
   const inserted = await getPool().query(
-    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id`,
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id`,
     [
       input.slug, input.name, input.description, input.cuisine_type, input.price_range,
-      input.address, input.phone, input.email, input.website, input.image,
+      input.opening_hours, input.address, input.phone, input.email, input.website, input.image,
       input.lat, input.lng, input.rating, input.source, dedupeKey, input.status,
     ]
   );
@@ -1607,6 +1652,26 @@ export async function getRouteById(id: number): Promise<RouteItem | null> {
   await init();
   const res = await getPool().query(`SELECT ${ROUTE_COLUMNS} FROM routes WHERE id = $1`, [id]);
   return res.rows.length ? rowToRoute(res.rows[0]) : null;
+}
+
+export async function getNearbyRoutes(
+  lat: number,
+  lng: number,
+  radiusKm: number
+): Promise<RouteItem[]> {
+  await init();
+  const res = await getPool().query(
+    `SELECT ${ROUTE_COLUMNS} FROM routes r
+     WHERE r.status = 'published' AND r.lat IS NOT NULL AND r.lng IS NOT NULL`
+  );
+  const items = (res.rows as RouteItem[]).map(rowToRoute);
+  return items
+    .filter((r) => r.lat != null && r.lng != null && haversineKm({ lat, lng }, { lat: r.lat, lng: r.lng }) <= radiusKm)
+    .sort((a, b) => {
+      const da = a.lat != null && a.lng != null ? haversineKm({ lat, lng }, { lat: a.lat, lng: a.lng }) : Infinity;
+      const db = b.lat != null && b.lng != null ? haversineKm({ lat, lng }, { lat: b.lat, lng: b.lng }) : Infinity;
+      return da - db;
+    });
 }
 
 export async function getRoutesAdmin(): Promise<RouteItem[]> {

@@ -36,6 +36,7 @@ function row(overrides: Record<string, unknown> = {}): Record<string, unknown> {
     e_mail: "info@restaurantehuesca.es",
     direccion_web: "https://restaurantehuesca.es",
     categoria: "1 tenedor",
+    horario: "L-V 13:00-16:00",
     estado: "A",
     ...overrides,
   };
@@ -75,6 +76,25 @@ describe("fetchOpenDataRestaurants", () => {
 
     const restaurants = await fetchOpenDataRestaurants();
     expect(restaurants[0].cuisine_type).toBe("Bar / Cafetería");
+  });
+
+  it("deriva el rango de precio del nº de tenedores", async () => {
+    mockedGet.mockResolvedValueOnce(ckanResponse() as never);
+    mockedGet.mockResolvedValueOnce({ data: [row({ categoria: "2 tenedores" })] } as never);
+
+    const restaurants = await fetchOpenDataRestaurants();
+    expect(restaurants[0].price_range).toBe("€€");
+  });
+
+  it("mapea tazas a un precio mínimo y horario desde campo candidato", async () => {
+    mockedGet.mockResolvedValueOnce(ckanResponse() as never);
+    mockedGet.mockResolvedValueOnce({
+      data: [row({ actividad_sigla: "C", categoria: "tazas", horario_establecimiento: "07:30-22:00" })],
+    } as never);
+
+    const restaurants = await fetchOpenDataRestaurants();
+    expect(restaurants[0].price_range).toBe("€");
+    expect(restaurants[0].opening_hours).toBe("07:30-22:00");
   });
 
   it("reconoce la comarca como marca de Huesca aunque la provincia no lo diga", async () => {

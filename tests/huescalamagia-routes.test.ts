@@ -114,6 +114,35 @@ describe("fetchHuescaLaMagiaRoutes", () => {
     expect(routes[0].slug).toMatch(/201$/);
   });
 
+  it("extrae distancia, desnivel y dificultad desde el resumen o la descripción", async () => {
+    mockedGet.mockResolvedValue({
+      data: {
+        items: [
+          magiaItem({
+            summary: "Ruta de 12,5 km con 450 m de desnivel. Dificultad media.",
+          }),
+        ],
+        next_page: null,
+      },
+    } as never);
+
+    const routes = await fetchHuescaLaMagiaRoutes();
+    expect(routes[0].distance_km).toBe(12.5);
+    expect(routes[0].elevation_m).toBe(450);
+    expect(routes[0].difficulty).toBe("media");
+  });
+
+  it("deja null los metadatos cuando la descripción no los menciona", async () => {
+    mockedGet.mockResolvedValue({
+      data: { items: [magiaItem()], next_page: null },
+    } as never);
+
+    const routes = await fetchHuescaLaMagiaRoutes();
+    expect(routes[0].distance_km).toBeNull();
+    expect(routes[0].elevation_m).toBeNull();
+    expect(routes[0].difficulty).toBeNull();
+  });
+
   it("sigue next_page dentro de cada sección", async () => {
     mockedGet
       .mockResolvedValueOnce({ data: { items: [magiaItem({ id: 1 })], next_page: 2 } } as never)

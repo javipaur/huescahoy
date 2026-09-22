@@ -214,6 +214,9 @@ function parseSourceInput(
     "huescaturismo",
     "diputacion",
     "instagram",
+    "rutadelvino-restaurants",
+    "rutadelvino-rutas",
+    "rutadelvino-agenda",
   ];
   if (!validKinds.includes(kind)) {
     return { error: "Tipo de fuente no válido" };
@@ -727,6 +730,7 @@ function parseRestaurantInput(
       description: nullable(toString(formData.get("description"))),
       cuisine_type: nullable(toString(formData.get("cuisine_type"))),
       price_range: nullable(toString(formData.get("price_range"))),
+      opening_hours: nullable(toString(formData.get("opening_hours"))),
       address: nullable(toString(formData.get("address"))),
       phone: nullable(toString(formData.get("phone"))),
       email: nullable(toString(formData.get("email"))),

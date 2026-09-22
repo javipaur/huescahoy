@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, MapPin, Phone, UtensilsCrossed, Globe, DollarSign } from "lucide-react";
+import { ArrowRight, MapPin, Phone, UtensilsCrossed, Globe, Clock } from "lucide-react";
 import type { RestaurantItem } from "@/lib/types";
 
 function PriceBadge({ price }: { price: string }) {
@@ -118,6 +118,12 @@ function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
           </p>
         )}
         <div className="mt-1 flex items-center gap-3">
+          {restaurant.openingHours && (
+            <span className="flex items-center gap-1 text-xs font-medium text-choco-muted">
+              <Clock className="h-3 w-3" />
+              {restaurant.openingHours}
+            </span>
+          )}
           {restaurant.phone && (
             <span className="flex items-center gap-1 text-xs font-medium text-choco-muted">
               <Phone className="h-3 w-3" />

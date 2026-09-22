@@ -91,11 +91,43 @@ function pickImage(item: MagiaItem): string | null {
   return item.thumbnail || item.originalThumbnail || null;
 }
 
+function parseDistance(text: string): number | null {
+  const match = text.match(/(\d+(?:[.,]\d+)?)\s*(?:km|kil[oó]metros)/i);
+  return match ? Number(match[1].replace(",", ".")) : null;
+}
+
+function parseElevation(text: string): number | null {
+  const patterns: RegExp[] = [
+    /desnivel\s*(?:positivo|de\s*subida|ascenso|\+\s*)\s*([\d.]+)\s*m/i,
+    /\+\s*([\d.]+)\s*m/i,
+    /desnivel\s*(?:total|acumulado|de\s*la\s*ruta)\s*([\d.]+)\s*m/i,
+    /([\d.]+)\s*m\s*de\s*desnivel/i,
+  ];
+  for (const re of patterns) {
+    const match = text.match(re);
+    if (match) {
+      const value = Number(match[1]);
+      if (Number.isFinite(value) && value > 0) return value;
+    }
+  }
+  return null;
+}
+
+function parseDifficulty(text: string): string | null {
+  const match = text.match(/(f[áa]cil|media|alta|dif[íi]cil|extremo)/i);
+  if (!match) return null;
+  const d = match[1].toLowerCase();
+  if (d === "fácil" || d === "facil") return "fácil";
+  if (d === "media") return "media";
+  return "alta";
+}
+
 function itemToRoute(item: MagiaItem, fallbackType: string, sourceName: string): RouteInput | null {
   const title = item.title?.replace(/\s+/g, " ").trim();
   if (!title) return null;
   const description = cleanDescription(item.content || item.summary || "");
   const routeType = categoryFor(item, fallbackType);
+  const haystack = `${description} ${item.summary ?? ""}`;
 
   return {
     title,
@@ -103,9 +135,9 @@ function itemToRoute(item: MagiaItem, fallbackType: string, sourceName: string):
     description,
     summary: item.summary ? item.summary.replace(/\s+/g, " ").trim() : null,
     image: pickImage(item),
-    distance_km: null,
-    elevation_m: null,
-    difficulty: null,
+    distance_km: parseDistance(haystack),
+    elevation_m: parseElevation(haystack),
+    difficulty: parseDifficulty(haystack),
     route_type: routeType,
     lat: coord(item.latitude),
     lng: coord(item.longitude),

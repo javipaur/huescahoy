@@ -103,7 +103,10 @@ export type SourceKind =
   | "dph-planes"
   | "huescaturismo"
   | "diputacion"
-  | "instagram";
+  | "instagram"
+  | "rutadelvino-restaurants"
+  | "rutadelvino-rutas"
+  | "rutadelvino-agenda";
 
 export type Source = {
   id: number;
@@ -221,6 +224,7 @@ export type RestaurantItem = {
   description: string | null;
   cuisineType: string | null;
   priceRange: string | null;
+  openingHours: string | null;
   address: string | null;
   phone: string | null;
   email: string | null;
@@ -242,6 +246,7 @@ export type RestaurantInput = {
   description: string | null;
   cuisine_type: string | null;
   price_range: string | null;
+  opening_hours: string | null;
   address: string | null;
   phone: string | null;
   email: string | null;

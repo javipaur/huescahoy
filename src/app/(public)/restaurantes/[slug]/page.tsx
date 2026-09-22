@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Phone, Globe, Mail, ArrowRight, UtensilsCrossed } from "lucide-react";
+import { MapPin, Phone, Globe, Mail, ArrowRight, UtensilsCrossed, Clock } from "lucide-react";
 import { getRestaurantBySlug, getRestaurants } from "@/lib/db";
 import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
@@ -45,6 +45,7 @@ export default async function RestaurantDetailPage({ params }: PageProps) {
     email: restaurant.email,
     url: restaurant.website,
     priceRange: restaurant.priceRange,
+    openingHours: restaurant.openingHours,
   };
 
   const mapsUrl = restaurant.lat != null && restaurant.lng != null
@@ -138,6 +139,15 @@ export default async function RestaurantDetailPage({ params }: PageProps) {
               <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="mt-0.5 font-medium text-brand hover:text-brand-dark">
                 {new URL(restaurant.website).hostname}
               </a>
+            </div>
+          </div>
+        )}
+        {restaurant.openingHours && (
+          <div className="flex items-start gap-3 rounded-xl bg-sand/50 p-4 sm:col-span-2">
+            <Clock className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-choco-muted">Horario</p>
+              <p className="mt-0.5 font-medium text-choco">{restaurant.openingHours}</p>
             </div>
           </div>
         )}

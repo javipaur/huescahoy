@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Clock, MapPin, Navigation, Star, Ticket } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, MapPin, Navigation, Star, Ticket, UtensilsCrossed, Footprints } from "lucide-react";
 import { EventActions } from "@/components/event-actions";
 import { EventImage } from "@/components/event-image";
 import { FavoriteButton } from "@/components/favorite-button";
@@ -12,6 +12,8 @@ import {
   getEventBySlug,
   getEvents,
   getFeaturedEvents,
+  getNearbyRestaurants,
+  getNearbyRoutes,
   todayStr,
 } from "@/lib/db";
 import {
@@ -27,6 +29,7 @@ import {
 } from "@/lib/format";
 import { getIcon } from "@/lib/icons";
 import { site } from "@/lib/site";
+import { NEAR_RADIUS_KM } from "@/lib/geo";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +93,15 @@ export default async function EventPage({ params }: PageProps) {
   related = related.slice(0, 2);
 
   const coords = await geocodeLocation(event.location);
+
+  const [nearbyRestaurants, nearbyRoutes] = coords
+    ? await Promise.all([
+        getNearbyRestaurants(coords.lat, coords.lng, NEAR_RADIUS_KM),
+        getNearbyRoutes(coords.lat, coords.lng, NEAR_RADIUS_KM),
+      ])
+    : [[], []];
+  const nearbyRestaurantsList = nearbyRestaurants.slice(0, 3);
+  const nearbyRoutesList = nearbyRoutes.slice(0, 3);
   const d = 0.003;
   const mapSrc = coords
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lng - d}%2C${coords.lat - d}%2C${coords.lng + d}%2C${coords.lat + d}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}`
@@ -286,6 +298,68 @@ export default async function EventPage({ params }: PageProps) {
           </p>
         </div>
       </div>
+
+      {(nearbyRestaurantsList.length > 0 || nearbyRoutesList.length > 0) && (
+        <div className="mt-12">
+          <h2 className="font-display text-xl font-bold">Cerca de este evento</h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {nearbyRestaurantsList.length > 0 && (
+              <div>
+                <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-choco-muted">
+                  <UtensilsCrossed className="h-4 w-4" />
+                  Dónde comer
+                </p>
+                <ul className="space-y-2">
+                  {nearbyRestaurantsList.map((r) => (
+                    <li key={r.id}>
+                      <Link
+                        href={`/restaurantes/${r.slug}`}
+                        className="block rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md"
+                      >
+                        <span className="block font-display font-semibold text-choco dark:text-ink">
+                          {r.name}
+                        </span>
+                        {r.address && (
+                          <span className="mt-0.5 block text-sm text-choco-muted">
+                            {r.address}
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {nearbyRoutesList.length > 0 && (
+              <div>
+                <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-choco-muted">
+                  <Footprints className="h-4 w-4" />
+                  Rutas cercanas
+                </p>
+                <ul className="space-y-2">
+                  {nearbyRoutesList.map((r) => (
+                    <li key={r.id}>
+                      <Link
+                        href={`/rutas/${r.slug}`}
+                        className="block rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md"
+                      >
+                        <span className="block font-display font-semibold text-choco dark:text-ink">
+                          {r.title}
+                        </span>
+                        {r.distanceKm != null && (
+                          <span className="mt-0.5 block text-sm text-choco-muted">
+                            {r.distanceKm} km
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {related.length > 0 && (
         <div className="mt-12">

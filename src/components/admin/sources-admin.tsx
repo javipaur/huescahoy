@@ -104,6 +104,9 @@ function SourceFields({
           <option value="caminosnaturales">Caminos Naturales · rutas</option>
           <option value="dph-planes">Diputación Huesca · planes (rutas y actividades)</option>
           <option value="instagram">Instagram · stories destacadas (highlight)</option>
+          <option value="rutadelvino-restaurants">Ruta del Vino Somontano · restaurantes</option>
+          <option value="rutadelvino-rutas">Ruta del Vino Somontano · experiencias</option>
+          <option value="rutadelvino-agenda">Ruta del Vino Somontano · agenda</option>
         </select>
       </Field>
       <div className="sm:col-span-2">

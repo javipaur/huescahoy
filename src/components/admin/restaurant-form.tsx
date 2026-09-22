@@ -64,6 +64,18 @@ export function RestaurantForm({ restaurant }: { restaurant?: RestaurantItem }) 
             className={inputCls}
           />
         </label>
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-choco-muted">
+            Horario
+          </span>
+          <input
+            name="opening_hours"
+            type="text"
+            defaultValue={restaurant?.openingHours ?? undefined}
+            placeholder="Ej. L–V 13:00–16:00 · S 20:00–23:00"
+            className={inputCls}
+          />
+        </label>
 
         <label className="block">
           <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-choco-muted">

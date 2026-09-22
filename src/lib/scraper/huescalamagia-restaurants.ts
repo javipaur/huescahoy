@@ -90,6 +90,7 @@ function itemToRestaurant(item: MagiaItem, cuisineFallback: string, sourceName: 
     description: cleanDescription(item.summary || item.content || ""),
     cuisine_type: cuisineFallback,
     price_range: null,
+    opening_hours: null,
     address: item.address ? item.address.replace(/\s+/g, " ").trim() : null,
     phone: item.phoneNumber || null,
     email: item.email || null,
