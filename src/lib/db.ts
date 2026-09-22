@@ -411,6 +411,13 @@ async function seedIfEmpty(): Promise<void> {
 
 const DEFAULT_SOURCES: SourceInput[] = [
   {
+    name: "Restaurantes y bares de Huesca La Magia",
+    url: "https://web.huescalamagia.es/front/get_items/1015514/39139552/",
+    kind: "huescalamagia-restaurants",
+    category_id: null,
+    enabled: 1,
+  },
+  {
     name: "Restaurantes y cafeterías de Aragón (Open Data)",
     url: "https://opendata.aragon.es/aod/api/3/action/package_show?id=cafeterias-y-restaurantes-en-la-comunidad-autonoma-de-aragon",
     kind: "opendata-restaurants",

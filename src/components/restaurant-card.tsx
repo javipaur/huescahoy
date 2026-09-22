@@ -18,6 +18,15 @@ function CuisineBadge({ type }: { type: string }) {
   );
 }
 
+function ZoneBadge({ zone }: { zone: string }) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full bg-sand px-2.5 py-0.5 text-[11px] font-semibold text-choco-muted">
+      <MapPin className="h-3 w-3" />
+      {zone}
+    </span>
+  );
+}
+
 function Placeholder({ name }: { name: string }) {
   return (
     <div className="relative grid h-full w-full place-items-center overflow-hidden bg-gradient-to-br from-brand/10 to-brand/5">
@@ -35,7 +44,7 @@ function Placeholder({ name }: { name: string }) {
   );
 }
 
-function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
+function GridCard({ restaurant, zone }: { restaurant: RestaurantItem; zone?: string }) {
   return (
     <Link
       href={`/restaurantes/${restaurant.slug}`}
@@ -75,6 +84,7 @@ function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
         <div className="mt-auto flex items-center gap-2 border-t border-sand pt-3">
           {restaurant.cuisineType && <CuisineBadge type={restaurant.cuisineType} />}
           {restaurant.priceRange && <PriceBadge price={restaurant.priceRange} />}
+          {zone && <ZoneBadge zone={zone} />}
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-brand transition group-hover:bg-brand group-hover:text-white ml-auto">
             <ArrowRight className="h-4 w-4" />
           </span>
@@ -84,7 +94,7 @@ function GridCard({ restaurant }: { restaurant: RestaurantItem }) {
   );
 }
 
-function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
+function RowCard({ restaurant, zone }: { restaurant: RestaurantItem; zone?: string }) {
   return (
     <Link
       href={`/restaurantes/${restaurant.slug}`}
@@ -107,6 +117,7 @@ function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
         <div className="flex flex-wrap items-center gap-2">
           {restaurant.cuisineType && <CuisineBadge type={restaurant.cuisineType} />}
           {restaurant.priceRange && <PriceBadge price={restaurant.priceRange} />}
+          {zone && <ZoneBadge zone={zone} />}
         </div>
         <h3 className="mt-1.5 line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
           {restaurant.name}
@@ -149,10 +160,12 @@ function RowCard({ restaurant }: { restaurant: RestaurantItem }) {
 export function RestaurantCard({
   restaurant,
   variant = "grid",
+  zone,
 }: {
   restaurant: RestaurantItem;
   variant?: "grid" | "row";
+  zone?: string;
 }) {
-  if (variant === "row") return <RowCard restaurant={restaurant} />;
-  return <GridCard restaurant={restaurant} />;
+  if (variant === "row") return <RowCard restaurant={restaurant} zone={zone} />;
+  return <GridCard restaurant={restaurant} zone={zone} />;
 }

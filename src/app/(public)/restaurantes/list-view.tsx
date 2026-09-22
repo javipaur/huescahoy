@@ -3,6 +3,10 @@
 import { useState, useMemo } from "react";
 import { Search, MapPin } from "lucide-react";
 import { RestaurantCard } from "@/components/restaurant-card";
+import {
+  COMARCAS,
+  restaurantZoneFromAddress,
+} from "@/lib/restaurant-zones";
 import type { RestaurantItem } from "@/lib/types";
 
 const CUISINE_OPTIONS = [
@@ -17,19 +21,21 @@ const CUISINE_OPTIONS = [
 export function RestaurantListView({ restaurants }: { restaurants: RestaurantItem[] }) {
   const [q, setQ] = useState("");
   const [cuisine, setCuisine] = useState("");
+  const [zone, setZone] = useState("");
   const [variant, setVariant] = useState<"grid" | "row">("grid");
   const term = q.trim().toLowerCase();
 
   const filtered = useMemo(() => {
     return restaurants.filter((r) => {
       if (cuisine && r.cuisineType !== cuisine) return false;
+      if (zone && restaurantZoneFromAddress(r.address) !== zone) return false;
       if (term) {
         const haystack = `${r.name} ${r.description ?? ""} ${r.address ?? ""} ${r.cuisineType ?? ""}`.toLowerCase();
         if (!haystack.includes(term)) return false;
       }
       return true;
     });
-  }, [restaurants, q, cuisine, term]);
+  }, [restaurants, q, cuisine, zone, term]);
 
   return (
     <div>
@@ -53,6 +59,18 @@ export function RestaurantListView({ restaurants }: { restaurants: RestaurantIte
             {CUISINE_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
+              </option>
+            ))}
+          </select>
+          <select
+            value={zone}
+            onChange={(e) => setZone(e.target.value)}
+            className="rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-4 py-2.5 text-sm font-medium outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
+          >
+            <option value="">Toda la provincia</option>
+            {COMARCAS.map((c) => (
+              <option key={c} value={c}>
+                {c}
               </option>
             ))}
           </select>
@@ -111,7 +129,12 @@ export function RestaurantListView({ restaurants }: { restaurants: RestaurantIte
           }
         >
           {filtered.map((r) => (
-            <RestaurantCard key={r.id} restaurant={r} variant={variant} />
+            <RestaurantCard
+              key={r.id}
+              restaurant={r}
+              variant={variant}
+              zone={restaurantZoneFromAddress(r.address) ?? undefined}
+            />
           ))}
         </div>
       )}
