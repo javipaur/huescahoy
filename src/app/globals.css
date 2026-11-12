@@ -2,7 +2,7 @@
 
 @theme inline {
   --font-sans: var(--font-manrope);
-  --font-display: var(--font-sora);
+  --font-display: var(--font-playfair);
 }
 
 @theme {
@@ -25,10 +25,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background: #0f172a;
+    --background: #18181b;
     --foreground: #f4f4f5;
-    --color-cream: #0f172a;
-    --color-sand: #18181b;
+    --color-cream: #18181b;
+    --color-sand: #27272a;
     --color-choco: #f4f4f5;
     --color-ink: #12281b;
     --color-choco-muted: #a1a1aa;
@@ -46,6 +46,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-manrope), system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv11", "ss01";
+}
+
+.font-display {
+  letter-spacing: -0.015em;
+}
+
+.font-display em,
+em.font-display {
+  font-style: italic;
 }
 
 ::selection {

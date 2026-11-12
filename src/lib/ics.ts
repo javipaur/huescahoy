@@ -79,5 +79,7 @@ export function gcalEventUrl(event: EventItem): string {
     details: event.description ?? "",
     location: event.location ?? "",
   });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  return `https://calendar.google.com/calendar/render?${params
+    .toString()
+    .replace(/%2F/g, "/")}`;
 }

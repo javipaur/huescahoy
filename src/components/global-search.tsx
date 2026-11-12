@@ -1,33 +1,30 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, CalendarDays, Route, UtensilsCrossed, BookOpen, X } from "lucide-react";
+import { Search, CalendarDays, Route, UtensilsCrossed, X } from "lucide-react";
 import { RestaurantCard } from "@/components/restaurant-card";
 import { RouteCard } from "@/components/route-card";
 import { EventCard } from "@/components/event-card";
 import type { EventItem, RestaurantItem, RouteItem, Category } from "@/lib/types";
 
-type Tab = "todos" | "eventos" | "rutas" | "restaurantes" | "planes";
+type Tab = "todos" | "eventos" | "rutas" | "restaurantes";
 
 const TABS: Array<{ id: Tab; label: string; icon: typeof Search }> = [
   { id: "todos", label: "Todos", icon: Search },
   { id: "eventos", label: "Eventos", icon: CalendarDays },
   { id: "rutas", label: "Rutas", icon: Route },
   { id: "restaurantes", label: "Restaurantes", icon: UtensilsCrossed },
-  { id: "planes", label: "Planes", icon: BookOpen },
 ];
 
 export function GlobalSearch({
   events,
   routes,
   restaurants,
-  plans,
   categories,
 }: {
   events: EventItem[];
   routes: RouteItem[];
   restaurants: RestaurantItem[];
-  plans: Array<{ slug: string; title: string; summary: string | null; image: string | null }>;
   categories: Category[];
 }) {
   const [q, setQ] = useState("");
@@ -63,15 +60,7 @@ export function GlobalSearch({
     );
   }, [restaurants, tab, term]);
 
-  const filteredPlans = useMemo(() => {
-    if (tab !== "todos" && tab !== "planes") return [];
-    if (!term) return plans.slice(0, 12);
-    return plans.filter(
-      (p) => `${p.title} ${p.summary ?? ""}`.toLowerCase().includes(term)
-    );
-  }, [plans, tab, term]);
-
-  const totalResults = filteredEvents.length + filteredRoutes.length + filteredRestaurants.length + filteredPlans.length;
+  const totalResults = filteredEvents.length + filteredRoutes.length + filteredRestaurants.length;
 
   return (
     <div>
@@ -82,7 +71,7 @@ export function GlobalSearch({
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar eventos, rutas, restaurantes, planes…"
+            placeholder="Buscar eventos, rutas y restaurantes…"
             className="w-full rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 py-2.5 pl-10 pr-10 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           {q && (
@@ -183,50 +172,6 @@ export function GlobalSearch({
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filteredRestaurants.map((restaurant) => (
               <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {filteredPlans.length > 0 && (
-        <section className="mb-10">
-          <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-bold text-choco dark:text-ink">
-            <BookOpen className="h-5 w-5 text-brand" />
-            Planes
-            <span className="rounded-full bg-choco/5 px-2.5 py-0.5 text-xs font-semibold text-choco-muted">
-              {filteredPlans.length}
-            </span>
-          </h2>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredPlans.map((plan) => (
-              <a
-                key={plan.slug}
-                href={`/planes/${plan.slug}`}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5"
-              >
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
-                  {plan.image ? (
-                    <img
-                      src={plan.image}
-                      alt={plan.title}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand/10 to-brand/5">
-                      <BookOpen className="h-8 w-8 text-brand/50" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col gap-2 p-4">
-                  <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-choco transition-colors group-hover:text-brand-dark">
-                    {plan.title}
-                  </h3>
-                  {plan.summary && (
-                    <p className="line-clamp-2 text-sm text-choco-muted">{plan.summary}</p>
-                  )}
-                </div>
-              </a>
             ))}
           </div>
         </section>

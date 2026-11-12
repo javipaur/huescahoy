@@ -29,6 +29,7 @@ import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
 import { sendCategoryPush } from "../push";
 import { geocodeLocation } from "../geocode";
+import { restaurantZoneFromAddress } from "../restaurant-zones";
 import {
   getCategoriesAdmin,
   getSources,
@@ -47,7 +48,7 @@ const TIMEOUT_MS = Number(process.env.SCRAPER_TIMEOUT_MS ?? 15000);
 const IMAGE_TIMEOUT_MS = Number(process.env.SCRAPER_IMAGE_TIMEOUT_MS ?? 8000);
 const MAX_IMAGE_FETCHES_PER_SOURCE = 8;
 const IMAGE_CONCURRENCY = 4;
-const MAX_RESTAURANT_GEOCODES_PER_SOURCE = 25;
+const MAX_RESTAURANT_GEOCODES_PER_SOURCE = 60;
 const SOMONTANO_WEEKS = 5;
 const AINSA_SITEMAP = "https://villadeainsa.com/wp-sitemap-posts-lsvr_event-1.xml";
 const AINSA_MAX_DETAILS = 60;
@@ -272,6 +273,9 @@ async function runContentSource(source: Source): Promise<SourceResult> {
       let updated = 0;
       let geocoded = 0;
       for (const item of items) {
+        if (item.comarca == null && item.address) {
+          item.comarca = restaurantZoneFromAddress(item.address);
+        }
         if (
           geocoded < MAX_RESTAURANT_GEOCODES_PER_SOURCE &&
           item.lat == null &&

@@ -9,6 +9,10 @@ import {
 } from "@/lib/restaurant-zones";
 import type { RestaurantItem } from "@/lib/types";
 
+function comarcaOf(r: RestaurantItem): string | null {
+  return r.comarca ?? restaurantZoneFromAddress(r.address);
+}
+
 const CUISINE_OPTIONS = [
   { value: "", label: "Todos" },
   { value: "Restaurante", label: "Restaurantes" },
@@ -18,17 +22,23 @@ const CUISINE_OPTIONS = [
   { value: "Asador", label: "Asadores" },
 ];
 
-export function RestaurantListView({ restaurants }: { restaurants: RestaurantItem[] }) {
+export function RestaurantListView({
+  restaurants,
+  initialZone = "",
+}: {
+  restaurants: RestaurantItem[];
+  initialZone?: string;
+}) {
   const [q, setQ] = useState("");
   const [cuisine, setCuisine] = useState("");
-  const [zone, setZone] = useState("");
+  const [zone, setZone] = useState(initialZone);
   const [variant, setVariant] = useState<"grid" | "row">("grid");
   const term = q.trim().toLowerCase();
 
   const filtered = useMemo(() => {
     return restaurants.filter((r) => {
       if (cuisine && r.cuisineType !== cuisine) return false;
-      if (zone && restaurantZoneFromAddress(r.address) !== zone) return false;
+      if (zone && comarcaOf(r) !== zone) return false;
       if (term) {
         const haystack = `${r.name} ${r.description ?? ""} ${r.address ?? ""} ${r.cuisineType ?? ""}`.toLowerCase();
         if (!haystack.includes(term)) return false;
@@ -133,7 +143,7 @@ export function RestaurantListView({ restaurants }: { restaurants: RestaurantIte
               key={r.id}
               restaurant={r}
               variant={variant}
-              zone={restaurantZoneFromAddress(r.address) ?? undefined}
+              zone={comarcaOf(r) ?? undefined}
             />
           ))}
         </div>

@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
 import { Search } from "lucide-react";
 import { site } from "@/lib/site";
-import { getEvents, getRestaurants, getRoutes, getPlans, getCategoriesWithCounts } from "@/lib/db";
+import { getEvents, getRestaurants, getRoutes, getCategoriesWithCounts } from "@/lib/db";
 import { GlobalSearch } from "@/components/global-search";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Buscar en HuescaHoy",
-  description: "Busca eventos, rutas, restaurantes y planes en Huesca y su provincia.",
+  description: "Busca eventos, rutas y restaurantes en Huesca y su provincia.",
   alternates: { canonical: "/buscar" },
 };
 
 export default async function BuscarPage() {
-  const [events, restaurants, routes, plans, categories] = await Promise.all([
+  const [events, restaurants, routes, categories] = await Promise.all([
     getEvents({ limit: 500 }),
     getRestaurants({ limit: 500 }),
     getRoutes({ limit: 500 }),
-    getPlans(),
     getCategoriesWithCounts(),
   ]);
 
@@ -32,7 +31,7 @@ export default async function BuscarPage() {
           Busca en {site.city}
         </h1>
         <p className="mt-2 text-choco-muted">
-          Encuentra eventos, rutas, restaurantes y planes en un solo lugar.
+          Encuentra eventos, rutas y restaurantes en un solo lugar.
         </p>
       </div>
 
@@ -40,7 +39,6 @@ export default async function BuscarPage() {
         events={events}
         routes={routes}
         restaurants={restaurants}
-        plans={plans}
         categories={categories}
       />
     </div>

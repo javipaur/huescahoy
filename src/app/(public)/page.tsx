@@ -20,6 +20,7 @@ import { HomeAgenda } from "@/components/home-agenda";
 import { Reveal } from "@/components/reveal";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
+import { restaurantZoneFromAddress, COMARCAS } from "@/lib/restaurant-zones";
 import {
   getActiveFeaturedPick,
   getCategoriesAdmin,
@@ -61,12 +62,29 @@ export default async function HomePage() {
       getCategoriesWithCounts(),
       getFeaturedEvents(3),
       getActiveFeaturedPick(),
-      getRestaurants({ limit: 3 }),
-      getRoutes({ limit: 3 }),
+      getRestaurants({ limit: 500 }),
+      getRoutes({ limit: 500 }),
       getCategoriesAdmin(),
     ]);
   const today = todayStr();
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
+
+  const zoneCounts = new Map<string, number>();
+  for (const r of restaurants) {
+    const zone = r.comarca ?? restaurantZoneFromAddress(r.address);
+    if (zone) zoneCounts.set(zone, (zoneCounts.get(zone) ?? 0) + 1);
+  }
+  const cityZone = zoneCounts.get("Hoya de Huesca") ?? 0;
+  const topZones = [...zoneCounts.entries()]
+    .filter(([zone]) => zone !== "Hoya de Huesca")
+    .sort((a, b) => {
+      const ia = COMARCAS.indexOf(a[0]);
+      const ib = COMARCAS.indexOf(b[0]);
+      if (ia === -1 && ib === -1) return b[1] - a[1];
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
 
   let pickImage: string | null = null;
   if (activePick) {
@@ -156,10 +174,11 @@ export default async function HomePage() {
                 <CalendarDays className="h-4 w-4" />
                 Agenda cultural de {site.city} · actualizada cada día
               </span>
-              <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-balance text-white sm:text-5xl">
-                Qué hacer hoy en {site.city}
+              <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.03] tracking-tight text-balance text-white sm:text-6xl">
+                Qué hacer hoy en{" "}
+                <em className="italic text-gold">{site.city}</em>
               </h1>
-              <p className="mt-3 text-lg font-semibold text-gold">{formatDayLong(today)}</p>
+              <p className="mt-4 text-lg font-semibold text-gold">{formatDayLong(today)}</p>
               <p className="mt-2 max-w-xl text-white/70">
                 Conciertos, teatro, exposiciones, cine y planes en familia: toda la
                 agenda cultural de Huesca, al día. Gratis, sin anuncios.
@@ -176,11 +195,134 @@ export default async function HomePage() {
               <InstallButton tone="dark-outline" />
             </div>
           </div>
+
+          <div className="mt-10 grid gap-3 border-t border-white/10 pt-8 sm:grid-cols-2 lg:grid-cols-4">
+            <span className="text-sm text-white/60">Eventos esta semana</span>
+            <span className="text-sm text-white/60">Rutas y senderismo</span>
+            <span className="text-sm text-white/60">Dónde comer</span>
+            <span className="text-sm text-white/60">Categorías</span>
+            <span className="font-display text-3xl font-bold text-white">
+              {events.length}
+            </span>
+            <span className="font-display text-3xl font-bold text-white">
+              {routes.length}
+            </span>
+            <span className="font-display text-3xl font-bold text-white">
+              {restaurants.length}
+            </span>
+            <span className="font-display text-3xl font-bold text-white">
+              {categories.length}
+            </span>
+          </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <QuickGlanceCard
+            href="/agenda?desde=hoy"
+            Icon={CalendarDays}
+            title="Qué hacer hoy"
+            desc="La agenda del día, con horarios y precios."
+          />
+          <QuickGlanceCard
+            href="/agenda?desde=finde"
+            Icon={Star}
+            title="Este fin de semana"
+            desc="Planes de viernes a domingo en Huesca y provincia."
+          />
+          <QuickGlanceCard
+            href="/restaurantes"
+            Icon={UtensilsCrossed}
+            title="Dónde comer"
+            desc="Restaurantes y bares por comarca: de la Hoya a Ribagorza."
+          />
+          <QuickGlanceCard
+            href="/rutas"
+            Icon={Mountain}
+            title="Rutas que hacer"
+            desc="Senderismo, bici y excursiones con distancia y dificultad."
+          />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6">
         <HomeAgenda events={events} categories={categoryList} initialDay={today} />
+      </section>
+
+      <section className="border-y border-sand bg-sand/40">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <Reveal className="mb-8">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-white px-3 py-1 text-xs font-semibold text-brand-dark dark:border-brand/40 dark:bg-zinc-900 dark:text-brand-dark">
+              <Star className="h-3.5 w-3.5" />
+              Categorías
+            </span>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              Explora la agenda por categoría
+            </h2>
+            <p className="mt-1 text-choco-muted">
+              Música, teatro, exposiciones, deporte, cine y planes con niños:
+              encuentra en un clic qué hacer en Huesca.
+            </p>
+          </Reveal>
+          <div className="mt-8">
+            <CategoryGrid categories={categories} />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <Reveal className="mb-8">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
+            <UtensilsCrossed className="h-3.5 w-3.5" />
+            Dónde comer en la provincia
+          </span>
+          <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+            De la Hoya a Ribagorza, por comarca
+          </h2>
+          <p className="mt-1 text-choco-muted">
+            Restaurantes de cada comarca oscense con un clic: café, tabernas,
+            asadores y cocina aragonesa.
+          </p>
+        </Reveal>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Link
+            href="/restaurantes?zona=Hoya%20de%20Huesca"
+            className="group flex items-center justify-between rounded-2xl border border-sand bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+          >
+            <div>
+              <p className="font-display text-lg font-bold text-choco dark:text-ink">
+                Huesca ciudad y su comarca
+              </p>
+              <p className="text-sm text-choco-muted">
+                {cityZone} {cityZone === 1 ? "restaurante" : "restaurantes"}
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-brand transition group-hover:translate-x-0.5" />
+          </Link>
+          {topZones.map(([zone, count]) => (
+            <Link
+              key={zone}
+              href={`/restaurantes?zona=${encodeURIComponent(zone)}`}
+              className="group flex items-center justify-between rounded-2xl border border-sand bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+            >
+              <div>
+                <p className="font-display text-lg font-bold text-choco dark:text-ink">{zone}</p>
+                <p className="text-sm text-choco-muted">
+                  {count} {count === 1 ? "restaurante" : "restaurantes"}
+                </p>
+              </div>
+              <ArrowRight className="h-5 w-5 text-brand transition group-hover:translate-x-0.5" />
+            </Link>
+          ))}
+          <Link
+            href="/restaurantes"
+            className="group flex items-center justify-center gap-2 rounded-2xl border border-dashed border-brand/30 bg-brand/5 px-5 py-4 text-sm font-semibold text-brand-dark transition hover:border-brand hover:bg-brand/10"
+          >
+            Ver todos los restaurantes
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </section>
 
       {activePick && <FeaturedPickCard pick={activePick} image={pickImage} />}
@@ -209,27 +351,6 @@ export default async function HomePage() {
           </Reveal>
         </section>
       )}
-
-      <section className="border-y border-sand bg-sand/40">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <Reveal className="mb-8">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-white px-3 py-1 text-xs font-semibold text-brand-dark dark:border-brand/40 dark:bg-zinc-900 dark:text-brand-dark">
-              <Star className="h-3.5 w-3.5" />
-              Categorías
-            </span>
-            <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Explora la agenda por categoría
-            </h2>
-            <p className="mt-1 text-choco-muted">
-              Música, teatro, exposiciones, deporte, cine y planes con niños:
-              encuentra en un clic qué hacer en Huesca.
-            </p>
-          </Reveal>
-          <div className="mt-8">
-            <CategoryGrid categories={categories} />
-          </div>
-        </div>
-      </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -305,7 +426,7 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {routes.map((route) => (
+              {routes.slice(0, 3).map((route) => (
                 <RouteCard key={route.id} route={route} />
               ))}
             </div>
@@ -321,8 +442,12 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {restaurants.map((r) => (
-                <RestaurantCard key={r.id} restaurant={r} />
+              {restaurants.slice(0, 3).map((r) => (
+                <RestaurantCard
+                  key={r.id}
+                  restaurant={r}
+                  zone={r.comarca ?? restaurantZoneFromAddress(r.address) ?? undefined}
+                />
               ))}
             </div>
           </div>
@@ -440,5 +565,32 @@ export default async function HomePage() {
         </Reveal>
       </section>
     </>
+  );
+}
+
+function QuickGlanceCard({
+  href,
+  Icon,
+  title,
+  desc,
+}: {
+  href: string;
+  Icon: typeof CalendarDays;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group rounded-2xl border border-sand bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-lg hover:shadow-choco/5 dark:border-zinc-800 dark:bg-zinc-900"
+    >
+      <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand transition group-hover:bg-brand group-hover:text-white">
+        <Icon className="h-5 w-5" />
+      </span>
+      <h3 className="mt-4 font-display text-lg font-bold tracking-tight text-choco dark:text-ink">
+        {title}
+      </h3>
+      <p className="mt-1 text-sm text-choco-muted">{desc}</p>
+    </Link>
   );
 }

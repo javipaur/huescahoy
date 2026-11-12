@@ -80,11 +80,6 @@ export function Footer() {
                   Cultura en Huesca: la guía
                 </Link>
               </li>
-              <li>
-                <Link href="/planes" className="text-white/80 transition hover:text-gold">
-                  La magia de Huesca
-                </Link>
-              </li>
             </ul>
           </div>
 

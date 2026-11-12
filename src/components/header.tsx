@@ -13,7 +13,6 @@ const NAV = [
   { href: "/rutas", label: "Rutas" },
   { href: "/restaurantes", label: "Restaurantes" },
   { href: "/buscar", label: "Buscar" },
-  { href: "/planes", label: "Planes" },
   { href: "/colabora", label: "Colabora" },
 ];
 
@@ -26,18 +25,18 @@ export function Header() {
   }
 
   const navLinkClass = (href: string, exact?: boolean) =>
-    `rounded-full px-3.5 py-2 text-sm font-medium transition ${
+    `relative py-1.5 text-[13px] font-bold uppercase tracking-[0.12em] transition after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-brand after:transition-transform after:duration-300 hover:after:scale-x-100 ${
       isActive(href, exact)
-        ? "bg-sand text-choco dark:bg-zinc-800 dark:text-zinc-100"
-        : "text-choco-muted hover:bg-sand hover:text-choco dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+        ? "text-brand-dark after:origin-left after:scale-x-100"
+        : "text-choco-muted hover:text-choco dark:text-zinc-400 dark:hover:text-zinc-100"
     }`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-sand bg-white/85 backdrop-blur dark:bg-zinc-900/85 dark:border-zinc-800">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <Logo />
 
-        <nav className="hidden items-center gap-1 sm:flex sm:gap-2">
+        <nav className="hidden items-center gap-5 sm:flex lg:gap-7">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={navLinkClass(item.href, item.exact)}>
               {item.label}

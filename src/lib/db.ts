@@ -2,6 +2,8 @@ import { Pool } from "pg";
 import crypto from "node:crypto";
 import { isEventPast } from "./event-jsonld";
 import { haversineKm } from "./geo";
+import { restaurantZoneFromAddress } from "./restaurant-zones";
+import { normalizedTitle, sameEventAcrossSources } from "./event-dedup";
 import type {
   Category,
   CategoryInput,
@@ -146,6 +148,7 @@ const SCHEMA_SQL = `
   ALTER TABLE planes ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'manual';
   ALTER TABLE planes ADD COLUMN IF NOT EXISTS source_url TEXT;
   ALTER TABLE restaurants ADD COLUMN IF NOT EXISTS opening_hours TEXT;
+  ALTER TABLE restaurants ADD COLUMN IF NOT EXISTS comarca TEXT;
 
   ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS categories TEXT NOT NULL DEFAULT '[]';
 
@@ -323,15 +326,6 @@ function slugify(input: string): string {
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-}
-
-function normalizedTitle(title: string): string {
-  return title
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, " ");
 }
 
 async function seedIfEmpty(): Promise<void> {
@@ -889,8 +883,6 @@ export async function upsertScrapedEvent(
     if (event.external_url && !current.externalUrl) gaps.push({ column: "external_url", value: event.external_url });
     if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
     if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
-    if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
-    if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
 
     const fillCategory = categoryId != null && current.categoryId == null;
     if (gaps.length === 0 && !fillCategory) return { status: "skipped", id: duplicate.id };
@@ -934,14 +926,13 @@ export async function upsertScrapedEvent(
   return { status: "new", id: inserted.rows[0]?.id ?? null };
 }
 
-async function findCrossSourceDuplicate(event: ScrapeEvent): Promise<{ id: number } | undefined> {
-  const key = normalizedTitle(event.title);
+async function findCrossSourceDuplicate(event: ScrapeEvent): Promise<{ id: number; title: string } | undefined> {
   const res = await getPool().query(
     "SELECT id, title FROM events WHERE start_date = $1",
     [event.start_date]
   );
   const candidates = res.rows as { id: number; title: string }[];
-  return candidates.find((candidate) => normalizedTitle(candidate.title) === key);
+  return candidates.find((candidate) => sameEventAcrossSources(candidate.title, event.start_date, event.title, event.start_date));
 }
 
 // ---------- Sources ----------
@@ -1446,7 +1437,7 @@ export async function saveFeaturedPick(input: FeaturedPickInput): Promise<void> 
 
 const RESTAURANT_COLUMNS =
   `id, slug, name, description, cuisine_type AS "cuisineType", price_range AS "priceRange",
-   opening_hours AS "openingHours", address, phone, email, website, image, lat, lng, rating, source,
+   opening_hours AS "openingHours", address, comarca, phone, email, website, image, lat, lng, rating, source,
    source_url AS "sourceUrl", status, created_at AS "createdAt", updated_at AS "updatedAt"`;
 
 function rowToRestaurant(row: unknown): RestaurantItem {
@@ -1505,6 +1496,10 @@ export async function getRestaurantsAdmin(): Promise<RestaurantItem[]> {
   return (res.rows as RestaurantItem[]).map(rowToRestaurant);
 }
 
+function comarcaFor(input: Pick<RestaurantInput, "comarca" | "address">): string | null {
+  return input.comarca ?? restaurantZoneFromAddress(input.address);
+}
+
 export async function getNearbyRestaurants(
   lat: number,
   lng: number,
@@ -1528,11 +1523,11 @@ export async function getNearbyRestaurants(
 export async function createRestaurant(input: RestaurantInput): Promise<void> {
   await init();
   await getPool().query(
-    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, comarca, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
     [
       input.slug, input.name, input.description, input.cuisine_type, input.price_range,
-      input.opening_hours, input.address, input.phone, input.email, input.website, input.image,
+      input.opening_hours, input.address, comarcaFor(input), input.phone, input.email, input.website, input.image,
       input.lat, input.lng, input.rating, input.source, input.source_url, input.status,
     ]
   );
@@ -1544,8 +1539,8 @@ export async function updateRestaurant(id: number, input: Partial<RestaurantInpu
   if (!current) return;
   await getPool().query(
     `UPDATE restaurants SET slug = $1, name = $2, description = $3, cuisine_type = $4, price_range = $5, opening_hours = $6,
-     address = $7, phone = $8, email = $9, website = $10, image = $11, lat = $12, lng = $13,
-     rating = $14, status = $15, updated_at = ${NOW_SQL} WHERE id = $16`,
+     address = $7, comarca = $8, phone = $9, email = $10, website = $11, image = $12, lat = $13, lng = $14,
+     rating = $15, status = $16, updated_at = ${NOW_SQL} WHERE id = $17`,
     [
       input.slug ?? current.slug,
       input.name ?? current.name,
@@ -1554,6 +1549,7 @@ export async function updateRestaurant(id: number, input: Partial<RestaurantInpu
       input.price_range ?? current.priceRange,
       input.opening_hours ?? current.openingHours,
       input.address ?? current.address,
+      comarcaFor({ comarca: input.comarca, address: input.address ?? current.address }),
       input.phone ?? current.phone,
       input.email ?? current.email,
       input.website ?? current.website,
@@ -1577,25 +1573,66 @@ export async function upsertRestaurant(input: RestaurantInput): Promise<{ status
   const dedupeKey = input.source_url ?? `manual:${input.slug}`;
 
   const existing = (
-    await getPool().query("SELECT id, name, image, source FROM restaurants WHERE source_url = $1", [dedupeKey])
-  ).rows[0] as { id: number; name: string; image: string | null; source: string } | undefined;
+    await getPool().query(
+      `SELECT id, name, description, cuisine_type AS "cuisineType", price_range AS "priceRange", opening_hours AS "openingHours",
+       address, comarca, phone, email, website, image, lat, lng, rating, source FROM restaurants WHERE source_url = $1`,
+      [dedupeKey]
+    )
+  ).rows[0] as RestaurantItem | undefined;
 
   if (existing) {
-    const hasNewImage = Boolean(input.image) && !existing.image;
-    if (!hasNewImage) return { status: "skipped", id: existing.id };
+    const newComarca = comarcaFor(input);
+    if (
+      input.name === existing.name &&
+      input.description === existing.description &&
+      input.cuisine_type === existing.cuisineType &&
+      input.price_range === existing.priceRange &&
+      input.opening_hours === existing.openingHours &&
+      input.address === existing.address &&
+      newComarca === existing.comarca &&
+      input.phone === existing.phone &&
+      input.email === existing.email &&
+      input.website === existing.website &&
+      input.image === existing.image &&
+      input.lat === existing.lat &&
+      input.lng === existing.lng
+    ) {
+      return { status: "skipped", id: existing.id };
+    }
     await getPool().query(
-      `UPDATE restaurants SET image = $1, updated_at = ${NOW_SQL} WHERE id = $2`,
-      [input.image, existing.id]
+      `UPDATE restaurants SET
+         name = COALESCE($1, name),
+         description = COALESCE($2, description),
+         cuisine_type = COALESCE($3, cuisine_type),
+         price_range = COALESCE($4, price_range),
+         opening_hours = COALESCE($5, opening_hours),
+         address = COALESCE($6, address),
+         comarca = COALESCE($7, comarca),
+         phone = COALESCE($8, phone),
+         email = COALESCE($9, email),
+         website = COALESCE($10, website),
+         image = COALESCE($11, image),
+         lat = COALESCE($12, lat),
+         lng = COALESCE($13, lng),
+         rating = COALESCE($14, rating),
+         updated_at = ${NOW_SQL}
+       WHERE id = $15`,
+      [
+        input.name, input.description, input.cuisine_type, input.price_range,
+        input.opening_hours, input.address, newComarca, input.phone, input.email, input.website,
+        input.image, input.lat, input.lng, input.rating, existing.id,
+      ]
     );
     return { status: "updated", id: existing.id };
   }
 
+  const newComarca = comarcaFor(input);
   const inserted = await getPool().query(
-    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, phone, email, website, image, lat, lng, rating, source, source_url, status)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id`,
+    `INSERT INTO restaurants (slug, name, description, cuisine_type, price_range, opening_hours, address, comarca, phone, email, website, image, lat, lng, rating, source, source_url, status)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING id`,
     [
       input.slug, input.name, input.description, input.cuisine_type, input.price_range,
-      input.opening_hours, input.address, input.phone, input.email, input.website, input.image,
+      input.opening_hours, input.address, newComarca, input.phone, input.email, input.website, input.image,
       input.lat, input.lng, input.rating, input.source, dedupeKey, input.status,
     ]
   );
@@ -1742,15 +1779,52 @@ export async function upsertRoute(input: RouteInput): Promise<{ status: "new" | 
   const dedupeKey = input.source_url ?? `manual:${input.slug}`;
 
   const existing = (
-    await getPool().query("SELECT id, title, image, source FROM routes WHERE source_url = $1", [dedupeKey])
-  ).rows[0] as { id: number; title: string; image: string | null; source: string } | undefined;
+    await getPool().query(
+      `SELECT id, title, description, summary, image, distance_km AS "distanceKm", elevation_m AS "elevationM",
+       difficulty, route_type AS "routeType", lat, lng, external_url AS "externalUrl", gpx_url AS "gpxUrl"
+       FROM routes WHERE source_url = $1`,
+      [dedupeKey]
+    )
+  ).rows[0] as RouteItem | undefined;
 
   if (existing) {
-    const hasNewImage = Boolean(input.image) && !existing.image;
-    if (!hasNewImage) return { status: "skipped", id: existing.id };
+    if (
+      input.title === existing.title &&
+      input.description === existing.description &&
+      input.summary === existing.summary &&
+      input.image === existing.image &&
+      input.distance_km === existing.distanceKm &&
+      input.elevation_m === existing.elevationM &&
+      input.difficulty === existing.difficulty &&
+      input.route_type === existing.routeType &&
+      input.lat === existing.lat &&
+      input.lng === existing.lng &&
+      input.external_url === existing.externalUrl &&
+      input.gpx_url === existing.gpxUrl
+    ) {
+      return { status: "skipped", id: existing.id };
+    }
     await getPool().query(
-      `UPDATE routes SET image = $1, updated_at = ${NOW_SQL} WHERE id = $2`,
-      [input.image, existing.id]
+      `UPDATE routes SET
+         title = COALESCE($1, title),
+         description = COALESCE($2, description),
+         summary = COALESCE($3, summary),
+         image = COALESCE($4, image),
+         distance_km = COALESCE($5, distance_km),
+         elevation_m = COALESCE($6, elevation_m),
+         difficulty = COALESCE($7, difficulty),
+         route_type = COALESCE($8, route_type),
+         lat = COALESCE($9, lat),
+         lng = COALESCE($10, lng),
+         external_url = COALESCE($11, external_url),
+         gpx_url = COALESCE($12, gpx_url),
+         updated_at = ${NOW_SQL}
+       WHERE id = $13`,
+      [
+        input.title, input.description, input.summary, input.image, input.distance_km,
+        input.elevation_m, input.difficulty, input.route_type, input.lat, input.lng,
+        input.external_url, input.gpx_url, existing.id,
+      ]
     );
     return { status: "updated", id: existing.id };
   }

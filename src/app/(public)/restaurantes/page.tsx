@@ -23,7 +23,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RestaurantesPage() {
+export default async function RestaurantesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ zona?: string }>;
+}) {
+  const { zona } = await searchParams;
   const restaurants = await getRestaurants({ limit: 500 });
 
   return (
@@ -42,7 +47,7 @@ export default async function RestaurantesPage() {
       </div>
 
       <Suspense fallback={<div className="text-choco-muted">Cargando restaurantes…</div>}>
-        <RestaurantListView restaurants={restaurants} />
+        <RestaurantListView restaurants={restaurants} initialZone={zona ?? ""} />
       </Suspense>
     </div>
   );

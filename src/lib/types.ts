@@ -226,6 +226,7 @@ export type RestaurantItem = {
   priceRange: string | null;
   openingHours: string | null;
   address: string | null;
+  comarca: string | null;
   phone: string | null;
   email: string | null;
   website: string | null;
@@ -248,6 +249,7 @@ export type RestaurantInput = {
   price_range: string | null;
   opening_hours: string | null;
   address: string | null;
+  comarca?: string | null;
   phone: string | null;
   email: string | null;
   website: string | null;

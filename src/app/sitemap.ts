@@ -1,13 +1,12 @@
 import type { MetadataRoute } from "next";
-import { getCategoriesAdmin, getEvents, getPlans, getRestaurants, getRoutes, todayStr } from "@/lib/db";
+import { getCategoriesAdmin, getEvents, getRestaurants, getRoutes, todayStr } from "@/lib/db";
 import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [events, plans, categories, restaurants, routes] = await Promise.all([
+  const [events, categories, restaurants, routes] = await Promise.all([
     getEvents({ from: todayStr(), limit: 200 }),
-    getPlans(),
     getCategoriesAdmin(),
     getRestaurants({ limit: 500 }),
     getRoutes({ limit: 500 }),
@@ -19,13 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: event.updatedAt ? new Date(event.updatedAt) : now,
     changeFrequency: "weekly",
     priority: 0.7,
-  }));
-
-  const planEntries: MetadataRoute.Sitemap = plans.map((plan) => ({
-    url: `${site.url}/planes/${plan.slug}`,
-    lastModified: plan.updatedAt ? new Date(plan.updatedAt) : now,
-    changeFrequency: "monthly",
-    priority: 0.6,
   }));
 
   const categoryEntries: MetadataRoute.Sitemap = categories.map((category) => ({
@@ -70,12 +62,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...categoryEntries,
     {
-      url: `${site.url}/planes`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    },
-    {
       url: `${site.url}/buscar`,
       lastModified: now,
       changeFrequency: "weekly",
@@ -100,7 +86,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.4,
     },
     ...eventEntries,
-    ...planEntries,
     ...restaurantEntries,
     ...routeEntries,
   ];
