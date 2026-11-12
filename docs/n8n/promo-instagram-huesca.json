@@ -1,0 +1,910 @@
+{
+  "name": "Promo diaria · publicar carrusel · Huesca Hoy",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "45 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "55004a07-5915-4eaa-a07d-d870fb772382",
+      "name": "Cron 08:45 Madrid",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        192
+      ],
+      "notes": "Zona horaria del flujo: Europe/Madrid. Esta rama publica de verdad."
+    },
+    {
+      "parameters": {},
+      "id": "2821e128-2ad9-48f6-97e0-4c0ed6628dc2",
+      "name": "Ejecutar a mano",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        432
+      ],
+      "notes": "Esta rama NO publica: pasa por «Modo: simulacro» y para antes de crear contenedores."
+    },
+    {
+      "parameters": {
+        "jsCode": "// La rama de las pruebas. Marca la ejecución como simulacro para que el flujo\n// pare justo antes de crear contenedores de imagen: probar a mano no puede\n// publicar por accidente, y el cron no puede quedarse en simulacro por un flag\n// olvidado, porque este nodo sólo existe en la rama manual.\n//\n// Para publicar de verdad a mano (recuperar un día perdido), pon false aquí.\nreturn [{ json: { simular: true } }];"
+      },
+      "id": "d9929c9d-b356-42e5-9071-09d29c5f7187",
+      "name": "Modo: simulacro",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        432
+      ],
+      "notes": "Cambia `true` por `false` sólo si necesitas publicar a mano de verdad."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/content_publishing_limit?fields=quota_usage,config",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "31237cd8-cb77-41c8-8898-079c90642d4a",
+      "name": "Leer el cupo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        192
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Cupo de publicación de las últimas 24 h. Se lee antes que nada porque es gratis y convierte un error opaco en un mensaje claro. Si falla, el flujo sigue: no puede bloquear la publicación."
+    },
+    {
+      "parameters": {
+        "url": "https://huescahoy.javierpalacio.es/api/promo",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "9509b63e-ff07-40bf-aeb0-0b6eb6d8eabe",
+      "name": "Paquete de promo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        192
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "notes": "El paquete lo sirve la web: portada, imagenes (SIN la portada), titulos, pie y enlace."
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Modo ─────────────────────────────────────────────────────────────────────\n// El nodo «Modo: simulacro» sólo existe en la rama manual, así que referenciarlo\n// desde el cron lanza. Eso es exactamente lo que se quiere: si no está, no hay\n// simulacro.\nlet simular = false;\ntry {\n  const m = $('Modo: simulacro').first();\n  if (m && m.json) simular = Boolean(m.json.simular);\n} catch (e) {\n  simular = false;\n}\n\n// ── Topes de Meta (doc de Content Publishing, 6 nov 2026) ────────────────────\nconst LIMITE_HIJOS = 20;\nconst LIMITE_PIE = 2200;\nconst LIMITE_ETIQUETAS = 30;\nconst LIMITE_MENCIONES = 20;\n\nconst p = $input.first().json;\nif (!p || typeof p !== 'object') {\n  throw new Error('La respuesta de /api/promo no es un objeto JSON.');\n}\nfor (const k of ['portada', 'imagenes', 'titulos', 'texto', 'enlace']) {\n  if (!p[k]) throw new Error('Paquete incompleto: falta ' + k + '.');\n}\nif (!Array.isArray(p.imagenes) || !Array.isArray(p.titulos)) {\n  throw new Error('El paquete trae imagenes o titulos con forma invalida.');\n}\nif (p.titulos.length !== p.imagenes.length) {\n  throw new Error('El paquete no cuadra: ' + p.titulos.length + ' titulos para ' + p.imagenes.length + ' eventos.');\n}\n\n// Un dia con menos de 3 planes no merece un carrusel: sale pobre y gasta cupo.\nif (p.imagenes.length < 3) {\n  throw new Error('Pocos planes para publicar: el paquete trae ' + p.imagenes.length + ' y el minimo es 3. No se publica.');\n}\n\n// ── Pie ──────────────────────────────────────────────────────────────────────\nconst pie = String(p.texto);\nif (pie.length > LIMITE_PIE) {\n  throw new Error('El pie tiene ' + pie.length + ' caracteres y Meta admite ' + LIMITE_PIE + '.');\n}\nconst etiquetas = (pie.match(/#[^\\s#]+/g) || []).length;\nif (etiquetas > LIMITE_ETIQUETAS) {\n  throw new Error('El pie lleva ' + etiquetas + ' etiquetas y Meta admite ' + LIMITE_ETIQUETAS + '.');\n}\nconst menciones = (pie.match(/@[A-Za-z0-9._]+/g) || []).length;\nif (menciones > LIMITE_MENCIONES) {\n  throw new Error('El pie lleva ' + menciones + ' menciones y Meta admite ' + LIMITE_MENCIONES + '.');\n}\n\n// El pie promete un número de planes y las diapositivas enseñan otro. Se comparan\n// aquí, que es el único sitio del flujo donde están las dos cosas a la vez: el\n// 3 de noviembre de 2026 el post decía \"hay 10 planes\" y llevaba 9.\nconst prometidos = pie.match(/\\b(\\d+)\\s+planes?\\b/);\nif (prometidos && Number(prometidos[1]) !== p.imagenes.length) {\n  throw new Error('El pie promete ' + prometidos[1] + ' planes y el paquete trae ' + p.imagenes.length + '.');\n}\n\n// ── Hijos ────────────────────────────────────────────────────────────────────\n// La portada NO viene dentro de imagenes: son dos listas y el carrusel es la\n// unión. Sin esto el post sale sin cara y nada lo avisa.\nconst todas = [p.portada, ...p.imagenes];\nconst urls = todas.slice(0, LIMITE_HIJOS);\nconst descartadas = todas.length - urls.length;\n\nif (urls.length < 2) {\n  throw new Error('Un carrusel necesita 2 imagenes como minimo y llegaron ' + urls.length + '.');\n}\n\nconst vistos = new Set();\nurls.forEach((url, i) => {\n  if (typeof url !== 'string' || !url.startsWith('https://')) {\n    throw new Error('La imagen ' + i + ' no es una URL https: ' + String(url));\n  }\n  if (vistos.has(url)) throw new Error('URL repetida en el carrusel: ' + url);\n  vistos.add(url);\n});\n\n// ── Cupo ─────────────────────────────────────────────────────────────────────\n// Si la lectura del cupo falló, se avisa y se sigue: un chequeo roto no puede\n// impedir publicar. Si respondió y no queda cupo, sí se para.\nlet cupo = 'desconocido';\ntry {\n  const bruto = $('Leer el cupo').first().json || {};\n  if (bruto.error) {\n    cupo = 'no se pudo leer (' + (bruto.error.message || 'sin detalle') + ')';\n  } else {\n    const fila = Array.isArray(bruto.data) ? (bruto.data[0] || {}) : bruto;\n    const usado = Number(fila.quota_usage != null ? fila.quota_usage : bruto.quota_usage);\n    const total = Number(\n      (fila.config && fila.config.quota_total != null) ? fila.config.quota_total\n        : (fila.quota_total != null ? fila.quota_total : bruto.quota_total)\n    );\n    if (Number.isFinite(total) && total > 0 && Number.isFinite(usado)) {\n      cupo = usado + '/' + total;\n      if (usado >= total) {\n        throw new Error('Cupo de publicación agotado: ' + usado + ' de ' + total + ' en las últimas 24 h.');\n      }\n    }\n  }\n} catch (e) {\n  // El throw del cupo agotado no se puede tragar con el catch de la lectura.\n  if (String(e.message || '').startsWith('Cupo de publicación agotado')) throw e;\n  cupo = 'no se pudo leer (' + (e.message || 'error') + ')';\n}\n\nreturn [{\n  json: {\n    simular,\n    cupo,\n    urls,\n    total: urls.length,\n    descartadas,\n    titulos: p.titulos.slice(0, urls.length - 1),\n    caption: pie,\n    enlace: p.enlace,\n    pieCaracteres: pie.length,\n    etiquetas,\n    menciones,\n  },\n}];"
+      },
+      "id": "c29f8355-7bab-48eb-92fb-e5e019e0fc1d",
+      "name": "Validar el paquete",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        192
+      ],
+      "notes": "Valida forma, topes del pie y cupo antes de gastar una sola llamada de escritura."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media?fields=id,caption,timestamp,permalink&limit=25",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "e7dbc02c-7a67-43f6-9eb5-79c6b67e6b8d",
+      "name": "Medios recientes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        192
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "Los 25 últimos posts. El pie lleva el día escrito, así que sirve de clave de idempotencia."
+    },
+    {
+      "parameters": {
+        "jsCode": "// La clave de idempotencia es el DÍA del pie, no el pie entero: el pie lleva\n// dentro el número de planes (\"hay 10 planes\") y ese número cambia si la agenda\n// cambia entre dos pasadas del mismo día. Comparando el pie completo, un plan\n// nuevo a media mañana republicaba el carrusel. El día no cambia.\n//\n// Sale UN ITEM POR IMAGEN porque el nodo siguiente es el que crea los\n// contenedores, y así se ahorra un nodo que sólo repartía la lista.\nconst paquete = $('Validar el paquete').first().json;\n\nconst norm = (t) => String(t || '').replace(/\\s+/g, ' ').trim().toLowerCase();\n\n// \"Este martes 3 de noviembre hay 10 planes en Huesca.\" -> \"este martes 3 de noviembre hay N planes en vitoria-huesca.\"\nconst claveDia = (t) => norm(String(t || '').split('\\n')[0]).replace(/\\b\\d+\\s+planes?\\b/, 'N planes');\n\nconst nuevo = norm(paquete.caption);\nconst nuevaClave = claveDia(paquete.caption);\n\n// Graph devuelve {data:[...], paging:{...}}: los medios están en data.\nconst bruto = $input.first().json || {};\nconst medios = Array.isArray(bruto.data) ? bruto.data : Array.isArray(bruto) ? bruto : [];\n\nconst repetido = medios.find((m) => {\n  if (!m || !m.caption) return false;\n  return norm(m.caption) === nuevo || (nuevaClave && claveDia(m.caption) === nuevaClave);\n});\n\nreturn paquete.urls.map((url, i) => ({\n  json: {\n    url,\n    orden: i + 1,\n    total: paquete.total,\n    simular: paquete.simular,\n    yaPublicado: Boolean(repetido),\n    motivo: repetido\n      ? 'Ese día ya está publicado (' + repetido.id + ', ' + (repetido.timestamp || 'sin fecha') + '). No se publica otra vez.'\n      : 'Ninguno de los ' + medios.length + ' posts recientes es de hoy.',\n    postExistente: repetido\n      ? { id: repetido.id, permalink: repetido.permalink || null, timestamp: repetido.timestamp || null }\n      : null,\n    mediosRevisados: medios.length,\n  },\n}));"
+      },
+      "id": "a87f7e18-e88a-4e8d-8455-cc2ff2c61ac6",
+      "name": "¿Ya publicado?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        192
+      ],
+      "notes": "El cron puede repetirse (reintento, redeploy): esto lo hace inocuo."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c-9",
+              "leftValue": "={{ $json.yaPublicado }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b595b7f4-5ec7-4859-8d19-4890afbf63e9",
+      "name": "IF ¿Publicado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.first().json;\nreturn [{\n  json: {\n    publicado: false,\n    motivo: d.motivo,\n    postExistente: d.postExistente,\n    mediosRevisados: d.mediosRevisados,\n  },\n}];"
+      },
+      "id": "1c8581df-5c2c-416c-83db-00afb7fa17cb",
+      "name": "Fin · ya estaba",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        0
+      ],
+      "notes": "Salida limpia: dice qué post ya estaba y no hace nada más."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c-11",
+              "leftValue": "={{ $json.simular }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "44be9228-7a37-404e-89b1-46df0294c7aa",
+      "name": "IF ¿Simulación?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lo que se lee aquí es exactamente lo que se habría publicado. Sirve para\n// revisar un día sin tocar la cuenta.\nconst p = $('Validar el paquete').first().json;\nreturn [{\n  json: {\n    publicado: false,\n    simulacro: true,\n    diapositivas: p.total,\n    descartadasPorLimite: p.descartadas,\n    cupo: p.cupo,\n    pieCaracteres: p.pieCaracteres,\n    etiquetas: p.etiquetas,\n    menciones: p.menciones,\n    portada: p.urls[0],\n    titulos: p.titulos,\n    enlaceBio: p.enlace,\n  },\n}];"
+      },
+      "id": "ff6df597-be75-49fc-abd8-71f287e691b7",
+      "name": "Fin · simulacro",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        208
+      ],
+      "notes": "No publica nada: enseña el paquete ya validado para revisarlo."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image_url",
+              "value": "={{ $json.url }}"
+            },
+            {
+              "name": "is_carousel_item",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 2,
+              "batchInterval": 1500
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "e78d452a-8552-4830-9224-43244c713e7c",
+      "name": "Crear hijos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        432
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 8000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "Un contenedor por imagen. Nada se publica todavía: los contenedores caducan solos en 24 h."
+    },
+    {
+      "parameters": {
+        "jsCode": "// El estado se pide de uno en uno, así que el bucle tiene que volver a entrar\n// con un item por hijo y no con el item único de '¿Listos?'. Se reconstruyen\n// desde 'Crear hijos', que es la lista de contenedores de verdad.\nconst hijos = $('Crear hijos').all().map((i) => i.json.id).filter(Boolean);\nif (!hijos.length) throw new Error('No hay contenedores de imagen que comprobar.');\nreturn hijos.map((id) => ({ json: { id } }));"
+      },
+      "id": "dbd96fe4-9338-4fba-9cbe-69c3116117f4",
+      "name": "Repartir hijos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        432
+      ],
+      "notes": "Sin esto el bucle volvería con un solo item y 'Estado hijos' no sabría qué contenedor mirar."
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "id": "8a1c5510-e99f-428c-9918-fa5fc9b59727",
+      "name": "Esperar hijos",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2880,
+        432
+      ],
+      "webhookId": "a1c4f0d2-7b83-4e16-9d55-000000000015",
+      "notes": "Meta recomienda consultar el estado una vez por minuto, no más de cinco minutos."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/{{ $json.id }}?fields=status_code",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "7fdeae53-6cd6-416f-8a86-d6211313d61e",
+      "name": "Estado hijos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3120,
+        432
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "Una consulta por hijo, no una con todos los ids: `?ids=` está deprecado y Meta contesta 500 con code 100."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Un item de entrada por hijo, en el mismo orden en que se crearon: el nodo\n// HTTP ejecuta los items de uno en uno y conserva el orden. Se empareja por\n// índice y se contrasta el id cuando Meta lo devuelve, para que un desorden no\n// haga leer el estado de un hijo como si fuera el de otro.\nconst ids = $('Crear hijos').all().map((i) => i.json.id).filter(Boolean);\nconst filas = $input.all().map((i) => i.json || {});\n\nif (filas.length !== ids.length) {\n  throw new Error('Se crearon ' + ids.length + ' hijos pero llegaron ' + filas.length + ' estados.');\n}\n\nconst estados = ids.map((id, i) => {\n  const fila = filas[i] || {};\n  if (fila.id && String(fila.id) !== String(id)) {\n    throw new Error('El estado ' + i + ' es del contenedor ' + fila.id + ' y se esperaba ' + id + '.');\n  }\n  return String(fila.status_code || 'DESCONOCIDO').toUpperCase();\n});\n\nconst intentos = typeof $runIndex === 'number' ? $runIndex : 0;\nconst todosListos = estados.length > 0 && estados.every((e) => e === 'FINISHED');\n\nif (!todosListos && estados.some((e) => e === 'ERROR' || e === 'EXPIRED')) {\n  throw new Error('Meta rechazó contenedores de imagen: ' + estados.join(', ') + '.');\n}\nif (!todosListos && intentos >= 4) {\n  throw new Error('Los hijos siguen sin estar listos tras ' + (intentos + 1) + ' comprobaciones: ' + estados.join(', ') + '.');\n}\nif (todosListos && ids.length !== estados.length) {\n  throw new Error('Se crearon ' + ids.length + ' hijos pero se comprobaron ' + estados.length + '.');\n}\n\nreturn [{ json: { ids, todosListos, intentos: intentos + 1, estados } }];"
+      },
+      "id": "251a9621-9e08-4c74-b8c8-b878b65fe2c2",
+      "name": "¿Listos?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c-18",
+              "leftValue": "={{ $json.todosListos }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "54a4e51d-655e-4aa6-ada4-eb3d0db4e08e",
+      "name": "IF todos listos",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3600,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "media_type",
+              "value": "CAROUSEL"
+            },
+            {
+              "name": "children",
+              "value": "={{ $('Crear hijos').all().map(i => i.json.id).join(',') }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $('Validar el paquete').first().json.caption }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "96063dcf-984b-4695-86a9-3064e80d3ba2",
+      "name": "Crear carrusel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3840,
+        304
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "El pie sale del paquete ya validado: es el mismo texto que se lee en el correo."
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "id": "a90c8974-3b50-440b-b2b7-33fce7532674",
+      "name": "Esperar carrusel",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4080,
+        304
+      ],
+      "webhookId": "a1c4f0d2-7b83-4e16-9d55-000000000020",
+      "notes": "Mismo criterio que con los hijos: una consulta por minuto."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/{{ $('Crear carrusel').first().json.id }}?fields=status_code",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "860266bb-5810-4a6c-8474-13f6fe1aab66",
+      "name": "Estado carrusel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4320,
+        304
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "El contenedor del carrusel también tarda: se publica cuando está FINISHED."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Publicar antes de FINISHED devuelve un error de Meta que no dice la causa\n// real: el contenedor todavía se está montando.\nconst container = $('Crear carrusel').first().json.id;\nconst estado = String((($input.first() || {}).json || {}).status_code || 'DESCONOCIDO').toUpperCase();\nconst intentos = typeof $runIndex === 'number' ? $runIndex : 0;\n\nif (estado === 'ERROR' || estado === 'EXPIRED') {\n  throw new Error('Meta rechazó el carrusel ' + container + ': estado ' + estado + '.');\n}\n\nconst listo = estado === 'FINISHED';\nif (!listo && intentos >= 4) {\n  throw new Error('El carrusel ' + container + ' sigue en ' + estado + ' tras ' + (intentos + 1) + ' comprobaciones.');\n}\n\nreturn [{ json: { id: container, estado, listo, intentos: intentos + 1 } }];"
+      },
+      "id": "633b2452-e205-493f-b40b-248218b5b619",
+      "name": "¿Carrusel listo?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4560,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c-23",
+              "leftValue": "={{ $json.listo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5ecaf1ee-4aaa-4aef-883e-6ccd981d9df0",
+      "name": "IF carrusel listo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4800,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media_publish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $('Crear carrusel').first().json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "13c7404f-f80f-43b5-8015-feceb05d8d37",
+      "name": "Publicar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5040,
+        304
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "El único nodo que hace visible el post. Todo lo anterior es preparación. Sin reintento: repetir media_publish sobre el mismo contenedor devuelve error, no un segundo post."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/{{ $json.id }}?fields=permalink,timestamp",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "01815ffc-6bef-4881-aa28-5f2ea48b08be",
+      "name": "Enlace del post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5280,
+        304
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "El permalink no lo devuelve media_publish: hay que pedirlo aparte."
+    },
+    {
+      "parameters": {
+        "jsCode": "const post = $input.first().json || {};\nconst paquete = $('Validar el paquete').first().json;\nconst dia = String(paquete.urls[0] || '').match(/\\/(\\d{4}-\\d{2}-\\d{2})\\//);\n\nif (!post.id) {\n  throw new Error('Se publicó pero Meta no devolvió el id del post: no se puede dar la URL.');\n}\n\nreturn [{\n  json: {\n    publicado: true,\n    postId: post.id,\n    permalink: post.permalink || null,\n    publicadoEl: post.timestamp || null,\n    dia: dia ? dia[1] : null,\n    diapositivas: paquete.total,\n    descartadasPorLimite: paquete.descartadas,\n    cupo: paquete.cupo,\n    enlaceBio: paquete.enlace,\n    pie: paquete.caption,\n  },\n}];"
+      },
+      "id": "8d60f2ce-29b4-42e0-bda5-3f5ef3e8b4db",
+      "name": "Resumen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5520,
+        304
+      ],
+      "notes": "Lo que se lee en la ejecución: el post, su URL, el cupo gastado y cuántas diapositivas lleva."
+    }
+  ],
+  "connections": {
+    "Cron 08:45 Madrid": {
+      "main": [
+        [
+          {
+            "node": "Leer el cupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar a mano": {
+      "main": [
+        [
+          {
+            "node": "Modo: simulacro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modo: simulacro": {
+      "main": [
+        [
+          {
+            "node": "Leer el cupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer el cupo": {
+      "main": [
+        [
+          {
+            "node": "Paquete de promo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Paquete de promo": {
+      "main": [
+        [
+          {
+            "node": "Validar el paquete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar el paquete": {
+      "main": [
+        [
+          {
+            "node": "Medios recientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Medios recientes": {
+      "main": [
+        [
+          {
+            "node": "¿Ya publicado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Ya publicado?": {
+      "main": [
+        [
+          {
+            "node": "IF ¿Publicado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Publicado?": {
+      "main": [
+        [
+          {
+            "node": "Fin · ya estaba",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF ¿Simulación?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Simulación?": {
+      "main": [
+        [
+          {
+            "node": "Fin · simulacro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crear hijos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear hijos": {
+      "main": [
+        [
+          {
+            "node": "Esperar hijos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar hijos": {
+      "main": [
+        [
+          {
+            "node": "Estado hijos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estado hijos": {
+      "main": [
+        [
+          {
+            "node": "¿Listos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Listos?": {
+      "main": [
+        [
+          {
+            "node": "IF todos listos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF todos listos": {
+      "main": [
+        [
+          {
+            "node": "Crear carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Repartir hijos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repartir hijos": {
+      "main": [
+        [
+          {
+            "node": "Esperar hijos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear carrusel": {
+      "main": [
+        [
+          {
+            "node": "Esperar carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar carrusel": {
+      "main": [
+        [
+          {
+            "node": "Estado carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estado carrusel": {
+      "main": [
+        [
+          {
+            "node": "¿Carrusel listo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Carrusel listo?": {
+      "main": [
+        [
+          {
+            "node": "IF carrusel listo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF carrusel listo": {
+      "main": [
+        [
+          {
+            "node": "Publicar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar carrusel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicar": {
+      "main": [
+        [
+          {
+            "node": "Enlace del post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enlace del post": {
+      "main": [
+        [
+          {
+            "node": "Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Madrid",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}
