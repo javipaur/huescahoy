@@ -50,7 +50,7 @@
     },
     {
       "parameters": {
-        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/content_publishing_limit?fields=quota_usage,config",
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/content_publishing_limit?fields=quota_usage,config",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "options": {
@@ -113,7 +113,7 @@
     },
     {
       "parameters": {
-        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media?fields=id,caption,timestamp,permalink&limit=25",
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/media?fields=id,caption,timestamp,permalink&limit=25",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "options": {
@@ -252,7 +252,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media",
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/media",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
@@ -405,7 +405,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media",
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/media",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
@@ -539,7 +539,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/v23.0/__IG_USER_ID_HUESCA_HOY__/media_publish",
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/media_publish",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,

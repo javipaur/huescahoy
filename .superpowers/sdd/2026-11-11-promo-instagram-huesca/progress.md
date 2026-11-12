@@ -26,7 +26,7 @@ Rama: `feat/promo-instagram`
 
 Qué se sustituyó en el JSON de referencia:
 
-- IG user id `17841425701858278` → marcador `__IG_USER_ID_HUESCA_HOY__` (5 nodos: `Leer el cupo`, `Medios recientes`, `Crear hijos`, `Crear carrusel`, `Publicar`).
+- IG user id: el de referencia (`17841425701858278`) se sustituyó por el marcador `__IG_USER_ID_HUESCA_HOY__` y, una vez enlazada la cuenta a la Página, por el id real **`17841435800805548`** (5 nodos: `Leer el cupo`, `Medios recientes`, `Crear hijos`, `Crear carrusel`, `Publicar`). Ya no queda ningún marcador en el JSON.
 - Credencial: id `ZgkkVSwAqZxK9KuO` → `HUESCA_HOY_BEARER`; nombre → `Instagram · Huesca Hoy (Bearer)`. **El id se cambia a propósito**: si se dejara el de Gasteiz, el flujo importado publicaría en `@gasteizclick` sin avisar.
 - Origen: `https://gasteizclick.javierpalacio.es/api/promo` → `https://huescahoy.javierpalacio.es/api/promo`.
 - Textos `gasteiz`/`Gasteiz`/`Vitoria-Gasteiz` → `huesca`/`Huesca`.
@@ -34,9 +34,29 @@ Qué se sustituyó en el JSON de referencia:
 - Fuera `id`, `versionId`, `meta`, `pinData`, `nodeGroups` y `tags` de la instancia de origen; `active: false`.
 - Sin cambios: cron `45 8 * * *`, `timezone: Europe/Madrid`, Graph API v23.0, batching 2/1500 ms, esperas de 60 s, idempotencia por día, `executionOrder: v1`.
 
+## Hallazgos al verificar contra producción (12 nov 2026)
+
+- **El despliegue ya está hecho**: `/api/promo` pasó de 404 a 200 tras el push a `main` (`bbed07f`).
+- **El gate de 3 planes bloquea el 100 % de los días.** Medidos 12 días seguidos con la API real: 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 planes. Ninguno llega a 3. El flujo tal cual está **no publicaría nunca**.
+- **Gasteiz, en cambio, trae 10 planes hoy** (tope de `MAX_DIAPOSITIVAS`). De ahí que su gate (`urls.length >= 2`, o sea ≥1 evento) nunca se note.
+- **Por qué la agenda de Huesca sale vacía**: las exposiciones de larga duración (`Exposición Goya…`, `Rutas Territorio Mudéjar`, `Bus del Vino…`) **sí tienen imagen** —aparecen al pedir `?fecha=2026-08-15`, su `startDate`— pero **no tienen `endDate`**, así que `getEvents` las excluye en cuanto pasa su día de inicio (`end_date IS NULL AND start_date >= from`). Es un problema de **datos de origen** (los scrapers no rellenan `endDate`), no del código de promo.
+
+## Pieza C — la app de Meta (hecha)
+
+| Elemento | Valor |
+|---|---|
+| App | `Huesca Hoy n8n` — id `1624221448687305` (caso de uso `INSTAGRAM_BUSINESS`, sin porfolio) |
+| Permisos concedidos | `instagram_content_publish`, `instagram_basic`, `pages_show_list`, `pages_read_engagement`, `business_management` |
+| Página de Facebook | `Huesca Hoy` — id `1508926342294117` |
+| Cuenta de Instagram | `@huesca.hoy` — IG user id **`17841435800805548`** (enlazada a la Página) |
+| Token de Página | de **larga duración** (`expires_at: 0`, tipo `PAGE`), obtenido por `fb_exchange_token` + `me/accounts` |
+| Cupo verificado | `content_publishing_limit` → **0 / 100 en 24 h** (HTTP 200) |
+
+**Cómo se obtuvo el token permanente** (repetible): token corto del Graph API Explorer → `GET /oauth/access_token?grant_type=fb_exchange_token&client_id=<APP_ID>&client_secret=<APP_SECRET>&fb_exchange_token=<corto>` (60 días) → `GET /<PAGE_ID>?fields=access_token` con ese token largo → token de Página que **no caduca**.
+
 ## Bloqueantes de las piezas B y C
 
-- [ ] Login de n8n (usuario y contraseña).
-- [ ] IG user id de `@huesca.hoy` + token con `instagram_content_publish`.
-- [ ] **Desplegar la pieza A**: `https://huescahoy.javierpalacio.es/api/promo` responde **404** hoy (verificado). Sin eso, el flujo no tiene paquete que leer.
-- [ ] El servidor MCP de Instagram está configurado pero **sin credenciales** (`INSTAGRAM_ACCESS_TOKEN` / `INSTAGRAM_ACCOUNT_ID`), así que no puedo verificar el enlace IG↔Página yo solo.
+- [ ] Login de n8n (usuario y contraseña) — único bloqueante para importar y probar el flujo.
+- [x] IG user id de `@huesca.hoy` + token con `instagram_content_publish` (id `17841435800805548`; token de Página permanente).
+- [x] **Desplegar la pieza A**: `https://huescahoy.javierpalacio.es/api/promo` responde **200** (verificado tras el push `bbed07f`).
+- [ ] (Opcional) Servidor MCP de Instagram: configurar `INSTAGRAM_ACCESS_TOKEN` / `INSTAGRAM_ACCOUNT_ID=17841435800805548`.
