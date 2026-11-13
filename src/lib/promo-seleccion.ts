@@ -7,7 +7,7 @@ import type { EventItem } from "./types";
  * destacados, cercanía— y aquí no hay esa señal: Huesca Hoy no guarda número de fuentes
  * ni un peso por categoría. Inventar una puntuación con lo que hay sería un orden que
  * nadie puede explicar. Así que el orden es el que cualquiera puede comprobar mirando la
- * agenda: **primero lo que empieza antes.**
+ * agenda: **primero lo que empieza en la ventana, y después lo que sigue en cartel.**
  *
  * **Lo que sí se copia de gasteiz es el colapso.** Un festival que dura el sábado y el
  * domingo ocupaba dos diapositivas con la misma foto y casi el mismo título, y en un
@@ -89,13 +89,17 @@ export function colapsarDiasConsecutivos(eventos: EventItem[]): EventItem[] {
  *
  * El orden de los pasos importa y no es casual:
  *
- * 1. **Filtra por ventana, inclusive por los dos extremos.** Un evento que empieza el
- *    domingo y acaba el lunes sale el domingo, que es lo que promete el pie («el sábado y
- *    el domingo hay N planes»).
+ * 1. **Filtra por solape de fechas, no por fecha de inicio.** Entra lo que **toca** la
+ *    ventana: lo que empieza dentro (inclusive los dos extremos) y lo que empezó antes y
+ *    sigue en cartel —una exposición que abrió en agosto es un plan de hoy—. Un evento de
+ *    un solo día sin `endDate` que ya pasó no entra.
  * 2. **Quita lo que no tiene foto.** Sin imagen no hay diapositiva que mirar.
- * 3. **Ordena por fecha, luego hora, luego título.** El desempate por título no es
- *    decorativo: sin él, dos eventos a la misma hora saldrían en el orden en que los
- *    devolviera la base de datos, que no está prometido en ninguna parte.
+ * 3. **Ordena en dos grupos: primero lo que empieza en la ventana, después lo que sigue en
+ *    cartel.** Dentro del primero, por fecha, hora y título; dentro del segundo, por lo que
+ *    acaba antes. Así una exposición de tres meses no empuja fuera del carrusel a los
+ *    planes que justo salen hoy. El desempate por título no es decorativo: sin él, dos
+ *    eventos a la misma hora saldrían en el orden en que los devolviera la base de datos,
+ *    que no está prometido en ninguna parte.
  * 4. **Colapsa.** Se hace después de ordenar para que «el de fecha más temprana» sea
  *    también el que va antes en la lista.
  * 5. **Corta al tope al final.** Cortar antes del colapso dejaría fuera un plan que, tras
@@ -111,19 +115,44 @@ export function seleccionarParaPromo(
 ): EventItem[] {
   if (!esFecha(desde) || !esFecha(hasta)) return [];
 
+  /** Empieza dentro de la ventana: es un plan con fecha propia en estos días. */
+  const empiezaEnLaVentana = (evento: EventItem): boolean =>
+    evento.startDate >= desde && evento.startDate <= hasta;
+
+  /** Empezó antes y sigue en cartel: una exposición abierta es un plan de hoy. */
+  const sigueEnCartel = (evento: EventItem): boolean =>
+    evento.startDate < desde && evento.endDate !== null && evento.endDate >= desde;
+
   const enVentana = eventos
     .filter((evento) => {
       if (!evento.image) return false;
-      return evento.startDate >= desde && evento.startDate <= hasta;
+      return empiezaEnLaVentana(evento) || sigueEnCartel(evento);
     })
     .sort((a, b) => {
-      if (a.startDate !== b.startDate) return a.startDate < b.startDate ? -1 : 1;
+      const aEmpieza = empiezaEnLaVentana(a);
+      const bEmpieza = empiezaEnLaVentana(b);
 
-      // Sin hora va al final del día: `99:99` es más tarde que cualquier hora real y evita
-      // un `null` que compare distinto consigo mismo.
-      const ta = a.startTime ?? "99:99";
-      const tb = b.startTime ?? "99:99";
-      if (ta !== tb) return ta < tb ? -1 : 1;
+      // Primero lo que empieza en la ventana; después lo que sigue en cartel. Sin este
+      // corte, una exposición de tres meses se colaría por delante de los planes de hoy.
+      if (aEmpieza !== bEmpieza) return aEmpieza ? -1 : 1;
+
+      if (aEmpieza) {
+        if (a.startDate !== b.startDate) return a.startDate < b.startDate ? -1 : 1;
+
+        // Sin hora va al final del día: `99:99` es más tarde que cualquier hora real y evita
+        // un `null` que compare distinto consigo mismo.
+        const ta = a.startTime ?? "99:99";
+        const tb = b.startTime ?? "99:99";
+        if (ta !== tb) return ta < tb ? -1 : 1;
+
+        return a.title.localeCompare(b.title, "es");
+      }
+
+      // Los que siguen en cartel: primero el que acaba antes, para que lo que está a punto
+      // de terminar no se quede fuera del carrusel detrás de una muestra de tres meses.
+      const ea = a.endDate ?? "";
+      const eb = b.endDate ?? "";
+      if (ea !== eb) return ea < eb ? -1 : 1;
 
       return a.title.localeCompare(b.title, "es");
     });
