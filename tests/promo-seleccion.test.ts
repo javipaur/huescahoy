@@ -134,6 +134,71 @@ describe("seleccionarParaPromo", () => {
     expect(seleccionarParaPromo(lista, { desde: "x", hasta: "2026-11-11", limite: 10 })).toEqual([]);
     expect(seleccionarParaPromo(lista, { desde: "2026-11-11", hasta: "y", limite: 10 })).toEqual([]);
   });
+
+  it("incluye un plan en curso y lo pone después de los que empiezan ese día", () => {
+    const lista = [
+      evento({
+        slug: "expo",
+        title: "Exposición de otoño",
+        startDate: "2026-08-15",
+        endDate: "2026-12-31",
+      }),
+      evento({ slug: "hoy", title: "Concierto de hoy", startDate: "2026-11-13", startTime: "20:00" }),
+    ];
+    const fuera = seleccionarParaPromo(lista, {
+      desde: "2026-11-13",
+      hasta: "2026-11-13",
+      limite: 10,
+    });
+    expect(fuera.map((e) => e.slug)).toEqual(["hoy", "expo"]);
+  });
+
+  it("deja fuera lo que ya terminó y lo que empezó antes sin fecha de fin", () => {
+    const lista = [
+      evento({
+        slug: "terminada",
+        title: "Exposición ya terminada",
+        startDate: "2026-08-15",
+        endDate: "2026-11-01",
+      }),
+      evento({
+        slug: "sin-fin",
+        title: "Evento sin fecha de fin",
+        startDate: "2026-08-15",
+        endDate: null,
+      }),
+      evento({ slug: "hoy", title: "Plan de hoy", startDate: "2026-11-13" }),
+    ];
+    const fuera = seleccionarParaPromo(lista, {
+      desde: "2026-11-13",
+      hasta: "2026-11-13",
+      limite: 10,
+    });
+    expect(fuera.map((e) => e.slug)).toEqual(["hoy"]);
+  });
+
+  it("entre los que siguen en cartel, primero el que acaba antes", () => {
+    const lista = [
+      evento({
+        slug: "larga",
+        title: "Exposición larga",
+        startDate: "2026-08-15",
+        endDate: "2026-12-31",
+      }),
+      evento({
+        slug: "corta",
+        title: "Exposición corta",
+        startDate: "2026-08-15",
+        endDate: "2026-11-21",
+      }),
+    ];
+    const fuera = seleccionarParaPromo(lista, {
+      desde: "2026-11-13",
+      hasta: "2026-11-13",
+      limite: 10,
+    });
+    expect(fuera.map((e) => e.slug)).toEqual(["corta", "larga"]);
+  });
 });
 
 describe("colapsarDiasConsecutivos", () => {
