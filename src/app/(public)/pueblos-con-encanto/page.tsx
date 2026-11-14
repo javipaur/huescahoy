@@ -21,14 +21,14 @@ const DESTACADOS = [
 ];
 
 const MAS_PUEBLOS = [
-  { name: "Alquézar", query: "Alquézar", desc: "Conjunto medieval sobre el río Vero, famoso por sus pasadizos y la colegiata, junto al Parque Cultural del río Vero." },
-  { name: "Loarre", query: "Loarre", desc: "Conocido por su castillo románico, una de las fortalezas mejor conservadas de Europa, con vistas a la Hoya." },
-  { name: "Benasque", query: "Benasque", desc: "Villa pirenaica del valle de Benasque, rodeada de cumbres y base para rutas hacia el Posets-Maladeta y el Aneto." },
-  { name: "Torla-Ordesa", query: "Torla", desc: "Puerta de acceso al Parque Nacional de Ordesa y Monte Perdido, con casco de piedra y ambiente de montaña." },
-  { name: "Ansó", query: "Ansó", desc: "Pueblo del valle de Ansó con arquitectura tradicional, traje típico y un entorno pirenaico de gran valor cultural." },
-  { name: "Graus", query: "Graus", desc: "Villa de la Ribagorza con plaza porticada, gastronomía (longaniza) y patrimonio junto al río Ésera." },
-  { name: "Boltaña", query: "Boltaña", desc: "En el Sobrarbe, con casco histórico, castillo y vistas al valle del Ara, cerca de Aínsa y Ordesa." },
-  { name: "Roda de Isábena", query: "Roda de Isábena", desc: "Uno de los pueblos más pequeños con catedral de España, conjunto románico de gran valor en la Ribagorza." },
+  { name: "Alquézar", slug: "alquezar", query: "Alquézar", desc: "Conjunto medieval sobre el río Vero, famoso por sus pasadizos, la colegiata y las pasarelas del cañón." },
+  { name: "Loarre", slug: "loarre", query: "Loarre", desc: "Conocido por su castillo románico, una de las fortalezas mejor conservadas de Europa, con vistas a la Hoya." },
+  { name: "Benasque", slug: "benasque", query: "Benasque", desc: "Villa pirenaica del valle de Benasque, rodeada de cumbres y base para rutas hacia Posets-Maladeta y el Aneto." },
+  { name: "Torla-Ordesa", slug: "", query: "Torla", desc: "Puerta de acceso al Parque Nacional de Ordesa y Monte Perdido, con casco de piedra y ambiente de montaña." },
+  { name: "Ansó", slug: "", query: "Ansó", desc: "Pueblo del valle de Ansó con arquitectura tradicional, traje típico y un entorno pirenaico de gran valor cultural." },
+  { name: "Graus", slug: "", query: "Graus", desc: "Villa de la Ribagorza con plaza porticada, gastronomía (longaniza) y patrimonio junto al río Ésera." },
+  { name: "Boltaña", slug: "", query: "Boltaña", desc: "En el Sobrarbe, con casco histórico, castillo y vistas al valle del Ara, cerca de Aínsa y Ordesa." },
+  { name: "Roda de Isábena", slug: "", query: "Roda de Isábena", desc: "Uno de los pueblos más pequeños con catedral de España, conjunto románico de gran valor en la Ribagorza." },
 ];
 
 export default async function PueblosConEncantoPage() {
@@ -109,9 +109,16 @@ export default async function PueblosConEncantoPage() {
             <div key={p.name} className="rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-5 shadow-sm">
               <h3 className="font-display text-base font-bold text-choco dark:text-ink">{p.name}</h3>
               <p className="mt-2 text-sm leading-relaxed text-choco-muted">{p.desc}</p>
-              <Link href={`/buscar?q=${encodeURIComponent(p.query)}`} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline">
-                Buscar en Huesca Hoy <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                {p.slug ? (
+                  <Link href={`/donde/${p.slug}`} className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline">
+                    Ver información <ArrowRight className="h-4 w-4" />
+                  </Link>
+                ) : null}
+                <Link href={`/buscar?q=${encodeURIComponent(p.query)}`} className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline">
+                  Buscar en Huesca Hoy <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>

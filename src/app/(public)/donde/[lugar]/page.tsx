@@ -93,6 +93,63 @@ const PLACES: Record<string, PlaceInfo> = {
       "Combina la visita cultural con rutas y actividades de naturaleza en la comarca del Sobrarbe.",
     ],
   },
+  alquezar: {
+    name: "Alquézar",
+    intro:
+      "Villa medieval del Somontano asomada al cañón del río Vero, dentro del Parque Cultural del río Vero. Un conjunto histórico de piedra famoso por sus calles, pasadizos y entorno natural.",
+    query: "Alquézar",
+    highlights: [
+      { title: "Colegiata de Santa María la Mayor", text: "Conjunto monumental que corona la villa, con claustro y elementos históricos que reflejan su pasado defensivo y religioso." },
+      { title: "Casco medieval y pasadizos", text: "Calles empedradas, arcos y callizos entre viviendas de piedra que forman uno de los conjuntos urbanos más pintorescos de Huesca." },
+      { title: "Pasarelas del río Vero", text: "Ruta señalizada con pasarelas y miradores sobre el cañón, una de las excursiones más populares para disfrutar del paisaje." },
+      { title: "Parque Cultural del río Vero", text: "Entorno de gran valor natural y arqueológico, con barrancos, abrigos con arte rupestre y múltiples posibilidades de senderismo." },
+      { title: "Miradores al cañón", text: "Vistas espectaculares desde distintos puntos de la villa hacia las hoces y paredes del río Vero." },
+      { title: "Gastronomía y enoturismo cercano", text: "Buena base para combinar la visita con la oferta del Somontano, bodegas y restaurantes de producto local." },
+    ],
+    tips: [
+      "Lleva calzado cómodo: el casco tiene cuestas y empedrado, y las pasarelas incluyen escaleras y tramos expuestos.",
+      "En fines de semana y puentes puede haber mucha afluencia; conviene llegar con tiempo para aparcar y recorrer con calma.",
+      "Si haces la ruta de las pasarelas, consulta el estado del recorrido y evita las horas de más calor en verano.",
+    ],
+  },
+  loarre: {
+    name: "Loarre",
+    intro:
+      "Municipio de la Hoya de Huesca conocido por su impresionante castillo románico, una de las fortalezas mejor conservadas de Europa y un mirador privilegiado sobre la llanura.",
+    query: "Loarre",
+    highlights: [
+      { title: "Castillo de Loarre", text: "Fortaleza románica del siglo XI situada en la sierra, con murallas, torres, iglesia de San Pedro y estancias visitables." },
+      { title: "Vistas a la Hoya de Huesca", text: "Desde el entorno del castillo se obtienen panorámicas amplias de la Hoya y, en días claros, del Pirineo." },
+      { title: "Arquitectura románica", text: "El conjunto conserva elementos militares y religiosos de gran valor, ejemplo destacado del románico aragonés." },
+      { title: "Entorno de la sierra de Loarre", text: "Paisaje de roquedos y campos que invita a paseos y rutas cortas por los alrededores del conjunto monumental." },
+      { title: "Pueblo de Loarre", text: "Núcleo tranquilo con servicios básicos, buena base para acercarse al castillo y explorar la comarca." },
+      { title: "Escenario cultural", text: "El castillo ha sido escenario de actividades culturales y rodajes, reforzando su interés patrimonial y turístico." },
+    ],
+    tips: [
+      "Comprueba horarios de visita del castillo y reserva si es necesario en temporada alta o festivos.",
+      "El acceso al conjunto implica caminar por zonas en pendiente; lleva calzado adecuado y agua.",
+      "Combina la visita con Huesca capital o con rutas por la Hoya para completar el día.",
+    ],
+  },
+  benasque: {
+    name: "Benasque",
+    intro:
+      "Villa pirenaica del valle de Benasque, rodeada de algunas de las cumbres más altas del Pirineo. Punto de partida para rutas de montaña, naturaleza y turismo activo.",
+    query: "Benasque",
+    highlights: [
+      { title: "Valle de Benasque", text: "Uno de los valles más emblemáticos del Pirineo aragonés, con paisajes de alta montaña, ríos y pueblos con encanto." },
+      { title: "Entorno Posets-Maladeta y Aneto", text: "Cercanía al Parque Natural Posets-Maladeta y al macizo del Aneto, referencia para senderismo y alpinismo." },
+      { title: "Casco urbano de Benasque", text: "Calles con arquitectura tradicional de montaña, palacetes y ambiente animado durante todo el año." },
+      { title: "Rutas y naturaleza", text: "Amplia oferta de excursiones, desde paseos familiares a rutas de alta montaña, según temporada y experiencia." },
+      { title: "Cerler y actividades de temporada", text: "Proximidad a la estación de Cerler y a propuestas de invierno y verano en el valle." },
+      { title: "Patrimonio y cultura local", text: "Tradiciones, gastronomía de montaña y programación cultural y festiva vinculada al valle." },
+    ],
+    tips: [
+      "En invierno y en puentes la zona es muy demandada; planifica alojamiento y desplazamientos con antelación.",
+      "Consulta el estado de rutas y la meteorología antes de salir a montaña, especialmente en alta cota.",
+      "Aprovecha Benasque como base para conocer otros pueblos del valle y los accesos a espacios naturales.",
+    ],
+  },
 };
 
 type Props = { params: Promise<{ lugar: string }> };
