@@ -106,7 +106,8 @@ export type SourceKind =
   | "instagram"
   | "rutadelvino-restaurants"
   | "rutadelvino-rutas"
-  | "rutadelvino-agenda";
+  | "rutadelvino-agenda"
+  | "zaragoza";
 
 export type Source = {
   id: number;

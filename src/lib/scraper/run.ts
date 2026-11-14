@@ -24,6 +24,7 @@ import { fetchHuescaTurismoEvents } from "./huescaturismo-events";
 import { fetchDiputacionEvents } from "./diputacion-events";
 import { fetchDphPlanes } from "./dph-planes";
 import { fetchInstagramHighlightEvents } from "./instagram";
+import { fetchZaragozaEvents } from "./zaragoza";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -243,6 +244,7 @@ const API_EVENT_FETCHERS: Record<string, () => Promise<ScrapeEvent[]>> = {
   huescaturismo: fetchHuescaTurismoEvents,
   diputacion: fetchDiputacionEvents,
   "rutadelvino-agenda": fetchRutaDelVinoAgenda,
+  zaragoza: fetchZaragozaEvents,
 };
 
 const RESTAURANT_FETCHERS: Record<string, () => Promise<import("../types").RestaurantInput[]>> = {

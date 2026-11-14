@@ -466,6 +466,27 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda cultural de Zaragoza (Ayuntamiento)",
+    url: "https://www.zaragoza.es/sede/servicio/cultura/evento.geojson",
+    kind: "zaragoza",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda de eventos de Teruel (Ayuntamiento)",
+    url: "https://www.teruel.es/eventos/feed/",
+    kind: "rss",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda cultural de Aragón (Gobierno de Aragón)",
+    url: "https://culturadearagon.es/category/agenda/feed/",
+    kind: "rss",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
