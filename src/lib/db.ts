@@ -432,8 +432,15 @@ const DEFAULT_SOURCES: SourceInput[] = [
     enabled: 1,
   },
   {
-    name: "Agenda Huesca (Instagram)",
-    url: "https://www.instagram.com/stories/highlights/18353343727241524/?hl=es",
+    name: "Agenda Huesca (Instagram · NOV)",
+    url: "https://www.instagram.com/stories/highlights/18353343727241524/",
+    kind: "instagram",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda Huesca (Instagram · 2026)",
+    url: "https://www.instagram.com/stories/highlights/18174857845408415/",
     kind: "instagram",
     category_id: null,
     enabled: 1,
@@ -461,13 +468,30 @@ const DEFAULT_SOURCES: SourceInput[] = [
   },
 ];
 
+function highlightIdFromSourceUrl(url: string): string | null {
+  const match = url.match(/\/stories\/highlights\/(\d+)/);
+  return match ? match[1] : null;
+}
+
 async function seedDefaultSources(): Promise<void> {
   for (const input of DEFAULT_SOURCES) {
-    const existing = await getPool().query(
-      "SELECT id FROM sources WHERE kind = $1 LIMIT 1",
-      [input.kind]
+    const existingByUrl = await getPool().query(
+      "SELECT id FROM sources WHERE url = $1 LIMIT 1",
+      [input.url]
     );
-    if ((existing.rowCount ?? 0) > 0) continue;
+    if ((existingByUrl.rowCount ?? 0) > 0) continue;
+
+    if (input.kind === "instagram") {
+      const highlightId = highlightIdFromSourceUrl(input.url);
+      if (highlightId) {
+        const existingHighlight = await getPool().query(
+          "SELECT id FROM sources WHERE kind = 'instagram' AND url LIKE $1 LIMIT 1",
+          [`%/stories/highlights/${highlightId}%`]
+        );
+        if ((existingHighlight.rowCount ?? 0) > 0) continue;
+      }
+    }
+
     await getPool().query(
       "INSERT INTO sources (name, url, kind, category_id, enabled) VALUES ($1, $2, $3, $4, $5)",
       [input.name, input.url, input.kind, input.category_id, input.enabled]
