@@ -107,7 +107,8 @@ export type SourceKind =
   | "rutadelvino-restaurants"
   | "rutadelvino-rutas"
   | "rutadelvino-agenda"
-  | "zaragoza";
+  | "zaragoza"
+  | "teruel";
 
 export type Source = {
   id: number;

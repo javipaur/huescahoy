@@ -475,8 +475,8 @@ const DEFAULT_SOURCES: SourceInput[] = [
   },
   {
     name: "Agenda de eventos de Teruel (Ayuntamiento)",
-    url: "https://www.teruel.es/eventos/feed/",
-    kind: "rss",
+    url: "https://www.teruel.es/wp-json/tribe/events/v1/events",
+    kind: "teruel",
     category_id: null,
     enabled: 1,
   },
