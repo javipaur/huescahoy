@@ -24,12 +24,6 @@ function isoDay(value: string | null | undefined): string | null {
   return match ? match[1] : null;
 }
 
-function isoTime(value: string | null | undefined): string | null {
-  if (!value) return null;
-  const match = value.match(/T(\d{2}):(\d{2})/);
-  return match && match[1] !== "00" ? `${match[1]}:${match[2]}` : null;
-}
-
 function extractDates(html: string, fallback: string | undefined): { start: string | null; end: string | null; time: string | null } {
   const $ = load(html);
   const bodyText = $.text();

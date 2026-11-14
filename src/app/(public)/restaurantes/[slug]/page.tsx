@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Phone, Globe, Mail, ArrowRight, UtensilsCrossed, Clock } from "lucide-react";
-import { getRestaurantBySlug, getRestaurants } from "@/lib/db";
-import { site } from "@/lib/site";
+import { MapPin, Phone, Globe, Mail, ArrowRight, Clock } from "lucide-react";
+import { getRestaurantBySlug } from "@/lib/db";
 import { JsonLd } from "@/components/json-ld";
 
 export const dynamic = "force-dynamic";

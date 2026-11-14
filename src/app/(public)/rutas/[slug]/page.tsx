@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Mountain, Route, ArrowRight, ExternalLink, CalendarDays } from "lucide-react";
+import { MapPin, Mountain, Route, ArrowRight, ExternalLink } from "lucide-react";
 import { getRouteBySlug, getRouteStages } from "@/lib/db";
-import { site } from "@/lib/site";
 import { JsonLd } from "@/components/json-ld";
 
 export const dynamic = "force-dynamic";

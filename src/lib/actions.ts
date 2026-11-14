@@ -24,8 +24,6 @@ import {
   deleteSuggestion,
   getEventBySlug,
   getPlanBySlug,
-  getRestaurantById,
-  getRouteById,
   getSources,
   isSuggestionKind,
   recentPendingEventCount,

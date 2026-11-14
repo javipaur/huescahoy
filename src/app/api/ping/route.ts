@@ -1,11 +1,10 @@
-import { NextRequest } from "next/server";
 import dns from "node:dns/promises";
 import { getRestaurants, initAppDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   const report: Record<string, unknown> = { dbConfigured: Boolean(process.env.DATABASE_URL) };
 
   if (process.env.DATABASE_URL) {

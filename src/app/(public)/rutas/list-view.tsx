@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Mountain, MapPin } from "lucide-react";
+import { Search, Mountain } from "lucide-react";
 import { RouteCard } from "@/components/route-card";
 import type { RouteItem } from "@/lib/types";
 
@@ -43,7 +43,7 @@ export function RouteListView({ routes }: { routes: RouteItem[] }) {
       }
       return true;
     });
-  }, [routes, q, routeType, difficulty, term]);
+  }, [routes, routeType, difficulty, term]);
 
   return (
     <div>

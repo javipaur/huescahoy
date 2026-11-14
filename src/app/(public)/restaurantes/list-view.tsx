@@ -35,7 +35,7 @@ export function RestaurantListView({ restaurants }: { restaurants: RestaurantIte
       }
       return true;
     });
-  }, [restaurants, q, cuisine, zone, term]);
+  }, [restaurants, cuisine, zone, term]);
 
   return (
     <div>
