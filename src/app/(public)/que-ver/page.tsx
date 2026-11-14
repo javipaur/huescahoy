@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Landmark, MapPin } from "lucide-react";
 import { EventCard } from "@/components/event-card";
+import puntosData from "@/data/puntos-interes-dph.json";
 import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
+import { PuntosInteresView } from "./puntos-view";
 
 export const dynamic = "force-dynamic";
 
@@ -121,6 +123,23 @@ export default async function QueVerPage() {
           Información de Huesca
         </Link>
       </div>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl font-bold tracking-tight text-choco dark:text-ink">Puntos de interés de la provincia</h2>
+        <p className="mt-1 max-w-3xl text-choco-muted">
+          Catálogo oficial con {puntosData.count} lugares (monumentos, naturaleza, espacios culturales y más) recopilados de datos abiertos.
+        </p>
+        <div className="mt-5">
+          <PuntosInteresView items={puntosData.items} />
+        </div>
+        <p className="mt-4 text-xs text-choco-muted">
+          Fuente:{" "}
+          <a href="https://datosabiertos.dphuesca.es/dataset/puntos-de-interes" target="_blank" rel="noopener noreferrer" className="font-medium text-brand-dark hover:underline">
+            {puntosData.attribution}
+          </a>
+          .
+        </p>
+      </section>
 
       <section className="mt-12">
         <h2 className="font-display text-2xl font-bold tracking-tight text-choco dark:text-ink">Planes culturales y destacados ahora</h2>
