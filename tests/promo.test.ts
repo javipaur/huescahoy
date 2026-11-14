@@ -132,12 +132,14 @@ describe("paqueteDePromo", () => {
     { slug: "teatro-infantil", title: "Teatro infantil", location: "Centro Cultural", category: "Teatro" },
   ];
 
-  it("la portada, las imágenes y los títulos cuadran", () => {
+  it("la portada, las imágenes, la historia y los títulos cuadran", () => {
     const paquete = paqueteDePromo(lista, { desde: "2026-11-11", hasta: "2026-11-11" });
     expect(paquete.imagenes).toHaveLength(2);
     expect(paquete.titulos).toHaveLength(2);
     expect(paquete.portada.endsWith("/portada")).toBe(true);
     expect(paquete.imagenes[0]).toContain("/evento/concierto-jazz");
+    expect(paquete.historia.endsWith("/historia")).toBe(true);
+    expect(paquete.historia).toContain("/api/promo/2026-11-11/historia");
   });
 
   it("el enlace lleva la utm de la fecha", () => {

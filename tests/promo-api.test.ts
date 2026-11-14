@@ -66,7 +66,7 @@ describe("GET /api/promo", () => {
     const cuerpo = await res.json();
 
     expect(Object.keys(cuerpo).sort()).toEqual(
-      ["enlace", "imagenes", "pie", "portada", "texto", "titulos"].sort()
+      ["enlace", "historia", "imagenes", "pie", "portada", "texto", "titulos"].sort()
     );
     expect(cuerpo.imagenes).toHaveLength(cuerpo.titulos.length);
   });

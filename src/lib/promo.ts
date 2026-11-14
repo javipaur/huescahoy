@@ -279,6 +279,8 @@ export type PaquetePromo = {
    * El slug es un nombre de fichero, no un título.
    */
   titulos: string[];
+  /** La imagen vertical (9:16) para publicar como historia del día. */
+  historia: string;
   /** El enlace base de la ventana, sin `utm`. */
   pie: string;
   /** El pie de foto completo. */
@@ -321,6 +323,7 @@ export function paqueteDePromo(
     portada: urlDePromo(desde),
     imagenes: lista.map((e) => urlDePromo(desde, e.slug)),
     titulos: lista.map((e) => normalizarTituloPromo(e.title)),
+    historia: urlHistoria(desde),
     pie: ventana,
     texto: textoDelPie(lista, desde, hasta),
     // El `utm_content` lleva la fecha y no un texto fijo, que es lo que permite saber
