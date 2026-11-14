@@ -1004,8 +1004,6 @@ export async function upsertScrapedEvent(
     if (event.external_url && !current.externalUrl) gaps.push({ column: "external_url", value: event.external_url });
     if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
     if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
-    if (event.latitude != null && current.lat == null) gaps.push({ column: "lat", value: event.latitude });
-    if (event.longitude != null && current.lng == null) gaps.push({ column: "lng", value: event.longitude });
 
     const fillCategory = categoryId != null && current.categoryId == null;
     if (gaps.length === 0 && !fillCategory) return { status: "skipped", id: duplicate.id };
