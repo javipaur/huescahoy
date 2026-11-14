@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Compass, Handshake, MapPin, Star, UtensilsCrossed } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "El Sello · Huesca Hoy",
@@ -24,11 +25,12 @@ const CATEGORIAS = [
 export default function SelloPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <nav aria-label="Migas de pan" className="mb-6 text-sm text-choco-muted">
-        <Link href="/" className="transition hover:text-brand">Inicio</Link>
-        <span aria-hidden className="mx-2">/</span>
-        <span className="font-medium text-choco dark:text-ink">El Sello</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "El Sello" },
+        ]}
+      />
 
       <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
         <BadgeCheck className="h-3.5 w-3.5" />

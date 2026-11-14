@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Clock, MapPin, Navigation, Star, Ticket, UtensilsCrossed, Footprints } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Navigation, Star, Ticket, UtensilsCrossed, Footprints } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { EventActions } from "@/components/event-actions";
 import { EventImage } from "@/components/event-image";
 import { FavoriteButton } from "@/components/favorite-button";
@@ -17,7 +18,6 @@ import {
   todayStr,
 } from "@/lib/db";
 import {
-  buildBreadcrumbJsonLd,
   buildEventJsonLd,
   isEventPast,
 } from "@/lib/event-jsonld";
@@ -108,11 +108,6 @@ export default async function EventPage({ params }: PageProps) {
     : null;
 
   const eventJsonLd = past ? null : buildEventJsonLd(event, category, coords);
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
-    { name: "Inicio", path: "/" },
-    { name: "Agenda", path: "/agenda" },
-    { name: event.title },
-  ]);
 
   const facts: { Icon: typeof Clock; label: string; value: string }[] = [
     {
@@ -142,15 +137,15 @@ export default async function EventPage({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <JsonLd data={breadcrumbJsonLd} />
       {eventJsonLd && <JsonLd data={eventJsonLd} />}
-      <Link
-        href="/agenda"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco dark:text-ink"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Volver a la agenda
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Agenda", href: "/agenda" },
+          ...(category ? [{ label: category.name, href: `/agenda/${category.slug}` }] : []),
+          { label: event.title },
+        ]}
+      />
 
       <div className="relative overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
         {event.image ? (

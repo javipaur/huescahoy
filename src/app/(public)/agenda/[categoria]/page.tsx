@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CategoryAlerts } from "@/components/category-alerts";
 import { EventCard } from "@/components/event-card";
 import { JsonLd } from "@/components/json-ld";
@@ -80,21 +81,6 @@ export default async function CategoryLandingPage({ params }: PageProps) {
 
   const others = categories.filter((c) => c.slug !== category.slug).slice(0, 8);
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: site.url },
-      { "@type": "ListItem", position: 2, name: "Agenda", item: `${site.url}/agenda` },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: category.name,
-        item: `${site.url}/agenda/${category.slug}`,
-      },
-    ],
-  };
-
   const eventsJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -110,25 +96,16 @@ export default async function CategoryLandingPage({ params }: PageProps) {
 
   return (
     <>
-      <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={eventsJsonLd} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <nav aria-label="Migas de pan" className="mb-5 text-sm text-choco-muted">
-          <Link href="/" className="transition hover:text-brand">
-            Inicio
-          </Link>
-          <span aria-hidden className="mx-2">
-            /
-          </span>
-          <Link href="/agenda" className="transition hover:text-brand">
-            Agenda
-          </Link>
-          <span aria-hidden className="mx-2">
-            /
-          </span>
-          <span className="font-medium text-choco dark:text-ink">{category.name}</span>
-        </nav>
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: "/" },
+            { label: "Agenda", href: "/agenda" },
+            { label: category.name },
+          ]}
+        />
 
         <span
           className="inline-flex items-center gap-2 rounded-full border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3 py-1 text-xs font-semibold text-choco dark:text-ink"

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CalendarDays, Download } from "lucide-react";
 import { Suspense } from "react";
 import { AgendaView } from "@/components/agenda-view";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CategoryAlerts } from "@/components/category-alerts";
 import { getCategoriesAdmin, getEvents, todayStr } from "@/lib/db";
 import { formatDayLong } from "@/lib/format";
@@ -43,6 +44,12 @@ export default async function AgendaPage({ searchParams }: PageProps) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Agenda" },
+        ]}
+      />
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">

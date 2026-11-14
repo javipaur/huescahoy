@@ -11,6 +11,7 @@ import {
   Sparkles,
   Store,
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -227,11 +228,12 @@ const ROUTES: SweetRoute[] = [
 export default function RutaHuescaEsDulcePage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <nav aria-label="Migas de pan" className="mb-6 text-sm text-choco-muted">
-        <Link href="/" className="transition hover:text-brand">Inicio</Link>
-        <span aria-hidden className="mx-2">/</span>
-        <span className="font-medium text-choco dark:text-ink">Ruta Huesca es dulce</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Ruta Huesca es dulce" },
+        ]}
+      />
 
       <header className="mb-10">
         <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">

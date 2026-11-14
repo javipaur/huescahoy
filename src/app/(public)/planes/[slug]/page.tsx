@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Clock, Compass } from "lucide-react";
+import { CalendarDays, Clock, Compass } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { getPlanBySlug } from "@/lib/db";
 import { site } from "@/lib/site";
@@ -74,13 +74,13 @@ export default async function PlanPage({ params }: PageProps) {
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       <JsonLd data={planJsonLd} />
-      <Link
-        href="/planes"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-choco-muted transition hover:text-choco dark:text-ink"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Volver a la magia de Huesca
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Planes", href: "/planes" },
+          { label: plan.title },
+        ]}
+      />
 
       <div className="overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm dark:bg-zinc-900 dark:border-zinc-800">
         {plan.image ? (

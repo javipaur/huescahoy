@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Mountain, Route, ArrowRight, ExternalLink } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { getRouteBySlug, getRouteStages } from "@/lib/db";
 import { JsonLd } from "@/components/json-ld";
 
@@ -57,11 +57,13 @@ export default async function RouteDetailPage({ params }: PageProps) {
         }}
       />
 
-      <nav className="mb-4 flex items-center gap-1.5 text-sm text-choco-muted">
-        <Link href="/rutas" className="text-brand hover:text-brand-dark">Rutas</Link>
-        <span>/</span>
-        <span className="truncate text-choco dark:text-ink">{route.title}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Rutas", href: "/rutas" },
+          { label: route.title },
+        ]}
+      />
 
       {route.image && (
         <div className="mb-6 overflow-hidden rounded-2xl">

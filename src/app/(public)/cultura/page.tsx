@@ -11,6 +11,7 @@ import {
   Theater,
   Users,
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { getCategoriesAdmin } from "@/lib/db";
 import { getIcon } from "@/lib/icons";
@@ -102,20 +103,6 @@ export default async function CulturaLandingPage() {
 
   const dateModified = new Date().toISOString();
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: site.url },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Cultura",
-        item: `${site.url}/cultura`,
-      },
-    ],
-  };
-
   const webpageJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -145,19 +132,15 @@ export default async function CulturaLandingPage() {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={webpageJsonLd} />
       <JsonLd data={faqJsonLd} />
 
-      <nav aria-label="Migas de pan" className="mb-6 text-sm text-choco-muted">
-        <Link href="/" className="transition hover:text-brand">
-          Inicio
-        </Link>
-        <span aria-hidden className="mx-2">
-          /
-        </span>
-        <span className="font-medium text-choco dark:text-ink">Cultura</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Cultura" },
+        ]}
+      />
 
       <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
         <Compass className="h-3.5 w-3.5" />

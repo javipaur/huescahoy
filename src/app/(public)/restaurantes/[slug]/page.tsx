@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Phone, Globe, Mail, ArrowRight, Clock } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { getRestaurantBySlug } from "@/lib/db";
 import { JsonLd } from "@/components/json-ld";
 
@@ -57,13 +57,13 @@ export default async function RestaurantDetailPage({ params }: PageProps) {
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <JsonLd data={jsonLd} />
 
-      <nav className="mb-4 flex items-center gap-1.5 text-sm text-choco-muted">
-        <Link href="/restaurantes" className="flex items-center gap-1.5 text-brand hover:text-brand-dark">
-          Restaurantes
-        </Link>
-        <span>/</span>
-        <span className="truncate text-choco">{restaurant.name}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Restaurantes", href: "/restaurantes" },
+          { label: restaurant.name },
+        ]}
+      />
 
       {restaurant.image && (
         <div className="mb-6 overflow-hidden rounded-2xl">

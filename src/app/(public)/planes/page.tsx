@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Clock, Compass, Sparkles } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { getPlans } from "@/lib/db";
 import { site } from "@/lib/site";
 
@@ -35,7 +36,15 @@ export default async function PlanesPage() {
   return (
     <>
       <section className="bg-choco dark:bg-ink text-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 pb-14 pt-6 sm:px-6 sm:pb-16 sm:pt-8">
+          <div className="mb-6 [&_nav]:mb-0 [&_nav]:text-white/70 [&_a]:text-white/70 [&_a:hover]:text-gold [&_span[aria-current='page']]:text-white">
+            <Breadcrumbs
+              items={[
+                { label: "Inicio", href: "/" },
+                { label: "Planes" },
+              ]}
+            />
+          </div>
           <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-gold">
             <Compass className="h-4 w-4" />
             La magia de Huesca

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, Landmark, MapPin, UtensilsCrossed } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { EventCard } from "@/components/event-card";
 import { RestaurantCard } from "@/components/restaurant-card";
 import { getCategoriesAdmin, getEvents, getRestaurants, todayStr } from "@/lib/db";
@@ -256,11 +257,12 @@ export default async function DondeLugarPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <nav aria-label="Migas de pan" className="mb-6 text-sm text-choco-muted">
-        <Link href="/" className="transition hover:text-brand">Inicio</Link>
-        <span aria-hidden className="mx-2">/</span>
-        <span className="font-medium text-choco dark:text-ink">{place.name}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: place.name },
+        ]}
+      />
 
       <span className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand-dark">
         <MapPin className="h-3.5 w-3.5" />
