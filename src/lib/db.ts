@@ -508,6 +508,20 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda de Turismo de Villanúa",
+    url: "https://turismovillanua.es/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda de la Comarca Comunidad de Teruel",
+    url: "https://comarcateruel.es/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
