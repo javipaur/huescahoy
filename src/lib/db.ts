@@ -501,6 +501,13 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda de Turismo de Sobrarbe",
+    url: "https://turismosobrarbe.com/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
