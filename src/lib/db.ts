@@ -487,6 +487,13 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda de Turismo de Aragón",
+    url: "https://www.turismodearagon.com/agenda-aragon/feed/",
+    kind: "rss",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
