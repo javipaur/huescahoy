@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function BuscarPage() {
   const [events, restaurants, routes, plans, categories] = await Promise.all([
-    getEvents({ limit: 500 }),
+    getEvents({ upcoming: true, limit: 500 }),
     getRestaurants({ limit: 500 }),
     getRoutes({ limit: 500 }),
     getPlans(),
