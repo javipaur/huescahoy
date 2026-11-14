@@ -26,6 +26,7 @@ import { fetchDphPlanes } from "./dph-planes";
 import { fetchInstagramHighlightEvents } from "./instagram";
 import { fetchZaragozaEvents } from "./zaragoza";
 import { fetchTeruelEvents } from "./teruel";
+import { fetchTribeEvents } from "./tribe";
 import { inferCategory } from "./category";
 import { extractOgImage, normalizeCategory } from "./util";
 import { captureServerError } from "../posthog";
@@ -345,6 +346,8 @@ export async function runSource(source: Source): Promise<SourceResult> {
       parsed = await fetchAinsaEvents();
     } else if (source.kind === "instagram") {
       parsed = await fetchInstagramHighlightEvents(source.url);
+    } else if (source.kind === "tribe") {
+      parsed = await fetchTribeEvents(source.url);
     } else {
       const urls = urlsFor(source);
       for (const url of urls) {

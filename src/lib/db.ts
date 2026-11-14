@@ -494,6 +494,13 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Teatro Principal de Zaragoza",
+    url: "https://teatroprincipalzaragoza.com/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
