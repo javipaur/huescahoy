@@ -13,6 +13,7 @@ import {
   Mountain,
   Search,
   Star,
+  Store,
   Users,
   UtensilsCrossed,
   Wine,
@@ -27,6 +28,7 @@ import { Reveal } from "@/components/reveal";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
 import { TagRiver, type TagRiverChip } from "@/components/tag-river";
+import comerciosData from "@/data/comercios-huesca.json";
 import { getIcon } from "@/lib/icons";
 import {
   getActiveFeaturedPick,
@@ -94,6 +96,7 @@ export default async function HomePage() {
     { href: "/agenda?desde=finde", label: "Este finde", icon: CalendarDays, info: `${weekendEvents.length}` },
     { href: "/rutas", label: "Rutas y montaña", icon: Mountain, info: `${stats.routes}` },
     { href: "/restaurantes", label: "Dónde comer", icon: UtensilsCrossed, info: `${stats.restaurants}` },
+    { href: "/comercios", label: "Comercios locales", icon: Store, info: `${(comerciosData as { count?: number }).count ?? 0}` },
     { href: "/que-ver", label: "Qué ver", icon: Landmark },
     { href: "/pueblos-con-encanto", label: "Pueblos con encanto", icon: Castle },
     { href: "/planes", label: "Planes y guías", icon: Compass, info: `${plans.length}` },
@@ -329,6 +332,18 @@ export default async function HomePage() {
               <p className="text-sm text-choco-muted">Restaurantes, bares y tabernas: cocina aragonesa y fusión.</p>
               <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
                 Ver restaurantes <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+
+            <Link
+              href="/comercios"
+              className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-choco/5 sm:col-span-2"
+            >
+              <Store className="h-10 w-10 text-brand" />
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Comercios locales</h3>
+              <p className="text-sm text-choco-muted">Tiendas, alimentación, salud, deporte, servicios y más negocios de Huesca.</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
+                Ver comercios <ArrowRight className="h-4 w-4" />
               </span>
             </Link>
           </div>
