@@ -10,6 +10,7 @@ import { site } from "@/lib/site";
 const NAV = [
   { href: "/", label: "Inicio", exact: true },
   { href: "/agenda", label: "Agenda" },
+  { href: "/ruta-huesca-es-dulce", label: "Ruta dulce" },
   { href: "/rutas", label: "Rutas" },
   { href: "/restaurantes", label: "Restaurantes" },
   { href: "/buscar", label: "Buscar" },

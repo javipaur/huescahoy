@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
+  CakeSlice,
   CalendarDays,
   Castle,
   ChevronDown,
@@ -94,6 +95,7 @@ export default async function HomePage() {
     { href: "/agenda", label: "Agenda", icon: CalendarDays, info: `${stats.upcoming}` },
     { href: "/agenda?desde=hoy", label: "Hoy", icon: CalendarDays, info: `${todayEvents.length}` },
     { href: "/agenda?desde=finde", label: "Este finde", icon: CalendarDays, info: `${weekendEvents.length}` },
+    { href: "/ruta-huesca-es-dulce", label: "Ruta Huesca es dulce", icon: CakeSlice, info: "3 rutas" },
     { href: "/rutas", label: "Rutas y montaña", icon: Mountain, info: `${stats.routes}` },
     { href: "/restaurantes", label: "Dónde comer", icon: UtensilsCrossed, info: `${stats.restaurants}` },
     { href: "/comercios", label: "Comercios locales", icon: Store, info: `${(comerciosData as { count?: number }).count ?? 0}` },
@@ -332,6 +334,18 @@ export default async function HomePage() {
               <p className="text-sm text-choco-muted">Restaurantes, bares y tabernas: cocina aragonesa y fusión.</p>
               <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
                 Ver restaurantes <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+
+            <Link
+              href="/ruta-huesca-es-dulce"
+              className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-brand/30 bg-brand/5 p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-brand/10 sm:col-span-2"
+            >
+              <CakeSlice className="h-10 w-10 text-brand" />
+              <h3 className="font-display text-lg font-bold text-choco dark:text-ink">Ruta Huesca es dulce</h3>
+              <p className="text-sm text-choco-muted">Tres rutas por las pastelerías, reposterías y cafés más famosos de Huesca, Zaragoza y Jaca, inspirada en el evento Huesca es Dulce.</p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark">
+                Descubrir la ruta <ArrowRight className="h-4 w-4" />
               </span>
             </Link>
 
