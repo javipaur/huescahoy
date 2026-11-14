@@ -1,6 +1,6 @@
 {
   "source": "https://huesca.city/negocios",
-  "fetchedAt": "2026-11-14T14:14:37.706Z",
+  "fetchedAt": "2026-11-14T16:16:21.282Z",
   "count": 312,
   "items": [
     {
@@ -10,7 +10,9 @@
       "address": "P.º de las Autonomías, s/n, 22004 Huesca",
       "description": "Pastelería en Huesca con dulces, pasteles y repostería para endulzar el día.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tolosana"
+      "sourceUrl": "https://huesca.city/negocios/tolosana",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395832772-9jb1mh.jpg",
+      "website": "https://www.pasteleriatolosana.com"
     },
     {
       "slug": "cerveceria-la-carpinteria",
@@ -19,7 +21,9 @@
       "address": "Plaza Ntra. Sra. de Salas, 22002 Huesca",
       "description": "Cervecería en Huesca para tomar algo con buen ambiente",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cerveceria-la-carpinteria"
+      "sourceUrl": "https://huesca.city/negocios/cerveceria-la-carpinteria",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395440054-dwot3b.jpg",
+      "website": ""
     },
     {
       "slug": "peluqueria-cebado",
@@ -28,7 +32,9 @@
       "address": "C. Vicente Campo Palacio, 3, LOCAL-2, 22002 Huesca",
       "description": "Peluquería en Huesca para tu corte, color y cuidado del cabello.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-cebado"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-cebado",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789902037285-x5kork.jpg",
+      "website": "http://www.cebado.es/"
     },
     {
       "slug": "cosmos-castellar",
@@ -37,7 +43,9 @@
       "address": "C. Badajoz, 17 22004 Huesca",
       "description": "Tienda de muebles y carpintería en Huesca para equipar y renovar tu hogar.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cosmos-castellar"
+      "sourceUrl": "https://huesca.city/negocios/cosmos-castellar",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395696923-qttoxf.jpg",
+      "website": "https://carpinteriacastellar.com/"
     },
     {
       "slug": "sonido-54",
@@ -46,7 +54,9 @@
       "address": "C. División 52, Nº57, 22006 Huesca",
       "description": "Servicios de sonido e iluminación para eventos en Huesca.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/sonido-54"
+      "sourceUrl": "https://huesca.city/negocios/sonido-54",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395645707-xd6n10.jpg",
+      "website": "https://www.sonido54.com/"
     },
     {
       "slug": "bar-restaurante-comomelocomo",
@@ -55,7 +65,9 @@
       "address": "C. Padre Huesca, 5, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bar-restaurante-comomelocomo"
+      "sourceUrl": "https://huesca.city/negocios/bar-restaurante-comomelocomo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787643754155-r305gi.jpg",
+      "website": "https://comomelocomo.es/"
     },
     {
       "slug": "flor-de-huesca",
@@ -64,7 +76,9 @@
       "address": "Pl. Navarra, 4, 22002 Huesca",
       "description": "Emblemático establecimiento de cocina mediterránea e innovadora ubicado en el histórico edificio del Casino de Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/flor-de-huesca"
+      "sourceUrl": "https://huesca.city/negocios/flor-de-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790075454374-5deq4t.jpg",
+      "website": "http://restauranteflor.es/"
     },
     {
       "slug": "restaurante-da-vinci",
@@ -73,7 +87,9 @@
       "address": "C. Padre Huesca, 13, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-da-vinci"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-da-vinci",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789984820206-es548q.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d7230274-Reviews-Bar_Da_Vinci-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "restaurante-la-factoria",
@@ -82,7 +98,9 @@
       "address": "C. Tenerías, 4, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-la-factoria"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-la-factoria",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788795191849-mq3wjw.jpg",
+      "website": "http://restaurantelafactoria.com/"
     },
     {
       "slug": "restaurante-bar-alvaro",
@@ -91,7 +109,9 @@
       "address": "C. Rafael Gil, 4, 22003 Huesca",
       "description": "Tapas, desayuno, comidas, meriendas y cenas. Amplia terraza",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-bar-alvaro"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-bar-alvaro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789806929183-219fiy.jpg",
+      "website": "http://www.cafebaralvaro.com/"
     },
     {
       "slug": "granja-anita",
@@ -100,7 +120,9 @@
       "address": "Pl. Navarra, 5, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/granja-anita"
+      "sourceUrl": "https://huesca.city/negocios/granja-anita",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790073014396-u2umzl.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d11644204-Reviews-Granja_Anita-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "cinemundo-huesca",
@@ -109,7 +131,9 @@
       "address": "C. Agustín Viñuales Pardo, 4, 22004 Huesca",
       "description": "Cine en Huesca donde disfrutar de los últimos estrenos en la gran pantalla.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cinemundo-huesca"
+      "sourceUrl": "https://huesca.city/negocios/cinemundo-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784391601896-ye9kc3.jpg",
+      "website": "https://cineapolis.es/Cine/40/huesca"
     },
     {
       "slug": "el-origen",
@@ -118,7 +142,9 @@
       "address": "Pl. del Justicia, 4, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-origen"
+      "sourceUrl": "https://huesca.city/negocios/el-origen",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790075063100-j4jloq.jpg",
+      "website": "http://www.elorigenhuesca.com/"
     },
     {
       "slug": "taberna-el-fosko",
@@ -127,7 +153,9 @@
       "address": "C. Coso Alto, 19, 22002 Huesca",
       "description": "Nuestra especialidad estrella es el chuletón a la piedra, donde los comensales cocinan la carne a su gusto en la mesa, acompañado de mariscos y productos de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/taberna-el-fosko"
+      "sourceUrl": "https://huesca.city/negocios/taberna-el-fosko",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784456912145-j05uh8.jpg",
+      "website": "http://www.tabernaelfosko.es/"
     },
     {
       "slug": "la-goyosa-restaurante",
@@ -136,7 +164,9 @@
       "address": "C. San Lorenzo, 4, Bajos, 22002 Huesca",
       "description": "Restaurante en Huesca donde disfrutar de una buena comida en un ambiente agradable.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-goyosa-restaurante"
+      "sourceUrl": "https://huesca.city/negocios/la-goyosa-restaurante",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396302118-0jx4az.jpg",
+      "website": "http://lagoyosa.com/"
     },
     {
       "slug": "cerveceria-pulperia-la-plancha",
@@ -145,7 +175,9 @@
       "address": "c/ Las Cortes, 4, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cerveceria-pulperia-la-plancha"
+      "sourceUrl": "https://huesca.city/negocios/cerveceria-pulperia-la-plancha",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787644658953-q7cel8.jpg",
+      "website": "http://pulperialaplancha.com/"
     },
     {
       "slug": "restaurante-durban-cafe",
@@ -154,7 +186,9 @@
       "address": "Calle del Alcalde Emilio Mirave Díez, 12, 22004 Huesca",
       "description": "Cafetería y restaurante en Huesca para desayunar, comer o tomar algo.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-durban-cafe"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-durban-cafe",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784236703994-er0qhe.jpg",
+      "website": "https://durbancafe.com/"
     },
     {
       "slug": "lapaca",
@@ -163,7 +197,9 @@
       "address": "C. Alcalde Emilio Miravé, 14, 22004 Huesca",
       "description": "Reputada pastelería de autor en Huesca, liderada por el maestro chocolatero Raúl Bernal. Entre sus creaciones icónicas sobresalen el Pan de San Lorenzo, los…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lapaca"
+      "sourceUrl": "https://huesca.city/negocios/lapaca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793558946442-7y7l15.jpg",
+      "website": "http://www.bylapaca.com/"
     },
     {
       "slug": "bendita-ruina",
@@ -172,7 +208,9 @@
       "address": "C. Coso Bajo, 79, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bendita-ruina"
+      "sourceUrl": "https://huesca.city/negocios/bendita-ruina",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790875407234-astviw.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d6610181-Reviews-Bendita_Ruina-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "barrabes-outlet",
@@ -181,7 +219,9 @@
       "address": "Rda. de la Industria, 1-3, Nave K, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/barrabes-outlet"
+      "sourceUrl": "https://huesca.city/negocios/barrabes-outlet",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786192388334-o5hrm1.jpg",
+      "website": "https://www.barrabes.com/tiendas/barrabes-outlet-huesca"
     },
     {
       "slug": "tomatejamon",
@@ -190,7 +230,9 @@
       "address": "C. Padre Huesca, 20, 22002 Huesca",
       "description": "Tapas, carnes a la brasa y cocina española creativa en un mesón",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tomatejamon"
+      "sourceUrl": "https://huesca.city/negocios/tomatejamon",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791809741187-nowtu2.jpg",
+      "website": "http://www.tomatejamon.es/"
     },
     {
       "slug": "las-torres",
@@ -199,7 +241,9 @@
       "address": "C. de María Auxiliadora, 3, 22003 Huesca",
       "description": "Restaurante familiar, fundado en 1989 en la ciudad de Huesca por los hermanos Abadía.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/las-torres"
+      "sourceUrl": "https://huesca.city/negocios/las-torres",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790265143706-g9t0bk.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d1002283-Reviews-Las_Torres-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "la-taberna-del-gordo",
@@ -208,7 +252,9 @@
       "address": "Pol. Ind.Sepes, Ronda de la Industria 119, Rda. de la Industria, 20D, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-taberna-del-gordo"
+      "sourceUrl": "https://huesca.city/negocios/la-taberna-del-gordo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790073545598-luqga9.jpg",
+      "website": "https://latabernadelgordo.shop/"
     },
     {
       "slug": "bar-el-punto",
@@ -217,7 +263,9 @@
       "address": "C. Teruel, 37, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bar-el-punto"
+      "sourceUrl": "https://huesca.city/negocios/bar-el-punto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790182640370-2gzpu5.jpg",
+      "website": "http://cafebarelpunto.com/"
     },
     {
       "slug": "central-cafe",
@@ -226,7 +274,9 @@
       "address": "C. San Lorenzo, 13, 22002 Huesca",
       "description": "Restaurante, copas y tardeo",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/central-cafe"
+      "sourceUrl": "https://huesca.city/negocios/central-cafe",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789559085059-dc780o.jpg",
+      "website": ""
     },
     {
       "slug": "ultramarinos-la-confianza",
@@ -235,7 +285,9 @@
       "address": "Pl. Luis López Allué, 8, 22001 Huesca",
       "description": "Ultramarinos tradicional en Huesca con productos selectos y de siempre.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ultramarinos-la-confianza"
+      "sourceUrl": "https://huesca.city/negocios/ultramarinos-la-confianza",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396172477-73o2q7.jpg",
+      "website": "http://ultramarinoslaconfianza.com/"
     },
     {
       "slug": "el-alambique",
@@ -244,7 +296,9 @@
       "address": "Pl. San Lorenzo, 2, 22002 Huesca",
       "description": "Restaurante italiano y de cocina mediterránea",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-alambique"
+      "sourceUrl": "https://huesca.city/negocios/el-alambique",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789815017933-ucxqvw.jpg",
+      "website": ""
     },
     {
       "slug": "imagym-huesca",
@@ -253,7 +307,9 @@
       "address": "Manuel Ángel Ferrer, Esquina con, C. Fuente del Ibon, 3, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/imagym-huesca"
+      "sourceUrl": "https://huesca.city/negocios/imagym-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784458162230-wjzqe3.jpg",
+      "website": "https://imagym.es/gimnasios/huesca-san-jose/"
     },
     {
       "slug": "hostal-un-punto-chic",
@@ -262,7 +318,9 @@
       "address": "Calle Joaquín Costa, 22, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/hostal-un-punto-chic"
+      "sourceUrl": "https://huesca.city/negocios/hostal-un-punto-chic",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788799393151-vkfsme.jpg",
+      "website": "https://www.hostaljoaquincosta.com/"
     },
     {
       "slug": "bailale",
@@ -271,7 +329,9 @@
       "address": "Escuela de Baile, C. Alcalde José Antonio Llanas Almudevar, 12, Local 12 Bajo, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bailale"
+      "sourceUrl": "https://huesca.city/negocios/bailale",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787677713658-ug0zm5.jpg",
+      "website": "http://www.bailale.es/"
     },
     {
       "slug": "cafeteria-galileo",
@@ -280,7 +340,9 @@
       "address": "C. San Jorge, 58, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cafeteria-galileo"
+      "sourceUrl": "https://huesca.city/negocios/cafeteria-galileo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788989089369-s4axjf.jpg",
+      "website": ""
     },
     {
       "slug": "restaurante-o-lugar",
@@ -289,7 +351,9 @@
       "address": "Av. Alfonso I, 2, 22270 Almudévar, Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-o-lugar"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-o-lugar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1790362708002-oe3k8g.jpg",
+      "website": "https://restauranteolugar.com/"
     },
     {
       "slug": "restaurante-merida",
@@ -298,7 +362,9 @@
       "address": "Pl. Lérida, 2, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-merida"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-merida",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790255860450-cu7hic.jpg",
+      "website": "https://restaurantemeridahuesca.eatbu.com/"
     },
     {
       "slug": "abadia-de-los-templarios",
@@ -307,7 +373,9 @@
       "address": "C. Espinosa de los Monteros, 1, 22002 Huesca",
       "description": "Restaurante y taberna temática de estilo medieval",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/abadia-de-los-templarios"
+      "sourceUrl": "https://huesca.city/negocios/abadia-de-los-templarios",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789987214668-ook9xk.jpg",
+      "website": "http://www.laabadiadelostemplarios.com/"
     },
     {
       "slug": "restaurante-los-argentinos",
@@ -316,7 +384,9 @@
       "address": "C. Sobrarbe, 27, 22001 Huesca",
       "description": "Especializado en carnes a la brasa, parrilladas y comida tradicional argentina",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-los-argentinos"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-los-argentinos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790717112261-p8xrp3.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d2392510-Reviews-Los_argentinos-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "horno-estacion",
@@ -325,7 +395,9 @@
       "address": "C. Zaragoza, 16, 22005 Huesca",
       "description": "Panadería, repostería y cafetería",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/horno-estacion"
+      "sourceUrl": "https://huesca.city/negocios/horno-estacion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789812703329-j2j49p.jpg",
+      "website": ""
     },
     {
       "slug": "tien21-huesca",
@@ -334,7 +406,9 @@
       "address": "C. Fuente del Ibon, 8, 22003 Huesca",
       "description": "Electrodomésticos grandes y pequeños y equipos de entretenimiento en tiendas de tecnología para el hogar.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tien21-huesca"
+      "sourceUrl": "https://huesca.city/negocios/tien21-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784375632636-jis53w.jpg",
+      "website": ""
     },
     {
       "slug": "el-viejo-acordeon",
@@ -343,7 +417,9 @@
       "address": "Pl. del Justicia, 9, 22001 Huesca",
       "description": "Desde 1977",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-viejo-acordeon"
+      "sourceUrl": "https://huesca.city/negocios/el-viejo-acordeon",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789815550804-zpiuja.jpg",
+      "website": "http://elviejoacordeon.com/"
     },
     {
       "slug": "olla-de-huesca",
@@ -352,7 +428,9 @@
       "address": "C. Ramiro el Monje, 20, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/olla-de-huesca"
+      "sourceUrl": "https://huesca.city/negocios/olla-de-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790876118181-gjjici.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d26206227-Reviews-Olla_de_Huesca-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "autius",
@@ -361,7 +439,9 @@
       "address": "C. Zaragoza, 13, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/autius"
+      "sourceUrl": "https://huesca.city/negocios/autius",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793129795024-a5h5rn.jpg",
+      "website": "https://autius.com/autoescuelas/huesca/huesca"
     },
     {
       "slug": "hostal-rugaca",
@@ -370,7 +450,9 @@
       "address": "C. Porches de Galicia, 1, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/hostal-rugaca"
+      "sourceUrl": "https://huesca.city/negocios/hostal-rugaca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789148522007-0kp6id.jpg",
+      "website": "https://hostalrugaca.com/"
     },
     {
       "slug": "elarte",
@@ -379,7 +461,9 @@
       "address": "C. Caspe, 3, 22002 Huesca",
       "description": "Helados artesanales, con opciones para personas celíacas.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/elarte"
+      "sourceUrl": "https://huesca.city/negocios/elarte",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789422647761-uexqo9.jpg",
+      "website": "http://heladoselarte.es/"
     },
     {
       "slug": "bar-la-fabrica",
@@ -388,7 +472,9 @@
       "address": "C. Menéndez Pidal, 4, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bar-la-fabrica"
+      "sourceUrl": "https://huesca.city/negocios/bar-la-fabrica",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787150441592-1fyfgi.jpg",
+      "website": "http://www.barlafabricahuesca.com/"
     },
     {
       "slug": "de-frida-cafe",
@@ -397,7 +483,9 @@
       "address": "C. Padre Huesca, 10, 22002 Huesca",
       "description": "Desayunos saludables, opciones sin gluten, boles de cereal",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/de-frida-cafe"
+      "sourceUrl": "https://huesca.city/negocios/de-frida-cafe",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790603802055-i4hd19.jpg",
+      "website": "https://defridacafe.blogspot.com/"
     },
     {
       "slug": "cerveceria-la-gargola",
@@ -406,7 +494,9 @@
       "address": "Av. del Dr. Artero, 19, 22004 Huesca",
       "description": "Emblemática cervecería artesana",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cerveceria-la-gargola"
+      "sourceUrl": "https://huesca.city/negocios/cerveceria-la-gargola",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790531781286-7lypn1.jpg",
+      "website": "http://www.cervecerialagargola.com/"
     },
     {
       "slug": "o-lagar",
@@ -415,7 +505,9 @@
       "address": "C. División 52, 18, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/o-lagar"
+      "sourceUrl": "https://huesca.city/negocios/o-lagar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790264111689-qntnxw.jpg",
+      "website": "https://mapyo.me/restaurante-olagar-464820-es"
     },
     {
       "slug": "hotel-la-posada-de-la-luna",
@@ -424,7 +516,9 @@
       "address": "Calle Joaquín Costa, 10, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/hotel-la-posada-de-la-luna"
+      "sourceUrl": "https://huesca.city/negocios/hotel-la-posada-de-la-luna",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788799008407-urpu76.jpg",
+      "website": "https://www.posadadelaluna.com/"
     },
     {
       "slug": "martin-viejo",
@@ -433,7 +527,9 @@
       "address": "Av. de los Pirineos, 15, 22004 Huesca",
       "description": "Gastronomía oscense tradicional desde 1983",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/martin-viejo"
+      "sourceUrl": "https://huesca.city/negocios/martin-viejo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790183828224-ui3kiq.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d985012-Reviews-Martin_Viejo-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "acf-drive",
@@ -442,7 +538,9 @@
       "address": "C. Valentín Carderera, 5, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/acf-drive"
+      "sourceUrl": "https://huesca.city/negocios/acf-drive",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793893373265-f6xm9k.jpg",
+      "website": "http://www.acfdrive.com/"
     },
     {
       "slug": "el-refugio-de-la-bohemia",
@@ -451,7 +549,9 @@
       "address": "C. San Lorenzo, 29, 22002 Huesca",
       "description": "Bar en el tubo",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-refugio-de-la-bohemia"
+      "sourceUrl": "https://huesca.city/negocios/el-refugio-de-la-bohemia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789247717640-w70g56.jpg",
+      "website": ""
     },
     {
       "slug": "euroaznar-supplies",
@@ -460,7 +560,9 @@
       "address": "C. la Magantina, 0, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/euroaznar-supplies"
+      "sourceUrl": "https://huesca.city/negocios/euroaznar-supplies",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790690317492-x2gyvr.jpg",
+      "website": "https://euroaznar.shop/"
     },
     {
       "slug": "guara-mascun",
@@ -469,7 +571,9 @@
       "address": "C. Vicente Campo Palacio, 11, 22002 Huesca",
       "description": "Tienda técnica especializada en deportes de aventura y de material de montaña. Selección de ropa, calzado y equipamiento de seguridad para actividades como…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/guara-mascun"
+      "sourceUrl": "https://huesca.city/negocios/guara-mascun",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784373486869-snzijp.jpg",
+      "website": "http://www.guara-mascun.com/"
     },
     {
       "slug": "laysa-belleza-y-bienestar",
@@ -478,7 +582,9 @@
       "address": "C. Teruel, 4, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/laysa-belleza-y-bienestar"
+      "sourceUrl": "https://huesca.city/negocios/laysa-belleza-y-bienestar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789249742309-9v4biy.jpg",
+      "website": "http://www.esteticalaysa.com/"
     },
     {
       "slug": "peluqueria-dh-hombre",
@@ -487,7 +593,9 @@
       "address": "Centro Comercial Coso Real, Av. del Dr. Artero, 31, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-dh-hombre"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-dh-hombre",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787645254049-yvtkqb.jpg",
+      "website": "https://www.coso-real.com/establecimientos/peluqueria-de-hombres-dh/"
     },
     {
       "slug": "mikelo",
@@ -496,7 +604,9 @@
       "address": "C. de la Fuente del Ángel, 4, 22003 Huesca",
       "description": "Tienda física de instrumentos musicales. Venta de guitarras, instrumentos de percusión y equipos de sonido.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/mikelo"
+      "sourceUrl": "https://huesca.city/negocios/mikelo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784375034634-p0v7zg.jpg",
+      "website": ""
     },
     {
       "slug": "indoor-huesca",
@@ -505,7 +615,9 @@
       "address": "C. Siderurgia, 1, Nave 68, 22006 Huesca",
       "description": "Club de Pádel",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/indoor-huesca"
+      "sourceUrl": "https://huesca.city/negocios/indoor-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787239275553-e79tdc.jpg",
+      "website": "http://indoorhuesca.com/"
     },
     {
       "slug": "ascaso",
@@ -514,7 +626,9 @@
       "address": "C. Coso Alto, 9, 22002 Huesca",
       "description": "Tartas, turrones, pasteles y bombones en un comercio familiar fundado en 1929 y especializado en pastel ruso.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ascaso"
+      "sourceUrl": "https://huesca.city/negocios/ascaso",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790336305034-2m6f7q.jpg",
+      "website": "https://www.pasteleriaascaso.com/"
     },
     {
       "slug": "floristeria-albahaca",
@@ -523,7 +637,9 @@
       "address": "Calle Orfeón Oscense, 17, 22001 Huesca",
       "description": "Establecimiento artesanal con más de 25 años de trayectoria en el centro de Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/floristeria-albahaca"
+      "sourceUrl": "https://huesca.city/negocios/floristeria-albahaca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790602611932-y9szbk.jpg",
+      "website": "http://www.floristeriaalbahaca.es/"
     },
     {
       "slug": "osteopatia-huesca",
@@ -532,7 +648,9 @@
       "address": "Av. de los Monegros, 41, 22005 Huesca",
       "description": "Fisioterapia, osteopatía y salud integral en Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/osteopatia-huesca"
+      "sourceUrl": "https://huesca.city/negocios/osteopatia-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792758610694-wwvowg.jpg",
+      "website": "http://www.osteopatiahuesca.com/"
     },
     {
       "slug": "clinica-dental-fuente-del-angel",
@@ -541,7 +659,9 @@
       "address": "C. de la Fuente del Ángel, 3, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/clinica-dental-fuente-del-angel"
+      "sourceUrl": "https://huesca.city/negocios/clinica-dental-fuente-del-angel",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787564706598-kfymed.jpg",
+      "website": "https://www.fuentedelangel.com/"
     },
     {
       "slug": "policlinica-veterinaria-oza",
@@ -550,7 +670,9 @@
       "address": "P.º de las Autonomías, 17, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/policlinica-veterinaria-oza"
+      "sourceUrl": "https://huesca.city/negocios/policlinica-veterinaria-oza",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784462004768-h262xi.jpg",
+      "website": "https://veterinariaoza.com/"
     },
     {
       "slug": "be24fit",
@@ -559,7 +681,9 @@
       "address": "C. José Gil Cávez, 10, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/be24fit"
+      "sourceUrl": "https://huesca.city/negocios/be24fit",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784458607267-tn1rxx.jpg",
+      "website": "http://www.be24fit.eu/"
     },
     {
       "slug": "cafe-bar-almeriz",
@@ -568,7 +692,9 @@
       "address": "Rda. Misericordia, sn, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cafe-bar-almeriz"
+      "sourceUrl": "https://huesca.city/negocios/cafe-bar-almeriz",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787152055046-08lxzo.jpg",
+      "website": "http://cafebaralmeriz.com/"
     },
     {
       "slug": "trallero-automocion",
@@ -577,7 +703,9 @@
       "address": "C. Ballobar, 5, 22004 Huesca",
       "description": "Taller mecánico multimarca y sociedad limitada ubicado en Huesca, España, especializado en reparación, mantenimiento, electricidad, diagnosis e inyección de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/trallero-automocion"
+      "sourceUrl": "https://huesca.city/negocios/trallero-automocion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790876804449-mkxzsc.jpg",
+      "website": "https://www.eurotaller.com/taller/580/trallero-automocion"
     },
     {
       "slug": "brrrutal",
@@ -586,7 +714,9 @@
       "address": "C. San José de Calasanz, 3, 22002 Huesca",
       "description": "VERRRMÚ CLUB",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/brrrutal"
+      "sourceUrl": "https://huesca.city/negocios/brrrutal",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789767746508-9anepd.jpg",
+      "website": ""
     },
     {
       "slug": "panaderia-esmes",
@@ -595,7 +725,9 @@
       "address": "Av. de los Monegros, 22005 Huesca",
       "description": "Panadería Sin Gluten",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/panaderia-esmes"
+      "sourceUrl": "https://huesca.city/negocios/panaderia-esmes",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788988786699-lkz44u.jpg",
+      "website": "http://www.esmes.es/"
     },
     {
       "slug": "farmacia-marro",
@@ -604,7 +736,9 @@
       "address": "C. Coso Bajo, 54, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/farmacia-marro"
+      "sourceUrl": "https://huesca.city/negocios/farmacia-marro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789248765030-nkyf5h.jpg",
+      "website": "https://www.farmaciamarro.com/"
     },
     {
       "slug": "workan",
@@ -613,7 +747,9 @@
       "address": "Carretera, km 3'5, 22005 Sangarrén, Huesca",
       "description": "Centro integral especializado en residencia canina, guardería y adiestramiento con enfoque psicológico y etológico",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/workan"
+      "sourceUrl": "https://huesca.city/negocios/workan",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791116571862-3o30zz.jpg",
+      "website": "http://www.workan.es/"
     },
     {
       "slug": "oscape",
@@ -622,7 +758,9 @@
       "address": "Pl. la Moneda, 9, 22001 Huesca",
       "description": "Juego de escape para grupos con límite de tiempo inspirado en una leyenda medieval.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/oscape"
+      "sourceUrl": "https://huesca.city/negocios/oscape",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791146527661-5x2md8.jpg",
+      "website": "http://www.oscape.es/"
     },
     {
       "slug": "restaurante-p-amuri",
@@ -631,7 +769,9 @@
       "address": "Pl. Alfonso el Batallador, 2, Loc 2, 22002 Huesca",
       "description": "Auténtica gastronomía siciliana",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/restaurante-p-amuri"
+      "sourceUrl": "https://huesca.city/negocios/restaurante-p-amuri",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790517615461-tjt49n.jpg",
+      "website": ""
     },
     {
       "slug": "ciclos-alonso",
@@ -640,7 +780,9 @@
       "address": "C. Manuel Ángel Ferrer, 6, 22003 Huesca",
       "description": "Tienda de bicicletas en Huesca, con venta y accesorios para los amantes del ciclismo.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ciclos-alonso"
+      "sourceUrl": "https://huesca.city/negocios/ciclos-alonso",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395234345-fiwg9b.jpg",
+      "website": ""
     },
     {
       "slug": "la-reina-de-las-flores",
@@ -649,7 +791,9 @@
       "address": "C. Padre Huesca, 82, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-reina-de-las-flores"
+      "sourceUrl": "https://huesca.city/negocios/la-reina-de-las-flores",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788803276230-qe6uua.jpg",
+      "website": "https://lareinadelasflores.es/"
     },
     {
       "slug": "autoescuelas-goya",
@@ -658,7 +802,9 @@
       "address": "C. Teruel, 8, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/autoescuelas-goya"
+      "sourceUrl": "https://huesca.city/negocios/autoescuelas-goya",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793131893438-vbiq10.jpg",
+      "website": "https://autoescuelagoya.es/"
     },
     {
       "slug": "sala-nowa",
@@ -667,7 +813,9 @@
       "address": "C. Zona Deportiva, 21, 22006 Huesca",
       "description": "Rocódromo. Espacio deportivo moderno, tanto para escaladores experimentados como para aquellos que desean iniciarse en el mundo del boulder",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/sala-nowa"
+      "sourceUrl": "https://huesca.city/negocios/sala-nowa",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784372604008-9u6u25.jpg",
+      "website": "http://www.salanowa.com"
     },
     {
       "slug": "la-nueva-barberia",
@@ -676,7 +824,9 @@
       "address": "C. de Villahermosa, Duquesa, 3, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-nueva-barberia"
+      "sourceUrl": "https://huesca.city/negocios/la-nueva-barberia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789904183015-ww28ql.jpg",
+      "website": "https://www.soybarbudo.com/post/la-nueva-barbería-huesca"
     },
     {
       "slug": "clyo",
@@ -685,7 +835,9 @@
       "address": "C. Pedro I de Aragón, 2, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/clyo"
+      "sourceUrl": "https://huesca.city/negocios/clyo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789147521195-jk0tix.jpg",
+      "website": "http://www.clyo.es/"
     },
     {
       "slug": "twister",
@@ -694,7 +846,9 @@
       "address": "C. San Lorenzo, 20, 22002 Huesca",
       "description": "Disco bar en el tubo",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/twister"
+      "sourceUrl": "https://huesca.city/negocios/twister",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789559699184-anqk2p.jpg",
+      "website": ""
     },
     {
       "slug": "centro-de-jardineria-viveros-olivan",
@@ -703,7 +857,9 @@
       "address": "CRTA. SANGARREN KM 1, 22005 Huesca",
       "description": "Centro de jardinería en Huesca 🪴",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-de-jardineria-viveros-olivan"
+      "sourceUrl": "https://huesca.city/negocios/centro-de-jardineria-viveros-olivan",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1783895786825-0432xt.jpg",
+      "website": "http://www.viverosolivan.es/"
     },
     {
       "slug": "carniceria-miguel-escuer",
@@ -712,7 +868,9 @@
       "address": "Av. del Dr. Artero, 6, 22004 Huesca",
       "description": "Servicio a domicilio gratuito",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/carniceria-miguel-escuer"
+      "sourceUrl": "https://huesca.city/negocios/carniceria-miguel-escuer",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789146506337-jup61o.jpg",
+      "website": "https://www.carniceriamiguelescuer.com/"
     },
     {
       "slug": "chez-marzola",
@@ -721,7 +879,9 @@
       "address": "C. San Orencio, 13, 22001 Huesca",
       "description": "Tienda de alimentación y productos selectos en Huesca.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/chez-marzola"
+      "sourceUrl": "https://huesca.city/negocios/chez-marzola",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396042945-pmndm2.jpg",
+      "website": "https://www.chezmarzola.com/"
     },
     {
       "slug": "talleres-sybauto",
@@ -730,7 +890,9 @@
       "address": "C. Joaquín Cajal Lasala, 7, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/talleres-sybauto"
+      "sourceUrl": "https://huesca.city/negocios/talleres-sybauto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787647478178-qjvug1.jpg",
+      "website": "http://www.sybautotalleres.es/"
     },
     {
       "slug": "zarandajas",
@@ -739,7 +901,9 @@
       "address": "C. de José María Lacasa, 14, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/zarandajas"
+      "sourceUrl": "https://huesca.city/negocios/zarandajas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788896627914-5snpw9.jpg",
+      "website": ""
     },
     {
       "slug": "fitup-huesca",
@@ -748,7 +912,9 @@
       "address": "C. Doña Sancha, 30, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fitup-huesca"
+      "sourceUrl": "https://huesca.city/negocios/fitup-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789500108020-dkp6c2.jpg",
+      "website": "https://fitupweb.es/"
     },
     {
       "slug": "tina-wellness",
@@ -757,7 +923,9 @@
       "address": "C. Teruel, 26, bajo, 22005 Huesca",
       "description": "Centro Holístico Quiromasajista Masajista deportivo Terapeuta Drenaje linfático",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tina-wellness"
+      "sourceUrl": "https://huesca.city/negocios/tina-wellness",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789682524836-igqt5x.jpg",
+      "website": "http://wellnessmasajes.es/"
     },
     {
       "slug": "libreria-anonima",
@@ -766,7 +934,9 @@
       "address": "C. Cabestany, 19, 22005 Huesca",
       "description": "Librería en Huesca con novedades literarias y recomendaciones para cada lector.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/libreria-anonima"
+      "sourceUrl": "https://huesca.city/negocios/libreria-anonima",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396259818-q7thy2.jpg",
+      "website": "https://www.libreriaanonima.es/"
     },
     {
       "slug": "quintas-hijos-clinica-dental",
@@ -775,7 +945,9 @@
       "address": "Pl. Alfonso el Batallador, 2, Loc 1, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/quintas-hijos-clinica-dental"
+      "sourceUrl": "https://huesca.city/negocios/quintas-hijos-clinica-dental",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787564977458-8trqia.jpg",
+      "website": "https://www.quintashijos.es/"
     },
     {
       "slug": "club-baloncesto-penas",
@@ -784,7 +956,9 @@
       "address": "C. Ramiro el Monje, 18, 22001 Huesca",
       "description": "Club Baloncesto Peñas Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/club-baloncesto-penas"
+      "sourceUrl": "https://huesca.city/negocios/club-baloncesto-penas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1794303916163-cslc34.jpg",
+      "website": "https://www.cbphuesca.com/"
     },
     {
       "slug": "el-fogon",
@@ -793,7 +967,9 @@
       "address": "C. Quinto Sertorio, 13, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-fogon"
+      "sourceUrl": "https://huesca.city/negocios/el-fogon",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793645028584-msp0zc.jpg",
+      "website": "http://www.elfogonhuesca.com/"
     },
     {
       "slug": "artica-tiendas",
@@ -802,7 +978,9 @@
       "address": "C. Cavia, Mariano, 2, 22005 Huesca",
       "description": "Tienda de decoración y hogar en Huesca, con ideas y detalles para tu casa.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/artica-tiendas"
+      "sourceUrl": "https://huesca.city/negocios/artica-tiendas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1783934507771-tq7qr0.jpg",
+      "website": "http://articatiendas.com/"
     },
     {
       "slug": "la-casa-del-pintor",
@@ -811,7 +989,9 @@
       "address": "C. Manuel Bescos, 2, 22002 Huesca",
       "description": "Tienda de bellas artes en Huesca con material para pintura y manualidades.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-casa-del-pintor"
+      "sourceUrl": "https://huesca.city/negocios/la-casa-del-pintor",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395528904-v5k3jc.jpg",
+      "website": "https://tienda.lacasadelpintor.art/"
     },
     {
       "slug": "tienda-oficial-sd-huesca",
@@ -820,7 +1000,9 @@
       "address": "C. Coso Bajo, 13-15, 22001 Huesca",
       "description": "Tienda oficial de la SD Huesca con la equipación y productos oficiales del club.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tienda-oficial-sd-huesca"
+      "sourceUrl": "https://huesca.city/negocios/tienda-oficial-sd-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1783967125834-h64sfs.jpg",
+      "website": "https://tienda.sdhuesca.es/"
     },
     {
       "slug": "oscauto",
@@ -829,7 +1011,9 @@
       "address": "C. Badalona, 11, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/oscauto"
+      "sourceUrl": "https://huesca.city/negocios/oscauto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788003094201-7sucv8.jpg",
+      "website": "http://www.oscauto.com/"
     },
     {
       "slug": "aceites-ferrer",
@@ -838,7 +1022,9 @@
       "address": "C. San Lorenzo, 6, 22144 Bierge, Huesca",
       "description": "Aceites de la Sierra de Guara",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/aceites-ferrer"
+      "sourceUrl": "https://huesca.city/negocios/aceites-ferrer",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789496939120-dp2s05.jpg",
+      "website": "https://aceitesferrer.com/"
     },
     {
       "slug": "ferreteria-esmas",
@@ -847,7 +1033,9 @@
       "address": "C. la Magantina, 29, 22006 Huesca",
       "description": "Suministros industriales y ferretería minorista y mayorista fundada en mayo de 1992",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ferreteria-esmas"
+      "sourceUrl": "https://huesca.city/negocios/ferreteria-esmas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791126588527-6nso10.jpg",
+      "website": "http://www.ferreteriaesmas.com/"
     },
     {
       "slug": "pilar-prieto",
@@ -856,7 +1044,9 @@
       "address": "Pl. Navarra, 2, 22002 Huesca",
       "description": "Tienda de Ropa",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pilar-prieto"
+      "sourceUrl": "https://huesca.city/negocios/pilar-prieto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1783182565175-388loh.jpg",
+      "website": "http://www.pilarprieto.es/"
     },
     {
       "slug": "espacio-danza-huesca",
@@ -865,7 +1055,9 @@
       "address": "Calle Ingeniero La Figuera, 2, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/espacio-danza-huesca"
+      "sourceUrl": "https://huesca.city/negocios/espacio-danza-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787775679584-q8ip10.jpg",
+      "website": "http://www.espaciodanzahuesca.es/"
     },
     {
       "slug": "la-taberna-del-bolo",
@@ -874,7 +1066,9 @@
       "address": "Av. Santo Grial, 4, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-taberna-del-bolo"
+      "sourceUrl": "https://huesca.city/negocios/la-taberna-del-bolo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790337341837-frdf91.jpg",
+      "website": "https://www.tripadvisor.es/Restaurant_Review-g187446-d33094994-Reviews-La_Taberna_Del_Bolo-Huesca_Province_of_Huesca_Aragon.html"
     },
     {
       "slug": "sermeri-agua-huerta-y-jardin",
@@ -883,7 +1077,9 @@
       "address": "C. la Magantina, 13, 22006 Huesca",
       "description": "Venta, alquiler y reparación de maquinaria, herramientas y sistemas de riego para la agricultura, el huerto y el jardín",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/sermeri-agua-huerta-y-jardin"
+      "sourceUrl": "https://huesca.city/negocios/sermeri-agua-huerta-y-jardin",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790526345078-6y6ee2.jpg",
+      "website": "https://www.sermeri.com/"
     },
     {
       "slug": "pescados-momprade",
@@ -892,7 +1088,9 @@
       "address": "C. San Orencio, 12, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pescados-momprade"
+      "sourceUrl": "https://huesca.city/negocios/pescados-momprade",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789147001768-f10lo3.jpg",
+      "website": "http://www.pescadosmomprade.com/"
     },
     {
       "slug": "escuela-club-ibon",
@@ -901,7 +1099,9 @@
       "address": "C. Fuente del Ibon, 10, 22003 Huesca",
       "description": "Escuela deportiva de judo en Huesca para todas las edades.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/escuela-club-ibon"
+      "sourceUrl": "https://huesca.city/negocios/escuela-club-ibon",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784374419007-hvkh59.jpg",
+      "website": "http://www.judoibon.com/"
     },
     {
       "slug": "moyde-material-de-construccion",
@@ -910,7 +1110,9 @@
       "address": "Rda. de la Industria, 5, 22006 Huesca",
       "description": "Tienda de materiales para la construcción",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/moyde-material-de-construccion"
+      "sourceUrl": "https://huesca.city/negocios/moyde-material-de-construccion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791810196890-lbiqo2.jpg",
+      "website": "https://www.gamma.es/es/stores/gamma-moyde-85/"
     },
     {
       "slug": "libreria-estilo",
@@ -919,7 +1121,9 @@
       "address": "C. del Parque, 38, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/libreria-estilo"
+      "sourceUrl": "https://huesca.city/negocios/libreria-estilo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789420400641-06pa5g.jpg",
+      "website": "http://www.libreriaestilo.com/"
     },
     {
       "slug": "folder",
@@ -928,7 +1132,9 @@
       "address": "C. Alcoraz, 6, 22002 Huesca",
       "description": "Material escolar y de oficina",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/folder"
+      "sourceUrl": "https://huesca.city/negocios/folder",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789316834590-uyd520.jpg",
+      "website": "http://www.folder.es/"
     },
     {
       "slug": "libreria-edelweis",
@@ -937,7 +1143,9 @@
       "address": "P.º de Ramón y Cajal, 24, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/libreria-edelweis"
+      "sourceUrl": "https://huesca.city/negocios/libreria-edelweis",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788897082084-xbwcem.jpg",
+      "website": ""
     },
     {
       "slug": "silban360",
@@ -946,7 +1154,9 @@
       "address": "C. Teruel, 5, 22005 Huesca",
       "description": "Centro de Entrenamiento Personal y Nutrición",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/silban360"
+      "sourceUrl": "https://huesca.city/negocios/silban360",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787240069389-psqrfg.jpg",
+      "website": "https://silban360.com/"
     },
     {
       "slug": "bar-montearagon",
@@ -955,7 +1165,9 @@
       "address": "C. Valencia, 16, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bar-montearagon"
+      "sourceUrl": "https://huesca.city/negocios/bar-montearagon",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792409393451-q98pn8.jpg",
+      "website": ""
     },
     {
       "slug": "zaraflor-huesca",
@@ -964,7 +1176,9 @@
       "address": "C. Santo Cristo de los Milagros, 3, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/zaraflor-huesca"
+      "sourceUrl": "https://huesca.city/negocios/zaraflor-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790532208346-1m5894.jpg",
+      "website": "https://zaraflor.es/"
     },
     {
       "slug": "el-hada-de-la-fortuna",
@@ -973,7 +1187,9 @@
       "address": "C. Obispo Pintado, 2, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-hada-de-la-fortuna"
+      "sourceUrl": "https://huesca.city/negocios/el-hada-de-la-fortuna",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789313604020-x3tk9n.jpg",
+      "website": "https://elhadadelafortuna.es/?fbclid=PAT01DUAPsoMJleHRuA2FlbQIxMABzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaf0EeF-JtH9H8gQC4VdYXpv2nwBvsin-FEuWbxoVMtBdoMY8fvpjO9QoVI2xA_aem_3wdVKdy1MLh_RBq552pnCQ"
     },
     {
       "slug": "moyde-osca",
@@ -982,7 +1198,9 @@
       "address": "Av. Juan XXIII, 21, 22003 Huesca",
       "description": "Reformas y materiales para el hogar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/moyde-osca"
+      "sourceUrl": "https://huesca.city/negocios/moyde-osca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788986765258-59ibuw.jpg",
+      "website": "https://www.reformashuesca.es/"
     },
     {
       "slug": "centro-deportivo-j10",
@@ -991,7 +1209,9 @@
       "address": "C. Fraga, 7, 22004 Huesca",
       "description": "Gimnasio y centro deportivo en Huesca para entrenar y cuidar tu forma física.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-deportivo-j10"
+      "sourceUrl": "https://huesca.city/negocios/centro-deportivo-j10",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784458959491-lej3fh.jpg",
+      "website": "http://www.centrodeportivoj10.com/"
     },
     {
       "slug": "perfumeria-julia",
@@ -1000,7 +1220,9 @@
       "address": "C. Coso Alto, 5, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/perfumeria-julia"
+      "sourceUrl": "https://huesca.city/negocios/perfumeria-julia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784456077849-fi7xo5.jpg",
+      "website": "https://www.perfumeriajulia.es/"
     },
     {
       "slug": "quercus-braseria",
@@ -1009,7 +1231,9 @@
       "address": "C. San Lorenzo, 64, 22002 Huesca",
       "description": "Restaurante especializado en cocina a la brasa y parrilla vasca. Carnes, pescados y elaboraciones de temporada",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/quercus-braseria"
+      "sourceUrl": "https://huesca.city/negocios/quercus-braseria",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790183148581-24evcn.jpg",
+      "website": "http://quercusbraseria.com/"
     },
     {
       "slug": "panaderia-pasteleria-la-barquera",
@@ -1018,7 +1242,9 @@
       "address": "C. Ramón J Sender, 5, 22005 Huesca",
       "description": "Repostería artesana hecha con amor. Cookies y Crumbles para cualquier ocasión. Tartas personalizadas y mucho más!",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/panaderia-pasteleria-la-barquera"
+      "sourceUrl": "https://huesca.city/negocios/panaderia-pasteleria-la-barquera",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787206879312-jq9bku.jpg",
+      "website": ""
     },
     {
       "slug": "centro-deportivo-alameda",
@@ -1027,7 +1253,9 @@
       "address": "C. de la Agricultura, 3, 22006 Huesca",
       "description": "Centro deportivo y gimnasio en Huesca con instalaciones para ponerte en forma.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-deportivo-alameda"
+      "sourceUrl": "https://huesca.city/negocios/centro-deportivo-alameda",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396419449-49oqjo.jpg",
+      "website": "https://www.parquealameda.net/"
     },
     {
       "slug": "la-vieja-escuela",
@@ -1036,7 +1264,9 @@
       "address": "C. Ramiro el Monje, Número 16, 22001 Huesca",
       "description": "Traditional Barber Shop",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-vieja-escuela"
+      "sourceUrl": "https://huesca.city/negocios/la-vieja-escuela",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789922134735-drmwza.jpg",
+      "website": "https://www.soybarbudo.com/post/la-vieja-escuela-barber-shop-huesca"
     },
     {
       "slug": "peluqueria-shanty-s",
@@ -1045,7 +1275,9 @@
       "address": "C. Menéndez Pidal, 31, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-shanty-s"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-shanty-s",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791634534501-923fv5.jpg",
+      "website": "https://peluqueriashantys.com"
     },
     {
       "slug": "grasan",
@@ -1054,7 +1286,9 @@
       "address": "P.º de Ramón y Cajal, 59, BAJO, 22006 Huesca",
       "description": "Reparación de electrodomésticos, repuestos de marcas variadas e instalación de aires acondicionados",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/grasan"
+      "sourceUrl": "https://huesca.city/negocios/grasan",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790460042314-c5fxqe.jpg",
+      "website": ""
     },
     {
       "slug": "gotten-gym",
@@ -1063,7 +1297,9 @@
       "address": "Rda. de la Industria, 10, 42 A, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/gotten-gym"
+      "sourceUrl": "https://huesca.city/negocios/gotten-gym",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787240567874-e1njgi.jpg",
+      "website": "https://gottengym.com/"
     },
     {
       "slug": "soma-fisioterapia",
@@ -1072,7 +1308,9 @@
       "address": "C. Pedro de Zuera, 2, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/soma-fisioterapia"
+      "sourceUrl": "https://huesca.city/negocios/soma-fisioterapia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787153988420-edn5vg.jpg",
+      "website": "http://www.somasalud.es/"
     },
     {
       "slug": "limpiezas-guara",
@@ -1081,7 +1319,9 @@
       "address": "C. Valle de Ansó, 5, 22006 Huesca",
       "description": "Servicios de limpieza profesional en Huesca para hogares y empresas.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/limpiezas-guara"
+      "sourceUrl": "https://huesca.city/negocios/limpiezas-guara",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395306673-g9w9mx.jpg",
+      "website": "https://www.limpiezasguara.com/"
     },
     {
       "slug": "eurekakids",
@@ -1090,7 +1330,9 @@
       "address": "C. Coso Bajo, 11, 22001 Huesca",
       "description": "Libros, juegos de mesa y juguetes educativos",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/eurekakids"
+      "sourceUrl": "https://huesca.city/negocios/eurekakids",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789648313032-cxwu5o.jpg",
+      "website": "https://www.eurekakids.es/"
     },
     {
       "slug": "parque-bar-lounge-club",
@@ -1099,7 +1341,9 @@
       "address": "Parque Bar, C. del Parque, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/parque-bar-lounge-club"
+      "sourceUrl": "https://huesca.city/negocios/parque-bar-lounge-club",
+      "image": "https://huesca.city/logo.png",
+      "website": "https://www.parquebarhuesca.com/"
     },
     {
       "slug": "calzados-almi",
@@ -1108,7 +1352,9 @@
       "address": "C. San Lorenzo, 13, 22002 Huesca",
       "description": "Zapatería tradicional y de confianza",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/calzados-almi"
+      "sourceUrl": "https://huesca.city/negocios/calzados-almi",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790593440920-39sfcf.jpg",
+      "website": ""
     },
     {
       "slug": "anlumar-iluminacion",
@@ -1117,7 +1363,9 @@
       "address": "C. Rafael Ayerbe, 1, 22005 Huesca",
       "description": "Iluminación y Soluciones Eléctricas Más de 25 años de experiencia",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/anlumar-iluminacion"
+      "sourceUrl": "https://huesca.city/negocios/anlumar-iluminacion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788897574680-pum3sm.jpg",
+      "website": ""
     },
     {
       "slug": "gaia-huesca",
@@ -1126,7 +1374,9 @@
       "address": "P.º de Ramón y Cajal, 3, Principal C, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/gaia-huesca"
+      "sourceUrl": "https://huesca.city/negocios/gaia-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787564324627-5hxqwh.jpg",
+      "website": "https://centrogaiahuesca.com/"
     },
     {
       "slug": "peluqueria-atenea",
@@ -1135,7 +1385,9 @@
       "address": "C. San Jorge, 40, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-atenea"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-atenea",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791116366130-lxdwd7.jpg",
+      "website": "https://www.fresha.com/es/lvp/peluqueria-atenea-calle-san-jorge-huesca-9RlXqv"
     },
     {
       "slug": "motor-3000-s-l",
@@ -1144,7 +1396,9 @@
       "address": "C. Alcubierre, 22, 22004 Huesca",
       "description": "Taller Premium",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/motor-3000-s-l"
+      "sourceUrl": "https://huesca.city/negocios/motor-3000-s-l",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787647124081-9m6z1u.jpg",
+      "website": "http://www.motor3000.es/"
     },
     {
       "slug": "que-hobby",
@@ -1153,7 +1407,9 @@
       "address": "P.º de las Autonomías, 7, 22004 Huesca",
       "description": "Juguetería en Huesca con juguetes, juegos de mesa, maquetas y hobbies para todas las edades.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/que-hobby"
+      "sourceUrl": "https://huesca.city/negocios/que-hobby",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784392320615-lddg1q.jpg",
+      "website": "http://jugueteriamasquehobby.com/"
     },
     {
       "slug": "cafe-bar-l-albahaca",
@@ -1162,7 +1418,9 @@
       "address": "Av. los Danzantes de Huesca, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cafe-bar-l-albahaca"
+      "sourceUrl": "https://huesca.city/negocios/cafe-bar-l-albahaca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787568884019-c83zmt.jpg",
+      "website": "https://www.carinsertas.com/cafeteria-bar-lalbahaca/"
     },
     {
       "slug": "farmacia-altemir",
@@ -1171,7 +1429,9 @@
       "address": "Av. de la Paz, 10, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/farmacia-altemir"
+      "sourceUrl": "https://huesca.city/negocios/farmacia-altemir",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789570460955-2bv4n1.jpg",
+      "website": "http://www.farmaservicios.es/"
     },
     {
       "slug": "benjamin-ara",
@@ -1180,7 +1440,9 @@
       "address": "C. Coso Alto, 8, 22002 Huesca",
       "description": "Taller Artesano",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/benjamin-ara"
+      "sourceUrl": "https://huesca.city/negocios/benjamin-ara",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789813988525-pfkwgd.jpg",
+      "website": "https://www.joyeriabenjaminara.es/"
     },
     {
       "slug": "lopezientos",
@@ -1189,7 +1451,9 @@
       "address": "C. San Orencio, 13, 22001 Huesca",
       "description": "Tienda de ropa de mujer",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lopezientos"
+      "sourceUrl": "https://huesca.city/negocios/lopezientos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789331176003-l82r2h.jpg",
+      "website": "http://lopezientos.es/"
     },
     {
       "slug": "casa-ortas-albas-habitaciones-rurales",
@@ -1198,7 +1462,9 @@
       "address": "Camino de la Pillera, 22193 Nocito, Huesca",
       "description": "Complejo de turismo rural manejado familiarmente. Situado en el pueblo de Nocito, en plena cara norte de la Sierra de Guara",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/casa-ortas-albas-habitaciones-rurales"
+      "sourceUrl": "https://huesca.city/negocios/casa-ortas-albas-habitaciones-rurales",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790877168320-rnsj13.jpg",
+      "website": "http://www.campingvallenocito.com/"
     },
     {
       "slug": "creusa",
@@ -1207,7 +1473,9 @@
       "address": "Av. de los Pirineos, 22, 22004 Huesca",
       "description": "Salón de belleza y bienestar ubicado en Huesca con más de 35 años de experiencia en el cuidado personal",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/creusa"
+      "sourceUrl": "https://huesca.city/negocios/creusa",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789985458392-guzb7c.jpg",
+      "website": "https://centrodeesteticacreusa.com"
     },
     {
       "slug": "limite-fitness-salud",
@@ -1216,7 +1484,9 @@
       "address": "C. Alfonso II de Aragón, 20, 22005 Huesca",
       "description": "Centro deportivo",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/limite-fitness-salud"
+      "sourceUrl": "https://huesca.city/negocios/limite-fitness-salud",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787239525123-x6j48f.jpg",
+      "website": ""
     },
     {
       "slug": "mojo-y-cojo",
@@ -1225,7 +1495,9 @@
       "address": "Av. del Dr. Artero, 31, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/mojo-y-cojo"
+      "sourceUrl": "https://huesca.city/negocios/mojo-y-cojo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789495445771-lve2c1.jpg",
+      "website": "http://www.mojoycojo.com/"
     },
     {
       "slug": "muevete-huesca",
@@ -1234,7 +1506,9 @@
       "address": "C. Ricardo del Arco, 3, 22003 Huesca",
       "description": "Tienda de deportes en Huesca con ropa, calzado y material deportivo.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/muevete-huesca"
+      "sourceUrl": "https://huesca.city/negocios/muevete-huesca",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395570231-5xl7mf.jpg",
+      "website": "https://www.muevetesports.es/"
     },
     {
       "slug": "peluqueria-gama",
@@ -1243,7 +1517,9 @@
       "address": "C. las Ciencias, 6, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-gama"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-gama",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791123528578-s08c6s.jpg",
+      "website": ""
     },
     {
       "slug": "bar-vibra",
@@ -1252,7 +1528,9 @@
       "address": "P.º de las Autonomías, 3, 22004 Huesca",
       "description": "Bar con billar, futbolín y dardos",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bar-vibra"
+      "sourceUrl": "https://huesca.city/negocios/bar-vibra",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789649037277-reunll.jpg",
+      "website": ""
     },
     {
       "slug": "yeni-estilistas",
@@ -1261,7 +1539,9 @@
       "address": "C. Teruel, 10, bajos, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/yeni-estilistas"
+      "sourceUrl": "https://huesca.city/negocios/yeni-estilistas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786202690535-st2kd8.jpg",
+      "website": ""
     },
     {
       "slug": "merceria-renes",
@@ -1270,7 +1550,9 @@
       "address": "Calle Ramón y Cajal, 3, 22001 Huesca",
       "description": "Comercio tradicional y familiar. Ofrecemos un amplio catálogo de hilos, lanas, botones, cremalleras y artículos especializados para labores y costura.…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/merceria-renes"
+      "sourceUrl": "https://huesca.city/negocios/merceria-renes",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793709048954-f6vxb7.jpg",
+      "website": "https://www.merceriasrenes.com/"
     },
     {
       "slug": "el-dedal",
@@ -1279,7 +1561,9 @@
       "address": "C. las Ciencias, 2, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-dedal"
+      "sourceUrl": "https://huesca.city/negocios/el-dedal",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787677213394-bmk6d0.jpg",
+      "website": ""
     },
     {
       "slug": "crossfit-huesca",
@@ -1288,7 +1572,9 @@
       "address": "Polígono Industrial Monzú 32 Ronda del Transporte, Rda. del Transporte, 8, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/crossfit-huesca"
+      "sourceUrl": "https://huesca.city/negocios/crossfit-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787240924486-q7mqj5.jpg",
+      "website": "http://www.crossfithuesca.com/"
     },
     {
       "slug": "uson-floristas",
@@ -1297,7 +1583,9 @@
       "address": "C. Ramón J Sender, 16, 22005 Huesca",
       "description": "Especializados en ornamentos florales para bodas, banquetes, bautizos, comuniones, nacimientos, iglesias, actos fúnebres, centros de mesa, cestas, eventos…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/uson-floristas"
+      "sourceUrl": "https://huesca.city/negocios/uson-floristas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791636364517-18q3tc.jpg",
+      "website": "http://usonfloristas.com/"
     },
     {
       "slug": "clinica-ferrersalud",
@@ -1306,7 +1594,9 @@
       "address": "C. Teruel, 4, 22005 Huesca",
       "description": "Centro sanitario especializado en podología, cirugía avanzada del pie, fisioterapia y osteopatía.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/clinica-ferrersalud"
+      "sourceUrl": "https://huesca.city/negocios/clinica-ferrersalud",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789315443061-uxt3os.jpg",
+      "website": "https://www.clinicaferrersalud.com/"
     },
     {
       "slug": "talleres-lanuza-solans",
@@ -1315,7 +1605,9 @@
       "address": "C. Alcubierre, 7, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/talleres-lanuza-solans"
+      "sourceUrl": "https://huesca.city/negocios/talleres-lanuza-solans",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787645843366-ri3kuc.jpg",
+      "website": "http://www.lanuzasolans.com/"
     },
     {
       "slug": "pena-guara",
@@ -1324,7 +1616,9 @@
       "address": "C. Vicente Campo Palacio, 9, 22002 Huesca",
       "description": "Un emblemático club de montaña de Huesca con más de 90 años de historia, dedicados a la promoción del alpinismo, el senderismo y los deportes de aventura.…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pena-guara"
+      "sourceUrl": "https://huesca.city/negocios/pena-guara",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784372008890-x33e21.jpg",
+      "website": "http://p-guara.com/wordpress/"
     },
     {
       "slug": "different-urban-sport",
@@ -1333,7 +1627,9 @@
       "address": "C. Fatás, 4, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/different-urban-sport"
+      "sourceUrl": "https://huesca.city/negocios/different-urban-sport",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789583643970-87zwuo.jpg",
+      "website": "https://www.differenturbansport.com/"
     },
     {
       "slug": "a-cuchillo-carniceria-escar",
@@ -1342,7 +1638,9 @@
       "address": "TRAVESIA, C. Emilio Bara Echeto, S-N, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/a-cuchillo-carniceria-escar"
+      "sourceUrl": "https://huesca.city/negocios/a-cuchillo-carniceria-escar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789422015570-9t74yv.jpg",
+      "website": ""
     },
     {
       "slug": "pura-vida",
@@ -1351,7 +1649,9 @@
       "address": "C. Fidel Seral, 4, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pura-vida"
+      "sourceUrl": "https://huesca.city/negocios/pura-vida",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788899421097-uycw6z.jpg",
+      "website": "http://www.puravidabio.es/"
     },
     {
       "slug": "sientelo-salsa-y-bachata",
@@ -1360,7 +1660,9 @@
       "address": "Pje. Jilgueros, 2, 22004 Casa Andalucía, Huesca",
       "description": "Clases nivel iniciación e intermedio / eventos por la provincia con nuestra discomóvil / baile nupcial / cumpleaños / cantante / de todoooo con nuestro equipo…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/sientelo-salsa-y-bachata"
+      "sourceUrl": "https://huesca.city/negocios/sientelo-salsa-y-bachata",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787778536209-vswisc.jpg",
+      "website": "https://instagram.com/sientelo_huesca"
     },
     {
       "slug": "jerseys-puig",
@@ -1369,7 +1671,9 @@
       "address": "P.º de Ramón y Cajal, 31, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/jerseys-puig"
+      "sourceUrl": "https://huesca.city/negocios/jerseys-puig",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788978416372-519qoz.jpg",
+      "website": "http://www.jerseyspuig.com/"
     },
     {
       "slug": "miel-el-colmenar-de-angel",
@@ -1378,7 +1682,9 @@
       "address": "C. Agustín Viñuales Pardo, 1, 22004 Huesca",
       "description": "Tienda especializada en miel y productos de la colmena en Huesca.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/miel-el-colmenar-de-angel"
+      "sourceUrl": "https://huesca.city/negocios/miel-el-colmenar-de-angel",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1785742812811-oqej9m.jpg",
+      "website": "http://www.elcolmenardeangel.es/"
     },
     {
       "slug": "gimnasio-live",
@@ -1387,7 +1693,9 @@
       "address": "C. Madrid, 6, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/gimnasio-live"
+      "sourceUrl": "https://huesca.city/negocios/gimnasio-live",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1784458816934-kfu80g.jpg",
+      "website": ""
     },
     {
       "slug": "talleres-viela",
@@ -1396,7 +1704,9 @@
       "address": "C. Ganadería, Parcela 21, nave 4, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/talleres-viela"
+      "sourceUrl": "https://huesca.city/negocios/talleres-viela",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787646455920-zkjkcj.jpg",
+      "website": ""
     },
     {
       "slug": "joyeria-cuarzos",
@@ -1405,7 +1715,9 @@
       "address": "C. Coso Bajo, 56, 22001 Huesca",
       "description": "Establecimiento artesanal de tradición familiar ubicado en el centro de Huesca, especializado en joyería personalizada y piezas exclusivas hechas a medida",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/joyeria-cuarzos"
+      "sourceUrl": "https://huesca.city/negocios/joyeria-cuarzos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790875800344-bf8l4a.jpg",
+      "website": "https://joyeriacuarzos.es/"
     },
     {
       "slug": "ms-mr-language",
@@ -1414,7 +1726,9 @@
       "address": "Av. de los Monegros, 29, 22005 Huesca",
       "description": "Academia de idiomas en Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ms-mr-language"
+      "sourceUrl": "https://huesca.city/negocios/ms-mr-language",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789144844032-7xttmv.jpg",
+      "website": "https://www.msmrlanguage.com/"
     },
     {
       "slug": "fitness-dr-box",
@@ -1423,7 +1737,9 @@
       "address": "Rda. de la Industria, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fitness-dr-box"
+      "sourceUrl": "https://huesca.city/negocios/fitness-dr-box",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787302132446-66d75r.jpg",
+      "website": ""
     },
     {
       "slug": "panaderia-santolaria-deli",
@@ -1432,7 +1748,9 @@
       "address": "C. Goya, 8, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/panaderia-santolaria-deli"
+      "sourceUrl": "https://huesca.city/negocios/panaderia-santolaria-deli",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789814504168-6tvidy.jpg",
+      "website": "http://www.santolariadeli.es/"
     },
     {
       "slug": "fisioespacio-huesca",
@@ -1441,7 +1759,9 @@
       "address": "C. Saturnino López Novoa, 1, 22005 Huesca",
       "description": "Centro de fisioterapia y osteopatia",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fisioespacio-huesca"
+      "sourceUrl": "https://huesca.city/negocios/fisioespacio-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789314906473-1omytm.jpg",
+      "website": "http://www.fisioespaciohuesca.com/"
     },
     {
       "slug": "esencia",
@@ -1450,7 +1770,9 @@
       "address": "C. Porches de Galicia, 3, 22002 Huesca",
       "description": "Conocida tienda de regalos y perfumería situada en el corazón de Huesca, que también ha dado nombre a fragancias inspiradas en el aroma característico de la…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/esencia"
+      "sourceUrl": "https://huesca.city/negocios/esencia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790448532178-9mdwgz.jpg",
+      "website": "https://www.esenciadeti.com/"
     },
     {
       "slug": "conservatorio-de-huesca",
@@ -1459,7 +1781,9 @@
       "address": "C. Fuente del Ibon, 5, 22004 Huesca",
       "description": "Conservatorio Profesional de Música de Huesca \"Antonio Viñuales Gracia\"",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/conservatorio-de-huesca"
+      "sourceUrl": "https://huesca.city/negocios/conservatorio-de-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786191435159-vw882d.jpg",
+      "website": "http://www.conservatoriodehuesca.com/"
     },
     {
       "slug": "efo-escuela-de-futbol-oscense",
@@ -1468,7 +1792,9 @@
       "address": "C. del Reciclaje, 19, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/efo-escuela-de-futbol-oscense"
+      "sourceUrl": "https://huesca.city/negocios/efo-escuela-de-futbol-oscense",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786190602911-ovq3kw.jpg",
+      "website": "https://escueladefutboloscense.com/"
     },
     {
       "slug": "lucia-lopez-nutricion",
@@ -1477,7 +1803,9 @@
       "address": "Ingeniero Cajal Lasala, esquina, C. Ing. Montaner, s/n, 22004 Huesca",
       "description": "Dietistas-nutricionistas especializadas en salud femenina y patologías digestivas. Cambio de hábitos y educación alimentaria sin enfoques restrictivos.…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lucia-lopez-nutricion"
+      "sourceUrl": "https://huesca.city/negocios/lucia-lopez-nutricion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1792588025996-id1xrh.jpg",
+      "website": "https://www.lucialopeznutricion.com/"
     },
     {
       "slug": "gemma-casanova",
@@ -1486,7 +1814,9 @@
       "address": "Av. de la Paz, 31, 22004 Huesca",
       "description": "Salon de peluquería para mujer y hombre",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/gemma-casanova"
+      "sourceUrl": "https://huesca.city/negocios/gemma-casanova",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790074107194-xtxz5u.jpg",
+      "website": ""
     },
     {
       "slug": "kids-us-huesca",
@@ -1495,7 +1825,9 @@
       "address": "C. de las Cortes, 4, Bajo, 22002 Huesca",
       "description": "💬 Hello, world. It’s me. 👶 English from the age of 1. 🎈 Learn by playing.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/kids-us-huesca"
+      "sourceUrl": "https://huesca.city/negocios/kids-us-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789900438684-a63qon.jpg",
+      "website": "https://www.kidsandus.es/es/academias-ingles/huesca"
     },
     {
       "slug": "berkana",
@@ -1504,7 +1836,9 @@
       "address": "C. de Pedro Arnal Cavero, 6, 22001 Huesca",
       "description": "Especializado en el cuidado de la salud física y mental, con un enfoque muy destacado en la etapa perinatal (embarazo y posparto), la infancia y el bienestar…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/berkana"
+      "sourceUrl": "https://huesca.city/negocios/berkana",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791711526693-d44z8v.jpg",
+      "website": "http://www.berkanafisioterapia.es/"
     },
     {
       "slug": "esther-centro-estetico",
@@ -1513,7 +1847,9 @@
       "address": "C. Ana Abarca de Bolea, 13, 22004 Huesca",
       "description": "Centro de estética y belleza unisex",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/esther-centro-estetico"
+      "sourceUrl": "https://huesca.city/negocios/esther-centro-estetico",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789921329536-w63zg1.jpg",
+      "website": "https://esthercentroestetico.es/"
     },
     {
       "slug": "ser-y-star",
@@ -1522,7 +1858,9 @@
       "address": "Av. los Danzantes de Huesca, 22005 Huesca",
       "description": "Estudio de Pilates",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ser-y-star"
+      "sourceUrl": "https://huesca.city/negocios/ser-y-star",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789314249202-bc1tm3.jpg",
+      "website": "https://www.marianalamia.es/"
     },
     {
       "slug": "lamines-capazo",
@@ -1531,7 +1869,9 @@
       "address": "C. Coso Alto, 36, 22004 Huesca",
       "description": "🍬 Lamines Capazo es una tienda de barrio con mucho rollo en pleno Coso Alto de Huesca. Pan, bollería, café, chuches a granel, snacks, bebidas y opciones para…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lamines-capazo"
+      "sourceUrl": "https://huesca.city/negocios/lamines-capazo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1786213108128-ucp446.jpg",
+      "website": ""
     },
     {
       "slug": "abril-es-moda-y-belleza",
@@ -1540,7 +1880,9 @@
       "address": "Pje. Arco Iris, 5, 22005 Huesca",
       "description": "Lencería, mercería, moda y belleza. Servicios de manicura y modistas",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/abril-es-moda-y-belleza"
+      "sourceUrl": "https://huesca.city/negocios/abril-es-moda-y-belleza",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789585200102-ant0sv.jpg",
+      "website": "https://cys-abrilesenciamodaybelleza.com/"
     },
     {
       "slug": "peluqueria-arrebato",
@@ -1549,7 +1891,9 @@
       "address": "C. de José María Lacasa, 18, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-arrebato"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-arrebato",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789496280150-skzrsr.jpg",
+      "website": ""
     },
     {
       "slug": "hoscafrost",
@@ -1558,7 +1902,9 @@
       "address": "C. Ganadería, 34, 22006 Huesca",
       "description": "Empresa dedicada a la venta, montaje y reparación de maquinaria de hostelería.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/hoscafrost"
+      "sourceUrl": "https://huesca.city/negocios/hoscafrost",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788986291124-uwi31v.jpg",
+      "website": "http://www.hoscafrost.es/"
     },
     {
       "slug": "autoescuela-aneto",
@@ -1567,7 +1913,9 @@
       "address": "C. Ricardo del Arco, 27, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/autoescuela-aneto"
+      "sourceUrl": "https://huesca.city/negocios/autoescuela-aneto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793131411997-9jllm3.jpg",
+      "website": "https://www.autoescuelaaneto.es/"
     },
     {
       "slug": "open-wash",
@@ -1576,7 +1924,9 @@
       "address": "Calle Gibraltar, 18, 22006 Huesca",
       "description": "Lavandería Autoservicio",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/open-wash"
+      "sourceUrl": "https://huesca.city/negocios/open-wash",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790716690886-34fv37.jpg",
+      "website": "http://www.openwash.es/"
     },
     {
       "slug": "vive-balance-huesca",
@@ -1585,7 +1935,9 @@
       "address": "C. Coso Alto, 57, 22003 Huesca",
       "description": "Entrenamiento personal con grupos reducidos",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/vive-balance-huesca"
+      "sourceUrl": "https://huesca.city/negocios/vive-balance-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790266546943-57te87.jpg",
+      "website": "https://vivebalance.wodbuster.com"
     },
     {
       "slug": "fisiosca-fisioterapia-readaptacion",
@@ -1594,7 +1946,9 @@
       "address": "Av. Juan XXIII, 7, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fisiosca-fisioterapia-readaptacion"
+      "sourceUrl": "https://huesca.city/negocios/fisiosca-fisioterapia-readaptacion",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793785289408-ufz48d.jpg",
+      "website": "https://fisiosca.com/"
     },
     {
       "slug": "english-maths",
@@ -1603,7 +1957,9 @@
       "address": "Pl. Concepción Arenal, 6, 1ºB, 22002 Huesca",
       "description": "Academia de idiomas y apoyo educativo fundada en 2002. El centro destaca por su enfoque en la enseñanza de inglés y francés para todas las edades. Como centro…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/english-maths"
+      "sourceUrl": "https://huesca.city/negocios/english-maths",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790603171445-85gl38.jpg",
+      "website": "http://www.englishmaths.com/"
     },
     {
       "slug": "fabula-baby-kids",
@@ -1612,7 +1968,9 @@
       "address": "C. Miguel Servet, 10, 22002 Huesca",
       "description": "Tienda de Bebés",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fabula-baby-kids"
+      "sourceUrl": "https://huesca.city/negocios/fabula-baby-kids",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788987640158-9g4l8a.jpg",
+      "website": "https://www.fabulababy.com/"
     },
     {
       "slug": "mumo",
@@ -1621,7 +1979,9 @@
       "address": "C. Fuente del Ibon, 4, 22003 Huesca",
       "description": "Escuela de Música Moderna",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/mumo"
+      "sourceUrl": "https://huesca.city/negocios/mumo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787150244535-e0au5l.jpg",
+      "website": "http://www.mumomusica.com/"
     },
     {
       "slug": "trepadero",
@@ -1630,7 +1990,9 @@
       "address": "C. de José María Lacasa, 2, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/trepadero"
+      "sourceUrl": "https://huesca.city/negocios/trepadero",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786192559225-e8ep32.jpg",
+      "website": "https://www.trepadero.com/"
     },
     {
       "slug": "la-nueva-relojeria",
@@ -1639,7 +2001,9 @@
       "address": "C. Padre Huesca, 15, 22002 Huesca",
       "description": "Boutique de moda, complementos y joyería situado en el centro de Huesca. Envíos internacionales, con pedidos al whatsapp",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-nueva-relojeria"
+      "sourceUrl": "https://huesca.city/negocios/la-nueva-relojeria",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789903031524-emb84g.jpg",
+      "website": "http://www.lnrconcept.com/"
     },
     {
       "slug": "bravo",
@@ -1648,7 +2012,9 @@
       "address": "C. José Castán Tobeñas, 52, 22005 Huesca",
       "description": "Bravo! Espacio musical",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bravo"
+      "sourceUrl": "https://huesca.city/negocios/bravo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787150681607-b6mppe.jpg",
+      "website": "http://bravoespaciomusica.com/"
     },
     {
       "slug": "salvador-suministros-de-oficina",
@@ -1657,7 +2023,9 @@
       "address": "C. Coso Bajo, 51, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/salvador-suministros-de-oficina"
+      "sourceUrl": "https://huesca.city/negocios/salvador-suministros-de-oficina",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788898792371-si0dvn.jpg",
+      "website": "http://www.salvadorsuministrosoficina.es/"
     },
     {
       "slug": "centro-de-estetica-aloe",
@@ -1666,7 +2034,9 @@
       "address": "C. Santo Ángel de la Guarda, 10, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-de-estetica-aloe"
+      "sourceUrl": "https://huesca.city/negocios/centro-de-estetica-aloe",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787568273450-dnucc1.jpg",
+      "website": "https://www.aloeestetica.com/"
     },
     {
       "slug": "lobera-carpintero",
@@ -1675,7 +2045,9 @@
       "address": "P.º de Ramón y Cajal, 95, 22006 Huesca",
       "description": "Empresa familiar. Nos especializamos en carpintería y ebanistería a medida, creando desde cocinas y muebles hasta estructuras de madera y revestimientos.…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lobera-carpintero"
+      "sourceUrl": "https://huesca.city/negocios/lobera-carpintero",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793297958039-5tcvkj.jpg",
+      "website": "https://www.loberacarpintero.es"
     },
     {
       "slug": "garrapatea",
@@ -1684,7 +2056,9 @@
       "address": "C. Menéndez Pidal, 33, 22004 Huesca",
       "description": "Escuela de música creativa para bebés y niños en Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/garrapatea"
+      "sourceUrl": "https://huesca.city/negocios/garrapatea",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792759074200-riz8kw.jpg",
+      "website": "https://garrapateamusical.es/"
     },
     {
       "slug": "yoga-pirineos",
@@ -1693,7 +2067,9 @@
       "address": "Av. de los Pirineos, 13, 9F, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/yoga-pirineos"
+      "sourceUrl": "https://huesca.city/negocios/yoga-pirineos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787301888858-d7vxmq.jpg",
+      "website": "http://www.yogapirineos.es/"
     },
     {
       "slug": "alimentacion-ortas",
@@ -1702,7 +2078,9 @@
       "address": "C. Lanuza, 39, 22005 Huesca",
       "description": "Tienda de alimentación en Huesca para tu compra del día a día, con trato cercano.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alimentacion-ortas"
+      "sourceUrl": "https://huesca.city/negocios/alimentacion-ortas",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395401281-zmw3ek.jpg",
+      "website": ""
     },
     {
       "slug": "centro-estetico-bella",
@@ -1711,7 +2089,9 @@
       "address": "C. Menéndez Pidal, 29, 22004 Huesca",
       "description": "salón especializado en el cuidado personal y la estética, enfocado en ofrecer una experiencia de bienestar tanto femenina como masculina.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-estetico-bella"
+      "sourceUrl": "https://huesca.city/negocios/centro-estetico-bella",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791709226665-ok79rb.jpg",
+      "website": ""
     },
     {
       "slug": "alpargateria-de-par-en-par",
@@ -1720,7 +2100,9 @@
       "address": "C. Coso Alto, 50, 22003 Huesca",
       "description": "Comercio local situado en la Calle Coso Alto de Huesca. Está especializada en la venta de alpargatas y calzado tradicional de esparto en una gran variedad de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alpargateria-de-par-en-par"
+      "sourceUrl": "https://huesca.city/negocios/alpargateria-de-par-en-par",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791123898240-p6y8ks.jpg",
+      "website": "http://www.alpargateriadeparenpar.es/"
     },
     {
       "slug": "misako",
@@ -1729,7 +2111,9 @@
       "address": "C. Coso Bajo, 25, 22001 Huesca",
       "description": "Maletas, carteras, mochilas, bolsos de diseño, fundas de ordenador, etc.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/misako"
+      "sourceUrl": "https://huesca.city/negocios/misako",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790876467839-q6o2cm.jpg",
+      "website": "https://www.misako.com/"
     },
     {
       "slug": "nogara",
@@ -1738,7 +2122,9 @@
       "address": "Calle Orfeón Oscense, 22001 Huesca",
       "description": "Venta y reparación de bicicletas, patinetes, skates",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/nogara"
+      "sourceUrl": "https://huesca.city/negocios/nogara",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790460400204-v4tjn8.jpg",
+      "website": "https://piadel.es"
     },
     {
       "slug": "natura-box",
@@ -1747,7 +2133,9 @@
       "address": "C. de la Agricultura, 6, 22006 Huesca",
       "description": "Gimnasio y escuela de entrenamiento funcional y CrossFit",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/natura-box"
+      "sourceUrl": "https://huesca.city/negocios/natura-box",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790267682027-mjvgl8.jpg",
+      "website": "https://naturalbox.wodbuster.com"
     },
     {
       "slug": "cadis-huesca",
@@ -1756,7 +2144,9 @@
       "address": "C. Berenguer, 2-4, 22002 Huesca",
       "description": "Coordinadora de Asociaciones de Personas con Discapacidad es una entidad sin ánimo de lucro de iniciativa social que agrupa a 30 asociaciones del sector de la…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cadis-huesca"
+      "sourceUrl": "https://huesca.city/negocios/cadis-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789421305051-yqvx9b.jpg",
+      "website": "http://www.cadishuesca.es/"
     },
     {
       "slug": "naturalvi",
@@ -1765,7 +2155,9 @@
       "address": "Av. de Martínez de Velasco, 30, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/naturalvi"
+      "sourceUrl": "https://huesca.city/negocios/naturalvi",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789249250643-10b6w2.jpg",
+      "website": ""
     },
     {
       "slug": "depilar-laser-alejandrita",
@@ -1774,7 +2166,9 @@
       "address": "C. Menéndez Pidal, 25, Loc (depilar, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/depilar-laser-alejandrita"
+      "sourceUrl": "https://huesca.city/negocios/depilar-laser-alejandrita",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786202231729-nh6ide.jpg",
+      "website": "http://depilarlaserhuesca.es/"
     },
     {
       "slug": "arte-detalle",
@@ -1783,7 +2177,9 @@
       "address": "C. Teruel, 26, 22005 Huesca",
       "description": "tienda de artesanía, decoración y regalos originales",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/arte-detalle"
+      "sourceUrl": "https://huesca.city/negocios/arte-detalle",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791146165618-kdzo2q.jpg",
+      "website": "https://www.arte-detalle.es/"
     },
     {
       "slug": "la-suegra-y-la-nuera",
@@ -1792,7 +2188,9 @@
       "address": "C. Coso Alto, 54, 22003 Huesca",
       "description": "El taller está especializado en la confección artesanal de artículos para bebés y niños, como canastillas de recién nacido, arrullos, muselinas y muñecos de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-suegra-y-la-nuera"
+      "sourceUrl": "https://huesca.city/negocios/la-suegra-y-la-nuera",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790603560895-min1nb.jpg",
+      "website": "https://www.lasuegraylanuera.com/"
     },
     {
       "slug": "alfareria-abio",
@@ -1801,7 +2199,9 @@
       "address": "C. la Iglesia, 1, 22140 Bandaliés, Huesca",
       "description": "Un histórico taller artesano ubicado en Bandaliés, famoso por representar una tradición alfarera familiar de varias generaciones.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alfareria-abio"
+      "sourceUrl": "https://huesca.city/negocios/alfareria-abio",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789924209853-c1ir6a.jpg",
+      "website": "https://www.oficioyarte.org/alfareria-abio-bandalies-huesca/"
     },
     {
       "slug": "salud-3s",
@@ -1810,7 +2210,9 @@
       "address": "C. del Parque, 2, 22002 Huesca",
       "description": "Rehabilitación, Readaptación, Fisioterapia y Salud Activa",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/salud-3s"
+      "sourceUrl": "https://huesca.city/negocios/salud-3s",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787239778937-g2dz3c.jpg",
+      "website": "https://salud3s.com/"
     },
     {
       "slug": "angel-sampietro-ortodoncia",
@@ -1819,7 +2221,9 @@
       "address": "C. Félix Lafuente, 9, 22004 Huesca",
       "description": "Clínica especializada en todo tipo de tratamientos de Ortodoncia en Huesca. Equipo de alta cualificación profesional y dedicado en exclusiva al ejercicio de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/angel-sampietro-ortodoncia"
+      "sourceUrl": "https://huesca.city/negocios/angel-sampietro-ortodoncia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792762666840-mq9zuz.jpg",
+      "website": "https://www.ortodonciasampietro.com/"
     },
     {
       "slug": "a-faldriquera",
@@ -1828,7 +2232,9 @@
       "address": "C. Canellas, 5, 22001 Huesca",
       "description": "Indumentaria tradicional aragonesa",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/a-faldriquera"
+      "sourceUrl": "https://huesca.city/negocios/a-faldriquera",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790716095251-mipoqv.jpg",
+      "website": "https://artearagon.com/artesanos/a-faldriquera/"
     },
     {
       "slug": "peluqueria-reflejo",
@@ -1837,7 +2243,9 @@
       "address": "Av. los Danzantes de Huesca, 16, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-reflejo"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-reflejo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789902548657-7fw774.jpg",
+      "website": ""
     },
     {
       "slug": "optica-arenas",
@@ -1846,7 +2254,9 @@
       "address": "C. Coso Alto, 13, 22002 Huesca",
       "description": "Centro especializado en salud visual y auditiva",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/optica-arenas"
+      "sourceUrl": "https://huesca.city/negocios/optica-arenas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789561828041-rr3din.jpg",
+      "website": "http://opticaarenas.es/"
     },
     {
       "slug": "diego-ruiz-odontologia-orofacial",
@@ -1855,7 +2265,9 @@
       "address": "Rda. Estación, 5, 22005 Huesca",
       "description": "Ortodoncia",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/diego-ruiz-odontologia-orofacial"
+      "sourceUrl": "https://huesca.city/negocios/diego-ruiz-odontologia-orofacial",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787565339210-5lh5hg.jpg",
+      "website": "https://ortodonciadiegoruiz.com/"
     },
     {
       "slug": "inpq-ingenieria-informatica-huesca",
@@ -1864,7 +2276,9 @@
       "address": "Pl. Concepción Arenal, 2, 2ºB, 22002 Huesca",
       "description": "Programación a Medida, Software de Gestión ERP, Comercio Electrónico, Diseño Web, Domótica, Ciberseguridad, Instalaciones informáticas, Mantenimiento…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/inpq-ingenieria-informatica-huesca"
+      "sourceUrl": "https://huesca.city/negocios/inpq-ingenieria-informatica-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792833825850-c6njr0.jpg",
+      "website": "https://www.inpq.com/"
     },
     {
       "slug": "persianas-romero",
@@ -1873,7 +2287,9 @@
       "address": "Tr.ª Ballesteros, 19, 22001 Huesca",
       "description": "Venta, instalación, reparación y motorización de artículos para el hogar y protección solar, como persianas, toldos, estores y mosquiteras",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/persianas-romero"
+      "sourceUrl": "https://huesca.city/negocios/persianas-romero",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791712376934-y60q23.jpg",
+      "website": ""
     },
     {
       "slug": "marmoles-exmarlo",
@@ -1882,7 +2298,9 @@
       "address": "Calle Gibraltar, 39, 22006 Huesca",
       "description": "Expertos en el sector de la Piedra Natural desde 1975 Fabricación e instalación de encimeras de cocina y baño, obras, reformas, fachadas, pavimentos y…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/marmoles-exmarlo"
+      "sourceUrl": "https://huesca.city/negocios/marmoles-exmarlo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791635201222-7b9ta9.jpg",
+      "website": "http://www.exmarlo.es/"
     },
     {
       "slug": "psic-in-centro-de-psicologia-integrativa",
@@ -1891,7 +2309,9 @@
       "address": "C. Berenguer, 8, 1°E, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/psic-in-centro-de-psicologia-integrativa"
+      "sourceUrl": "https://huesca.city/negocios/psic-in-centro-de-psicologia-integrativa",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1786979668232-fk6xys.jpg",
+      "website": "http://www.psicin.com/"
     },
     {
       "slug": "flipo",
@@ -1900,7 +2320,9 @@
       "address": "Av. de los Monegros, 13, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/flipo"
+      "sourceUrl": "https://huesca.city/negocios/flipo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786192101424-7l90ge.jpg",
+      "website": "http://www.flipoescuela.es/"
     },
     {
       "slug": "iluminacion-mi-casa",
@@ -1909,7 +2331,9 @@
       "address": "Pl. San Antonio, 1, 22002 Huesca",
       "description": "Nos dedicamos a las instalaciones eléctricas en baja tension, venta de luminarias y lámparas y de pequeño material eléctrico.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/iluminacion-mi-casa"
+      "sourceUrl": "https://huesca.city/negocios/iluminacion-mi-casa",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1785868382133-9d5ouc.jpg",
+      "website": "http://www.iluminacionmicasa.es/"
     },
     {
       "slug": "nuloe",
@@ -1918,7 +2342,9 @@
       "address": "Pl. Lérida, 22004 Huesca",
       "description": "Centro de día terapéutico para personas mayores de 60 años y/o con patologías neurológicas o geriátricas donde se realizarán valoraciones y tratamientos que…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/nuloe"
+      "sourceUrl": "https://huesca.city/negocios/nuloe",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792759434924-xejyvz.jpg",
+      "website": "http://www.nuloecentrodedia.es/"
     },
     {
       "slug": "alae-fisioterapia",
@@ -1927,7 +2353,9 @@
       "address": "C. Joaquín Cajal Lasala, s/n, 22004 Huesca",
       "description": "Fisioterapia, Osteopatía, Nutrición y Psicología",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alae-fisioterapia"
+      "sourceUrl": "https://huesca.city/negocios/alae-fisioterapia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790339500978-kgfdag.jpg",
+      "website": "http://alaefisio.es/"
     },
     {
       "slug": "onix-huesca",
@@ -1936,7 +2364,9 @@
       "address": "C. Coso Alto, 22003 Huesca",
       "description": "Elaboración manual en nuestros talleres",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/onix-huesca"
+      "sourceUrl": "https://huesca.city/negocios/onix-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789983870915-51bjzc.jpg",
+      "website": "http://tasjoyeros.es/"
     },
     {
       "slug": "peluqueria-savalli",
@@ -1945,7 +2375,9 @@
       "address": "C. Baltasar Gracián, 3, I, 22002 Huesca",
       "description": "25 años de profesionalidad",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-savalli"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-savalli",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789248281412-6hi4lo.jpg",
+      "website": ""
     },
     {
       "slug": "zynk-soluciones-digitales",
@@ -1954,7 +2386,9 @@
       "address": "Pl. Sta. Clara, 2-3, 22002 Huesca",
       "description": "Servicios tecnológicos profesionales para empresas",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/zynk-soluciones-digitales"
+      "sourceUrl": "https://huesca.city/negocios/zynk-soluciones-digitales",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788892229258-8dsfab.jpg",
+      "website": "http://www.zynksoluciones.com/"
     },
     {
       "slug": "galata-centro-medico-estetico",
@@ -1963,7 +2397,9 @@
       "address": "C. Rafael Gil, 5, 22003 Huesca",
       "description": "Centro de medicina estética en Huesca, con tratamientos de estética y belleza.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/galata-centro-medico-estetico"
+      "sourceUrl": "https://huesca.city/negocios/galata-centro-medico-estetico",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1783966307935-et3u5c.jpg",
+      "website": "https://www.galatacentroestetico.com/"
     },
     {
       "slug": "naera-cuida",
@@ -1972,7 +2408,9 @@
       "address": "Plaza Mayor, 3, 22482 La Puebla de Roda, Huesca",
       "description": "Marca española de cosmética natural y biotecnológica",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/naera-cuida"
+      "sourceUrl": "https://huesca.city/negocios/naera-cuida",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792759820553-x151r4.jpg",
+      "website": "https://www.naeracuida.com/"
     },
     {
       "slug": "modimela",
@@ -1981,7 +2419,9 @@
       "address": "C. Coso Bajo, 57, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/modimela"
+      "sourceUrl": "https://huesca.city/negocios/modimela",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790268374022-g9p94c.jpg",
+      "website": "https://nicanora.es/tienda-ropa/modimela-2/#google_vignette"
     },
     {
       "slug": "audio-video-mored",
@@ -1990,7 +2430,9 @@
       "address": "C. Miguel Fleta, Nave 3B, 22006 Huesca",
       "description": "SOLUCIONES ACÚSTICAS PARA ESPACIOS TRANSFORMAMOS ESPACIOS RUIDOSOS EN ESPACIOS CONFORTABLES! Actuamos sobre la acustica de pabellones, salas polivalentes,…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/audio-video-mored"
+      "sourceUrl": "https://huesca.city/negocios/audio-video-mored",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788518150976-0r7hlq.jpg",
+      "website": "http://www.audiovideomored.es/"
     },
     {
       "slug": "doblestudio",
@@ -1999,7 +2441,9 @@
       "address": "Av. de los Pirineos, 9, 3º F, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/doblestudio"
+      "sourceUrl": "https://huesca.city/negocios/doblestudio",
+      "image": "https://huesca.city/logo.png",
+      "website": "http://www.doblestudio.com/"
     },
     {
       "slug": "fotoactiva",
@@ -2008,7 +2452,9 @@
       "address": "Av. de la Paz, 1, 22004 Huesca",
       "description": "Más de 30 años de experiencia en el mundo de la fotografía, imprimiendo tus momentos desde Huesca y Barbastro",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/fotoactiva"
+      "sourceUrl": "https://huesca.city/negocios/fotoactiva",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790602258370-6mw0z5.jpg",
+      "website": "http://www.fotoactiva.com/"
     },
     {
       "slug": "boutique-infantil-ana-e",
@@ -2017,7 +2463,9 @@
       "address": "C. Zaragoza, 12, BAJO, 22002 Huesca",
       "description": "Boutique de moda infantil para bebés y niños",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/boutique-infantil-ana-e"
+      "sourceUrl": "https://huesca.city/negocios/boutique-infantil-ana-e",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790339002767-v0qvtt.jpg",
+      "website": ""
     },
     {
       "slug": "cristina-fuentes",
@@ -2026,7 +2474,9 @@
       "address": "Av. de los Pirineos, 14, 22004 Huesca",
       "description": "Centro de Belleza y Bienestar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cristina-fuentes"
+      "sourceUrl": "https://huesca.city/negocios/cristina-fuentes",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790181468023-5kvx57.jpg",
+      "website": "https://www.treatwell.es/establecimiento/cristina-fuentes-belleza-y-bienestar/"
     },
     {
       "slug": "cmc-moda-hogar",
@@ -2035,7 +2485,9 @@
       "address": "C. Coso Alto, 7, 22002 Huesca",
       "description": "Textiles para el hogar y la ropa de cama de calidad",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cmc-moda-hogar"
+      "sourceUrl": "https://huesca.city/negocios/cmc-moda-hogar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789656032806-1a69tx.jpg",
+      "website": ""
     },
     {
       "slug": "anjaber-panaderia",
@@ -2044,7 +2496,9 @@
       "address": "Polígono Sepes, C. de la Mecánica, Parcela 41, 22006 Huesca",
       "description": "Productos de panadería",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/anjaber-panaderia"
+      "sourceUrl": "https://huesca.city/negocios/anjaber-panaderia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788895733145-m6f50c.jpg",
+      "website": "http://www.anjaber.es/"
     },
     {
       "slug": "francoy-abogados-marcos-francoy",
@@ -2053,7 +2507,9 @@
       "address": "Pl. Concepción Arenal, 1, 3º C, 22002 Huesca",
       "description": "Marcos Francoy | Abogado 📍 Huesca capital · Col. 960 Abogacía boutique con rigor técnico y atención directa. Especializado en Derecho Penal (Asistencia…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/francoy-abogados-marcos-francoy"
+      "sourceUrl": "https://huesca.city/negocios/francoy-abogados-marcos-francoy",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1785955838935-ylglpl.jpg",
+      "website": "http://www.despachofrancoy.es"
     },
     {
       "slug": "arreglos-el-carmen",
@@ -2062,7 +2518,9 @@
       "address": "C. Padre Huesca, 32, 22002 Huesca",
       "description": "Especializado en todo tipo de arreglos y transformaciones de prendas, incluyendo bajos, cremalleras, forros, piel y tela.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/arreglos-el-carmen"
+      "sourceUrl": "https://huesca.city/negocios/arreglos-el-carmen",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793708033282-xmyvp2.jpg",
+      "website": ""
     },
     {
       "slug": "mor-de-fuentes",
@@ -2071,7 +2529,9 @@
       "address": "C. Mor de Fuentes, 3, 22002 Huesca",
       "description": "Comercio tradicional especializado en costura y moda íntima",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/mor-de-fuentes"
+      "sourceUrl": "https://huesca.city/negocios/mor-de-fuentes",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793708348324-amrll9.jpg",
+      "website": ""
     },
     {
       "slug": "panaderia-pasteleria-de-lorien",
@@ -2080,7 +2540,9 @@
       "address": "Plaza Ordesa, 2, 22113 Novales, Huesca",
       "description": "Servicio de reparto puerta por puerta a 17 localidades, algunos de ellos en alto riesgo de despoblación",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/panaderia-pasteleria-de-lorien"
+      "sourceUrl": "https://huesca.city/negocios/panaderia-pasteleria-de-lorien",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791810868336-fiyekb.jpg",
+      "website": "https://laerarural.es/www./"
     },
     {
       "slug": "aluminios-carma",
@@ -2089,7 +2551,9 @@
       "address": "Pol. Sepes, C/ de las Artes Gráficas, Nave 3, 22006 Huesca",
       "description": "Desde 1997 trabajando el mundo del aluminio, con unas instalaciones preparadas para trabajar con maquinaria de corte y mecanizado",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/aluminios-carma"
+      "sourceUrl": "https://huesca.city/negocios/aluminios-carma",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789584781148-007u5x.jpg",
+      "website": "https://www.aluminioscarma.es/"
     },
     {
       "slug": "cuchilleria-gabriel",
@@ -2098,7 +2562,9 @@
       "address": "C. Berenguer, 3, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/cuchilleria-gabriel"
+      "sourceUrl": "https://huesca.city/negocios/cuchilleria-gabriel",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788802803841-znzo6q.jpg",
+      "website": "https://www.cuchilleriagabriel.com/"
     },
     {
       "slug": "tiepolo-imprenta",
@@ -2107,7 +2573,9 @@
       "address": "C. San Lorenzo, 69, bajos, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tiepolo-imprenta"
+      "sourceUrl": "https://huesca.city/negocios/tiepolo-imprenta",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786201220259-xmt3yy.jpg",
+      "website": "http://www.tiepolo.es/"
     },
     {
       "slug": "patu-mascota",
@@ -2116,7 +2584,9 @@
       "address": "Av. de los Pirineos, 14 -16, 22004 Huesca",
       "description": "Tienda de animales en Huesca con alimentación y accesorios para tus mascotas.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/patu-mascota"
+      "sourceUrl": "https://huesca.city/negocios/patu-mascota",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778396204092-9a2qb5.jpg",
+      "website": ""
     },
     {
       "slug": "autoescuela-estudiantes",
@@ -2125,7 +2595,9 @@
       "address": "22003 Huesca, España",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/autoescuela-estudiantes"
+      "sourceUrl": "https://huesca.city/negocios/autoescuela-estudiantes",
+      "image": "https://huesca.city/logo.png",
+      "website": "http://www.autoescuelaestudiantes.com/"
     },
     {
       "slug": "studiozentro",
@@ -2134,7 +2606,9 @@
       "address": "Av. Santo Grial, 3, 22003 Huesca",
       "description": "Pilates y entrenamiento personal",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/studiozentro"
+      "sourceUrl": "https://huesca.city/negocios/studiozentro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787240359826-l5mp52.jpg",
+      "website": "http://www.studiozentro.com/"
     },
     {
       "slug": "ebanisteria-miguel-grande",
@@ -2143,7 +2617,9 @@
       "address": "C. de la Mecánica, 10, 22006 Huesca",
       "description": "Taller tradicional y de confianza ubicado en el Polígono Industrial Sepes en Huesca. Con más de 50 años de trayectoria, especializados en trabajos de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ebanisteria-miguel-grande"
+      "sourceUrl": "https://huesca.city/negocios/ebanisteria-miguel-grande",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793557053903-v5muy8.jpg",
+      "website": ""
     },
     {
       "slug": "javi-suelos-y-complementos",
@@ -2152,7 +2628,9 @@
       "address": "C. San Jorge, 62, 22003 Huesca",
       "description": "Venta e instalación de parqués, tarimas, suelos de madera, suelos laminados y suelos vinílicos. Colocación profesional, complementos para pavimentos y labores…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/javi-suelos-y-complementos"
+      "sourceUrl": "https://huesca.city/negocios/javi-suelos-y-complementos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791811244933-2gzkew.jpg",
+      "website": "https://www.javisuelosycomplementos.com"
     },
     {
       "slug": "peluqueria-khenna",
@@ -2161,7 +2639,9 @@
       "address": "Av. de la Paz, 24, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-khenna"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-khenna",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793696980713-jh9xn3.jpg",
+      "website": ""
     },
     {
       "slug": "merceria-lenceria-pili-castro",
@@ -2170,7 +2650,9 @@
       "address": "Av. de los Pirineos, 7, 22004 Huesca",
       "description": "Tienda de ropa de mujer",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/merceria-lenceria-pili-castro"
+      "sourceUrl": "https://huesca.city/negocios/merceria-lenceria-pili-castro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789487768182-hm3yx9.jpg",
+      "website": ""
     },
     {
       "slug": "graficas-huesca",
@@ -2179,7 +2661,9 @@
       "address": "Rda. de la Industria, 57, 22006 Huesca",
       "description": "Profesionales en impresión gráfica",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/graficas-huesca"
+      "sourceUrl": "https://huesca.city/negocios/graficas-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789148124130-z4u6uw.jpg",
+      "website": "http://www.graficashuesca.com/"
     },
     {
       "slug": "ecotienda-salud-y-vida",
@@ -2188,7 +2672,9 @@
       "address": "C. Menéndez Pidal, 32, 22004 Huesca",
       "description": "Herboristería y dietética",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ecotienda-salud-y-vida"
+      "sourceUrl": "https://huesca.city/negocios/ecotienda-salud-y-vida",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788471717381-dbvm8w.jpg",
+      "website": "http://www.ecosaludyvida.es/"
     },
     {
       "slug": "maria-intimo",
@@ -2197,7 +2683,9 @@
       "address": "C. Alcoraz, 4, 22002 Huesca",
       "description": "María Intimo Lencería y Corsetería Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/maria-intimo"
+      "sourceUrl": "https://huesca.city/negocios/maria-intimo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786195989680-mmdx2s.jpg",
+      "website": ""
     },
     {
       "slug": "lince",
@@ -2206,7 +2694,9 @@
       "address": "C. las Calmas, 10, 22150 Arguis, Huesca",
       "description": "Moda en peligro de extinción. Proyecto de ropa artesanal y sostenible hecho a mano en el Pirineo aragonés",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/lince"
+      "sourceUrl": "https://huesca.city/negocios/lince",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790718142926-0v7ddp.jpg",
+      "website": "https://nicanora.es/tienda-ropa/lince-moda-en-peligro-de-extincion/"
     },
     {
       "slug": "diandra-arquitectura-y-diseno",
@@ -2215,7 +2705,9 @@
       "address": "Calle Cavia 2, Huesca",
       "description": "En Diandra Estudio transformamos viviendas y locales en espacios funcionales, acogedores y con personalidad. Somos un estudio de arquitectura e interiorismo…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/diandra-arquitectura-y-diseno"
+      "sourceUrl": "https://huesca.city/negocios/diandra-arquitectura-y-diseno",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1790408668658-n6acku.jpg",
+      "website": "http://www.diandraestudio.com/"
     },
     {
       "slug": "atrium-arquitectos",
@@ -2224,7 +2716,9 @@
       "address": "P.º de las Autonomías, 6, 22004 Huesca",
       "description": "Despacho de arquitectura y gestión de obras de edificación multidisciplinar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/atrium-arquitectos"
+      "sourceUrl": "https://huesca.city/negocios/atrium-arquitectos",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790352782008-mft6e2.jpg",
+      "website": "http://www.atriumarquitectos.es/"
     },
     {
       "slug": "buena-ventura",
@@ -2233,7 +2727,9 @@
       "address": "4HVJ+VV, C. Alcalde Emilio Miravé, 2, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/buena-ventura"
+      "sourceUrl": "https://huesca.city/negocios/buena-ventura",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786200677448-2dr78v.jpg",
+      "website": "http://buena-ventura.es/"
     },
     {
       "slug": "autoescuela-estudiantes-3a4a64",
@@ -2242,7 +2738,9 @@
       "address": "Pl. Santo Domingo, 4, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/autoescuela-estudiantes-3a4a64"
+      "sourceUrl": "https://huesca.city/negocios/autoescuela-estudiantes-3a4a64",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793130878356-ycxl8q.jpg",
+      "website": "http://www.autoescuelaestudiantes.com/"
     },
     {
       "slug": "aurum-joyeria",
@@ -2251,7 +2749,9 @@
       "address": "C. Padre Huesca, Nº16, 22002 Huesca",
       "description": "tienda tradicional de joyería, platería y relojería situada en el centro de Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/aurum-joyeria"
+      "sourceUrl": "https://huesca.city/negocios/aurum-joyeria",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791635934206-6pj1f6.jpg",
+      "website": ""
     },
     {
       "slug": "libreria-el-iglu",
@@ -2260,7 +2760,9 @@
       "address": "Pl. Pico de Guara, 2, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/libreria-el-iglu"
+      "sourceUrl": "https://huesca.city/negocios/libreria-el-iglu",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789923752009-y9ovi8.jpg",
+      "website": "https://www.libreriaeliglu.es/"
     },
     {
       "slug": "alfareria-benabarre",
@@ -2269,7 +2771,9 @@
       "address": "C. Hospital, 4, 22580 Benabarre, Huesca",
       "description": "Recuperamos la tradición cerámica de la Ribagorza. Además de la producción artesanal, ofrecemos talleres formativos para grupos y visitas los fines de semana.…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alfareria-benabarre"
+      "sourceUrl": "https://huesca.city/negocios/alfareria-benabarre",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792761787507-c1869v.jpg",
+      "website": "https://alfareriabenabarre.com/"
     },
     {
       "slug": "jml-soldadura",
@@ -2278,7 +2782,9 @@
       "address": "C. Ganadería, 4, Parcela 32, 22006 Huesca",
       "description": "Un equipo de profesionales dedicados a la fabricación y reparación de estructuras metálicas en Huesca. Contamos con trabajadores altamente experimentados y…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/jml-soldadura"
+      "sourceUrl": "https://huesca.city/negocios/jml-soldadura",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789816033349-vkw7cg.jpg",
+      "website": "http://www.jmlsoldadura.com/"
     },
     {
       "slug": "satusonic-soluciones-audiovisuales",
@@ -2287,7 +2793,9 @@
       "address": "C. Fornillos, 12, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/satusonic-soluciones-audiovisuales"
+      "sourceUrl": "https://huesca.city/negocios/satusonic-soluciones-audiovisuales",
+      "image": "https://huesca.city/logo.png",
+      "website": "http://www.satusonic.com/"
     },
     {
       "slug": "artelier",
@@ -2296,7 +2804,9 @@
       "address": "C. de la Merced, 7, 3, 22002 Huesca",
       "description": "Taller de artes plásticas que imparte clases de dibujo, pintura, escultura, grabado y cerámica para niños y adultos.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/artelier"
+      "sourceUrl": "https://huesca.city/negocios/artelier",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789923046962-0zesno.jpg",
+      "website": "https://elartelier.es/"
     },
     {
       "slug": "escuela-de-dibujo-sanagustin",
@@ -2305,7 +2815,9 @@
       "address": "C. San Salvador, 15, entresuelo izquierda, 22002 Huesca",
       "description": "Escuela de dibujo y de pintura",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/escuela-de-dibujo-sanagustin"
+      "sourceUrl": "https://huesca.city/negocios/escuela-de-dibujo-sanagustin",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789813394974-b2vqwv.jpg",
+      "website": "http://www.fernandosanagustin.com/"
     },
     {
       "slug": "sista-shop-vending",
@@ -2314,7 +2826,9 @@
       "address": "Av. de la Paz, 6, 22003 Huesca",
       "description": "Tienda de máquinas expendedoras con snacks, bebidas frías, café y comida caliente",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/sista-shop-vending"
+      "sourceUrl": "https://huesca.city/negocios/sista-shop-vending",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1789649272210-f4np4a.jpg",
+      "website": ""
     },
     {
       "slug": "optica-barrena-huesca",
@@ -2323,7 +2837,9 @@
       "address": "C. Fatás, 7, 22002 Huesca",
       "description": "Óptica en Huesca: gafas graduadas, gafas de sol y salud visual con atención personalizada.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/optica-barrena-huesca"
+      "sourceUrl": "https://huesca.city/negocios/optica-barrena-huesca",
+      "image": "https://lndgydkcgqolwxynlrcy.supabase.co/storage/v1/object/public/media/shops/banners/1778395359468-8ht18c.jpg",
+      "website": ""
     },
     {
       "slug": "ebanisteria-alonso",
@@ -2332,7 +2848,9 @@
       "address": "C. Balsas de Chirín, 6, Nave 6, 22006 Huesca",
       "description": "Taller especializado en crear y restaurar muebles a medida, desde diseños modernos hasta piezas rústicas. Trabajamos también a domicilio, en materia de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ebanisteria-alonso"
+      "sourceUrl": "https://huesca.city/negocios/ebanisteria-alonso",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793299271327-ee842s.jpg",
+      "website": ""
     },
     {
       "slug": "maria-carmen-abadia-otal",
@@ -2341,7 +2859,9 @@
       "address": "Av de Menéndez Pidal, 3, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/maria-carmen-abadia-otal"
+      "sourceUrl": "https://huesca.city/negocios/maria-carmen-abadia-otal",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793893060178-cfqnhk.jpg",
+      "website": ""
     },
     {
       "slug": "l-atelier-de-las-costuras",
@@ -2350,7 +2870,9 @@
       "address": "22005 Huesca, España",
       "description": "Taller de costura creativa y tienda de moda femenina, enfocado en el diseño artesanal y personalizado.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/l-atelier-de-las-costuras"
+      "sourceUrl": "https://huesca.city/negocios/l-atelier-de-las-costuras",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790352218981-3ave5m.jpg",
+      "website": ""
     },
     {
       "slug": "frutas-calvo",
@@ -2359,7 +2881,9 @@
       "address": "C. Alcampell, 6, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/frutas-calvo"
+      "sourceUrl": "https://huesca.city/negocios/frutas-calvo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789986077044-amke49.jpg",
+      "website": ""
     },
     {
       "slug": "escoscate",
@@ -2368,7 +2892,9 @@
       "address": "C. Teruel, 26, 22005 Huesca",
       "description": "Droguería a granel, cosmética natural e higiene del hogar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/escoscate"
+      "sourceUrl": "https://huesca.city/negocios/escoscate",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789656676581-vsctg1.jpg",
+      "website": "https://www.escoscate.es/"
     },
     {
       "slug": "a-tu-ritmo-espacio-educativo",
@@ -2377,7 +2903,9 @@
       "address": "Av. de los Monegros, 14, 22005 Huesca",
       "description": "📌 Espacio educativo - Refuerzo y apoyo escolar en Huesca 📚 Infantil • Primaria • Secundaria 🗣️ Servicio de logopedia",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/a-tu-ritmo-espacio-educativo"
+      "sourceUrl": "https://huesca.city/negocios/a-tu-ritmo-espacio-educativo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1793706478763-e1jwh5.jpg",
+      "website": "https://aturitmohu.com/"
     },
     {
       "slug": "elite-urban",
@@ -2386,7 +2914,9 @@
       "address": "C. Alcoraz, 5, 22002 Huesca",
       "description": "Tenemos marcas como Vila, Rouge Edit, Object, Noisy May, etc",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/elite-urban"
+      "sourceUrl": "https://huesca.city/negocios/elite-urban",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790460946105-xjolsz.jpg",
+      "website": "https://elitefashionshop.com/collections/elite-urban"
     },
     {
       "slug": "c-k-glow",
@@ -2395,7 +2925,9 @@
       "address": "C. Fraga, 26, 22004 Huesca",
       "description": "Centro de estética y de belleza",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/c-k-glow"
+      "sourceUrl": "https://huesca.city/negocios/c-k-glow",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790247789594-exocwj.jpg",
+      "website": "https://cykglow.koibox.site/"
     },
     {
       "slug": "peluqueria-carol",
@@ -2404,7 +2936,9 @@
       "address": "Pasaje Baleares, 4, 3, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-carol"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-carol",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789316390978-2obppu.jpg",
+      "website": ""
     },
     {
       "slug": "pemicar",
@@ -2413,7 +2947,9 @@
       "address": "C. la Magantina, NAVE 3 - DCHA, 22006 Huesca",
       "description": "Fundada en 1994, dedicada a la carpintería y ebanistería en madera. Fabricación a medida de puertas, ventanas, armarios empotrados. Creación de muebles de…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pemicar"
+      "sourceUrl": "https://huesca.city/negocios/pemicar",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793557860718-2wrcme.jpg",
+      "website": "http://www.pemicar.com/"
     },
     {
       "slug": "the-bell",
@@ -2422,7 +2958,9 @@
       "address": "C. Alcoraz, 2, 22002 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/the-bell"
+      "sourceUrl": "https://huesca.city/negocios/the-bell",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790459555809-bg0m2l.jpg",
+      "website": "http://www.thebell.es/"
     },
     {
       "slug": "dolce-vita-savalli",
@@ -2431,7 +2969,9 @@
       "address": "C. Coso Alto, 34-36, Pasaje Comercial, 22003 Huesca",
       "description": "Centro de Salud y Bienestar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/dolce-vita-savalli"
+      "sourceUrl": "https://huesca.city/negocios/dolce-vita-savalli",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787301524583-mzu58t.jpg",
+      "website": ""
     },
     {
       "slug": "patrizia-hector",
@@ -2440,7 +2980,9 @@
       "address": "C. del Cleriguech, 10, 22002 Huesca",
       "description": "Fotografía infantil y de bodas",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/patrizia-hector"
+      "sourceUrl": "https://huesca.city/negocios/patrizia-hector",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787152460363-lysa5b.jpg",
+      "website": "https://www.patriziayhector.com/"
     },
     {
       "slug": "merceria-sonia",
@@ -2449,7 +2991,9 @@
       "address": "Av. Santo Grial, 5, 22003 Huesca",
       "description": "Comercio de toda la vida situado en el corazón de Huesca. Se pueden encontrar todo tipo de artículos de costura, labores, hilos, botones y una cuidada…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/merceria-sonia"
+      "sourceUrl": "https://huesca.city/negocios/merceria-sonia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793709631028-8to9be.jpg",
+      "website": ""
     },
     {
       "slug": "paul-calvo-carpinteros",
@@ -2458,7 +3002,9 @@
       "address": "P.º de Ramón y Cajal, 97, A, Nave 2, 22006 Huesca",
       "description": "Taller de carpintería y ebanistería, especializado en el diseño, fabricación e instalación de muebles a medida.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/paul-calvo-carpinteros"
+      "sourceUrl": "https://huesca.city/negocios/paul-calvo-carpinteros",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792762295135-w6vlnl.jpg",
+      "website": ""
     },
     {
       "slug": "merceria-joana",
@@ -2467,7 +3013,9 @@
       "address": "C. Ramón J Sender, 3, 22005 Huesca",
       "description": "tienda tradicional de mercería y ropa interior",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/merceria-joana"
+      "sourceUrl": "https://huesca.city/negocios/merceria-joana",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790719131193-yyzeom.jpg",
+      "website": ""
     },
     {
       "slug": "art-lab",
@@ -2476,7 +3024,9 @@
       "address": "C. Calatayud, 24, 22005 Huesca",
       "description": "Laboratorio de arte multimedia y espacio público promovido por el Ayuntamiento de Huesca que ofrece recursos técnicos, locales de ensayo y asesoramiento…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/art-lab"
+      "sourceUrl": "https://huesca.city/negocios/art-lab",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790718738257-a8pcbc.jpg",
+      "website": "http://artlabhuesca.org/"
     },
     {
       "slug": "la-carpinteria-de-alvaro",
@@ -2485,7 +3035,9 @@
       "address": "C. las Ciencias, 18, 22270 Almudévar, Huesca",
       "description": "Taller de carpintería y ebanistería en Almudévar",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/la-carpinteria-de-alvaro"
+      "sourceUrl": "https://huesca.city/negocios/la-carpinteria-de-alvaro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790353787216-t9kbt8.jpg",
+      "website": "https://www.lacarpinteriadealvaro.com/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAUjgFNleHRuA2FlbQIxMQBwZG9mAmZkaWQWUPGyyls_VH1rk2OZLnoo73Dkj1sJA3NydGMGYXBwX2lkDzEyNDAyNDU3"
     },
     {
       "slug": "vole-concept",
@@ -2494,7 +3046,9 @@
       "address": "C. Coso Alto, 76, 22003 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/vole-concept"
+      "sourceUrl": "https://huesca.city/negocios/vole-concept",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789986601207-wzqgad.jpg",
+      "website": "https://nicanora.es/tienda-ropa/vole-concept/"
     },
     {
       "slug": "eventual-tu-espacio",
@@ -2503,7 +3057,9 @@
       "address": "P.º de las Autonomías, 16, 22004 Huesca",
       "description": "Sala para eventos privados en Huesca con capacidad para hasta 30 personas. Cumpleaños (infantiles o de adultos), reuniones, comidas, cenas y fiestas.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/eventual-tu-espacio"
+      "sourceUrl": "https://huesca.city/negocios/eventual-tu-espacio",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789145517828-qzzjdw.jpg",
+      "website": ""
     },
     {
       "slug": "centro-yoga-huesca",
@@ -2512,7 +3068,9 @@
       "address": "Calle del, C. Ing. Montaner, 6, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-yoga-huesca"
+      "sourceUrl": "https://huesca.city/negocios/centro-yoga-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787301169273-jhv7zl.jpg",
+      "website": "http://www.centroyogahuesca.es/"
     },
     {
       "slug": "acupuntura-medica-dra-clara-belzuz",
@@ -2521,7 +3079,9 @@
       "address": "Paseo de las Autonomías",
       "description": "Acupuntura médica para diversos problemas de salud: -Problemas ginecológicos -Trastornos digestivos -Ansiedad, estrés, insomnio, bruxismo -Mareos, vértigos,…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/acupuntura-medica-dra-clara-belzuz"
+      "sourceUrl": "https://huesca.city/negocios/acupuntura-medica-dra-clara-belzuz",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793635473127-25qzwk.jpg",
+      "website": "http://www.clarabelzuz.es/"
     },
     {
       "slug": "menudas-cucaditas",
@@ -2530,7 +3090,9 @@
       "address": "Bo. Nuevo, 70, 22240 Tardienta, Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/menudas-cucaditas"
+      "sourceUrl": "https://huesca.city/negocios/menudas-cucaditas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793744672664-ntiwpd.jpg",
+      "website": "http://menudas-cucaditas.myshopify.com/"
     },
     {
       "slug": "psicologa-silvia-abad",
@@ -2539,7 +3101,9 @@
       "address": "Plaza Navarra 7 1º, 2ª, 22002 Huesca",
       "description": "psicóloga sanitaria colegiada atención presencial y en línea",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/psicologa-silvia-abad"
+      "sourceUrl": "https://huesca.city/negocios/psicologa-silvia-abad",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791210418820-i3yzbw.jpg",
+      "website": "https://www.silviaabadpsicologa.com/"
     },
     {
       "slug": "elenco-aragones",
@@ -2548,7 +3112,9 @@
       "address": "Tr.ª Ballesteros, 22001 Huesca",
       "description": "El Grupo Folklórico Elenco Aragonés es una destacada escuela de danza, canto y rondalla fundada en Huesca en 1994. Difunde y enseña el folclore tradicional…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/elenco-aragones"
+      "sourceUrl": "https://huesca.city/negocios/elenco-aragones",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791146775300-o41uvc.jpg",
+      "website": ""
     },
     {
       "slug": "francis-allue-moda",
@@ -2557,7 +3123,9 @@
       "address": "C. Fatás, 4, 22002 Huesca",
       "description": "Tienda de ropa masculina. Marcas como Lacoste, Pedro del Hierro, Polo….",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/francis-allue-moda"
+      "sourceUrl": "https://huesca.city/negocios/francis-allue-moda",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791126098890-iz4km2.jpg",
+      "website": ""
     },
     {
       "slug": "tropycal-interactive",
@@ -2566,7 +3134,9 @@
       "address": "Av. Monreal, 2, 22001 Huesca",
       "description": "Diseño Web, Social Media, Marketing Online, Video",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/tropycal-interactive"
+      "sourceUrl": "https://huesca.city/negocios/tropycal-interactive",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790440551478-a3v70p.jpg",
+      "website": "http://tropycal.es/"
     },
     {
       "slug": "rb-salud-y-rendimiento-deportivo",
@@ -2575,7 +3145,9 @@
       "address": "C. Pilar Lorengar, 5, Bajo, 22004 Huesca",
       "description": "Entrenamiento personal y grupal, especialización deportiva y entrenamiento online",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/rb-salud-y-rendimiento-deportivo"
+      "sourceUrl": "https://huesca.city/negocios/rb-salud-y-rendimiento-deportivo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790267165498-1lenex.jpg",
+      "website": ""
     },
     {
       "slug": "producciones-insomnia",
@@ -2584,7 +3156,9 @@
       "address": "Cam. Fornillos, 12, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/producciones-insomnia"
+      "sourceUrl": "https://huesca.city/negocios/producciones-insomnia",
+      "image": "https://huesca.city/logo.png",
+      "website": "https://www.produccionesinsomnia.com/"
     },
     {
       "slug": "celltronix",
@@ -2593,7 +3167,9 @@
       "address": "CELLTRONIX, C. Coso Bajo, 85, 22001 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/celltronix"
+      "sourceUrl": "https://huesca.city/negocios/celltronix",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1787931504520-lr42r4.jpg",
+      "website": "https://celltronix.site/about-us/"
     },
     {
       "slug": "the-roof-clubs",
@@ -2602,7 +3178,9 @@
       "address": "C. José Gil Cávez, 10, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/the-roof-clubs"
+      "sourceUrl": "https://huesca.city/negocios/the-roof-clubs",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787302528254-lverus.jpg",
+      "website": "https://www.theroofclubs.com/"
     },
     {
       "slug": "ebanisteria-ferrer",
@@ -2611,7 +3189,9 @@
       "address": "Rda. de la Industria, 6, 22006 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/ebanisteria-ferrer"
+      "sourceUrl": "https://huesca.city/negocios/ebanisteria-ferrer",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793556634808-46gi5q.jpg",
+      "website": "https://www.ebanisteriaferrer.com"
     },
     {
       "slug": "el-costurero-de-piedad",
@@ -2620,7 +3200,9 @@
       "address": "C. San Jorge, 45, 22003 Huesca",
       "description": "🧵🌸 En El Costurero de Piedad encontrarás una bonita variedad de prendas para bebés y niños, además de hilos, botones, cremalleras y accesorios para tus…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-costurero-de-piedad"
+      "sourceUrl": "https://huesca.city/negocios/el-costurero-de-piedad",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793311928677-27srwv.jpg",
+      "website": ""
     },
     {
       "slug": "bombon-estilistas",
@@ -2629,7 +3211,9 @@
       "address": "C. Padre Huesca, 84, 22002 Huesca",
       "description": "Peluquería de mujer",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/bombon-estilistas"
+      "sourceUrl": "https://huesca.city/negocios/bombon-estilistas",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790340571440-ngkh04.jpg",
+      "website": ""
     },
     {
       "slug": "kickboxing-dm-team",
@@ -2638,7 +3222,9 @@
       "address": "Av. Monreal, 6, 22003 Huesca",
       "description": "Escuela de kickboxing en Huesca, afiliada a la FEKM (Federación Española de Kickboxing y Muaythai), con clases de iniciación, avanzados y competición para…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/kickboxing-dm-team"
+      "sourceUrl": "https://huesca.city/negocios/kickboxing-dm-team",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1790338142751-ynoa07.jpg",
+      "website": "https://www.badgie.es/directorio/kickboxing-dm-team-huesca"
     },
     {
       "slug": "peluqueria-yoel",
@@ -2647,7 +3233,9 @@
       "address": "Av. del Dr. Artero, 8, 22004 Huesca",
       "description": "Tratamientos de belleza y fotodepilación",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/peluqueria-yoel"
+      "sourceUrl": "https://huesca.city/negocios/peluqueria-yoel",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789807224404-1rfhvh.jpg",
+      "website": ""
     },
     {
       "slug": "dorta-carpinteria-metalica",
@@ -2656,7 +3244,9 @@
       "address": "Calle Gibraltar, 9, NAVE 9, 22006 Huesca",
       "description": "Los mejores elementos de acero inoxidable para su vivienda o empresa en Huesca. Somos profesionales con más de diez años de experiencia en el sector",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/dorta-carpinteria-metalica"
+      "sourceUrl": "https://huesca.city/negocios/dorta-carpinteria-metalica",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1789584369689-wdanl4.jpg",
+      "website": "https://www.carpinteriametalicadorta.es/"
     },
     {
       "slug": "alfonso-sonen",
@@ -2665,7 +3255,9 @@
       "address": "C. Ricardo del Arco, 16, 22004 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/alfonso-sonen"
+      "sourceUrl": "https://huesca.city/negocios/alfonso-sonen",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788515961843-fff3zi.jpg",
+      "website": ""
     },
     {
       "slug": "yamira-salu",
@@ -2674,7 +3266,9 @@
       "address": "C. Cabestany, 14, 22005 Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/yamira-salu"
+      "sourceUrl": "https://huesca.city/negocios/yamira-salu",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787561408061-ju0y4u.jpg",
+      "website": ""
     },
     {
       "slug": "city-app",
@@ -2683,7 +3277,9 @@
       "address": "Huesca, Banaries",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/city-app"
+      "sourceUrl": "https://huesca.city/negocios/city-app",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1782731656377-g0ybi9.jpg",
+      "website": ""
     },
     {
       "slug": "carpinteria-san-jose",
@@ -2692,7 +3288,9 @@
       "address": "Av. los Danzantes de Huesca, 46, bajos, 22005 Huesca",
       "description": "Especializado en carpintería de madera, ebanistería y comercio al por menor de muebles",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/carpinteria-san-jose"
+      "sourceUrl": "https://huesca.city/negocios/carpinteria-san-jose",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1793557421454-dkeukx.jpg",
+      "website": ""
     },
     {
       "slug": "instituto-ineup",
@@ -2701,7 +3299,9 @@
       "address": "Cam. del Velódromo, 22006 Huesca",
       "description": "Evaluación, diagnóstico e intervención integral mediante un equipo transdisciplinar con rigor científico. Además, imparte formación y talleres para familias,…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/instituto-ineup"
+      "sourceUrl": "https://huesca.city/negocios/instituto-ineup",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792761152769-949x3q.jpg",
+      "website": "https://www.institutoineup.com/"
     },
     {
       "slug": "frutalia",
@@ -2710,7 +3310,9 @@
       "address": "C. José Sanz, 14, 22500 Binéfar, Huesca",
       "description": "Empresa familiar y frutería orientada a reinventar la venta tradicional de frutas y verduras Tenemos una tienda física en la Calle José Sanz, 14, pero también…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/frutalia"
+      "sourceUrl": "https://huesca.city/negocios/frutalia",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1792760206250-s91gim.jpg",
+      "website": "https://frutalianow.es/?srsltid=AYCX9vLkV7IjZXBxcRJq9o6ubYCGQ2bSsdjn04NiiDUPI3oed-Wd_iC0&_su_rec=Zj-ZKKnPo-DyXzDLDFKe7efzDe9bFifxa0XDO4X2mpZtM3T9Pntv_PSklAeiwtNv3lqPENeHDPb4A3OkJ1vOCW6T8dRRLPqJDlbre1U"
     },
     {
       "slug": "carnicas-pradel",
@@ -2719,7 +3321,9 @@
       "address": "C. de la Aurora, 2, 22240 Tardienta, Huesca",
       "description": "Enfocado en recuperar y poner en valor las razas autóctonas bovinas de la península (como el buey Alistano-Sanabrés y ternero Piritaurus",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/carnicas-pradel"
+      "sourceUrl": "https://huesca.city/negocios/carnicas-pradel",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1791810489766-lw5r8r.jpg",
+      "website": ""
     },
     {
       "slug": "street-theatre",
@@ -2728,7 +3332,9 @@
       "address": "Calle San Lorenzo, 40, 22002 Huesca",
       "description": "Discoteca en el tubo bajo de Huesca",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/street-theatre"
+      "sourceUrl": "https://huesca.city/negocios/street-theatre",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1789650562271-4jm1lo.jpg",
+      "website": "https://open.nyxell.com/en/city/las-mejores-discotecas-de-huesca/site/street-theatre-club?fbclid=PAdGRleAUYxA1wZG9mAmZkaWQWUOlCh3mF0Qs7Jk5M_ex-EFHoILmY6WV4dG4DYWVtAjExAHNydGMGYXBwX2lkDzEyNDAyNDU3NDI4N"
     },
     {
       "slug": "disimil-estudio-creativo",
@@ -2737,7 +3343,9 @@
       "address": "Pl. Andalucía, 2, 22004 Huesca",
       "description": "Diseño Gráfico",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/disimil-estudio-creativo"
+      "sourceUrl": "https://huesca.city/negocios/disimil-estudio-creativo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788802299818-ket4mc.jpg",
+      "website": "http://www.disimil.es/"
     },
     {
       "slug": "revista-aki",
@@ -2746,7 +3354,9 @@
       "address": "Calle Lanuza, Nº17 (Espacio Negocio), Huesca, Spain, 22001",
       "description": "Inserciones Publicitarias -Reparto de flayers,Huesca y provincia.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/revista-aki"
+      "sourceUrl": "https://huesca.city/negocios/revista-aki",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788468607102-v9cpgs.jpg",
+      "website": ""
     },
     {
       "slug": "anchel-puyuelo",
@@ -2755,7 +3365,9 @@
       "address": "C. CAmila Gracia, 5. Huesca",
       "description": "Masajes descontracturantes, masaje deportivo, drenajes linfáticos. Reflexología podal.",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/anchel-puyuelo"
+      "sourceUrl": "https://huesca.city/negocios/anchel-puyuelo",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1788377866464-38phbm.jpg",
+      "website": "https://quiromasajeanchel.es/"
     },
     {
       "slug": "nomadhive",
@@ -2764,7 +3376,9 @@
       "address": "Diseminado Afueras, 2J, 22807 Biscarrués, Huesca",
       "description": "",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/nomadhive"
+      "sourceUrl": "https://huesca.city/negocios/nomadhive",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787738787354-rrc02x.jpg",
+      "website": ""
     },
     {
       "slug": "el-hilo-suelto",
@@ -2773,7 +3387,9 @@
       "address": "Lanuza 23, 2201 Huesca",
       "description": "El Hilo Suelto es un taller creativo en el centro de Huesca pensado para desconectar, crear y disfrutar del arte de la costura a tu propio ritmo. Ofrecemos…",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/el-hilo-suelto"
+      "sourceUrl": "https://huesca.city/negocios/el-hilo-suelto",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1788027902198-kx5nn1.jpg",
+      "website": ""
     },
     {
       "slug": "dynamic-fierro",
@@ -2782,7 +3398,9 @@
       "address": "Carretera a Castejon de Arbanies S/n, https://maps.app.goo.gl/j59WPrYP7SCjFbNE6?g_st=ic, 22120 Siétamo, Huesca",
       "description": "Rejas, puertas, escaleras. Hierro, inoxidable. Soldadura en general. Reparaciones",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/dynamic-fierro"
+      "sourceUrl": "https://huesca.city/negocios/dynamic-fierro",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shop-banners/1787325091173-4ouw1k.jpg",
+      "website": "https://dynamicfierro.com"
     },
     {
       "slug": "pilates-huesca",
@@ -2791,7 +3409,9 @@
       "address": "C. Obispo Javier Oses Flanarique, 5, 1 izqda, 22004 Huesca",
       "description": "Centro de Pilates",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/pilates-huesca"
+      "sourceUrl": "https://huesca.city/negocios/pilates-huesca",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787153554178-8redft.jpg",
+      "website": ""
     },
     {
       "slug": "centro-karuna",
@@ -2800,7 +3420,9 @@
       "address": "Pl. San Antonio, 9, 1° Izquierda, 22002 Huesca",
       "description": "Centro de Yoga Marga",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/centro-karuna"
+      "sourceUrl": "https://huesca.city/negocios/centro-karuna",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1787992181091-1d61kv.jpg",
+      "website": "http://www.centrokarunahuesca.com/"
     },
     {
       "slug": "aluminios-barlu-metal",
@@ -2809,7 +3431,9 @@
       "address": "C. Cristaleros, 25, 22006 Huesca",
       "description": "Carpintería especializados en el sector de metal",
       "source": "huesca.city",
-      "sourceUrl": "https://huesca.city/negocios/aluminios-barlu-metal"
+      "sourceUrl": "https://huesca.city/negocios/aluminios-barlu-metal",
+      "image": "https://auth.huesca.city/storage/v1/object/public/media/shops/banners/1786201667595-h7ptsk.jpg",
+      "website": "https://www.aluminiosbarlumetal.com/"
     }
   ]
 }

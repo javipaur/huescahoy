@@ -11,6 +11,8 @@ type Shop = {
   description: string;
   source: string;
   sourceUrl: string;
+  image?: string;
+  website?: string;
 };
 
 export function ComerciosListView({ shops }: { shops: Shop[] }) {
@@ -98,29 +100,51 @@ export function ComerciosListView({ shops }: { shops: Shop[] }) {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((s) => (
-            <article key={s.slug} className="flex flex-col rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-5 shadow-sm">
-              <span className="inline-flex w-fit rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand-dark">
-                {s.category || "Comercio"}
-              </span>
-              <h3 className="mt-3 font-display text-lg font-bold leading-snug text-choco dark:text-ink">{s.name}</h3>
-              {s.address ? (
-                <p className="mt-2 flex items-start gap-1.5 text-sm text-choco-muted">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <span>{s.address}</span>
-                </p>
+            <article key={s.slug} className="flex flex-col overflow-hidden rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
+              {s.image ? (
+                <div className="aspect-[16/9] w-full overflow-hidden bg-sand/40">
+                  <img
+                    src={s.image}
+                    alt={s.name}
+                    className="h-full w-full object-cover transition duration-300 hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </div>
               ) : null}
-              {s.description ? (
-                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-choco-muted">{s.description}</p>
-              ) : null}
-              <div className="mt-4 flex flex-wrap gap-3 pt-1">
-                <a
-                  href={s.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline"
-                >
-                  Ver ficha <ExternalLink className="h-3.5 w-3.5" />
-                </a>
+              <div className="flex flex-1 flex-col p-5">
+                <span className="inline-flex w-fit rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand-dark">
+                  {s.category || "Comercio"}
+                </span>
+                <h3 className="mt-3 font-display text-lg font-bold leading-snug text-choco dark:text-ink">{s.name}</h3>
+                {s.address ? (
+                  <p className="mt-2 flex items-start gap-1.5 text-sm text-choco-muted">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                    <span>{s.address}</span>
+                  </p>
+                ) : null}
+                {s.description ? (
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-choco-muted">{s.description}</p>
+                ) : null}
+                <div className="mt-4 flex flex-wrap gap-3 pt-1">
+                  <a
+                    href={s.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-brand-dark hover:underline"
+                  >
+                    Ver ficha <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                  {s.website ? (
+                    <a
+                      href={s.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-choco-muted hover:text-brand-dark hover:underline"
+                    >
+                      Web <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  ) : null}
+                </div>
               </div>
             </article>
           ))}

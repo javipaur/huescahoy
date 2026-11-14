@@ -21,6 +21,8 @@ type Shop = {
   description: string;
   source: string;
   sourceUrl: string;
+  image?: string;
+  website?: string;
 };
 
 const shops = (data as { items: Shop[] }).items;
