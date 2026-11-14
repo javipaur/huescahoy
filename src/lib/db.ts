@@ -522,6 +522,27 @@ const DEFAULT_SOURCES: SourceInput[] = [
     category_id: null,
     enabled: 1,
   },
+  {
+    name: "Agenda de la Comarca de Cinco Villas",
+    url: "https://www.comarcacincovillas.es/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda de Panticosa",
+    url: "https://panticosa.es/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
+  {
+    name: "Agenda de la Comarca del Bajo Aragón",
+    url: "https://bajoaragon.es/wp-json/tribe/events/v1/events",
+    kind: "tribe",
+    category_id: null,
+    enabled: 1,
+  },
 ];
 
 function highlightIdFromSourceUrl(url: string): string | null {
