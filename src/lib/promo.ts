@@ -164,12 +164,51 @@ export const ENLACE_PRESENTACION = ORIGEN_PROMO;
  */
 export function urlImagenPromo(url: string | undefined | null): string | null {
   if (!url) return null;
+  const u = url.trim();
+  if (!u) return null;
   // Protocol-relative (`//cdn…`) se resuelve a `https` y no se confunde con una ruta del
   // sitio: empieza por `/` igual que `/fotos/x.jpg`, pero el segundo carácter lo delata.
-  if (url.startsWith("//")) return `https:${url}`;
-  if (url.startsWith("/")) return `${ORIGEN_PROMO}${url}`;
-  if (/^https?:\/\//i.test(url)) return url;
+  if (u.startsWith("//")) return `https:${u}`;
+  if (u.startsWith("/")) return `${ORIGEN_PROMO}${u}`;
+  if (/^https?:\/\//i.test(u)) return u;
   return null;
+}
+
+/**
+ * Descarga la imagen del evento y la devuelve como data URI para incrustarla en la tarjeta.
+ *
+ * **Por qué no se pasa la URL remota directamente a Satori.** Si la fuente devuelve 404,
+ * bloquea el fetch o falla la carga, la tarjeta puede renderizarse con el área de imagen en
+ * blanco/rota. Al traer los bytes aquí (en runtime Node) y convertirlos a data URI, la
+ * imagen queda embebida y solo se usa si realmente se pudo leer.
+ *
+ * Devuelve `null` si la URL no es utilizable o la imagen no se puede obtener.
+ */
+export async function imagenPromoEmbebida(
+  url: string | undefined | null
+): Promise<string | null> {
+  const absoluta = urlImagenPromo(url);
+  if (!absoluta) return null;
+
+  try {
+    const res = await fetch(absoluta, {
+      headers: { "user-agent": "Mozilla/5.0 (compatible; HuescaHoyPromo/1.0)" },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return null;
+
+    const tipo = (res.headers.get("content-type") || "").toLowerCase();
+    if (tipo && !tipo.startsWith("image/")) return null;
+
+    const buf = Buffer.from(await res.arrayBuffer());
+    // Rechaza respuestas vacías o sospechosamente pequeñas (píxeles/errores disfrazados).
+    if (buf.length < 1024) return null;
+
+    const mime = tipo.split(";")[0].trim() || "image/jpeg";
+    return `data:${mime};base64,${buf.toString("base64")}`;
+  } catch {
+    return null;
+  }
 }
 
 /** La ventana que toca publicar un día dado, o `null` si ese día no se publica. */

@@ -5,8 +5,8 @@ import {
   PALETA_PROMO,
   TAMANO_PROMO,
   fechaCortaPromo,
+  imagenPromoEmbebida,
   shortTimePromo,
-  urlImagenPromo,
   ventanaDelDia,
 } from "@/lib/promo";
 import { paraInstagramJpeg } from "@/lib/promo-image";
@@ -40,7 +40,9 @@ export async function GET(request: Request, { params }: Ctx) {
   // romperse de forma visible, no servir un rectángulo que no dice nada.
   if (!evento) return new Response("no encontrado", { status: 404 });
 
-  const imagen = urlImagenPromo(evento.image);
+  // Se incrusta la imagen como data URI para evitar tarjetas en blanco si la URL remota
+  // falla al renderizarse; solo se pinta si se pudo obtener una imagen real.
+  const imagen = await imagenPromoEmbebida(evento.image);
 
   /*
    * **El puesto en el carrusel se calcula con el mismo selector que lo ordenó.**

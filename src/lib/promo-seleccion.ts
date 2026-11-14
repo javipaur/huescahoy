@@ -1,4 +1,5 @@
 import type { EventItem } from "./types";
+import { urlImagenPromo } from "./promo";
 
 /**
  * Qué eventos entran en el paquete de un día, y en qué orden.
@@ -125,7 +126,9 @@ export function seleccionarParaPromo(
 
   const enVentana = eventos
     .filter((evento) => {
-      if (!evento.image) return false;
+      // Solo entran eventos con una imagen utilizable: sin foto relacionada no hay
+      // diapositiva que merezca la pena publicar (evita tarjetas "en blanco"/logo).
+      if (!urlImagenPromo(evento.image)) return false;
       return empiezaEnLaVentana(evento) || sigueEnCartel(evento);
     })
     .sort((a, b) => {
