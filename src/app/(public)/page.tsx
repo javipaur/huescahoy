@@ -2,14 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
+  BadgeCheck,
   CalendarDays,
+  Castle,
   ChevronDown,
+  Compass,
   HelpCircle,
+  Landmark,
+  MapPin,
   Mountain,
   Search,
   Star,
   Users,
   UtensilsCrossed,
+  Wine,
 } from "lucide-react";
 import { EventCard } from "@/components/event-card";
 import { RestaurantCard } from "@/components/restaurant-card";
@@ -20,6 +26,8 @@ import { HomeAgenda } from "@/components/home-agenda";
 import { Reveal } from "@/components/reveal";
 import { InstallButton } from "@/components/pwa/install-button";
 import { JsonLd } from "@/components/json-ld";
+import { TagRiver, type TagRiverChip } from "@/components/tag-river";
+import { getIcon } from "@/lib/icons";
 import {
   getActiveFeaturedPick,
   getCategoriesAdmin,
@@ -28,8 +36,10 @@ import {
   getFeaturedEvents,
   getEvents,
   getPlanBySlug,
+  getPlans,
   getRestaurants,
   getRoutes,
+  getStats,
   todayStr,
 } from "@/lib/db";
 import { formatDayLong } from "@/lib/format";
@@ -55,18 +65,53 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [events, categories, featured, activePick, restaurants, routes, categoryList] =
+  const today = todayStr();
+  const [events, categories, featured, activePick, restaurants, routes, categoryList, plans, stats, todayEvents] =
     await Promise.all([
-      getEvents({ from: todayStr(), to: todayStr(7), limit: 200 }),
+      getEvents({ from: today, to: todayStr(7), limit: 200 }),
       getCategoriesWithCounts(),
       getFeaturedEvents(3),
       getActiveFeaturedPick(),
       getRestaurants({ limit: 3 }),
       getRoutes({ limit: 3 }),
       getCategoriesAdmin(),
+      getPlans(),
+      getStats(),
+      getEvents({ from: today, to: today, limit: 500 }),
     ]);
-  const today = todayStr();
+  const saturdayOffset = (6 - new Date(`${today}T12:00:00`).getDay() + 7) % 7;
+  const weekendFrom = todayStr(saturdayOffset);
+  const weekendTo = todayStr(saturdayOffset + 1);
+  const weekendEvents =
+    weekendFrom === today && weekendTo === today
+      ? todayEvents
+      : await getEvents({ from: weekendFrom, to: weekendTo, limit: 500 });
   const categoryMap = new Map(categoryList.map((c) => [c.id, c]));
+
+  const chips: TagRiverChip[] = [
+    { href: "/agenda", label: "Agenda", icon: CalendarDays, info: `${stats.upcoming}` },
+    { href: "/agenda?desde=hoy", label: "Hoy", icon: CalendarDays, info: `${todayEvents.length}` },
+    { href: "/agenda?desde=finde", label: "Este finde", icon: CalendarDays, info: `${weekendEvents.length}` },
+    { href: "/rutas", label: "Rutas y montaña", icon: Mountain, info: `${stats.routes}` },
+    { href: "/restaurantes", label: "Dónde comer", icon: UtensilsCrossed, info: `${stats.restaurants}` },
+    { href: "/que-ver", label: "Qué ver", icon: Landmark },
+    { href: "/pueblos-con-encanto", label: "Pueblos con encanto", icon: Castle },
+    { href: "/planes", label: "Planes y guías", icon: Compass, info: `${plans.length}` },
+    { href: "/vino-y-somontano", label: "Vino y Somontano", icon: Wine },
+    { href: "/sello", label: "El Sello", icon: BadgeCheck },
+    { href: "/cultura", label: "Cultura", icon: Landmark },
+    { href: "/buscar", label: "Buscar", icon: Search },
+    { href: "/donde/huesca", label: "Huesca", icon: MapPin },
+    { href: "/donde/barbastro", label: "Barbastro", icon: MapPin },
+    { href: "/donde/jaca", label: "Jaca", icon: MapPin },
+    { href: "/donde/ainsa", label: "Aínsa", icon: MapPin },
+    ...categories.map((c) => ({
+      href: `/agenda/${c.slug}`,
+      label: c.name,
+      icon: getIcon(c.icon),
+      info: `${c.event_count}`,
+    })),
+  ];
 
   let pickImage: string | null = null;
   if (activePick) {
@@ -157,12 +202,12 @@ export default async function HomePage() {
                 Agenda cultural de {site.city} · actualizada cada día
               </span>
               <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-balance text-white sm:text-5xl">
-                Qué hacer hoy en {site.city}
+                Cultura, ocio y planes en {site.city}
               </h1>
               <p className="mt-3 text-lg font-semibold text-gold">{formatDayLong(today)}</p>
               <p className="mt-2 max-w-xl text-white/70">
-                Conciertos, teatro, exposiciones, cine y planes en familia: toda la
-                agenda cultural de Huesca, al día. Gratis, sin anuncios.
+                Conciertos, teatro, exposiciones, rutas, restaurantes y planes: explora por
+                secciones y encuentra datos actualizados de toda la agenda y la provincia.
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3">
@@ -175,6 +220,13 @@ export default async function HomePage() {
               </Link>
               <InstallButton tone="dark-outline" />
             </div>
+          </div>
+
+          <div className="mt-8 border-t border-white/10 pt-5">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/50">
+              Explora por secciones y categorías
+            </p>
+            <TagRiver chips={chips} label="Explora por secciones y categorías" />
           </div>
         </div>
       </section>

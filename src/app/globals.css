@@ -83,3 +83,90 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Tag river (marquee de secciones/categorías) */
+.tag-river-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.tag-river {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+}
+
+.tag-river-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  padding: 0.25rem 0;
+  animation: tag-river-scroll 38s linear infinite;
+}
+
+.tag-river:hover .tag-river-track,
+.tag-river:focus-within .tag-river-track {
+  animation-play-state: paused;
+}
+
+@keyframes tag-river-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.tag-chip:hover,
+.tag-chip:focus-visible {
+  border-color: rgba(167, 232, 196, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.tag-chip-info {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: rgba(167, 232, 196, 0.18);
+  padding: 0.05rem 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-gold);
+}
+
+.tag-chip-muted {
+  border-style: dashed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag-river {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .tag-river-track {
+    animation: none;
+    padding-inline: 1rem;
+  }
+  .tag-river-track > [aria-hidden="true"] {
+    display: none;
+  }
+}
