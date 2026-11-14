@@ -24,10 +24,10 @@ const MAS_PUEBLOS = [
   { name: "Alquézar", slug: "alquezar", query: "Alquézar", desc: "Conjunto medieval sobre el río Vero, famoso por sus pasadizos, la colegiata y las pasarelas del cañón." },
   { name: "Loarre", slug: "loarre", query: "Loarre", desc: "Conocido por su castillo románico, una de las fortalezas mejor conservadas de Europa, con vistas a la Hoya." },
   { name: "Benasque", slug: "benasque", query: "Benasque", desc: "Villa pirenaica del valle de Benasque, rodeada de cumbres y base para rutas hacia Posets-Maladeta y el Aneto." },
-  { name: "Torla-Ordesa", slug: "", query: "Torla", desc: "Puerta de acceso al Parque Nacional de Ordesa y Monte Perdido, con casco de piedra y ambiente de montaña." },
-  { name: "Ansó", slug: "", query: "Ansó", desc: "Pueblo del valle de Ansó con arquitectura tradicional, traje típico y un entorno pirenaico de gran valor cultural." },
-  { name: "Graus", slug: "", query: "Graus", desc: "Villa de la Ribagorza con plaza porticada, gastronomía (longaniza) y patrimonio junto al río Ésera." },
-  { name: "Boltaña", slug: "", query: "Boltaña", desc: "En el Sobrarbe, con casco histórico, castillo y vistas al valle del Ara, cerca de Aínsa y Ordesa." },
+  { name: "Torla-Ordesa", slug: "torla", query: "Torla", desc: "Puerta de acceso al Parque Nacional de Ordesa y Monte Perdido, con casco de piedra y ambiente de montaña." },
+  { name: "Ansó", slug: "anso", query: "Ansó", desc: "Pueblo del valle de Ansó con arquitectura tradicional, traje típico y un entorno pirenaico de gran valor cultural." },
+  { name: "Graus", slug: "graus", query: "Graus", desc: "Villa de la Ribagorza con plaza porticada, gastronomía (longaniza) y patrimonio junto al río Ésera." },
+  { name: "Boltaña", slug: "boltana", query: "Boltaña", desc: "En el Sobrarbe, con casco histórico, castillo y vistas al valle del Ara, cerca de Aínsa y Ordesa." },
   { name: "Roda de Isábena", slug: "", query: "Roda de Isábena", desc: "Uno de los pueblos más pequeños con catedral de España, conjunto románico de gran valor en la Ribagorza." },
 ];
 

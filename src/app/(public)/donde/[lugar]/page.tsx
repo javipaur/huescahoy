@@ -150,6 +150,82 @@ const PLACES: Record<string, PlaceInfo> = {
       "Aprovecha Benasque como base para conocer otros pueblos del valle y los accesos a espacios naturales.",
     ],
   },
+  torla: {
+    name: "Torla-Ordesa",
+    intro:
+      "Puerta de entrada al Parque Nacional de Ordesa y Monte Perdido, con un casco de piedra de gran encanto y un entorno de montaña espectacular en el valle de Ordesa.",
+    query: "Torla",
+    highlights: [
+      { title: "Acceso a Ordesa y Monte Perdido", text: "Punto habitual para iniciar la visita al Parque Nacional, con rutas emblemáticas como la pradera de Ordesa y la cola de caballo." },
+      { title: "Casco histórico de Torla", text: "Calles empedradas, casas tradicionales y la iglesia de San Salvador conforman un núcleo de montaña muy pintoresco." },
+      { title: "Valle de Ordesa", text: "Paisajes de paredes calizas, bosques y cascadas que hacen del valle uno de los espacios naturales más conocidos de los Pirineos." },
+      { title: "Puente de los Navarros y entorno", text: "Rincones junto al río Ara y miradores cercanos que ofrecen vistas al valle y a las montañas." },
+      { title: "Rutas de senderismo", text: "Opciones para distintos niveles: paseos por el valle, recorridos a miradores y rutas de alta montaña en temporada." },
+      { title: "Turismo activo y naturaleza", text: "Zona ideal para senderismo, observación de fauna y actividades al aire libre, con servicios orientados al visitante." },
+    ],
+    tips: [
+      "En temporada alta el acceso en vehículo privado a la pradera de Ordesa puede estar regulado; infórmate de los buses lanzadera.",
+      "Reserva alojamiento con antelación en puentes y verano, y consulta la previsión meteorológica antes de hacer rutas.",
+      "Lleva calzado adecuado y respeta la normativa del Parque Nacional para conservar el entorno.",
+    ],
+  },
+  anso: {
+    name: "Ansó",
+    intro:
+      "Villa pirenaica del valle de Ansó, conocida por su arquitectura tradicional, su traje típico y un entorno natural y cultural muy bien conservado en la Jacetania.",
+    query: "Ansó",
+    highlights: [
+      { title: "Casco histórico tradicional", text: "Calles y casas de piedra y tejados característicos que conservan la esencia de la arquitectura popular ansotana." },
+      { title: "Iglesia de San Pedro", text: "Templo de referencia en la villa, vinculado a la historia y la vida cultural de la localidad." },
+      { title: "Museo del Traje Ansotano", text: "Espacio dedicado al traje tradicional de Ansó, una de las indumentarias más reconocibles del Pirineo aragonés." },
+      { title: "Valle de Ansó", text: "Entorno de alta montaña, selvas y pastos con rutas y paisajes que se extienden hacia los límites con Navarra y Francia." },
+      { title: "Cultura y tradiciones", text: "Fiestas, folclore y oficios tradicionales que mantienen viva la identidad del valle." },
+      { title: "Naturaleza y senderismo", text: "Punto de partida para excursiones por el valle, rutas de montaña y descubrimiento de espacios naturales cercanos." },
+    ],
+    tips: [
+      "Aprovecha para pasear sin prisa por el casco y conocer el patrimonio etnográfico y cultural del valle.",
+      "Si vas a hacer rutas, consulta distancias y desniveles: el entorno es montañoso y el clima puede cambiar rápido.",
+      "Combina la visita con otros pueblos del Pirineo occidental como Hecho o con la zona de Jaca.",
+    ],
+  },
+  graus: {
+    name: "Graus",
+    intro:
+      "Villa de la Ribagorza a orillas del Ésera, conocida por su plaza porticada, su patrimonio histórico y su gastronomía, con la longaniza como producto emblemático.",
+    query: "Graus",
+    highlights: [
+      { title: "Plaza Mayor porticada", text: "Centro neurálgico de la villa, rodeado de soportales y edificios históricos donde se concentra buena parte de la vida local." },
+      { title: "Casco histórico", text: "Conjunto de calles, casas señoriales y espacios como la Casa Heredia que reflejan el pasado comercial y patrimonial de Graus." },
+      { title: "Basílica de la Virgen de la Peña", text: "Santuario cercano a la villa, muy ligado a la devoción local y a las tradiciones de la Ribagorza." },
+      { title: "Gastronomía ribagorzana", text: "Famosa por la longaniza de Graus y por una oferta culinaria basada en producto de la zona." },
+      { title: "Puerta a la Ribagorza", text: "Buen punto de partida para explorar pueblos, valles y espacios naturales del Pirineo y prepirineo oscense." },
+      { title: "Mercados y ambiente local", text: "Tradición comercial y ferias que aportan dinamismo, con especial ambiente en días de mercado y celebraciones." },
+    ],
+    tips: [
+      "Recorre la plaza y el casco histórico a pie para descubrir sus rincones y la arquitectura tradicional.",
+      "Si te interesa la gastronomía local, prueba la longaniza y productos de la Ribagorza en bares y tiendas.",
+      "Graus es una base práctica para visitar Roda de Isábena, Benasque o el valle de Benasque.",
+    ],
+  },
+  boltana: {
+    name: "Boltaña",
+    intro:
+      "Localidad del Sobrarbe situada junto al valle del Ara, con un casco histórico de origen medieval y vistas privilegiadas hacia el Pirineo y las sierras cercanas.",
+    query: "Boltaña",
+    highlights: [
+      { title: "Casco histórico y castillo", text: "Restos del castillo y calles del núcleo antiguo que conservan el trazado y el carácter histórico de la villa." },
+      { title: "Iglesia de San Pedro", text: "Templo de referencia en Boltaña, integrado en el conjunto patrimonial del casco urbano." },
+      { title: "Vistas al valle del Ara", text: "Miradores y entornos desde los que se contemplan el valle, Aínsa y el paisaje del Sobrarbe." },
+      { title: "Cercanía a Aínsa y Ordesa", text: "Ubicación estratégica para combinar la visita con Aínsa, el Parque Nacional de Ordesa y Monte Perdido y rutas del Sobrarbe." },
+      { title: "Entorno natural", text: "Acceso a caminos, senderos y espacios naturales de la comarca, adecuados para paseos y actividades al aire libre." },
+      { title: "Cultura y servicios", text: "Oferta de servicios para visitantes y una vida cultural y festiva ligada a la tradición sobrarbense." },
+    ],
+    tips: [
+      "Combina la visita con Aínsa, que está muy cerca, para completar una ruta por el Sobrarbe en el mismo día.",
+      "Si planeas ir a Ordesa, ten en cuenta las regulaciones de acceso y la afluencia en temporada alta.",
+      "Pasea por el casco alto para disfrutar de las vistas y del ambiente tranquilo del pueblo.",
+    ],
+  },
 };
 
 type Props = { params: Promise<{ lugar: string }> };
