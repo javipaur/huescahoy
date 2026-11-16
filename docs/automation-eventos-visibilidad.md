@@ -41,10 +41,23 @@ El proyecto incluye scrapers/fuentes para Ayto, Diputación/DPH, Huesca Turismo,
 ## 3) Visibilidad (Instagram de Huesca Hoy)
 
 ### Promo diaria (n8n)
-- Workflow canónico: `docs/n8n/promo-instagram-huesca.json` (carrusel diario, cron 08:45 Europe/Madrid, simulacro en ejecución manual).
+- Workflow canónico: `docs/n8n/promo-instagram-huesca.json` (carrusel diario; trigger programado 08:45 Europe/Madrid + trigger manual en simulacro + trigger Webhook para lanzarlo desde un cron externo).
 - Paquete servido por la web: `GET /api/promo?fecha=YYYY-MM-DD` (incluye `portada`, `imagenes`, `titulos`, `historia`, `texto`, `enlace`).
 - Endpoints de imagen: portada, evento, presentación e historia (`/api/promo/[fecha]/...`).
 - Requiere credencial/token válido de Instagram Graph API en n8n y que la web esté desplegada con los cambios de promo.
+
+#### Ejecución diaria fiable (recomendado)
+1. **En n8n**: importar/actualizar el workflow desde `docs/n8n/promo-instagram-huesca.json`, comprobar que solo hay **un** workflow activo para esta promo, revisar credencial `Instagram · Huesca Hoy (Bearer)`/permisos y **activar** el workflow.
+2. **Trigger interno**: el nodo `Cron 08:45 Madrid` (`45 8 * * *`, timezone del workflow `Europe/Madrid`) debe quedar activo. Si la instancia de n8n duerme o el schedule es inestable, usar además el disparo externo.
+3. **Disparo externo (backup/alternativa)**: exponer el nodo **Webhook** de producción del workflow y programar una llamada diaria autenticada a `POST https://<tu-dominio>/api/cron/promo` con `Authorization: Bearer <CRON_SECRET>` (mismo sistema de cron que `/api/cron/scrape` y `/api/cron/digest`). Requiere en la app: `N8N_PROMO_WEBHOOK_URL` (y opcional `N8N_PROMO_WEBHOOK_SECRET`).
+4. **Verificación**: revisar ejecuciones en n8n (éxito, `Fin · ya estaba`, errores de cupo/permisos/paquete) y que el post aparece en `@huesca.hoy`. La idempotencia del flujo evita publicar dos veces el mismo día.
+
+#### Si hoy no se ejecutó (checklist)
+- Workflow **activo** en la instancia correcta (y duplicados antiguos desactivados).
+- Instancia de n8n operativa a la hora programada y timezone `Europe/Madrid`.
+- Ejecución fallida por: token/permisos Graph API (p. ej. 403 en lectura de medios), `GET /api/promo` inaccesible o con < 3 planes válidos, cupo agotado, o contenedores en error.
+- Si el nodo `Ejecutar a mano` pasó por `Modo: simulacro`, no publica (comportamiento esperado). Para recuperar un día manualmente, usar el flujo de publicación real según el nodo/comentario del workflow.
+- Configurar el cron externo a `/api/cron/promo` como respaldo para evitar depender solo del scheduler interno de n8n.
 
 ### Historia (story)
 - URL de imagen de historia disponible en el paquete (`historia`, 9:16). Para publicar stories automáticamente desde n8n hace falta añadir un paso de `media_type=STORIES` (crear contenedor con `image_url` de historia + publicar) en la instancia/workflow, usando el mismo token/cuenta.
@@ -56,4 +69,4 @@ El proyecto incluye scrapers/fuentes para Ayto, Diputación/DPH, Huesca Turismo,
 
 ## 4) Notas
 - No es viable/adecuado extraer o importar listas de seguidores de otras cuentas. La ventaja sostenible es más datos, mejor calidad y distribución propia.
-- Tras cambios en código, desplegar y verificar: cron de scraping, fuentes Instagram (si hay `IG_SESSIONID`) y ejecución/publicación de n8n.
+- Tras cambios en código, desplegar y verificar: cron de scraping, fuentes Instagram (si hay `IG_SESSIONID`), ejecución/publicación de n8n y (si aplica) el cron externo a `/api/cron/promo`.

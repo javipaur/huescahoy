@@ -614,6 +614,24 @@
         304
       ],
       "notes": "Lo que se lee en la ejecución: el post, su URL, el cupo gastado y cuántas diapositivas lleva."
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "huesca-hoy-promo",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "9f4d8d44-0f61-4d73-b0e2-8d8f6c9f2a11",
+      "name": "Webhook (cron externo)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        672
+      ],
+      "webhookId": "c5d5f4b5-1d55-4f3a-9b9f-2f6d3b8a9c10",
+      "notes": "Disparo externo (p. ej. POST /api/cron/promo desde la app o un cron). Publica de verdad como el Schedule Trigger. Protege este webhook en n8n o usa N8N_PROMO_WEBHOOK_SECRET."
     }
   ],
   "connections": {
@@ -892,6 +910,17 @@
         [
           {
             "node": "Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (cron externo)": {
+      "main": [
+        [
+          {
+            "node": "Leer el cupo",
             "type": "main",
             "index": 0
           }
