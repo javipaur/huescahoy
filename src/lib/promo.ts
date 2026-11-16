@@ -42,6 +42,24 @@ export const TAMANO_HISTORIA = { width: 1080, height: 1920 } as const;
 export const MAX_DIAPOSITIVAS = 10;
 
 /**
+ * Cuántos planes hacen falta para que el día merezca un carrusel.
+ *
+ * **Con uno o dos planes el carrusel sale pobre**: una portada, una foto y poco más, y gasta
+ * una publicación del cupo diario para enseñar casi lo mismo que una historia. Esos días se
+ * publica **solo la historia**, que es gratis en cuanto a cupo de feed, ocupa pantalla
+ * completa y lleva al mismo enlace.
+ *
+ * **Cero planes no se publica nada.** Una historia que dice «sin planes» es peor que el
+ * silencio: la cuenta aparece en el carrusel de historias de sus seguidores para contar que
+ * no hay nada.
+ *
+ * **El número está aquí y no en n8n** porque es una decisión editorial, y una decisión
+ * editorial sin test es una decisión que se rompe en silencio. El workflow recibe el veredicto
+ * ya tomado en el campo `modo` del paquete.
+ */
+export const UMBRAL_CARRUSEL = 3;
+
+/**
  * Los colores del paquete de redes.
  *
  * **Salen de `src/app/globals.css`, y en un solo sitio por el mismo motivo que
@@ -99,10 +117,20 @@ export const HASHTAGS_PROMO = [
 /** La base pública del sitio. Es la de `metadataBase` en `app/layout.tsx`. */
 export const ORIGEN_PROMO = site.url;
 
-/** La URL de una tarjeta, tal como la necesita Instagram. */
+/**
+ * La URL de una tarjeta, tal como la necesita Instagram.
+ *
+ * **Lleva `?format=jpeg` y no es opcional.** `ImageResponse` solo sabe pintar PNG, y la
+ * Content Publishing API de Meta **solo acepta JPEG**: con PNG, el primer nodo que crea un
+ * contenedor devuelve error y no se publica nada. La conversión está en la ruta
+ * (`paraInstagramJpeg`), que no hace nada si no se le pide, así que pedírselo es cosa de
+ * quien construye el paquete. Ese es este sitio: el paquete es el único consumidor que
+ * publica, y por eso la marca viaja aquí y no se escribe a mano en n8n.
+ */
 export function urlDePromo(fecha: string, slug?: string): string {
   const base = `${ORIGEN_PROMO}/api/promo/${fecha}`;
-  return slug ? `${base}/evento/${slug}` : `${base}/portada`;
+  const ruta = slug ? `${base}/evento/${slug}` : `${base}/portada`;
+  return `${ruta}?format=jpeg`;
 }
 
 /**
@@ -110,9 +138,12 @@ export function urlDePromo(fecha: string, slug?: string): string {
  *
  * **Vive en la hoja y no se escribe a mano en el correo.** Una URL escrita en dos ficheros
  * es una URL que un día apunta a un sitio y al otro a nada.
+ *
+ * **También en JPEG, y por el mismo motivo que `urlDePromo`**: Meta rechaza el PNG tanto en
+ * el feed como en las historias.
  */
 export function urlHistoria(fecha: string): string {
-  return `${ORIGEN_PROMO}/api/promo/${fecha}/historia`;
+  return `${ORIGEN_PROMO}/api/promo/${fecha}/historia?format=jpeg`;
 }
 
 /**
@@ -267,8 +298,25 @@ export function ventanaDelDia(hoy: string): VentanaPromo | null {
   return construir ? construir(hoy) : null;
 }
 
+/**
+ * Qué se publica un día: nada, una historia o el carrusel.
+ *
+ * **Tres valores y no dos booleanos.** `publicar` + `esHistoria` admite cuatro combinaciones
+ * y una de ellas —no publicar pero en modo historia— no significa nada; con tres valores
+ * escritos, el estado imposible no existe.
+ */
+export type ModoPromo = "nada" | "historia" | "carrusel";
+
 /** La forma que consume la publicación. Cerrada: un campo que sobra lo lee sin querer. */
 export type PaquetePromo = {
+  /**
+   * Qué toca publicar hoy, ya decidido.
+   *
+   * **El workflow de n8n no cuenta planes: obedece.** Si la cuenta se hiciera allí, la regla
+   * viviría en un nodo de código que nadie prueba y que se puede editar en la interfaz un
+   * martes por la tarde. Aquí tiene test.
+   */
+  modo: ModoPromo;
   portada: string;
   imagenes: string[];
   /**
@@ -310,9 +358,9 @@ export function enlaceDeVentana(desde: string, hasta: string): string {
  * que se toque una.
  *
  * **Aquí no hay ninguna llamada a la Graph API, y no la va a haber.** Este fichero prepara
- * el paquete y nada más: el token no vive en el repositorio y publicar es una decisión
- * editorial de una persona. La frontera queda así: el repositorio sirve el paquete y nunca
- * publica; n8n publica y nunca decide.
+ * el paquete y nada más: el token no vive en el repositorio. La frontera queda así: el
+ * repositorio decide **qué** se publica —cuántos planes hay y qué formato les corresponde— y
+ * n8n decide **cuándo y cómo** se ejecuta, sin recontar nada.
  */
 export function paqueteDePromo(
   lista: Array<{ slug: string; title: string; location: string | null; category?: string | null }>,
@@ -320,6 +368,7 @@ export function paqueteDePromo(
 ): PaquetePromo {
   const ventana = enlaceDeVentana(desde, hasta);
   return {
+    modo: modoDelDia(lista.length),
     portada: urlDePromo(desde),
     imagenes: lista.map((e) => urlDePromo(desde, e.slug)),
     titulos: lista.map((e) => normalizarTituloPromo(e.title)),
@@ -330,6 +379,20 @@ export function paqueteDePromo(
     // después qué post trajo visitas.
     enlace: `${ventana}&utm_source=ig&utm_medium=social&utm_content=huescahoy-${desde}`,
   };
+}
+
+/**
+ * El formato que le toca a un día según cuántos planes tenga.
+ *
+ * **Es una función y no un ternario dentro de `paqueteDePromo`** porque así se prueba sola y
+ * el corte queda escrito una vez: cero es silencio, uno o dos es historia, tres o más es
+ * carrusel. Un ternario anidado es justo donde se cuela el `<` por `<=` que nadie ve hasta
+ * que un domingo se publica un carrusel de dos diapositivas.
+ */
+export function modoDelDia(planes: number): ModoPromo {
+  if (planes <= 0) return "nada";
+  if (planes < UMBRAL_CARRUSEL) return "historia";
+  return "carrusel";
 }
 
 /** Suma días a una fecha local y la vuelve a escribir como `YYYY-MM-DD`. */

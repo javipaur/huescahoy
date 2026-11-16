@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   ORIGEN_PROMO,
   fechaCortaPromo,
+  modoDelDia,
   normalizarTituloPromo,
   paqueteDePromo,
   shortTimePromo,
@@ -136,10 +137,21 @@ describe("paqueteDePromo", () => {
     const paquete = paqueteDePromo(lista, { desde: "2026-11-11", hasta: "2026-11-11" });
     expect(paquete.imagenes).toHaveLength(2);
     expect(paquete.titulos).toHaveLength(2);
-    expect(paquete.portada.endsWith("/portada")).toBe(true);
+    expect(paquete.portada).toContain("/api/promo/2026-11-11/portada");
     expect(paquete.imagenes[0]).toContain("/evento/concierto-jazz");
-    expect(paquete.historia.endsWith("/historia")).toBe(true);
     expect(paquete.historia).toContain("/api/promo/2026-11-11/historia");
+  });
+
+  it("todas las imágenes piden JPEG, que es lo único que acepta Meta", () => {
+    const paquete = paqueteDePromo(lista, { desde: "2026-11-11", hasta: "2026-11-11" });
+    for (const url of [paquete.portada, paquete.historia, ...paquete.imagenes]) {
+      expect(url).toContain("?format=jpeg");
+    }
+  });
+
+  it("con dos planes el día es de historia, no de carrusel", () => {
+    const paquete = paqueteDePromo(lista, { desde: "2026-11-11", hasta: "2026-11-11" });
+    expect(paquete.modo).toBe("historia");
   });
 
   it("el enlace lleva la utm de la fecha", () => {
@@ -158,6 +170,23 @@ describe("paqueteDePromo", () => {
   it("con la lista vacía el texto no promete nada", () => {
     const paquete = paqueteDePromo([], { desde: "2026-11-11", hasta: "2026-11-11" });
     expect(paquete.imagenes).toHaveLength(0);
+    expect(paquete.modo).toBe("nada");
     expect(paquete.texto).toContain("no hay nada que recomendarte");
+  });
+});
+
+describe("modoDelDia", () => {
+  it("sin planes no se publica nada", () => {
+    expect(modoDelDia(0)).toBe("nada");
+  });
+
+  it("con uno o dos planes se publica solo la historia", () => {
+    expect(modoDelDia(1)).toBe("historia");
+    expect(modoDelDia(2)).toBe("historia");
+  });
+
+  it("a partir de tres planes se publica el carrusel", () => {
+    expect(modoDelDia(3)).toBe("carrusel");
+    expect(modoDelDia(10)).toBe("carrusel");
   });
 });

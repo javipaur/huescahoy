@@ -99,7 +99,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ── Modo ─────────────────────────────────────────────────────────────────────\n// El nodo «Modo: simulacro» sólo existe en la rama manual, así que referenciarlo\n// desde el cron lanza. Eso es exactamente lo que se quiere: si no está, no hay\n// simulacro.\nlet simular = false;\ntry {\n  const m = $('Modo: simulacro').first();\n  if (m && m.json) simular = Boolean(m.json.simular);\n} catch (e) {\n  simular = false;\n}\n\n// ── Topes de Meta (doc de Content Publishing, 6 nov 2026) ────────────────────\nconst LIMITE_HIJOS = 20;\nconst LIMITE_PIE = 2200;\nconst LIMITE_ETIQUETAS = 30;\nconst LIMITE_MENCIONES = 20;\n\nconst p = $input.first().json;\nif (!p || typeof p !== 'object') {\n  throw new Error('La respuesta de /api/promo no es un objeto JSON.');\n}\nfor (const k of ['portada', 'imagenes', 'titulos', 'texto', 'enlace']) {\n  if (!p[k]) throw new Error('Paquete incompleto: falta ' + k + '.');\n}\nif (!Array.isArray(p.imagenes) || !Array.isArray(p.titulos)) {\n  throw new Error('El paquete trae imagenes o titulos con forma invalida.');\n}\nif (p.titulos.length !== p.imagenes.length) {\n  throw new Error('El paquete no cuadra: ' + p.titulos.length + ' titulos para ' + p.imagenes.length + ' eventos.');\n}\n\n// Un dia con menos de 3 planes no merece un carrusel: sale pobre y gasta cupo.\nif (p.imagenes.length < 3) {\n  throw new Error('Pocos planes para publicar: el paquete trae ' + p.imagenes.length + ' y el minimo es 3. No se publica.');\n}\n\n// ── Pie ──────────────────────────────────────────────────────────────────────\nconst pie = String(p.texto);\nif (pie.length > LIMITE_PIE) {\n  throw new Error('El pie tiene ' + pie.length + ' caracteres y Meta admite ' + LIMITE_PIE + '.');\n}\nconst etiquetas = (pie.match(/#[^\\s#]+/g) || []).length;\nif (etiquetas > LIMITE_ETIQUETAS) {\n  throw new Error('El pie lleva ' + etiquetas + ' etiquetas y Meta admite ' + LIMITE_ETIQUETAS + '.');\n}\nconst menciones = (pie.match(/@[A-Za-z0-9._]+/g) || []).length;\nif (menciones > LIMITE_MENCIONES) {\n  throw new Error('El pie lleva ' + menciones + ' menciones y Meta admite ' + LIMITE_MENCIONES + '.');\n}\n\n// El pie promete un número de planes y las diapositivas enseñan otro. Se comparan\n// aquí, que es el único sitio del flujo donde están las dos cosas a la vez: el\n// 3 de noviembre de 2026 el post decía \"hay 10 planes\" y llevaba 9.\nconst prometidos = pie.match(/\\b(\\d+)\\s+planes?\\b/);\nif (prometidos && Number(prometidos[1]) !== p.imagenes.length) {\n  throw new Error('El pie promete ' + prometidos[1] + ' planes y el paquete trae ' + p.imagenes.length + '.');\n}\n\n// ── Hijos ────────────────────────────────────────────────────────────────────\n// La portada NO viene dentro de imagenes: son dos listas y el carrusel es la\n// unión. Sin esto el post sale sin cara y nada lo avisa.\nconst todas = [p.portada, ...p.imagenes];\nconst urls = todas.slice(0, LIMITE_HIJOS);\nconst descartadas = todas.length - urls.length;\n\nif (urls.length < 2) {\n  throw new Error('Un carrusel necesita 2 imagenes como minimo y llegaron ' + urls.length + '.');\n}\n\nconst vistos = new Set();\nurls.forEach((url, i) => {\n  if (typeof url !== 'string' || !url.startsWith('https://')) {\n    throw new Error('La imagen ' + i + ' no es una URL https: ' + String(url));\n  }\n  if (vistos.has(url)) throw new Error('URL repetida en el carrusel: ' + url);\n  vistos.add(url);\n});\n\n// ── Cupo ─────────────────────────────────────────────────────────────────────\n// Si la lectura del cupo falló, se avisa y se sigue: un chequeo roto no puede\n// impedir publicar. Si respondió y no queda cupo, sí se para.\nlet cupo = 'desconocido';\ntry {\n  const bruto = $('Leer el cupo').first().json || {};\n  if (bruto.error) {\n    cupo = 'no se pudo leer (' + (bruto.error.message || 'sin detalle') + ')';\n  } else {\n    const fila = Array.isArray(bruto.data) ? (bruto.data[0] || {}) : bruto;\n    const usado = Number(fila.quota_usage != null ? fila.quota_usage : bruto.quota_usage);\n    const total = Number(\n      (fila.config && fila.config.quota_total != null) ? fila.config.quota_total\n        : (fila.quota_total != null ? fila.quota_total : bruto.quota_total)\n    );\n    if (Number.isFinite(total) && total > 0 && Number.isFinite(usado)) {\n      cupo = usado + '/' + total;\n      if (usado >= total) {\n        throw new Error('Cupo de publicación agotado: ' + usado + ' de ' + total + ' en las últimas 24 h.');\n      }\n    }\n  }\n} catch (e) {\n  // El throw del cupo agotado no se puede tragar con el catch de la lectura.\n  if (String(e.message || '').startsWith('Cupo de publicación agotado')) throw e;\n  cupo = 'no se pudo leer (' + (e.message || 'error') + ')';\n}\n\nreturn [{\n  json: {\n    simular,\n    cupo,\n    urls,\n    total: urls.length,\n    descartadas,\n    titulos: p.titulos.slice(0, urls.length - 1),\n    caption: pie,\n    enlace: p.enlace,\n    pieCaracteres: pie.length,\n    etiquetas,\n    menciones,\n  },\n}];"
+        "jsCode": "// ── Modo ─────────────────────────────────────────────────────────────────────\n// El nodo «Modo: simulacro» sólo existe en la rama manual, así que referenciarlo\n// desde el cron lanza. Eso es exactamente lo que se quiere: si no está, no hay\n// simulacro.\nlet simular = false;\ntry {\n  const m = $('Modo: simulacro').first();\n  if (m && m.json) simular = Boolean(m.json.simular);\n} catch (e) {\n  simular = false;\n}\n\n// ── Topes de Meta (doc de Content Publishing) ────────────────────────────────\nconst LIMITE_HIJOS = 20;\nconst LIMITE_PIE = 2200;\nconst LIMITE_ETIQUETAS = 30;\nconst LIMITE_MENCIONES = 20;\n\nconst p = $input.first().json;\nif (!p || typeof p !== 'object') {\n  throw new Error('La respuesta de /api/promo no es un objeto JSON.');\n}\nfor (const k of ['portada', 'imagenes', 'titulos', 'texto', 'enlace', 'historia']) {\n  if (!p[k]) throw new Error('Paquete incompleto: falta ' + k + '.');\n}\nif (!Array.isArray(p.imagenes) || !Array.isArray(p.titulos)) {\n  throw new Error('El paquete trae imagenes o titulos con forma invalida.');\n}\nif (p.titulos.length !== p.imagenes.length) {\n  throw new Error('El paquete no cuadra: ' + p.titulos.length + ' titulos para ' + p.imagenes.length + ' eventos.');\n}\n\n// ── Qué se publica ───────────────────────────────────────────────────────────\n// Lo decide la web y viaja en `modo`: cero planes es silencio, uno o dos es\n// historia y tres o más es carrusel. Aquí no se recontesta esa regla, sólo se\n// acepta: una decisión editorial duplicada en dos sitios acaba diciendo dos cosas.\n//\n// Si el paquete viene de una versión anterior sin el campo —el sitio y este flujo\n// se despliegan por separado— se deduce con la misma regla, para que el flujo no\n// se rompa en el hueco entre un despliegue y el otro.\nconst planes = p.imagenes.length;\nconst modo = p.modo || (planes === 0 ? 'nada' : planes < 3 ? 'historia' : 'carrusel');\nif (!['nada', 'historia', 'carrusel'].includes(modo)) {\n  throw new Error('El paquete trae un modo desconocido: ' + String(modo) + '.');\n}\n\n// El día es la clave de idempotencia de la historia, y sale de la URL del\n// paquete porque es la fecha con la que la web lo construyó.\nconst conDia = String(p.historia || '').match(/\\/(\\d{4}-\\d{2}-\\d{2})\\//);\nconst dia = conDia ? conDia[1] : null;\n\n// ── Pie ──────────────────────────────────────────────────────────────────────\nconst pie = String(p.texto);\nif (pie.length > LIMITE_PIE) {\n  throw new Error('El pie tiene ' + pie.length + ' caracteres y Meta admite ' + LIMITE_PIE + '.');\n}\nconst etiquetas = (pie.match(/#[^\\s#]+/g) || []).length;\nif (etiquetas > LIMITE_ETIQUETAS) {\n  throw new Error('El pie lleva ' + etiquetas + ' etiquetas y Meta admite ' + LIMITE_ETIQUETAS + '.');\n}\nconst menciones = (pie.match(/@[A-Za-z0-9._]+/g) || []).length;\nif (menciones > LIMITE_MENCIONES) {\n  throw new Error('El pie lleva ' + menciones + ' menciones y Meta admite ' + LIMITE_MENCIONES + '.');\n}\n\n// El pie promete un número de planes y las diapositivas enseñan otro. Se comparan\n// aquí, que es el único sitio del flujo donde están las dos cosas a la vez: el\n// 3 de noviembre de 2026 el post decía \"hay 10 planes\" y llevaba 9.\nconst prometidos = pie.match(/\\b(\\d+)\\s+planes?\\b/);\nif (prometidos && Number(prometidos[1]) !== planes) {\n  throw new Error('El pie promete ' + prometidos[1] + ' planes y el paquete trae ' + planes + '.');\n}\n\n// ── Día sin planes: se para aquí, y no es un error ───────────────────────────\n// Una agenda vacía es normal, no un fallo. Se devuelve el veredicto y el flujo\n// termina sin gastar una sola llamada de escritura ni una publicación del cupo.\nif (modo === 'nada') {\n  return [{\n    json: {\n      modo,\n      simular,\n      dia,\n      planes,\n      motivo: 'La agenda no trae ningún plan con foto para hoy: no se publica nada.',\n    },\n  }];\n}\n\n// ── Cupo ─────────────────────────────────────────────────────────────────────\n// Si la lectura del cupo falló, se avisa y se sigue: un chequeo roto no puede\n// impedir publicar. Si respondió y no queda cupo, sí se para.\nlet cupo = 'desconocido';\ntry {\n  const bruto = $('Leer el cupo').first().json || {};\n  if (bruto.error) {\n    cupo = 'no se pudo leer (' + (bruto.error.message || 'sin detalle') + ')';\n  } else {\n    const fila = Array.isArray(bruto.data) ? (bruto.data[0] || {}) : bruto;\n    const usado = Number(fila.quota_usage != null ? fila.quota_usage : bruto.quota_usage);\n    const total = Number(\n      (fila.config && fila.config.quota_total != null) ? fila.config.quota_total\n        : (fila.quota_total != null ? fila.quota_total : bruto.quota_total)\n    );\n    if (Number.isFinite(total) && total > 0 && Number.isFinite(usado)) {\n      cupo = usado + '/' + total;\n      if (usado >= total) {\n        throw new Error('Cupo de publicación agotado: ' + usado + ' de ' + total + ' en las últimas 24 h.');\n      }\n    }\n  }\n} catch (e) {\n  // El throw del cupo agotado no se puede tragar con el catch de la lectura.\n  if (String(e.message || '').startsWith('Cupo de publicación agotado')) throw e;\n  cupo = 'no se pudo leer (' + (e.message || 'error') + ')';\n}\n\n// ── Historia ─────────────────────────────────────────────────────────────────\n// Con uno o dos planes no hay carrusel: sale pobre, gasta cupo de feed y enseña\n// casi lo mismo que una historia. La historia ocupa la pantalla entera y lleva al\n// mismo enlace.\nif (modo === 'historia') {\n  const historia = String(p.historia);\n  if (!historia.startsWith('https://')) {\n    throw new Error('La historia no es una URL https: ' + historia);\n  }\n  return [{\n    json: {\n      modo,\n      simular,\n      dia,\n      planes,\n      historia,\n      cupo,\n      caption: pie,\n      enlace: p.enlace,\n      portada: p.portada,\n      pieCaracteres: pie.length,\n      etiquetas,\n      menciones,\n    },\n  }];\n}\n\n// ── Hijos del carrusel ───────────────────────────────────────────────────────\n// La portada NO viene dentro de imagenes: son dos listas y el carrusel es la\n// unión. Sin esto el post sale sin cara y nada lo avisa.\nconst todas = [p.portada, ...p.imagenes];\nconst urls = todas.slice(0, LIMITE_HIJOS);\nconst descartadas = todas.length - urls.length;\n\nif (urls.length < 2) {\n  throw new Error('Un carrusel necesita 2 imagenes como minimo y llegaron ' + urls.length + '.');\n}\n\nconst vistos = new Set();\nurls.forEach((url, i) => {\n  if (typeof url !== 'string' || !url.startsWith('https://')) {\n    throw new Error('La imagen ' + i + ' no es una URL https: ' + String(url));\n  }\n  if (vistos.has(url)) throw new Error('URL repetida en el carrusel: ' + url);\n  vistos.add(url);\n});\n\nreturn [{\n  json: {\n    modo,\n    simular,\n    dia,\n    planes,\n    cupo,\n    urls,\n    total: urls.length,\n    descartadas,\n    titulos: p.titulos.slice(0, urls.length - 1),\n    caption: pie,\n    enlace: p.enlace,\n    pieCaracteres: pie.length,\n    etiquetas,\n    menciones,\n  },\n}];\n"
       },
       "id": "c29f8355-7bab-48eb-92fb-e5e019e0fc1d",
       "name": "Validar el paquete",
@@ -125,8 +125,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
-        192
+        1920,
+        0
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -142,15 +142,15 @@
     },
     {
       "parameters": {
-        "jsCode": "// La clave de idempotencia es el DÍA del pie, no el pie entero: el pie lleva\n// dentro el número de planes (\"hay 10 planes\") y ese número cambia si la agenda\n// cambia entre dos pasadas del mismo día. Comparando el pie completo, un plan\n// nuevo a media mañana republicaba el carrusel. El día no cambia.\n//\n// Sale UN ITEM POR IMAGEN porque el nodo siguiente es el que crea los\n// contenedores, y así se ahorra un nodo que sólo repartía la lista.\nconst paquete = $('Validar el paquete').first().json;\n\nconst norm = (t) => String(t || '').replace(/\\s+/g, ' ').trim().toLowerCase();\n\n// \"Este martes 3 de noviembre hay 10 planes en Huesca.\" -> \"este martes 3 de noviembre hay N planes en vitoria-huesca.\"\nconst claveDia = (t) => norm(String(t || '').split('\\n')[0]).replace(/\\b\\d+\\s+planes?\\b/, 'N planes');\n\nconst nuevo = norm(paquete.caption);\nconst nuevaClave = claveDia(paquete.caption);\n\n// Graph devuelve {data:[...], paging:{...}}: los medios están en data.\n// Si \"Medios recientes\" falló y continuó, el input puede traer error: en ese\n// caso se asume \"no publicado\" (idempotencia best-effort) para no bloquear.\nconst bruto = $input.first().json || {};\nconst errorLectura = Boolean(bruto && (bruto.error || bruto.message || bruto.statusCode || bruto.status === 'error'));\nconst medios = (!errorLectura && Array.isArray(bruto.data)) ? bruto.data : (!errorLectura && Array.isArray(bruto) ? bruto : []);\n\nconst repetido = medios.find((m) => {\n  if (!m || !m.caption) return false;\n  return norm(m.caption) === nuevo || (nuevaClave && claveDia(m.caption) === nuevaClave);\n});\n\nconst motivo = repetido\n  ? 'Ese día ya está publicado (' + repetido.id + ', ' + (repetido.timestamp || 'sin fecha') + '). No se publica otra vez.'\n  : (errorLectura\n      ? 'No se pudieron leer medios recientes; se continúa sin confirmación de idempotencia.'\n      : 'Ninguno de los ' + medios.length + ' posts recientes es de hoy.');\n\nreturn paquete.urls.map((url, i) => ({\n  json: {\n    url,\n    orden: i + 1,\n    total: paquete.total,\n    simular: paquete.simular,\n    yaPublicado: Boolean(repetido),\n    motivo,\n    postExistente: repetido\n      ? { id: repetido.id, permalink: repetido.permalink || null, timestamp: repetido.timestamp || null }\n      : null,\n    mediosRevisados: errorLectura ? null : medios.length,\n  },\n}));"
+        "jsCode": "// La clave de idempotencia es el DÍA del pie, no el pie entero: el pie lleva\n// dentro el número de planes (\"hay 10 planes\") y ese número cambia si la agenda\n// cambia entre dos pasadas del mismo día. Comparando el pie completo, un plan\n// nuevo a media mañana republicaba el carrusel. El día no cambia.\n//\n// Sale UN ITEM POR IMAGEN porque el nodo siguiente es el que crea los\n// contenedores, y así se ahorra un nodo que sólo repartía la lista.\nconst paquete = $('Validar el paquete').first().json;\n\nconst norm = (t) => String(t || '').replace(/\\s+/g, ' ').trim().toLowerCase();\n\n// \"Este martes 3 de noviembre hay 10 planes en Huesca.\" -> \"este martes 3 de noviembre hay N planes en huesca.\"\nconst claveDia = (t) => norm(String(t || '').split('\\n')[0]).replace(/\\b\\d+\\s+planes?\\b/, 'N planes');\n\nconst nuevo = norm(paquete.caption);\nconst nuevaClave = claveDia(paquete.caption);\n\n// Graph devuelve {data:[...], paging:{...}}: los medios están en data.\n// Si \"Medios recientes\" falló y continuó, el input puede traer error: en ese\n// caso se asume \"no publicado\" (idempotencia best-effort) para no bloquear.\nconst bruto = $input.first().json || {};\nconst errorLectura = Boolean(bruto && (bruto.error || bruto.message || bruto.statusCode || bruto.status === 'error'));\nconst medios = (!errorLectura && Array.isArray(bruto.data)) ? bruto.data : (!errorLectura && Array.isArray(bruto) ? bruto : []);\n\nconst repetido = medios.find((m) => {\n  if (!m || !m.caption) return false;\n  return norm(m.caption) === nuevo || (nuevaClave && claveDia(m.caption) === nuevaClave);\n});\n\nconst motivo = repetido\n  ? 'Ese día ya está publicado (' + repetido.id + ', ' + (repetido.timestamp || 'sin fecha') + '). No se publica otra vez.'\n  : (errorLectura\n      ? 'No se pudieron leer medios recientes; se continúa sin confirmación de idempotencia.'\n      : 'Ninguno de los ' + medios.length + ' posts recientes es de hoy.');\n\nreturn paquete.urls.map((url, i) => ({\n  json: {\n    url,\n    orden: i + 1,\n    total: paquete.total,\n    simular: paquete.simular,\n    // El título de la diapositiva viaja con la imagen porque el `alt_text` del\n    // contenedor tiene que decir lo que enseña la foto, no su número de orden.\n    // La primera es la portada, que no tiene título propio.\n    titulo: i === 0 ? 'Portada de la agenda de Huesca de hoy' : (paquete.titulos[i - 1] || ''),\n    yaPublicado: Boolean(repetido),\n    motivo,\n    postExistente: repetido\n      ? { id: repetido.id, permalink: repetido.permalink || null, timestamp: repetido.timestamp || null }\n      : null,\n    mediosRevisados: errorLectura ? null : medios.length,\n  },\n}));\n"
       },
       "id": "a87f7e18-e88a-4e8d-8455-cc2ff2c61ac6",
       "name": "¿Ya publicado?",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        192
+        2160,
+        0
       ],
       "notes": "El cron puede repetirse (reintento, redeploy): esto lo hace inocuo."
     },
@@ -184,8 +184,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1680,
-        192
+        2400,
+        0
       ]
     },
     {
@@ -197,8 +197,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1920,
-        0
+        2640,
+        -96
       ],
       "notes": "Salida limpia: dice qué post ya estaba y no hace nada más."
     },
@@ -232,21 +232,21 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1920,
-        304
+        1440,
+        192
       ]
     },
     {
       "parameters": {
-        "jsCode": "// Lo que se lee aquí es exactamente lo que se habría publicado. Sirve para\n// revisar un día sin tocar la cuenta.\nconst p = $('Validar el paquete').first().json;\nreturn [{\n  json: {\n    publicado: false,\n    simulacro: true,\n    diapositivas: p.total,\n    descartadasPorLimite: p.descartadas,\n    cupo: p.cupo,\n    pieCaracteres: p.pieCaracteres,\n    etiquetas: p.etiquetas,\n    menciones: p.menciones,\n    portada: p.urls[0],\n    titulos: p.titulos,\n    enlaceBio: p.enlace,\n  },\n}];"
+        "jsCode": "// Lo que se lee aquí es exactamente lo que se habría publicado. Sirve para\n// revisar un día sin tocar la cuenta: la rama manual del flujo siempre termina\n// aquí, porque `simular` sólo puede valer true.\nconst p = $('Validar el paquete').first().json;\n\nconst comun = {\n  publicado: false,\n  simulacro: true,\n  modo: p.modo,\n  dia: p.dia,\n  planes: p.planes,\n  cupo: p.cupo,\n  enlaceBio: p.enlace,\n};\n\nif (p.modo === 'carrusel') {\n  return [{\n    json: {\n      ...comun,\n      diapositivas: p.total,\n      descartadasPorLimite: p.descartadas,\n      portada: p.urls[0],\n      titulos: p.titulos,\n      pieCaracteres: p.pieCaracteres,\n      etiquetas: p.etiquetas,\n      menciones: p.menciones,\n    },\n  }];\n}\n\nif (p.modo === 'historia') {\n  return [{\n    json: {\n      ...comun,\n      historia: p.historia,\n      portada: p.portada,\n      pieCaracteres: p.pieCaracteres,\n      etiquetas: p.etiquetas,\n      menciones: p.menciones,\n    },\n  }];\n}\n\nreturn [{ json: comun }];\n"
       },
       "id": "ff6df597-be75-49fc-abd8-71f287e691b7",
       "name": "Fin · simulacro",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2160,
-        208
+        1680,
+        0
       ],
       "notes": "No publica nada: enseña el paquete ya validado para revisarlo."
     },
@@ -263,6 +263,10 @@
             {
               "name": "image_url",
               "value": "={{ $json.url }}"
+            },
+            {
+              "name": "alt_text",
+              "value": "={{ $json.titulo }}"
             },
             {
               "name": "is_carousel_item",
@@ -285,8 +289,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2400,
-        432
+        2640,
+        96
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -301,20 +305,6 @@
     },
     {
       "parameters": {
-        "jsCode": "// El estado se pide de uno en uno, así que el bucle tiene que volver a entrar\n// con un item por hijo y no con el item único de '¿Listos?'. Se reconstruyen\n// desde 'Crear hijos', que es la lista de contenedores de verdad.\nconst hijos = $('Crear hijos').all().map((i) => i.json.id).filter(Boolean);\nif (!hijos.length) throw new Error('No hay contenedores de imagen que comprobar.');\nreturn hijos.map((id) => ({ json: { id } }));"
-      },
-      "id": "dbd96fe4-9338-4fba-9cbe-69c3116117f4",
-      "name": "Repartir hijos",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2640,
-        432
-      ],
-      "notes": "Sin esto el bucle volvería con un solo item y 'Estado hijos' no sabría qué contenedor mirar."
-    },
-    {
-      "parameters": {
         "amount": 60
       },
       "id": "8a1c5510-e99f-428c-9918-fa5fc9b59727",
@@ -322,8 +312,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2880,
-        432
+        3120,
+        96
       ],
       "webhookId": "a1c4f0d2-7b83-4e16-9d55-000000000015",
       "notes": "Meta recomienda consultar el estado una vez por minuto, no más de cinco minutos."
@@ -342,8 +332,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3120,
-        432
+        3360,
+        96
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -365,8 +355,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3360,
-        432
+        3600,
+        96
       ]
     },
     {
@@ -399,8 +389,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3600,
-        432
+        3840,
+        96
       ]
     },
     {
@@ -436,8 +426,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3840,
-        304
+        4080,
+        -32
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -456,8 +446,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        4080,
-        304
+        4320,
+        -32
       ],
       "webhookId": "a1c4f0d2-7b83-4e16-9d55-000000000020",
       "notes": "Mismo criterio que con los hijos: una consulta por minuto."
@@ -476,8 +466,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4320,
-        304
+        4560,
+        -32
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -499,8 +489,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4560,
-        304
+        4800,
+        -32
       ]
     },
     {
@@ -533,8 +523,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        4800,
-        304
+        5040,
+        -32
       ]
     },
     {
@@ -562,8 +552,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5040,
-        304
+        5280,
+        -32
       ],
       "credentials": {
         "httpHeaderAuth": {
@@ -587,8 +577,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5280,
-        304
+        5520,
+        -32
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -610,8 +600,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        5520,
-        304
+        5760,
+        -32
       ],
       "notes": "Lo que se lee en la ejecución: el post, su URL, el cupo gastado y cuántas diapositivas lleva."
     },
@@ -619,6 +609,7 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "huesca-hoy-promo",
+        "authentication": "headerAuth",
         "responseMode": "onReceived",
         "options": {}
       },
@@ -631,7 +622,345 @@
         672
       ],
       "webhookId": "c5d5f4b5-1d55-4f3a-9b9f-2f6d3b8a9c10",
-      "notes": "Disparo externo (p. ej. POST /api/cron/promo desde la app o un cron). Publica de verdad como el Schedule Trigger. Protege este webhook en n8n o usa N8N_PROMO_WEBHOOK_SECRET."
+      "notes": "Disparo externo (p. ej. POST /api/cron/promo desde la app o un cron). Publica de verdad como el Schedule Trigger. Protege este webhook en n8n o usa N8N_PROMO_WEBHOOK_SECRET.",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_WEBHOOK_SECRET",
+          "name": "Huesca Hoy · cron externo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c521ee1e-de17-4617-8a5a-c7058ffab5f2",
+              "leftValue": "={{ $json.modo }}",
+              "rightValue": "nada",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "74e1bf0e-a014-47f1-9b19-4a3738986c7b",
+      "name": "IF ¿Hay algo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1200,
+        192
+      ],
+      "notes": "Cero planes no se publica: no se gasta cupo ni se crea un contenedor vacío."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Un día sin planes no se publica, y no es un fallo: es el resultado normal de\n// mirar la agenda. Se deja escrito para que la ejecución del cron no parezca\n// vacía ni roja.\nconst d = $input.first().json;\n\nreturn [{\n  json: {\n    publicado: false,\n    modo: 'nada',\n    dia: d.dia || null,\n    planes: d.planes != null ? d.planes : 0,\n    motivo: d.motivo || 'Sin planes para hoy: no se publica nada.',\n  },\n}];\n"
+      },
+      "id": "8f8e0c6a-7909-4e1f-b316-46bcf9449015",
+      "name": "Fin · sin planes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ],
+      "notes": "Día sin planes: termina en verde, no en rojo. Una agenda vacía es normal."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f8a02065-4fb6-49a9-8ddf-abac5ea9eaab",
+              "leftValue": "={{ $json.modo }}",
+              "rightValue": "historia",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cebe1e2d-8fb8-4905-b0c1-41d3d9924f8f",
+      "name": "IF ¿Es historia?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        192
+      ],
+      "notes": "Con uno o dos planes se publica solo la historia; el carrusel sale pobre."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Las historias no aparecen en /media: caducan a las 24 h y la Graph API no las\n// lista. Así que la clave de idempotencia no puede ser el pie de foto como en el\n// carrusel. Se guarda el último día publicado en los datos estáticos del flujo,\n// que n8n conserva entre ejecuciones y entre reinicios.\n//\n// Se apunta DESPUÉS de publicar (nodo «Anotar historia publicada») y no aquí: si\n// se apuntara antes y la publicación fallara, el reintento del mismo día se\n// creería que ya está hecho y no publicaría nada.\nconst p = $('Validar el paquete').first().json;\nconst dia = p.dia;\n\nif (!dia) {\n  throw new Error('No se pudo leer el día del paquete: la historia no tiene clave de idempotencia y no se publica a ciegas.');\n}\n\nconst store = $getWorkflowStaticData('global');\nconst yaPublicada = store.ultimaHistoria === dia;\n\nreturn [{\n  json: {\n    ...p,\n    yaPublicada,\n    motivo: yaPublicada\n      ? 'La historia del ' + dia + ' ya se publicó. No se publica otra vez.'\n      : 'No hay constancia de una historia del ' + dia + ' en este flujo.',\n  },\n}];\n"
+      },
+      "id": "de2b4921-a1b1-4cfe-b6ea-42a7d7566fff",
+      "name": "Historia ya publicada",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        432
+      ],
+      "notes": "Las historias no salen en /media, así que la idempotencia se guarda en los datos estáticos del flujo."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a732c0ad-1215-49d5-9595-e018951f38e0",
+              "leftValue": "={{ $json.yaPublicada }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a8d7a444-fde9-48a0-a4af-e3f7bc8d79d5",
+      "name": "IF ¿Historia ya?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        432
+      ],
+      "notes": "Si la historia del día ya se publicó, no se publica otra vez."
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.first().json;\n\nreturn [{\n  json: {\n    publicado: false,\n    modo: 'historia',\n    motivo: d.motivo,\n    dia: d.dia,\n    planes: d.planes,\n  },\n}];\n"
+      },
+      "id": "8cd4e8c2-a5ef-4cd1-a041-05c267e333d4",
+      "name": "Fin · historia ya estaba",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/17841435800805548/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "media_type",
+              "value": "STORIES"
+            },
+            {
+              "name": "image_url",
+              "value": "={{ $json.historia }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "d47bf5f7-ac5b-461e-94f6-2b6ae2607afc",
+      "name": "Crear historia",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        432
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      },
+      "notes": "Contenedor de historia (9:16). Meta exige que esté FINISHED antes de publicarlo."
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "5020780a-e822-465d-ad97-4961f6b954ce",
+      "name": "Esperar historia",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2880,
+        432
+      ],
+      "webhookId": "123f64ea-22fc-42f5-a123-b0ee15ee409c",
+      "notes": "Meta recomienda consultar el estado una vez por minuto; 30 s adelanta el caso normal."
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/17841435800805548/{{ $json.id }}?fields=status_code",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "02a3ef59-1b35-4840-88c8-82444be40326",
+      "name": "Estado historia",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3120,
+        432
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Publicar una historia antes de que el contenedor esté FINISHED devuelve un\n// error de Meta que no dice la causa real: el contenedor todavía se está\n// montando. Mismo criterio que el carrusel.\nconst contenedor = $('Crear historia').first().json.id;\nconst estado = String((($input.first() || {}).json || {}).status_code || 'DESCONOCIDO').toUpperCase();\nconst intentos = typeof $runIndex === 'number' ? $runIndex : 0;\n\nif (estado === 'ERROR' || estado === 'EXPIRED') {\n  throw new Error('Meta rechazó la historia ' + contenedor + ': estado ' + estado + '.');\n}\n\nconst listo = estado === 'FINISHED';\nif (!listo && intentos >= 4) {\n  throw new Error('La historia ' + contenedor + ' sigue en ' + estado + ' tras ' + (intentos + 1) + ' comprobaciones.');\n}\n\nreturn [{ json: { id: contenedor, estado, listo, intentos: intentos + 1 } }];\n"
+      },
+      "id": "b12043ef-8abc-49be-acb4-f4bf8a8372f5",
+      "name": "¿Historia lista?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "179dec9c-00c4-421d-a095-7af5617a0717",
+              "leftValue": "={{ $json.listo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a28d16b2-988c-48e8-b7fa-2752c1c51f74",
+      "name": "IF historia lista",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3600,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/17841435800805548/media_publish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $('Crear historia').first().json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "4f3febb5-080f-4005-a7c5-9dc2502c812e",
+      "name": "Publicar historia",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3840,
+        432
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HUESCA_HOY_BEARER",
+          "name": "Instagram · Huesca Hoy (Bearer)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Este nodo existe por una razón: la marca de «historia publicada» tiene que\n// escribirse después de que Meta confirme la publicación. Si se escribiera antes,\n// un fallo de red dejaría el día marcado como hecho y no se reintentaría.\nconst post = $input.first().json || {};\nconst p = $('Validar el paquete').first().json;\n\nif (!post.id) {\n  throw new Error('Meta no devolvió el id de la historia publicada: no se puede anotar el día.');\n}\nif (!p.dia) {\n  throw new Error('No se pudo leer el día del paquete al anotar la historia.');\n}\n\nconst store = $getWorkflowStaticData('global');\nstore.ultimaHistoria = p.dia;\n\nreturn [{ json: { historiaId: post.id, dia: p.dia } }];\n"
+      },
+      "id": "84a1c03c-99df-4ca0-b4bd-eeb8d61ea5fc",
+      "name": "Anotar historia publicada",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4080,
+        432
+      ],
+      "notes": "Se apunta el día DESPUÉS de publicar, no antes: si la publicación falla, el reintento tiene que volver a intentarlo."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lo que se lee en la ejecución cuando el día se publicó como historia.\n//\n// No se pide el permalink a propósito: una historia caduca a las 24 h y no tiene\n// URL pública estable, así que pedirla sólo podía acabar en un error justo después\n// de haber publicado bien, que es la peor hora para un rojo.\nconst post = $input.first().json || {};\nconst p = $('Validar el paquete').first().json;\n\nreturn [{\n  json: {\n    publicado: true,\n    modo: 'historia',\n    historiaId: post.historiaId || null,\n    dia: post.dia || p.dia,\n    planes: p.planes,\n    cupo: p.cupo,\n    enlaceBio: p.enlace,\n    nota: 'La historia caduca a las 24 h y no tiene permalink. El id sirve para verla en la app.',\n  },\n}];\n"
+      },
+      "id": "8a4e0a39-92ae-4959-989e-f0a7c0d40883",
+      "name": "Resumen historia",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4320,
+        432
+      ]
     }
   ],
   "connections": {
@@ -668,6 +997,17 @@
         ]
       ]
     },
+    "Webhook (cron externo)": {
+      "main": [
+        [
+          {
+            "node": "Leer el cupo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Leer el cupo": {
       "main": [
         [
@@ -694,7 +1034,174 @@
       "main": [
         [
           {
+            "node": "IF ¿Hay algo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Hay algo?": {
+      "main": [
+        [
+          {
+            "node": "IF ¿Simulación?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fin · sin planes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Simulación?": {
+      "main": [
+        [
+          {
+            "node": "Fin · simulacro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF ¿Es historia?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Es historia?": {
+      "main": [
+        [
+          {
+            "node": "Historia ya publicada",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Medios recientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Historia ya publicada": {
+      "main": [
+        [
+          {
+            "node": "IF ¿Historia ya?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ¿Historia ya?": {
+      "main": [
+        [
+          {
+            "node": "Fin · historia ya estaba",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crear historia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear historia": {
+      "main": [
+        [
+          {
+            "node": "Esperar historia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar historia": {
+      "main": [
+        [
+          {
+            "node": "Estado historia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estado historia": {
+      "main": [
+        [
+          {
+            "node": "¿Historia lista?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Historia lista?": {
+      "main": [
+        [
+          {
+            "node": "IF historia lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF historia lista": {
+      "main": [
+        [
+          {
+            "node": "Publicar historia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar historia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicar historia": {
+      "main": [
+        [
+          {
+            "node": "Anotar historia publicada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anotar historia publicada": {
+      "main": [
+        [
+          {
+            "node": "Resumen historia",
             "type": "main",
             "index": 0
           }
@@ -728,24 +1235,6 @@
         [
           {
             "node": "Fin · ya estaba",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "IF ¿Simulación?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "IF ¿Simulación?": {
-      "main": [
-        [
-          {
-            "node": "Fin · simulacro",
             "type": "main",
             "index": 0
           }
@@ -812,17 +1301,6 @@
             "index": 0
           }
         ],
-        [
-          {
-            "node": "Repartir hijos",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Repartir hijos": {
-      "main": [
         [
           {
             "node": "Esperar hijos",
@@ -915,17 +1393,6 @@
           }
         ]
       ]
-    },
-    "Webhook (cron externo)": {
-      "main": [
-        [
-          {
-            "node": "Leer el cupo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "active": false,
@@ -935,6 +1402,7 @@
     "timeSavedMode": "fixed",
     "timezone": "Europe/Madrid",
     "callerPolicy": "workflowsFromSameOwner",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "errorWorkflow": "52BagNftsp5CxWRn"
   }
 }
