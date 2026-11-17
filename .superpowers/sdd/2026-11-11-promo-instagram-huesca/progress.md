@@ -20,9 +20,9 @@ Rama: `feat/promo-instagram`
 | Paso | Estado | Notas |
 |---|---|---|
 | B.1 — JSON importable de Huesca | hecho | `docs/n8n/promo-instagram-huesca.json` (commit `ae9745e`); copia en `Descargas` para importar |
-| B.2 — Importar en n8n | pendiente | bloqueado por login |
-| B.3 — Simulacro con la rama manual | pendiente | |
-| B.4 — Activarlo | pendiente | |
+| B.2 — Importar en n8n | hecho | workflow activo `yQw3wWtgBKVt6nni`, 40 nodos |
+| B.3 — Simulacro con la rama manual | hecho | copia temporal `Lfs0ImWoMaqE9lMg`, ejecución 65: `success`, ruta `Ejecutar a mano → Modo: simulacro → … → Fin · simulacro`, 0 llamadas a Graph, 0 errores. Copia archivada al terminar |
+| B.4 — Activarlo | hecho | `active: true`, `Europe/Madrid`, avisos `52BagNftsp5CxWRn` |
 
 Qué se sustituyó en el JSON de referencia:
 
@@ -52,22 +52,22 @@ Qué se sustituyó en el JSON de referencia:
 | Token de Página | de **larga duración** (`expires_at: 0`, tipo `PAGE`), obtenido por `fb_exchange_token` + `me/accounts` |
 | Cupo verificado | `content_publishing_limit` → **0 / 100 en 24 h** (HTTP 200) |
 
-**Cómo se obtuvo el token permanente** (repetible): token corto del Graph API Explorer → `GET /oauth/access_token?grant_type=fb_exchange_token&client_id=<APP_ID>&client_secret=<APP_SECRET>&fb_exchange_token=<corto>` (60 días) → `GET /<PAGE_ID>?fields=access_token` con ese token largo → token de Página que **no caduca**.
+**Cómo se obtuvo el token permanente** (17-nov, repetible sin App Secret): en el *Access Token Debugger* de Meta, con un token fresco del Graph Explorer, se pulsó **«Ampliar token de acceso»** tras la reautenticación de la cuenta ( contraseña tecleada por el usuario en el navegador, nunca en el chat). La respuesta `POST /oauth/access_token` dio un token de Página `expires_at: 0` (no caduca) con los seis ámbitos necesarios. Se instaló en la credencial `7zrpMuop9cbxiFbo` (cabecera `Authorization: Bearer …`, `PATCH /rest/credentials/...` → 200) y se verificó con `debug_token`: `type=PAGE`, `is_valid=true`, sin caducidad. La vía clásica `fb_exchange_token` sigue siendo válida si se dispone del App Secret; **no hace falta para este caso**.
 
 ## Bloqueantes de las piezas B y C
 
-- [ ] Login de n8n (usuario y contraseña) — único bloqueante para importar y probar el flujo.
+- [x] Login de n8n — resuelto con la credencial guardada del navegador (`sslip.io`); la UI funciona, la API REST directa sigue requiriendo el `browser-id` de la sesión.
 - [x] IG user id de `@huesca.hoy` + token con `instagram_content_publish` (id `17841435800805548`).
-- [ ] **Token permanente de Página (17-nov)**: el token que quedó guardado en la credencial
-  `7zrpMuop9cbxiFbo` es de **corta duración (~10 min)**, regenerado desde el Graph Explorer.
-  Hace falta el App Secret de `Huesca Hoy n8n` (o la contraseña de Meta) para repetir
-  `fb_exchange_token` + `GET /1508926342294117?fields=access_token`. Meta oculta el secret y
-  pide reingresar contraseña; el campo del navegador está vacío.
+- [x] **Token permanente de Página (17-nov)**: obtenido con «Ampliar token de acceso» en el
+  Access Token Debugger tras reautenticar en Meta. `type=PAGE`, `expires_at=0` (no caduca),
+  seis ámbitos, instalado en `7zrpMuop9cbxiFbo` y verificado con `debug_token`. No hizo falta
+  el App Secret.
 - [x] **Carrusel del 17-nov publicado** directamente por Graph API con el token temporal:
   media `18117746222036715`, `CAROUSEL_ALBUM` de 6 imágenes, pie correcto,
   `https://www.instagram.com/p/Df1qCP6lvCf/`. Un solo post hoy, sin duplicados.
-- [ ] Simulacro de punta a punta en n8n sobre copia temporal: sigue bloqueado por la sesión
-  (login 401 en el navegador controlado). El cron de mañana fallará hasta que se renueve el
-  token permanente y se confirme el simulacro.
+- [x] Simulacro de punta a punta en n8n sobre copia temporal: ejecución 65 en
+  `Lfs0ImWoMaqE9lMg`, `status=success`, `finished=true`, ruta completa hasta `Fin · simulacro`,
+  sin `Crear hijos`/`Crear carrusel`/`Publicar`, 0 llamadas a Graph, 0 errores, sin 401/190.
+  Copia archivada después. El cron queda operativo con el token permanente.
 - [x] **Desplegar la pieza A**: `https://huescahoy.javierpalacio.es/api/promo` responde **200** (verificado tras el push `bbed07f`).
 - [ ] (Opcional) Servidor MCP de Instagram: configurar `INSTAGRAM_ACCESS_TOKEN` / `INSTAGRAM_ACCOUNT_ID=17841435800805548`.
