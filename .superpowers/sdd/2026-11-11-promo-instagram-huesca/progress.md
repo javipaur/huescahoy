@@ -57,6 +57,17 @@ Qué se sustituyó en el JSON de referencia:
 ## Bloqueantes de las piezas B y C
 
 - [ ] Login de n8n (usuario y contraseña) — único bloqueante para importar y probar el flujo.
-- [x] IG user id de `@huesca.hoy` + token con `instagram_content_publish` (id `17841435800805548`; token de Página permanente).
+- [x] IG user id de `@huesca.hoy` + token con `instagram_content_publish` (id `17841435800805548`).
+- [ ] **Token permanente de Página (17-nov)**: el token que quedó guardado en la credencial
+  `7zrpMuop9cbxiFbo` es de **corta duración (~10 min)**, regenerado desde el Graph Explorer.
+  Hace falta el App Secret de `Huesca Hoy n8n` (o la contraseña de Meta) para repetir
+  `fb_exchange_token` + `GET /1508926342294117?fields=access_token`. Meta oculta el secret y
+  pide reingresar contraseña; el campo del navegador está vacío.
+- [x] **Carrusel del 17-nov publicado** directamente por Graph API con el token temporal:
+  media `18117746222036715`, `CAROUSEL_ALBUM` de 6 imágenes, pie correcto,
+  `https://www.instagram.com/p/Df1qCP6lvCf/`. Un solo post hoy, sin duplicados.
+- [ ] Simulacro de punta a punta en n8n sobre copia temporal: sigue bloqueado por la sesión
+  (login 401 en el navegador controlado). El cron de mañana fallará hasta que se renueve el
+  token permanente y se confirme el simulacro.
 - [x] **Desplegar la pieza A**: `https://huescahoy.javierpalacio.es/api/promo` responde **200** (verificado tras el push `bbed07f`).
 - [ ] (Opcional) Servidor MCP de Instagram: configurar `INSTAGRAM_ACCESS_TOKEN` / `INSTAGRAM_ACCOUNT_ID=17841435800805548`.
