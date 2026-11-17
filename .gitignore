@@ -28,3 +28,6 @@ npm-debug.log*
 
 # typescript
 next-env.d.ts
+
+# browser session artifacts (pueden contener credenciales/tokens)
+/.playwright-mcp/

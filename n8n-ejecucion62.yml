@@ -1,0 +1,554 @@
+- generic [ref=f4e3]:
+  - alert [ref=f4e9]:
+    - paragraph [ref=f4e20]:
+      - text: 🚀
+      - strong [ref=f4e21]: Get Nod
+      - text: ", a new open-source personal agent with its own computer."
+      - link [ref=f4e22] [cursor=pointer]:
+        - /url: https://nod.n8n.io/?utm_source=in-product&utm_medium=content&utm_campaign=2026_q4_glob_nod_launch&utm_content=banner
+        - strong [ref=f4e23]: Download Nod
+    - img [aria-hidden] [ref=f4e25] [cursor=pointer]
+  - main [ref=f4e4]:
+    - generic [ref=f4e27]:
+      - generic [ref=f4e30]:
+        - generic [ref=f4e32]:
+          - generic [ref=f4e35]:
+            - link [ref=f4e37] [cursor=pointer]:
+              - /url: /projects/U3uDAlkhTcoE3sEe
+              - generic "Personal" [ref=f4e40]
+            - generic [ref=f4e45]: /
+            - generic "Promo diaria · publicar carrusel · Huesca Hoy" [ref=f4e46]
+          - button "More actions" [ref=f4e50] [cursor=pointer]
+          - generic [ref=f4e60]:
+            - button "Published" [disabled] [ref=f4e62]
+            - button "More actions" [ref=f4e68] [cursor=pointer]
+        - radiogroup [ref=f4e74]:
+          - radio "Editor" [ref=f4e75] [cursor=pointer]
+          - radio "Executions" [checked] [ref=f4e76] [cursor=pointer]
+          - radio "Evaluations" [ref=f4e77] [cursor=pointer]
+      - complementary [ref=f4e78]:
+        - generic [ref=f4e79]:
+          - generic [ref=f4e81]:
+            - menubar [ref=f4e82]:
+              - menuitem [ref=f4e83]:
+                - button "Add new item" [ref=f4e85] [cursor=pointer]
+            - button "Open command palette" [ref=f4e90] [cursor=pointer]
+            - button "Toggle sidebar" [ref=f4e97] [cursor=pointer]
+          - generic [ref=f4e107]:
+            - menuitem "Assistant" [ref=f4e110] [cursor=pointer]
+            - menuitem "Overview" [ref=f4e118] [cursor=pointer]
+            - menuitem "Personal" [ref=f4e126] [cursor=pointer]
+          - generic [ref=f4e134]:
+            - menuitem "Templates" [ref=f4e137] [cursor=pointer]
+            - menuitem "Insights" [ref=f4e146] [cursor=pointer]
+            - menuitem "Help" [ref=f4e152] [cursor=pointer]
+            - menuitem "Settings" [ref=f4e160] [cursor=pointer]
+      - main [ref=f4e166]:
+        - generic [ref=f4e168]:
+          - generic [ref=f4e169]:
+            - heading "Executions" [level=2] [ref=f4e171]
+            - generic [ref=f4e172]:
+              - generic [ref=f4e173] [cursor=pointer]:
+                - checkbox "Auto refresh" [checked] [ref=f4e174]
+                - generic [ref=f4e175]: Auto refresh
+              - button "Filters" [ref=f4e176] [cursor=pointer]
+            - generic [ref=f4e180]:
+              - link "Nov 17, 08:45:00 Error in 35.533s Actions" [ref=f4e182] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/62
+                - generic [ref=f4e183]:
+                  - generic [ref=f4e184]: Nov 17, 08:45:00
+                  - generic [ref=f4e185]:
+                    - generic [ref=f4e186]: Error
+                    - generic [ref=f4e187]: in 35.533s
+                - button "Actions" [ref=f4e190]
+              - link "Nov 16, 08:45:00 Error in 35.477s Actions" [ref=f4e197] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/56
+                - generic [ref=f4e198]:
+                  - generic [ref=f4e199]: Nov 16, 08:45:00
+                  - generic [ref=f4e200]:
+                    - generic [ref=f4e201]: Error
+                    - generic [ref=f4e202]: in 35.477s
+                - button "Actions" [ref=f4e205]
+              - link "Nov 15, 08:45:00 Error in 35.552s Actions" [ref=f4e212] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/54
+                - generic [ref=f4e213]:
+                  - generic [ref=f4e214]: Nov 15, 08:45:00
+                  - generic [ref=f4e215]:
+                    - generic [ref=f4e216]: Error
+                    - generic [ref=f4e217]: in 35.552s
+                - button "Actions" [ref=f4e220]
+              - link "Nov 14, 12:21:49 Error in 39.848s Actions" [ref=f4e227] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/50
+                - generic [ref=f4e228]:
+                  - generic [ref=f4e229]: Nov 14, 12:21:49
+                  - generic [ref=f4e230]:
+                    - generic [ref=f4e231]: Error
+                    - generic [ref=f4e232]: in 39.848s
+                - button "Actions" [ref=f4e235]
+              - link "Nov 14, 12:17:33 Succeeded in 15.897s" [ref=f4e245] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/49
+                - generic [ref=f4e246]:
+                  - generic [ref=f4e247]: Nov 14, 12:17:33
+                  - generic [ref=f4e248]:
+                    - generic [ref=f4e249]: Succeeded
+                    - generic [ref=f4e250]: in 15.897s
+              - link "Nov 14, 12:16:12 Error in 15.8s Actions" [ref=f4e256] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/48
+                - generic [ref=f4e257]:
+                  - generic [ref=f4e258]: Nov 14, 12:16:12
+                  - generic [ref=f4e259]:
+                    - generic [ref=f4e260]: Error
+                    - generic [ref=f4e261]: in 15.8s
+                - button "Actions" [ref=f4e264]
+              - link "Nov 14, 12:11:45 Error in 15.885s Actions" [ref=f4e274] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/47
+                - generic [ref=f4e275]:
+                  - generic [ref=f4e276]: Nov 14, 12:11:45
+                  - generic [ref=f4e277]:
+                    - generic [ref=f4e278]: Error
+                    - generic [ref=f4e279]: in 15.885s
+                - button "Actions" [ref=f4e282]
+              - link "Nov 14, 11:29:50 Error in 15.822s Actions" [ref=f4e292] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/46
+                - generic [ref=f4e293]:
+                  - generic [ref=f4e294]: Nov 14, 11:29:50
+                  - generic [ref=f4e295]:
+                    - generic [ref=f4e296]: Error
+                    - generic [ref=f4e297]: in 15.822s
+                - button "Actions" [ref=f4e300]
+              - link "Nov 14, 11:28:57 Error in 15.882s Actions" [ref=f4e310] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/45
+                - generic [ref=f4e311]:
+                  - generic [ref=f4e312]: Nov 14, 11:28:57
+                  - generic [ref=f4e313]:
+                    - generic [ref=f4e314]: Error
+                    - generic [ref=f4e315]: in 15.882s
+                - button "Actions" [ref=f4e318]
+              - link "Nov 14, 11:24:27 Error in 15.832s Actions" [ref=f4e328] [cursor=pointer]:
+                - /url: /workflow/yQw3wWtgBKVt6nni/executions/44
+                - generic [ref=f4e329]:
+                  - generic [ref=f4e330]: Nov 14, 11:24:27
+                  - generic [ref=f4e331]:
+                    - generic [ref=f4e332]: Error
+                    - generic [ref=f4e333]: in 15.832s
+                - button "Actions" [ref=f4e336]
+            - generic [ref=f4e346]: Which executions is this workflow saving?
+          - generic [ref=f4e353]:
+            - generic:
+              - generic [ref=f4e354]:
+                - generic [ref=f4e355]:
+                  - generic [ref=f4e356]: Nov 17, 08:45:00
+                  - generic [ref=f4e357]:
+                    - button [ref=f4e358] [cursor=pointer]
+                    - button [ref=f4e362] [cursor=pointer]
+                - generic [ref=f4e366]:
+                  - generic [ref=f4e367]: Error
+                  - generic [ref=f4e368]:
+                    - text: in 35.533s | 61KB | ID#62 |
+                    - link "Autosave" [ref=f4e371] [cursor=pointer]:
+                      - /url: /workflow/yQw3wWtgBKVt6nni/history/54983e9e-655e-4b7d-955f-8bf341f0f352
+                - button "Add tag" [ref=f4e375] [cursor=pointer]
+              - generic [ref=f4e380]:
+                - link [ref=f4e382] [cursor=pointer]:
+                  - /url: /workflow/yQw3wWtgBKVt6nni/debug/62
+                  - button "Debug in editor" [ref=f4e383]
+                - button [ref=f4e387]:
+                  - button "Retry execution" [ref=f4e388] [cursor=pointer]
+                - button "Additional Actions" [ref=f4e395] [cursor=pointer]
+                - button "Delete this execution" [ref=f4e399] [cursor=pointer]
+            - generic [ref=f4e403]:
+              - generic [ref=f4e408]:
+                - generic [ref=f4e410]:
+                  - generic:
+                    - img:
+                      - group "Edge from 55004a07-5915-4eaa-a07d-d870fb772382 to 31237cd8-cb77-41c8-8898-079c90642d4a"
+                    - img:
+                      - group "Edge from 2821e128-2ad9-48f6-97e0-4c0ed6628dc2 to d9929c9d-b356-42e5-9071-09d29c5f7187"
+                    - img:
+                      - group "Edge from d9929c9d-b356-42e5-9071-09d29c5f7187 to 31237cd8-cb77-41c8-8898-079c90642d4a" [ref=f4e411] [cursor=pointer]
+                    - img:
+                      - group "Edge from 9f4d8d44-0f61-4d73-b0e2-8d8f6c9f2a11 to 31237cd8-cb77-41c8-8898-079c90642d4a" [ref=f4e415] [cursor=pointer]
+                    - img:
+                      - group "Edge from 31237cd8-cb77-41c8-8898-079c90642d4a to 9509b63e-ff07-40bf-aeb0-0b6eb6d8eabe"
+                    - img:
+                      - group "Edge from 9509b63e-ff07-40bf-aeb0-0b6eb6d8eabe to c29f8355-7bab-48eb-92fb-e5e019e0fc1d"
+                    - img:
+                      - group "Edge from c29f8355-7bab-48eb-92fb-e5e019e0fc1d to 74e1bf0e-a014-47f1-9b19-4a3738986c7b"
+                    - img:
+                      - group "Edge from 74e1bf0e-a014-47f1-9b19-4a3738986c7b to 44be9228-7a37-404e-89b1-46df0294c7aa" [ref=f4e419] [cursor=pointer]
+                    - img:
+                      - group "Edge from 74e1bf0e-a014-47f1-9b19-4a3738986c7b to 8f8e0c6a-7909-4e1f-b316-46bcf9449015" [ref=f4e423] [cursor=pointer]
+                    - img:
+                      - group "Edge from 44be9228-7a37-404e-89b1-46df0294c7aa to ff6df597-be75-49fc-abd8-71f287e691b7" [ref=f4e427] [cursor=pointer]
+                    - img:
+                      - group "Edge from 44be9228-7a37-404e-89b1-46df0294c7aa to cebe1e2d-8fb8-4905-b0c1-41d3d9924f8f" [ref=f4e431] [cursor=pointer]
+                    - img:
+                      - group "Edge from cebe1e2d-8fb8-4905-b0c1-41d3d9924f8f to de2b4921-a1b1-4cfe-b6ea-42a7d7566fff" [ref=f4e435] [cursor=pointer]
+                    - img:
+                      - group "Edge from cebe1e2d-8fb8-4905-b0c1-41d3d9924f8f to e7dbc02c-7a67-43f6-9eb5-79c6b67e6b8d" [ref=f4e439] [cursor=pointer]
+                    - img:
+                      - group "Edge from de2b4921-a1b1-4cfe-b6ea-42a7d7566fff to a8d7a444-fde9-48a0-a4af-e3f7bc8d79d5"
+                    - img:
+                      - group "Edge from a8d7a444-fde9-48a0-a4af-e3f7bc8d79d5 to 8cd4e8c2-a5ef-4cd1-a041-05c267e333d4" [ref=f4e443] [cursor=pointer]
+                    - img:
+                      - group "Edge from a8d7a444-fde9-48a0-a4af-e3f7bc8d79d5 to d47bf5f7-ac5b-461e-94f6-2b6ae2607afc" [ref=f4e447] [cursor=pointer]
+                    - img:
+                      - group "Edge from d47bf5f7-ac5b-461e-94f6-2b6ae2607afc to 5020780a-e822-465d-ad97-4961f6b954ce"
+                    - img:
+                      - group "Edge from 5020780a-e822-465d-ad97-4961f6b954ce to 02a3ef59-1b35-4840-88c8-82444be40326"
+                    - img:
+                      - group "Edge from 02a3ef59-1b35-4840-88c8-82444be40326 to b12043ef-8abc-49be-acb4-f4bf8a8372f5"
+                    - img:
+                      - group "Edge from b12043ef-8abc-49be-acb4-f4bf8a8372f5 to a28d16b2-988c-48e8-b7fa-2752c1c51f74"
+                    - img:
+                      - group "Edge from a28d16b2-988c-48e8-b7fa-2752c1c51f74 to 4f3febb5-080f-4005-a7c5-9dc2502c812e" [ref=f4e451] [cursor=pointer]
+                    - img:
+                      - group "Edge from a28d16b2-988c-48e8-b7fa-2752c1c51f74 to 5020780a-e822-465d-ad97-4961f6b954ce" [ref=f4e455] [cursor=pointer]
+                    - img:
+                      - group "Edge from 4f3febb5-080f-4005-a7c5-9dc2502c812e to 84a1c03c-99df-4ca0-b4bd-eeb8d61ea5fc"
+                    - img:
+                      - group "Edge from 84a1c03c-99df-4ca0-b4bd-eeb8d61ea5fc to 8a4e0a39-92ae-4959-989e-f0a7c0d40883"
+                    - img:
+                      - group "Edge from e7dbc02c-7a67-43f6-9eb5-79c6b67e6b8d to a87f7e18-e88a-4e8d-8455-cc2ff2c61ac6"
+                    - img:
+                      - group "Edge from a87f7e18-e88a-4e8d-8455-cc2ff2c61ac6 to b595b7f4-5ec7-4859-8d19-4890afbf63e9"
+                    - img:
+                      - group "Edge from b595b7f4-5ec7-4859-8d19-4890afbf63e9 to 1c8581df-5c2c-416c-83db-00afb7fa17cb" [ref=f4e461] [cursor=pointer]
+                    - img:
+                      - group "Edge from b595b7f4-5ec7-4859-8d19-4890afbf63e9 to e78d452a-8552-4830-9224-43244c713e7c" [ref=f4e465] [cursor=pointer]
+                    - img:
+                      - group "Edge from e78d452a-8552-4830-9224-43244c713e7c to 8a1c5510-e99f-428c-9918-fa5fc9b59727"
+                    - img:
+                      - group "Edge from 8a1c5510-e99f-428c-9918-fa5fc9b59727 to 7fdeae53-6cd6-416f-8a86-d6211313d61e"
+                    - img:
+                      - group "Edge from 7fdeae53-6cd6-416f-8a86-d6211313d61e to 251a9621-9e08-4c74-b8c8-b878b65fe2c2"
+                    - img:
+                      - group "Edge from 251a9621-9e08-4c74-b8c8-b878b65fe2c2 to 54a4e51d-655e-4aa6-ada4-eb3d0db4e08e"
+                    - img:
+                      - group "Edge from 54a4e51d-655e-4aa6-ada4-eb3d0db4e08e to 96063dcf-984b-4695-86a9-3064e80d3ba2" [ref=f4e469] [cursor=pointer]
+                    - img:
+                      - group "Edge from 54a4e51d-655e-4aa6-ada4-eb3d0db4e08e to 8a1c5510-e99f-428c-9918-fa5fc9b59727" [ref=f4e473] [cursor=pointer]
+                    - img:
+                      - group "Edge from 96063dcf-984b-4695-86a9-3064e80d3ba2 to a90c8974-3b50-440b-b2b7-33fce7532674"
+                    - img:
+                      - group "Edge from a90c8974-3b50-440b-b2b7-33fce7532674 to 860266bb-5810-4a6c-8474-13f6fe1aab66"
+                    - img:
+                      - group "Edge from 860266bb-5810-4a6c-8474-13f6fe1aab66 to 633b2452-e205-493f-b40b-248218b5b619"
+                    - img:
+                      - group "Edge from 633b2452-e205-493f-b40b-248218b5b619 to 5ecaf1ee-4aaa-4aef-883e-6ccd981d9df0"
+                    - img:
+                      - group "Edge from 5ecaf1ee-4aaa-4aef-883e-6ccd981d9df0 to 13c7404f-f80f-43b5-8015-feceb05d8d37" [ref=f4e479] [cursor=pointer]
+                    - img:
+                      - group "Edge from 5ecaf1ee-4aaa-4aef-883e-6ccd981d9df0 to a90c8974-3b50-440b-b2b7-33fce7532674" [ref=f4e483] [cursor=pointer]
+                    - img:
+                      - group "Edge from 13c7404f-f80f-43b5-8015-feceb05d8d37 to 01815ffc-6bef-4881-aa28-5f2ea48b08be"
+                    - img:
+                      - group "Edge from 01815ffc-6bef-4881-aa28-5f2ea48b08be to 8d60f2ce-29b4-42e0-bda5-3f5ef3e8b4db"
+                    - generic:
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 1 item
+                      - generic: 6 items
+                      - generic: 6 items
+                    - generic:
+                      - group [ref=f4e489] [cursor=pointer]:
+                        - generic [ref=f4e490]:
+                          - generic [ref=f4e491]:
+                            - button "Add to chat" [ref=f4e493]
+                            - button "More actions" [ref=f4e500]
+                          - generic [ref=f4e504]: Cron 08:45 Madrid
+                      - group [ref=f4e512] [cursor=pointer]:
+                        - generic [ref=f4e513]:
+                          - generic [ref=f4e514]:
+                            - button "Add to chat" [ref=f4e516]
+                            - button "More actions" [ref=f4e523]
+                          - generic [ref=f4e527]: Ejecutar a mano
+                      - group [ref=f4e531] [cursor=pointer]:
+                        - generic [ref=f4e532]:
+                          - generic [ref=f4e533]:
+                            - button "Add to chat" [ref=f4e535]
+                            - button "More actions" [ref=f4e542]
+                          - generic [ref=f4e546]: "Modo: simulacro"
+                      - group [ref=f4e550] [cursor=pointer]:
+                        - generic [ref=f4e551]:
+                          - generic [ref=f4e552]:
+                            - button "Add to chat" [ref=f4e554]
+                            - button "More actions" [ref=f4e561]
+                          - generic [ref=f4e565]:
+                            - generic:
+                              - generic: Leer el cupo
+                              - generic: "GET: https://graph.facebook.com/v23.0/17841435800805548/content_publishing_limit?fields=quota_usage,config"
+                      - group [ref=f4e582] [cursor=pointer]:
+                        - generic [ref=f4e583]:
+                          - generic [ref=f4e584]:
+                            - button "Add to chat" [ref=f4e586]
+                            - button "More actions" [ref=f4e593]
+                          - generic [ref=f4e597]:
+                            - generic:
+                              - generic: Paquete de promo
+                              - generic: "GET: https://huescahoy.javierpalacio.es/api/promo"
+                      - group [ref=f4e610] [cursor=pointer]:
+                        - generic [ref=f4e611]:
+                          - generic [ref=f4e612]:
+                            - button "Add to chat" [ref=f4e614]
+                            - button "More actions" [ref=f4e621]
+                          - generic [ref=f4e625]: Validar el paquete
+                      - group [ref=f4e633] [cursor=pointer]:
+                        - generic [ref=f4e634]:
+                          - generic [ref=f4e635]:
+                            - button "Add to chat" [ref=f4e637]
+                            - button "More actions" [ref=f4e644]
+                          - generic [ref=f4e648]:
+                            - generic:
+                              - generic: Medios recientes
+                              - generic: "GET: https://graph.facebook.com/v23.0/17841435800805548/media?fields=id,caption,timestamp,permalink&limit=25"
+                      - group [ref=f4e665] [cursor=pointer]:
+                        - generic [ref=f4e666]:
+                          - generic [ref=f4e667]:
+                            - button "Add to chat" [ref=f4e669]
+                            - button "More actions" [ref=f4e676]
+                          - generic [ref=f4e680]: ¿Ya publicado?
+                      - group [ref=f4e688] [cursor=pointer]:
+                        - generic [ref=f4e689]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e690]:
+                            - button "Add to chat" [ref=f4e692]
+                            - button "More actions" [ref=f4e699]
+                          - generic [ref=f4e703]: IF ¿Publicado?
+                      - group [ref=f4e711] [cursor=pointer]:
+                        - generic [ref=f4e712]:
+                          - generic [ref=f4e713]:
+                            - button "Add to chat" [ref=f4e715]
+                            - button "More actions" [ref=f4e722]
+                          - generic [ref=f4e726]: Fin · ya estaba
+                      - group [ref=f4e730] [cursor=pointer]:
+                        - generic [ref=f4e731]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e732]:
+                            - button "Add to chat" [ref=f4e734]
+                            - button "More actions" [ref=f4e741]
+                          - generic [ref=f4e745]: IF ¿Simulación?
+                      - group [ref=f4e753] [cursor=pointer]:
+                        - generic [ref=f4e754]:
+                          - generic [ref=f4e755]:
+                            - button "Add to chat" [ref=f4e757]
+                            - button "More actions" [ref=f4e764]
+                          - generic [ref=f4e768]: Fin · simulacro
+                      - group [active] [ref=f4e772] [cursor=pointer]:
+                        - generic [ref=f4e773]:
+                          - generic [ref=f4e774]:
+                            - button "Add to chat" [ref=f4e776]
+                            - button "More actions" [ref=f4e783]
+                          - generic [ref=f4e787]:
+                            - generic:
+                              - generic: Crear hijos
+                              - generic: "POST: https://graph.facebook.com/v23.0/17841435800805548/media"
+                      - group [ref=f4e801] [cursor=pointer]:
+                        - generic [ref=f4e802]:
+                          - generic [ref=f4e803]:
+                            - button "Add to chat" [ref=f4e805]
+                            - button "More actions" [ref=f4e812]
+                          - generic [ref=f4e816]: Esperar hijos
+                      - group [ref=f4e820] [cursor=pointer]:
+                        - generic [ref=f4e821]:
+                          - generic [ref=f4e822]:
+                            - button "Add to chat" [ref=f4e824]
+                            - button "More actions" [ref=f4e831]
+                          - generic [ref=f4e835]: Estado hijos
+                      - group [ref=f4e844] [cursor=pointer]:
+                        - generic [ref=f4e845]:
+                          - generic [ref=f4e846]:
+                            - button "Add to chat" [ref=f4e848]
+                            - button "More actions" [ref=f4e855]
+                          - generic [ref=f4e859]: ¿Listos?
+                      - group [ref=f4e863] [cursor=pointer]:
+                        - generic [ref=f4e864]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e865]:
+                            - button "Add to chat" [ref=f4e867]
+                            - button "More actions" [ref=f4e874]
+                          - generic [ref=f4e878]: IF todos listos
+                      - group [ref=f4e882] [cursor=pointer]:
+                        - generic [ref=f4e883]:
+                          - generic [ref=f4e884]:
+                            - button "Add to chat" [ref=f4e886]
+                            - button "More actions" [ref=f4e893]
+                          - generic [ref=f4e897]:
+                            - generic:
+                              - generic: Crear carrusel
+                              - generic: "POST: https://graph.facebook.com/v23.0/17841435800805548/media"
+                      - group [ref=f4e901] [cursor=pointer]:
+                        - generic [ref=f4e902]:
+                          - generic [ref=f4e903]:
+                            - button "Add to chat" [ref=f4e905]
+                            - button "More actions" [ref=f4e912]
+                          - generic [ref=f4e916]: Esperar carrusel
+                      - group [ref=f4e920] [cursor=pointer]:
+                        - generic [ref=f4e921]:
+                          - generic [ref=f4e922]:
+                            - button "Add to chat" [ref=f4e924]
+                            - button "More actions" [ref=f4e931]
+                          - generic [ref=f4e935]: Estado carrusel
+                      - group [ref=f4e944] [cursor=pointer]:
+                        - generic [ref=f4e945]:
+                          - generic [ref=f4e946]:
+                            - button "Add to chat" [ref=f4e948]
+                            - button "More actions" [ref=f4e955]
+                          - generic [ref=f4e959]: ¿Carrusel listo?
+                      - group [ref=f4e963] [cursor=pointer]:
+                        - generic [ref=f4e964]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e965]:
+                            - button "Add to chat" [ref=f4e967]
+                            - button "More actions" [ref=f4e974]
+                          - generic [ref=f4e978]: IF carrusel listo
+                      - group [ref=f4e982] [cursor=pointer]:
+                        - generic [ref=f4e983]:
+                          - generic [ref=f4e984]:
+                            - button "Add to chat" [ref=f4e986]
+                            - button "More actions" [ref=f4e993]
+                          - generic [ref=f4e997]:
+                            - generic:
+                              - generic: Publicar
+                              - generic: "POST: https://graph.facebook.com/v23.0/17841435800805548/media_publish"
+                      - group [ref=f4e1001] [cursor=pointer]:
+                        - generic [ref=f4e1002]:
+                          - generic [ref=f4e1003]:
+                            - button "Add to chat" [ref=f4e1005]
+                            - button "More actions" [ref=f4e1012]
+                          - generic [ref=f4e1016]: Enlace del post
+                      - group [ref=f4e1025] [cursor=pointer]:
+                        - generic [ref=f4e1026]:
+                          - generic [ref=f4e1027]:
+                            - button "Add to chat" [ref=f4e1029]
+                            - button "More actions" [ref=f4e1036]
+                          - generic [ref=f4e1040]: Resumen
+                      - group [ref=f4e1044] [cursor=pointer]:
+                        - generic [ref=f4e1045]:
+                          - generic: POST
+                          - generic [ref=f4e1046]:
+                            - button "Add to chat" [ref=f4e1048]
+                            - button "More actions" [ref=f4e1055]
+                          - generic [ref=f4e1059]: Webhook (cron externo)
+                      - group [ref=f4e1063] [cursor=pointer]:
+                        - generic [ref=f4e1064]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e1065]:
+                            - button "Add to chat" [ref=f4e1067]
+                            - button "More actions" [ref=f4e1074]
+                          - generic [ref=f4e1078]: IF ¿Hay algo?
+                      - group [ref=f4e1086] [cursor=pointer]:
+                        - generic [ref=f4e1087]:
+                          - generic [ref=f4e1088]:
+                            - button "Add to chat" [ref=f4e1090]
+                            - button "More actions" [ref=f4e1097]
+                          - generic [ref=f4e1101]: Fin · sin planes
+                      - group [ref=f4e1105] [cursor=pointer]:
+                        - generic [ref=f4e1106]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e1107]:
+                            - button "Add to chat" [ref=f4e1109]
+                            - button "More actions" [ref=f4e1116]
+                          - generic [ref=f4e1120]: IF ¿Es historia?
+                      - group [ref=f4e1128] [cursor=pointer]:
+                        - generic [ref=f4e1129]:
+                          - generic [ref=f4e1130]:
+                            - button "Add to chat" [ref=f4e1132]
+                            - button "More actions" [ref=f4e1139]
+                          - generic [ref=f4e1143]: Historia ya publicada
+                      - group [ref=f4e1147] [cursor=pointer]:
+                        - generic [ref=f4e1148]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e1149]:
+                            - button "Add to chat" [ref=f4e1151]
+                            - button "More actions" [ref=f4e1158]
+                          - generic [ref=f4e1162]: IF ¿Historia ya?
+                      - group [ref=f4e1166] [cursor=pointer]:
+                        - generic [ref=f4e1167]:
+                          - generic [ref=f4e1168]:
+                            - button "Add to chat" [ref=f4e1170]
+                            - button "More actions" [ref=f4e1177]
+                          - generic [ref=f4e1181]: Fin · historia ya estaba
+                      - group [ref=f4e1185] [cursor=pointer]:
+                        - generic [ref=f4e1186]:
+                          - generic [ref=f4e1187]:
+                            - button "Add to chat" [ref=f4e1189]
+                            - button "More actions" [ref=f4e1196]
+                          - generic [ref=f4e1200]:
+                            - generic:
+                              - generic: Crear historia
+                              - generic: "POST: https://graph.facebook.com/v23.0/17841435800805548/media"
+                      - group [ref=f4e1204] [cursor=pointer]:
+                        - generic [ref=f4e1205]:
+                          - generic [ref=f4e1206]:
+                            - button "Add to chat" [ref=f4e1208]
+                            - button "More actions" [ref=f4e1215]
+                          - generic [ref=f4e1219]: Esperar historia
+                      - group [ref=f4e1223] [cursor=pointer]:
+                        - generic [ref=f4e1224]:
+                          - generic [ref=f4e1225]:
+                            - button "Add to chat" [ref=f4e1227]
+                            - button "More actions" [ref=f4e1234]
+                          - generic [ref=f4e1238]: Estado historia
+                      - group [ref=f4e1242] [cursor=pointer]:
+                        - generic [ref=f4e1243]:
+                          - generic [ref=f4e1244]:
+                            - button "Add to chat" [ref=f4e1246]
+                            - button "More actions" [ref=f4e1253]
+                          - generic [ref=f4e1257]: ¿Historia lista?
+                      - group [ref=f4e1261] [cursor=pointer]:
+                        - generic [ref=f4e1262]:
+                          - generic: "true"
+                          - generic: "false"
+                          - generic [ref=f4e1263]:
+                            - button "Add to chat" [ref=f4e1265]
+                            - button "More actions" [ref=f4e1272]
+                          - generic [ref=f4e1276]: IF historia lista
+                      - group [ref=f4e1280] [cursor=pointer]:
+                        - generic [ref=f4e1281]:
+                          - generic [ref=f4e1282]:
+                            - button "Add to chat" [ref=f4e1284]
+                            - button "More actions" [ref=f4e1291]
+                          - generic [ref=f4e1295]:
+                            - generic:
+                              - generic: Publicar historia
+                              - generic: "POST: https://graph.facebook.com/v23.0/17841435800805548/media_publish"
+                      - group [ref=f4e1299] [cursor=pointer]:
+                        - generic [ref=f4e1300]:
+                          - generic [ref=f4e1301]:
+                            - button "Add to chat" [ref=f4e1303]
+                            - button "More actions" [ref=f4e1310]
+                          - generic [ref=f4e1314]: Anotar historia publicada
+                      - group [ref=f4e1318] [cursor=pointer]:
+                        - generic [ref=f4e1319]:
+                          - generic [ref=f4e1320]:
+                            - button "Add to chat" [ref=f4e1322]
+                            - button "More actions" [ref=f4e1329]
+                          - generic [ref=f4e1333]: Resumen historia
+                - group [ref=f4e1341]:
+                  - button "Zoom to Fit" [ref=f4e1343] [cursor=pointer]
+                  - button "Zoom In" [ref=f4e1348] [cursor=pointer]
+                  - button "Zoom Out" [ref=f4e1355] [cursor=pointer]
+              - generic [ref=f4e1369] [cursor=pointer]:
+                - generic [ref=f4e1370]: Logs
+                - generic [ref=f4e1372]:
+                  - button "Pop out panel" [ref=f4e1374]
+                  - button "Open panel" [ref=f4e1379]
+  - complementary
+  - alert [ref=f4e1383]:
+    - generic [ref=f4e1387]:
+      - heading "Problem in node ‘Crear hijos‘" [level=2] [ref=f4e1388]
+      - paragraph [ref=f4e1390]: Authorization failed - please check your credentials
+      - generic [ref=f4e1391] [cursor=pointer]
