@@ -369,14 +369,25 @@ export default async function EventPage({ params }: PageProps) {
                   href={`/eventos/${e.slug}`}
                   className="flex items-center gap-4 rounded-2xl border border-sand bg-white dark:border-zinc-800 dark:bg-zinc-900 p-4 shadow-sm transition hover:border-brand/40 hover:shadow-md"
                 >
-                  <span
-                    className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-white"
-                    style={{ backgroundColor: cat?.color ?? "#16a34a" }}
-                  >
-                    {Icon && <Icon className="h-6 w-6" />}
+                  <span className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-sand">
+                    {e.image ? (
+                      <EventImage
+                        src={e.image}
+                        alt={e.title}
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    ) : (
+                      <span
+                        className="grid h-full w-full place-items-center text-white"
+                        style={{ backgroundColor: cat?.color ?? "#16a34a" }}
+                      >
+                        {Icon && <Icon className="h-6 w-6" />}
+                      </span>
+                    )}
                   </span>
-                  <span>
-                    <span className="block font-display font-semibold text-choco">
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-display font-semibold text-choco dark:text-ink">
                       {e.title}
                     </span>
                     <span className="text-sm text-choco-muted">
